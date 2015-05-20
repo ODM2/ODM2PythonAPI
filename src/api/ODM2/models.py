@@ -3,7 +3,9 @@ __author__ = 'jmeline'
 from sqlalchemy import BigInteger, Column, Date, DateTime, Float, ForeignKey, Integer, String, Boolean, func, Table
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.dialects.mssql.base import BIT
+
+#Should not be importing anything from a specific dialect
+#from sqlalchemy.dialects.mssql.base import BIT
 
 from apiCustomType import Geometry
 
@@ -11,14 +13,6 @@ Base = declarative_base()
 metadata = Base.metadata
 
 
-from sqlalchemy import BigInteger, Column, Date, DateTime, Float, ForeignKey, Integer, String, Boolean
-from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
-
-
-
-Base = declarative_base()
-metadata = Base.metadata
 
 
 
@@ -34,7 +28,7 @@ class CVActionType(Base):
     Name = Column('name', String(255), primary_key=True)
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
-    SourceVocabularyUri = Column('sourcevocabularyuri', String(255))
+    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
 
     def __repr__(self):
         return "<CVActionType('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
@@ -48,7 +42,7 @@ class CVAggregationStatistic(Base):
     Name = Column('name', String(255), primary_key=True)
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
-    SourceVocabularyUri = Column('sourcevocabularyuri', String(255))
+    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
     def __repr__(self):
         return "<CVAggregationStatisticsType('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
 
@@ -61,7 +55,7 @@ class CVAnnotationType(Base):
     Name = Column('name', String(255), primary_key=True)
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
-    SourceVocabularyUri = Column('sourcevocabularyuri', String(255))
+    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
     def __repr__(self):
         return "<CVAnnotationType('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
 
@@ -74,7 +68,7 @@ class CVCensorCode(Base):
     Name = Column('name', String(255), primary_key=True)
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
-    SourceVocabularyUri = Column('sourcevocabularyuri', String(255))
+    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
     def __repr__(self):
         return "<CVActionType('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
 
@@ -87,7 +81,7 @@ class CVDatasetType(Base):
     Name = Column('name', String(255), primary_key=True)
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
-    SourceVocabularyUri = Column('sourcevocabularyuri', String(255))
+    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
     def __repr__(self):
         return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
 
@@ -100,7 +94,7 @@ class CVDirectiveType(Base):
     Name = Column('name', String(255), primary_key=True)
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
-    SourceVocabularyUri = Column('sourcevocabularyuri', String(255))
+    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
     def __repr__(self):
         return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
 
@@ -113,7 +107,7 @@ class CVElevationDatum(Base):
     Name = Column('name', String(255), primary_key=True)
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
-    SourceVocabularyUri = Column('sourcevocabularyuri', String(255))
+    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
     def __repr__(self):
         return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
 
@@ -126,7 +120,7 @@ class CVEquipmentType(Base):
     Name = Column('name', String(255), primary_key=True)
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
-    SourceVocabularyUri = Column('sourcevocabularyuri', String(255))
+    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
     def __repr__(self):
         return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
 
@@ -139,7 +133,7 @@ class CVMethodType(Base):
     Name = Column('name', String(255), primary_key=True)
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
-    SourceVocabularyUri = Column('sourcevocabularyuri', String(255))
+    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
     def __repr__(self):
         return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
 
@@ -152,7 +146,7 @@ class CVOrganizationType(Base):
     Name = Column('name', String(255), primary_key=True)
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
-    SourceVocabularyUri = Column('sourcevocabularyuri', String(255))
+    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
     def __repr__(self):
         return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
 
@@ -165,7 +159,7 @@ class CVPropertyDataType(Base):
     Name = Column('name', String(255), primary_key=True)
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
-    SourceVocabularyUri = Column('sourcevocabularyuri', String(255))
+    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
     def __repr__(self):
         return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
 
@@ -178,7 +172,7 @@ class CVQualityCode(Base):
      Name = Column('name', String(255), primary_key=True)
      Definition = Column('definition', String(1000))
      Category = Column('category', String(255))
-     SourceVocabularyUri = Column('sourcevocabularyuri', String(255))
+     SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
 
      def __repr__(self):
          return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
@@ -192,7 +186,20 @@ class CVResultType(Base):
     Name = Column('name', String(255), primary_key=True)
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
-    SourceVocabularyUri = Column('sourcevocabularyuri', String(255))
+    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
+    def __repr__(self):
+        return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
+
+
+class CVRelationshipType(Base):
+    __tablename__ = 'cv_relationshiptype'
+    __table_args__ = {u'schema': 'odm2'}
+
+    Term = Column('term', String(255), nullable=False)
+    Name = Column('name', String(255), primary_key=True)
+    Definition = Column('definition', String(1000))
+    Category = Column('category', String(255))
+    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
     def __repr__(self):
         return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
 
@@ -205,7 +212,7 @@ class CVSampledMedium(Base):
     Name = Column('name', String(255), primary_key=True)
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
-    SourceVocabularyUri = Column('sourcevocabularyuri', String(255))
+    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
 
     def __repr__(self):
         return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
@@ -219,7 +226,7 @@ class CVSamplingFeatureGeoType(Base):
     Name = Column('name', String(255), primary_key=True)
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
-    SourceVocabularyUri = Column('sourcevocabularyuri', String(255))
+    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
 
     def __repr__(self):
         return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
@@ -233,7 +240,7 @@ class CVSamplingFeatureType(Base):
     Name = Column('name', String(255), primary_key=True)
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
-    SourceVocabularyUri = Column('sourcevocabularyuri', String(255))
+    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
     def __repr__(self):
         return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
 
@@ -246,7 +253,7 @@ class CVSpatialOffsetType(Base):
     Name = Column('name', String(255), primary_key=True)
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
-    SourceVocabularyUri = Column('sourcevocabularyuri', String(255))
+    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
     def __repr__(self):
         return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
 
@@ -259,7 +266,7 @@ class CVSpeciation(Base):
     Name = Column('name', String(255), primary_key=True)
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
-    SourceVocabularyUri = Column('sourcevocabularyuri', String(255))
+    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
     def __repr__(self):
         return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
 
@@ -272,7 +279,7 @@ class CVSpecimenMedium(Base):
     Name = Column('name', String(255), primary_key=True)
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
-    SourceVocabularyUri = Column('sourcevocabularyuri', String(255))
+    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
     def __repr__(self):
         return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
 
@@ -285,7 +292,7 @@ class CVSpecimenType(Base):
     Name = Column('name', String(255), primary_key=True)
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
-    SourceVocabularyUri = Column('sourcevocabularyuri', String(255))
+    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
     def __repr__(self):
         return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
 
@@ -298,7 +305,7 @@ class CVSiteType(Base):
     Name = Column('name', String(255), primary_key=True)
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
-    SourceVocabularyUri = Column('sourcevocabularyuri', String(255))
+    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
     
     def __repr__(self):
         return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
@@ -312,7 +319,7 @@ class CVReferenceMaterialMedium(Base):
     Name = Column('name', String(255), primary_key=True)
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
-    SourceVocabularyUri = Column('sourcevocabularyuri', String(255))
+    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
     
     def __repr__(self):
         return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
@@ -326,7 +333,7 @@ class CVStatus(Base):
     Name = Column('name', String(255), primary_key=True)
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
-    SourceVocabularyUri = Column('sourcevocabularyuri', String(255))
+    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
     
     def __repr__(self):
         return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
@@ -340,7 +347,7 @@ class CVTaxonomicClassifierType(Base):
     Name = Column('name', String(255), primary_key=True)
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
-    SourceVocabularyUri = Column('sourcevocabularyuri', String(255))
+    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
     
     def __repr__(self):
         return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
@@ -354,7 +361,7 @@ class CVUnitsType(Base):
     Name = Column('name', String(255), primary_key=True)
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
-    SourceVocabularyUri = Column('sourcevocabularyuri', String(255))
+    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
     
     def __repr__(self):
         return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
@@ -368,7 +375,7 @@ class CVVariableName(Base):
     Name = Column('name', String(255), primary_key=True)
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
-    SourceVocabularyUri = Column('sourcevocabularyuri', String(255))
+    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
     
     def __repr__(self):
         return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
@@ -382,7 +389,7 @@ class CVVariableType(Base):
     Name = Column('name', String(255), primary_key=True)
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
-    SourceVocabularyUri = Column('sourcevocabularyuri', String(255))
+    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
     
     def __repr__(self):
         return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
@@ -658,7 +665,7 @@ class Results(Base):
     TaxonomicClassifierID = Column('taxonomicclassifierid', ForeignKey('odm2.taxonomicclassifiers.taxonomicclassifierid'))
     ProcessingLevelID = Column('processinglevelid', ForeignKey('odm2.processinglevels.processinglevelid'), nullable=False)
     ResultDateTime = Column('resultdatetime', DateTime)
-    ResultDateTimeUTCOfffset = Column('resultdatetimeutcoffset', BigInteger)
+    ResultDateTimeUTCOffset = Column('resultdatetimeutcoffset', BigInteger)
     ValidDateTime = Column('validdatetime', DateTime)
     ValidDateTimeUTCOffset = Column('validdatetimeutcoffset',BigInteger)
     StatusCV = Column('statuscv',ForeignKey('odm2.cv_status.name'), index=True)
@@ -694,7 +701,7 @@ class EquipmentModels(Base):
     ModelDescription = Column('modeldescription', String(500))
     ModelSpecificationsFileLink = Column('modelspecificationsfilelink', String(255))
     ModelLink = Column('modellink', String(255))
-    IsInstrument = Column('isinstrument', BIT, nullable=False)
+    IsInstrument = Column('isinstrument', Boolean, nullable=False)
 
     OrganizationObj = relationship(Organizations)
 
@@ -805,7 +812,7 @@ class Specimens(Base):
     SamplingFeatureID = Column('samplingfeatureid', ForeignKey('odm2.samplingfeatures.samplingfeatureid'), primary_key=True)
     SpecimenTypeCV = Column('specimentypecv', ForeignKey('odm2.cv_specimentype.name'), nullable=False, index=True)
     SpecimenMediumCV = Column('specimenmediumcv', ForeignKey('odm2.cv_specimenmedium.name'), nullable=False, index=True)
-    IsFieldSpecimen = Column('isfieldspecimen', BIT, nullable=False)
+    IsFieldSpecimen = Column('isfieldspecimen', Boolean, nullable=False)
 
     SamplingFeatureObj = relationship(SamplingFeatures)
 
@@ -1277,8 +1284,8 @@ class CitationExternalIdentifiers(Base):
     CitationID = Column('citationid', ForeignKey('odm2.citations.citationid'), nullable=False)
     ExternalIdentifierSystemID = Column('externalidentifiersystemid', ForeignKey('odm2.externalidentifiersystems.externalidentifiersystemid'),
                                         nullable=False)
-    CitationExternalIdentifier = Column('citationexternalidentifier', String(255), nullable=False)
-    CitationExternalIdentifierURI = Column('citationexternalidentifieruri', String(255))
+    CitationExternalIdentifier = Column('citationexternaldentifer', String(255), nullable=False)
+    CitationExternalIdentifierURI = Column('citationexternaldentiferuri', String(255))
 
     CitationObj = relationship(Citations)
     ExternalIdentifierSystemObj = relationship(ExternalIdentifierSystems)
@@ -1333,7 +1340,7 @@ class SamplingFeatureExternalIdentifiers(Base):
     __tablename__ = u'samplingfeatureexternalidentifiers'
     __table_args__ = {u'schema': u'odm2'}
 
-    BridgeID = Column('bridgeid',  primary_key=True, nullable=False)
+    BridgeID = Column('bridgeid', Integer,  primary_key=True, nullable=False)
     SamplingFeatureID  = Column('samplingfeatureid', ForeignKey('odm2.samplingfeatures.samplingfeatureid'), nullable=False)
     ExternalIdentifierSystemID = Column('externalidentifiersystemid', ForeignKey('odm2.externalidentifiersystems.externalidentifiersystemid'),
                                         nullable=False)
