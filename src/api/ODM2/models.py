@@ -1284,8 +1284,8 @@ class CitationExternalIdentifiers(Base):
     CitationID = Column('citationid', ForeignKey('odm2.citations.citationid'), nullable=False)
     ExternalIdentifierSystemID = Column('externalidentifiersystemid', ForeignKey('odm2.externalidentifiersystems.externalidentifiersystemid'),
                                         nullable=False)
-    CitationExternalIdentifier = Column('citationexternaldentifer', String(255), nullable=False)
-    CitationExternalIdentifierURI = Column('citationexternaldentiferuri', String(255))
+    CitationExternalIdentifier = Column('citationexternaldentifier', String(255), nullable=False)
+    CitationExternalIdentifierURI = Column('citationexternaldentifieruri', String(255))
 
     CitationObj = relationship(Citations)
     ExternalIdentifierSystemObj = relationship(ExternalIdentifierSystems)
