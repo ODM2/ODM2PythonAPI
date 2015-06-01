@@ -1,9 +1,8 @@
 from sqlalchemy import func
-from ..models import Variables, People, Methods, ProcessingLevels, SamplingFeatures, Units, Organizations, Results, \
-    Datasets, Affiliations, FeatureActions, Actions, DataQuality, Equipment, TimeSeriesResults, TimeSeriesResultValues, \
-    Sites, DeploymentActions, SpatialReferences, Models, Simulations, RelatedModels
-
 import pandas as pd
+
+from src.api.ODM1_1_1.models import Variables, People, Methods, ProcessingLevels, SamplingFeatures, Units, Datasets, \
+    Actions, Equipment, Sites, SpatialReferences
 
 __author__ = 'jmeline'
 # ################################################################################

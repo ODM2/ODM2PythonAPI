@@ -1,4 +1,4 @@
-__author__ = 'jmeline'
+
 
 from sqlalchemy import BigInteger, Column, Date, DateTime, Float, ForeignKey, Integer, String, Boolean, func, Table
 from sqlalchemy.orm import relationship
@@ -306,7 +306,7 @@ class CVSiteType(Base):
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
     SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-    
+
     def __repr__(self):
         return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
 
@@ -320,7 +320,7 @@ class CVReferenceMaterialMedium(Base):
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
     SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-    
+
     def __repr__(self):
         return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
 
@@ -334,7 +334,7 @@ class CVStatus(Base):
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
     SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-    
+
     def __repr__(self):
         return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
 
@@ -348,7 +348,7 @@ class CVTaxonomicClassifierType(Base):
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
     SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-    
+
     def __repr__(self):
         return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
 
@@ -362,7 +362,7 @@ class CVUnitsType(Base):
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
     SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-    
+
     def __repr__(self):
         return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
 
@@ -376,7 +376,7 @@ class CVVariableName(Base):
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
     SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-    
+
     def __repr__(self):
         return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
 
@@ -390,7 +390,7 @@ class CVVariableType(Base):
     Definition = Column('definition', String(1000))
     Category = Column('category', String(255))
     SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-    
+
     def __repr__(self):
         return "<CV('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
 

@@ -1,7 +1,10 @@
 from sqlalchemy.exc import SQLAlchemyError, DBAPIError
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from ODM2.models import Variables as Variable2
+
+from src.api.ODM1_1_1.models import Variables as Variable2
+
+#from ODM1_1_1.models import Variables as Variable1
 #from ODM1_1_1.variable import Variable as Variable1_1_1
 
 
@@ -49,6 +52,7 @@ class dbconnection():
     def testEngine(self, connection_string):
         s= SessionFactory(connection_string, echo  = False)
         try:
+            print dir (Variable2)
             if 'mssql' in connection_string:
                 s.ms_test_Session().query(Variable2.VariableCode).first()#.execute("Select top 1 VariableCode From ODM2.Variables")
             elif 'postgresql' in connection_string:
@@ -65,8 +69,12 @@ class dbconnection():
     def testEngine1_1(self, connection_string):
         s= SessionFactory(connection_string, echo  = False)
         try:
+
+            #s.ms_test_Session().query(Variable1).limit(1).first()
+
             if 'mssql' in connection_string:
                 s.ms_test_Session().execute("Select top 1 VariableCode From Variables")
+
             elif 'postgresql' in connection_string:
                 s.psql_test_Session().execute('Select "VariableCode" From "Variables" Limit 1')
                 #s.psql_test_Session().execute('Select "VariableNameCV" From "ODM2"."Variables" Limit 1')

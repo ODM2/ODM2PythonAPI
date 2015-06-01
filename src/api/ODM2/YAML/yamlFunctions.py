@@ -1,18 +1,14 @@
 """
 Example using bootalchemy (if the model is within the same module)
 """
-from _yaml import ScannerError
-from bootalchemy.loader import Loader, YamlLoader
-from .. import serviceBase
-import ODM2.models as models
-import yaml
 from collections import OrderedDict
-
-from yaml.loader import Loader
-from yaml import scanner
 import re
-
 import pprint
+
+import yaml
+
+from bootalchemy.loader import YamlLoader
+import src.api.ODM1_1_1.models as models
 
 pp = pprint.PrettyPrinter(indent=8)
 

@@ -1,20 +1,30 @@
+import logging
+import os
+import sys
 
-from sqlalchemy.exc import SQLAlchemyError, DBAPIError
+import urllib
 
-import utilities as util
+from sqlalchemy.exc import SQLAlchemyError#OperationalError, DBAPIError
+
+from odmtools.common.logger import LoggerTool
 from series_service import SeriesService
 from cv_service import CVService
 from edit_service import EditService
+from odmtools.controller import EditTools
 from export_service import ExportService
+from odmtools.lib.Appdirs.appdirs import user_config_dir
+from odmtools.odmdata.session_factory import SessionFactory
 
 
+tool = LoggerTool()
+logger = tool.setupLogger(__name__, __name__ + '.log', 'w', logging.DEBUG)
 
 
 class ServiceManager():
     def __init__(self, debug=False):
         self.debug = debug
-        f = self.__get_file('r')
-        self._connections = []
+        f = self._get_file('r')
+        self._conn_dicts = []
         self.version = 0
         self._connection_format = "%s+%s://%s:%s@%s/%s"
 
@@ -25,6 +35,7 @@ class ServiceManager():
                 break
             else:
                 line = line.split()
+                #logger.debug(line)
 
                 if len(line) >= 5:
                     line_dict = {}
@@ -34,22 +45,36 @@ class ServiceManager():
                     line_dict['password'] = line[2]
                     line_dict['address'] = line[3]
                     line_dict['db'] = line[4]
-                    self._connections.append(line_dict)
+                    self._conn_dicts.append(line_dict)
 
-        if len(self._connections) is not 0:
+        if len(self._conn_dicts) is not 0:
             # The current connection defaults to the most recent (i.e. the last written to the file)
-            self._current_connection = self._connections[-1]
+            self._current_conn_dict = self._conn_dicts[-1]
         else:
-            self._current_connection = None
+            self._current_conn_dict = None
 
         f.close()
 
+    def get_all_conn_dicts(self):
+        return self._conn_dicts
 
-    def get_connections(self):
-        return self._connections
+    def is_valid_connection(self):
+        if self._current_conn_dict:
+            conn_string = self._build_connection_string(self._current_conn_dict)
+            logger.debug("Conn_string: %s" % conn_string)
+            try:
+                if self.testEngine(conn_string):
+                    return self.get_current_conn_dict()
+            except Exception as e:
+                logger.fatal("The previous database for some reason isn't accessible, please enter a new connection %s" % e.message)
+                return None
+        return None
 
-    def get_current_connection(self):
-        return self._current_connection
+    def get_current_conn_dict(self):
+        return self._current_conn_dict
+
+    def set_current_conn_dict(self, dict):
+        self._current_conn_dict = dict
 
     def add_connection(self, conn_dict):
         """conn_dict must be a dictionary with keys: engine, user, password, address, db"""
@@ -57,44 +82,82 @@ class ServiceManager():
         # remove earlier connections that are identical to this one
         self.delete_connection(conn_dict)
 
-        self._connections.append(conn_dict)
-        self._current_connection = self._connections[-1]
+        if self.test_connection(conn_dict):
+            # write changes to connection file
+            self._conn_dicts.append(conn_dict)
+            self._current_conn_dict = self._conn_dicts[-1]
+            self._save_connections()
+            return True
+        else:
+            logger.error("Unable to save connection due to invalid connection to database")
+            return False
 
-        # write changes to connection file
-        self.__save_connections()
+
+    @classmethod
+    def testEngine(self, connection_string):
+        s = SessionFactory(connection_string, echo=False)
+        if 'mssql' in connection_string:
+            s.ms_test_Session().execute("Select top 1 VariableCode From Variables")
+        elif 'mysql' in connection_string:
+            s.my_test_Session().execute('Select "VariableCode" From Variables Limit 1')
+        elif 'postgresql' in connection_string:
+            #s.psql_test_Session().execute('Select "VariableCode" From "ODM2"."Variables" Limit 1')
+            s.psql_test_Session().execute('Select "VariableCode" From "Variables" Limit 1')
+        return True
 
     def test_connection(self, conn_dict):
         try:
-            self.version = self.get_db_version(conn_dict)
-        except DBAPIError:
-            pass
-            #print e.message
-        except SQLAlchemyError:
-            return False
-        return True
+            conn_string = self._build_connection_string(conn_dict)
+            if self.testEngine(conn_string) and self.get_db_version(conn_string) == '1.1.1':
+                return True
+        except SQLAlchemyError as e:
+            logger.error("SQLAlchemy Error: %s" % e.message)
+            raise e
+        except Exception as e:
+            logger.error("Error: %s" % e)
+            raise e
+        return False
 
     def delete_connection(self, conn_dict):
-        self._connections[:] = [x for x in self._connections if x != conn_dict]
+        self._conn_dicts[:] = [x for x in self._conn_dicts if x != conn_dict]
 
     # Create and return services based on the currently active connection
-    def get_db_version(self, conn_dict):
-        conn_string = self.__build_connection_string(conn_dict)
+    def get_db_version_dict(self, conn_dict):
+        conn_string = self._build_connection_string(conn_dict)
+        self.get_db_version(conn_string)
+
+    def get_db_version(self, conn_string):
+        if isinstance(conn_string, dict):
+            conn_string = self._build_connection_string(conn_string)
         service = SeriesService(conn_string)
-        if not self.version:
+        #if not self.version:
+        try:
             self.version = service.get_db_version()
+        except Exception as e:
+            logger.error("Exception: %s" % e.message)
+            return None
         return self.version
 
-    def get_series_service(self):
-        conn_string = self.__build_connection_string(self._current_connection)
+    def get_series_service(self, conn_dict=""):
+        conn_string = ""
+        if conn_dict:
+            conn_string = self._build_connection_string(conn_dict)
+            self._current_conn_dict = conn_dict
+        else:
+            conn_string = self._build_connection_string(self._current_conn_dict)
         return SeriesService(conn_string, self.debug)
 
     def get_cv_service(self):
-        conn_string = self.__build_connection_string(self._current_connection)
+        conn_string = self._build_connection_string(self._current_conn_dict)
         return CVService(conn_string, self.debug)
 
     def get_edit_service(self, series_id, connection):
-        conn_string = self.__build_connection_string(self._current_connection)
-        return EditService(series_id, connection=connection, connection_string=conn_string, debug=self.debug)
+        
+        return EditService(series_id, connection=connection,  debug=self.debug)
+
+    def get_record_service(self, script, series_id, connection):
+        return EditTools(self, script, self.get_edit_service(series_id, connection),
+                             self._build_connection_string(self.is_valid_connection()))
 
     def get_export_service(self):
         return ExportService(self.get_series_service())
@@ -103,33 +166,51 @@ class ServiceManager():
     # private variables
     ## ###################
 
-    def __get_file(self, mode):
-        fn = util.resource_path('connection.config')
+    def _get_file(self, mode):
+        #fn = util.resource_path('connection.config')
+        fn = os.path.join(user_config_dir("ODMTools", "UCHIC"), 'connection.config')
+
         config_file = None
         try:
-            config_file = open(fn, mode)
+
+            if os.path.exists(fn):
+                config_file = open(fn, mode)
+            else:
+                os.makedirs(user_config_dir("ODMTools", "UCHIC"))
+                open(fn, 'w').close()
+                config_file = open(fn, mode)
         except:
             open(fn, 'w').close()
             config_file = open(fn, mode)
+            
 
         return config_file
 
-    def __build_connection_string(self, conn_dict):
+    def _build_connection_string(self, conn_dict):
         driver = ""
-        if conn_dict['engine'] == 'mssql':
+        if conn_dict['engine'] == 'mssql' and sys.platform != 'win32':
             driver = "pyodbc"
-        elif conn_dict['engine'] == 'mysql':
-            driver = "pymysql"
+            quoted = urllib.quote_plus('DRIVER={FreeTDS};DSN=%s;UID=%s;PWD=%s;' % (conn_dict['address'], conn_dict['user'], conn_dict['password']))
+            conn_string = 'mssql+pyodbc:///?odbc_connect={}'.format(quoted)
+        
         else:
-            driver = "None"
+            if conn_dict['engine'] == 'mssql':
+                driver = "pyodbc"
+            elif conn_dict['engine'] == 'mysql':
+                driver = "pymysql"
+            elif conn_dict['engine'] == 'postgresql':
+                driver = "psycopg2"
+            else:
+                driver = "None"
 
-        conn_string = self._connection_format % (
-            conn_dict['engine'], driver, conn_dict['user'], conn_dict['password'], conn_dict['address'],
-            conn_dict['db'])
+            conn_string = self._connection_format % (
+                conn_dict['engine'], driver, conn_dict['user'], conn_dict['password'], conn_dict['address'],
+                conn_dict['db'])
         return conn_string
 
-    def __save_connections(self):
-        f = self.__get_file('w')
-        for conn in self._connections:
+    def _save_connections(self):
+        f = self._get_file('w')
+        for conn in self._conn_dicts:
             f.write("%s %s %s %s %s\n" % (conn['engine'], conn['user'], conn['password'], conn['address'], conn['db']))
         f.close()
+

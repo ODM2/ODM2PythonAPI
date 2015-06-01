@@ -1,15 +1,12 @@
 import sys
 import os
-import matplotlib.pyplot as plt
 import pprint
-from ODM2.models import *
+
+import matplotlib.pyplot as plt
 from matplotlib import dates
+
 from ODM2.new_services import *
 from ODMconnection import dbconnection
-from ODM2.YAML.yamlFunctions import YamlFunctions
-
-from sqlalchemy.orm.scoping import scoped_session
-
 
 this_file = os.path.realpath(__file__)
 directory = os.path.dirname(this_file)
@@ -20,11 +17,11 @@ sys.path.insert(0, directory)
 # ----------------------------------------
 
 
-#session_factory = dbconnection.createConnection('mysql', 'jws.uwrl.usu.edu', 'odm2', 'ODM', 'ODM123!!')
+session_factory = dbconnection.createConnection('mysql', 'jws.uwrl.usu.edu', 'odm2', 'ODM', 'ODM123!!')
 #session_factory = dbconnection.createConnection('mssql', '(local)', 'ODM2SS', 'ODM', 'odm')
 #session_factory = dbconnection.createConnection('postgresql', 'localhost', 'ODM2', 'odm', 'odm')
 
-session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')
+#session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')
 #session_factory = dbconnection.createConnection('mysql', 'localhost', 'ODM2', 'root', 'zxc')
 
 

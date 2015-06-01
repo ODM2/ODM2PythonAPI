@@ -1,6 +1,6 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import column_property, relationship
-from sqlalchemy import select, MetaData, Integer, String, Column, ForeignKey, DateTime, Float
+from sqlalchemy import select, MetaData, Integer, String, Column, ForeignKey
 
 Base = declarative_base()
 
@@ -8,15 +8,13 @@ metadata = MetaData()
 
 ################ODM 2 Tables###########
 <<<<<<< HEAD
-from ODM2.Core.model import Action, Organization, Affiliation, Person, \
-    Samplingfeature, Result, Variable as Variable2, Method as Method2
-from ODM2.Results.model import Timeseriesresult, Timeseriesresultvalue
-from ODM2.SamplingFeatures.model import Site as Site2, Spatialreference
-from ODM2.CV.model import Cvterm
+from ODM2.Core.model import Samplingfeature, Result, Variable as Variable2, Method as Method2
+from ODM2.Results.model import Timeseriesresult
+from ODM2.SamplingFeatures.model import Site as Site2
 =======
-from ..models import Actions, ActionBy, Organizations, Affiliations, People, \
+from src.api.ODM1_1_1.models import Actions, ActionBy, Organizations, Affiliations, People, \
     SamplingFeatures, Results, Variables, Methods, TimeSeriesResults, \
-    TimeSeriesResultValues, Sites, SpatialReferences, FeatureActions, ProcessingLevels
+    TimeSeriesResultValues, Sites, FeatureActions, ProcessingLevels
 >>>>>>> no_schema
 
 action_table = Actions()
