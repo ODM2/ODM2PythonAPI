@@ -37,6 +37,10 @@ def compiles_as_bound(cls):
 
     return cls
 
+# TODO: what about sqlite
+#how do i generalize the query for casing issues
+
+
 def save_as_bound(cls):
     @compiles(cls)
     def compile_function(element, compiler, **kw):

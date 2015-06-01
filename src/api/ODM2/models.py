@@ -2,16 +2,18 @@
 
 from sqlalchemy import BigInteger, Column, Date, DateTime, Float, ForeignKey, Integer, String, Boolean, func, Table
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
+
 
 #Should not be importing anything from a specific dialect
 #from sqlalchemy.dialects.mssql.base import BIT
 
 from apiCustomType import Geometry
 
+from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 metadata = Base.metadata
 
+#from base import modelBase as Base
 
 
 
@@ -20,7 +22,7 @@ metadata = Base.metadata
 # CV
 # ################################################################################
 
-class CVActionType(Base):
+class CVActionType(Base.Base):
     __tablename__ = 'cv_actiontype'
     __table_args__ = {u'schema': 'odm2'}
 
@@ -410,7 +412,7 @@ class People(Base):
     PersonLastName = Column('personlastname', String(255), nullable=False)
 
     def __repr__(self):
-        return "<Person('%s', '%s', '%s')>" % (self.personid, self.PersonFirstName,
+        return "<Person('%s', '%s', '%s')>" % (self.PersonID, self.PersonFirstName,
                                                self.PersonLastName)
 
 class Organizations(Base):
@@ -429,7 +431,7 @@ class Organizations(Base):
 
     def __repr__(self):
         return "<Organizations('%s', '%s', '%s', '%s', '%s', '%s')>" % (
-            self.organizationid, self.OrganizationTypeCV, self.OrganizationCode,
+            self.OrganizationID, self.OrganizationTypeCV, self.OrganizationCode,
             self.OrganizationName, self.OrganizationDescription, self.OrganizationLink
         )
 
@@ -469,7 +471,7 @@ class Methods(Base):
 
     def __repr__(self):
         return "<Methods('%s', '%s', '%s', '%s', '%s', '%s', '%s')>" \
-               % (self.methodid, self.MethodTypeCV, self.MethodCode, self.MethodName, self.MethodDescription, self.MethodLink, self.organizationid)
+               % (self.MethodID, self.MethodTypeCV, self.MethodCode, self.MethodName, self.MethodDescription, self.MethodLink, self.OrganizationID)
 
 
 class Actions(Base):
@@ -491,7 +493,7 @@ class Actions(Base):
 
     def __repr__(self):
         return "<Actions('%s', '%s', '%s', '%s')>" % (
-            self.actionid, self.ActionTypeCV, self.BeginDateTime, self.ActionDescription)
+            self.ActionID, self.ActionTypeCV, self.BeginDateTime, self.ActionDescription)
 
 
 class ActionBy(Base):
@@ -510,7 +512,7 @@ class ActionBy(Base):
 
 class SamplingFeatures(Base):
     __tablename__ = u'samplingfeatures'
-    __table_args__ = {u'schema': u'odm2'}
+    #__table_args__ = {u'schema': u'odm2'}
 
     SamplingFeatureID = Column('samplingfeatureid', Integer, primary_key=True, nullable=False)
     SamplingFeatureUUID = Column('samplingfeatureuuid', String(36), nullable=False)
@@ -541,7 +543,7 @@ class FeatureActions(Base):
 
 
     def __repr__(self):
-        return "<FeatureActions('%s', '%s', '%s', )>" % (self.FeatureActionID, self.SamplingFeatureID, self.actionid)
+        return "<FeatureActions('%s', '%s', '%s', )>" % (self.FeatureActionID, self.SamplingFeatureID, self.ActionID)
 
 
 class Datasets(Base):
@@ -631,7 +633,7 @@ class Variables(Base):
     NoDataValue = Column('nodatavalue', Float(asdecimal=True), nullable=False)
 
     def __repr__(self):
-        return "<Variables('%s', '%s', '%s')>" % (self.variableid, self.VariableCode, self.VariableNameCV)
+        return "<Variables('%s', '%s', '%s')>" % (self.VariableID, self.VariableCode, self.VariableNameCV)
 
 '''
 class ResultTypeCV(Base):
@@ -684,7 +686,7 @@ class Results(Base):
 
     def __repr__(self):
         return "<Results('%s', '%s', '%s', '%s', '%s')>" % (
-            self.resultid, self.ResultUUID , self.ResultTypeCV, self.ProcessingLevelID, self.ValueCount)
+            self.ResultID, self.ResultUUID , self.ResultTypeCV, self.ProcessingLevelID, self.ValueCount)
 
 
 # ################################################################################
@@ -847,7 +849,7 @@ class Sites(Base):
 
     def __repr__(self):
         return "<Sites('%s', '%s', '%s', '%s', '%s', '%s', '%s')>" \
-               % (self.samplingfeatureid, self.SpatialReferenceID, self.SiteTypeCV, self.Latitude, self.Longitude,
+               % (self.SamplingFeatureID, self.SpatialReferenceID, self.SiteTypeCV, self.Latitude, self.Longitude,
                   self.SpatialReferenceObj, self.SamplingFeatureObj)
 
 
@@ -986,7 +988,7 @@ class Citations(Base):
     CitationLink = Column('citationlink', String(255))
 
     def __repr__(self):
-        return "<Citations('%s', '%s', '%s', '%s', '%s')>" % (self.citationid, self.Title, self.Publisher, self.PublicationYear, self.CitationLink)
+        return "<Citations('%s', '%s', '%s', '%s', '%s')>" % (self.CitationID, self.Title, self.Publisher, self.PublicationYear, self.CitationLink)
 
 
 # ################################################################################
@@ -1416,7 +1418,7 @@ class AuthorLists(Base):
 
     def __repr__(self):
         return "<AuthorLists('%s', '%s', '%s', '%s', '%s', '%s')>" \
-               % (self.BridgeID, self.citationid, self.personid, self.AuthorOrder, self.CitationObj, self.PersonObj)
+               % (self.BridgeID, self.CitationID, self.PersonID, self.AuthorOrder, self.CitationObj, self.PersonObj)
 
 
 class DatasetCitations(Base):
@@ -1659,7 +1661,7 @@ class TimeSeriesResults(Base):
 
     def __repr__(self):
         return "<TimeSeriesResults('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')>" % \
-            (self.resultid, self.XLocation, self.YLocation, self.XLocation,
+            (self.ResultID, self.XLocation, self.YLocation, self.XLocation,
              self.ResultObj,  self.XLocationUnitsObj, self.SpatialReferenceObj,
              self.IntendedTimeSpacing, self.AggregationStatisticCV )
 
@@ -1873,7 +1875,7 @@ class TimeSeriesResultValues(Base):
                 "CensorCodeCV", "QualityCodeCV", "TimeAggregationInterval", "TimeAggregationIntervalUnitsID"]
 
     def list_repr(self):
-        return [self.ValueID, self.resultid, self.DataValue, self.ValueDateTime, self.ValueDateTimeUTCOffset,
+        return [self.ValueID, self.ResultID, self.DataValue, self.ValueDateTime, self.ValueDateTimeUTCOffset,
                 self.CensorCodeCV, self.QualityCodeCV, self.TimeAggregationInterval,
                 self.TimeAggregationIntervalUnitsID]
 

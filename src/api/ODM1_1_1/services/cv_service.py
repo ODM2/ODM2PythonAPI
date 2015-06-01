@@ -1,20 +1,7 @@
 # CV imports
-from odmtools.odmdata import SessionFactory
-from odmtools.odmdata import VerticalDatumCV
-from odmtools.odmdata import SiteTypeCV
-from odmtools.odmdata import VariableNameCV
-from odmtools.odmdata import SpeciationCV
-from odmtools.odmdata import SampleMediumCV
-from odmtools.odmdata import ValueTypeCV
-from odmtools.odmdata import DataTypeCV
-from odmtools.odmdata import GeneralCategoryCV
-from odmtools.odmdata import CensorCodeCV
-from odmtools.odmdata import TopicCategoryCV
-from odmtools.odmdata import SampleTypeCV
-from odmtools.odmdata import OffsetType
-from odmtools.odmdata import Sample
-from odmtools.odmdata import Qualifier
-from odmtools.odmdata import Unit
+from api.ODM1_1_1.models import SessionFactory, VerticalDatumCV, SiteTypeCV, VariableNameCV, SpeciationCV, SampleMediumCV, \
+    alueTypeCV, DataTypeCV, GeneralCategoryCV, CensorCodeCV, TopicCategoryCV, SampleTypeCV, OffsetType, Sample, \
+    Qualifier, Unit
 from sqlalchemy import not_
 
 

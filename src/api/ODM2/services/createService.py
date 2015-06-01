@@ -1,25 +1,7 @@
-from src.api.ODM1_1_1.models import TimeSeriesResults
-from src.api.ODM1_1_1.models import TimeSeriesResultValues
-from src.api.ODM1_1_1.models import SpatialReferences
-from src.api.ODM1_1_1.models import DeploymentActions
-from src.api.ODM1_1_1.models import Models
-from src.api.ODM1_1_1.models import RelatedModels
-from src.api.ODM1_1_1.models import Simulations
-from src.api.ODM1_1_1.models import Actions
-from src.api.ODM1_1_1.models import DatasetsResults
-from src.api.ODM1_1_1.models import ActionBy
-from src.api.ODM1_1_1.models import FeatureActions
-from src.api.ODM1_1_1.models import Results
-from src.api.ODM1_1_1.models import Variables
-from src.api.ODM1_1_1.models import Methods
-from src.api.ODM1_1_1.models import ProcessingLevels
-from src.api.ODM1_1_1.models import SamplingFeatures
-from src.api.ODM1_1_1.models import Units
-from src.api.ODM1_1_1.models import Organizations
-from src.api.ODM1_1_1.models import People
-from src.api.ODM1_1_1.models import Affiliations
-from src.api.ODM1_1_1.models import Datasets
-#from src.api.ODM1_1_1 import Site
+from src.api.ODM2.models import TimeSeriesResults,  TimeSeriesResultValues,  SpatialReferences,  DeploymentActions,  \
+    Models,  RelatedModels,  Simulations,  Actions,  DatasetsResults,  ActionBy,  FeatureActions,  Results,  Variables,  \
+    Methods,  ProcessingLevels,  SamplingFeatures,  Units,  Organizations,  People,  Affiliations,  Datasets
+from src.api.ODM2.models import Sites
 #from src.api.ODM2.LikeODM1.model import Site
 
 __author__ = 'jmeline'

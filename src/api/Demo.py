@@ -5,7 +5,7 @@ import pprint
 import matplotlib.pyplot as plt
 from matplotlib import dates
 
-from ODM2.new_services import *
+from ODM2.services import *
 from ODMconnection import dbconnection
 
 this_file = os.path.realpath(__file__)
@@ -18,11 +18,9 @@ sys.path.insert(0, directory)
 
 
 session_factory = dbconnection.createConnection('mysql', 'jws.uwrl.usu.edu', 'odm2', 'ODM', 'ODM123!!')
-#session_factory = dbconnection.createConnection('mssql', '(local)', 'ODM2SS', 'ODM', 'odm')
 #session_factory = dbconnection.createConnection('postgresql', 'localhost', 'ODM2', 'odm', 'odm')
-
 #session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')
-#session_factory = dbconnection.createConnection('mysql', 'localhost', 'ODM2', 'root', 'zxc')
+
 
 
 

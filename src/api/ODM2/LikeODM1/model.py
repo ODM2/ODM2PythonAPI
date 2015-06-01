@@ -7,15 +7,11 @@ Base = declarative_base()
 metadata = MetaData()
 
 ################ODM 2 Tables###########
-<<<<<<< HEAD
-from ODM2.Core.model import Samplingfeature, Result, Variable as Variable2, Method as Method2
-from ODM2.Results.model import Timeseriesresult
-from ODM2.SamplingFeatures.model import Site as Site2
-=======
-from src.api.ODM1_1_1.models import Actions, ActionBy, Organizations, Affiliations, People, \
+
+from src.api.ODM2.models import Actions, ActionBy, Organizations, Affiliations, People, \
     SamplingFeatures, Results, Variables, Methods, TimeSeriesResults, \
     TimeSeriesResultValues, Sites, FeatureActions, ProcessingLevels
->>>>>>> no_schema
+
 
 action_table = Actions()
 
@@ -38,19 +34,13 @@ class SpatialReference(Base):
     def __repr__(self):
         return "<SpatialReference('%s', '%s')>" % (self.id, self.srs_name)
 
-<<<<<<< HEAD
-sf_table = Samplingfeature().__table__
-site_table = Site2().__table__
-site_join = site_table.join(sf_table, site_table.c.SamplingFeatureID == sf_table.c.SamplingFeatureID)
-class Site(Base):
-    __tablename__ = u'Sites'
-=======
+
 sf_table = SamplingFeatures().__table__
 site_table = Sites().__table__
 site_join = site_table.join(sf_table, site_table.c.samplingfeatureid == sf_table.c.samplingfeatureid)
 class Site(Base):
     __tablename__ = u'sites'
->>>>>>> no_schema
+
     __table__ = site_join
 
     id = site_join.c.odm2_sites_samplingfeatureid
@@ -104,17 +94,7 @@ class Unit(Base):
 # ###################################################################################
 
 """Requires joining with Variable, Result, and Timeseriesresult to build Variable for ODM1_1_1"""
-<<<<<<< HEAD
-variables_table = Variable2().__table__
-ts_table = Timeseriesresult().__table__
 
-result_table = Result().__table__
-aliased_table = select([
-    result_table.c.ResultID.label("RID"),
-    result_table.c.UnitsID,
-    result_table.c.VariableID,
-    result_table.c.SampledMediumCV,
-=======
 variables_table = Variables().__table__
 ts_table = TimeSeriesResults().__table__
 
@@ -125,7 +105,7 @@ result_aliased_table = select([
     result_table.c.variableid,
     result_table.c.sampledmediumcv,
 
->>>>>>> no_schema
+
 ]).alias("ODM2_Aliased")
 
 ts_join = result_aliased_table.join(ts_table, result_aliased_table.c.RID == ts_table.c.resultid)
@@ -232,11 +212,7 @@ class ISOMetadata(Base):
 #                            Data Collection Methods
 # ###################################################################################
 
-<<<<<<< HEAD
-method_table = Method2().__table__
 
-=======
->>>>>>> no_schema
 class LabMethod(Base):
     __tablename__ = 'labmethods'
     __table_args__ = {u'schema': u'odm2'}

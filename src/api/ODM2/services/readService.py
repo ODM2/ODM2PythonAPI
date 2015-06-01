@@ -1,7 +1,7 @@
 from sqlalchemy import func
 import pandas as pd
 
-from src.api.ODM1_1_1.models import Variables, People, Methods, ProcessingLevels, SamplingFeatures, Units, Datasets, \
+from src.api.ODM2.models import Variables, People, Methods, ProcessingLevels, SamplingFeatures, Units, Datasets, \
     Actions, Equipment, Sites, SpatialReferences
 
 __author__ = 'jmeline'

@@ -69,12 +69,54 @@ from sqlalchemy.ext.declarative import declarative_base
 
 
 from collections import OrderedDict # Requires Python 2.7 >=
-from sqlalchemy import Column, Integer, Float, DateTime, ForeignKey, String
+from sqlalchemy import Column, Integer, Float, DateTime, ForeignKey, String, Boolean
 from sqlalchemy.orm import relationship
 
 
 Base = declarative_base()
 metadata = Base.metadata
+
+
+class SpeciationCV(Base):
+    __tablename__ = 'SpeciationCV'
+
+    term = Column('Term', String, primary_key=True)
+    definition = Column('Definition', String)
+
+    def __repr__(self):
+        return "<SpeciationCV('%s', '%s')>" % (self.term, self.definition)
+
+
+class TopicCategoryCV(Base):
+    __tablename__ = 'TopicCategoryCV'
+
+    term = Column('Term', String, primary_key=True)
+    definition = Column('Definition', String)
+
+    def __repr__(self):
+        return "<TopicCategoryCV('%s', '%s')>" % (self.term, self.definition)
+
+
+class Unit(Base):
+    __tablename__ = 'Units'
+
+    id = Column('UnitsID', Integer, primary_key=True)
+    name = Column('UnitsName', String)
+    type = Column('UnitsType', String)
+    abbreviation = Column('UnitsAbbreviation', String)  # (convert_unicode=True))
+
+    def __repr__(self):
+        return "<Unit('%s', '%s', '%s')>" % (self.id, self.name, self.type)
+
+
+class ValueTypeCV(Base):
+    __tablename__ = 'ValueTypeCV'
+
+    term = Column('Term', String, primary_key=True)
+    definition = Column('Definition', String)
+
+    def __repr__(self):
+        return "<ValueTypeCV('%s', '%s')>" % (self.term, self.definition)
 
 
 class CensorCodeCV(Base):
@@ -97,69 +139,7 @@ class DataTypeCV(Base):
         return "<DataTypeCV('%s', '%s')>" % (self.term, self.definition)
 
 
-def copy_data_value(from_dv):
-    new = DataValue()
-    new.data_value = from_dv.data_value
-    new.value_accuracy = from_dv.value_accuracy
-    new.local_date_time = from_dv.local_date_time
-    new.utc_offset = from_dv.utc_offset
-    new.date_time_utc = from_dv.date_time_utc
-    new.site_id = from_dv.site_id
-    new.variable_id = from_dv.variable_id
-    new.offset_value = from_dv.offset_value
-    new.offset_type_id = from_dv.offset_type_id
-    new.censor_code = from_dv.censor_code
-    new.qualifier_id = from_dv.qualifier_id
-    new.method_id = from_dv.method_id
-    new.source_id = from_dv.source_id
-    new.sample_id = from_dv.sample_id
-    new.derived_from_id = from_dv.derived_from_id
-    new.quality_control_level_id = from_dv.quality_control_level_id
-    return new
 
-
-class DataValue(Base):
-    __tablename__ = 'DataValues'
-
-    id = Column('ValueID', Integer, primary_key=True)
-    data_value = Column('DataValue', Float)
-    value_accuracy = Column('ValueAccuracy', Float)
-    local_date_time = Column('LocalDateTime', DateTime)
-    utc_offset = Column('UTCOffset', Float)
-    date_time_utc = Column('DateTimeUTC', DateTime)
-    site_id = Column('SiteID', Integer, ForeignKey('Sites.SiteID'), nullable=False)
-    variable_id = Column('VariableID', Integer, ForeignKey('Variables.VariableID'), nullable=False)
-    offset_value = Column('OffsetValue', Float)
-    offset_type_id = Column('OffsetTypeID', Integer, ForeignKey('OffsetTypes.OffsetTypeID'))
-    censor_code = Column('CensorCode', String)
-    qualifier_id = Column('QualifierID', Integer, ForeignKey('Qualifiers.QualifierID'))
-    method_id = Column('MethodID', Integer, ForeignKey('Methods.MethodID'), nullable=False)
-    source_id = Column('SourceID', Integer, ForeignKey('Sources.SourceID'), nullable=False)
-    sample_id = Column('SampleID', Integer, ForeignKey('Samples.SampleID'))
-    derived_from_id = Column('DerivedFromID', Integer)
-    quality_control_level_id = Column('QualityControlLevelID', Integer,
-                                      ForeignKey('QualityControlLevels.QualityControlLevelID'), nullable=False)
-
-    # relationships
-    site = relationship(Site)
-    variable = relationship(Variable)
-    method = relationship(Method)
-    source = relationship(Source)
-    quality_control_level = relationship(QualityControlLevel)
-
-    qualifier = relationship(Qualifier)
-    offset_type = relationship(OffsetType)
-    sample = relationship(Sample)
-
-    def list_repr(self):
-        return [self.id, self.data_value, self.value_accuracy, self.local_date_time,
-                self.utc_offset, self.date_time_utc, self.site_id, self.variable_id,
-                self.offset_value, self.offset_type_id, self.censor_code, self.qualifier_id,
-                self.method_id, self.source_id, self.sample_id, self.derived_from_id,
-                self.quality_control_level_id]
-
-    def __repr__(self):
-        return "<DataValue('%s', '%s', '%s')>" % (self.data_value, self.local_date_time, self.value_accuracy)
 
 
 class GeneralCategoryCV(Base):
@@ -291,6 +271,17 @@ class SampleTypeCV(Base):
     def __repr__(self):
         return "<SampleTypeCV('%s', '%s')>" % (self.term, self.definition)
 
+class SpatialReference(Base):
+    __tablename__ = 'SpatialReferences'
+
+    id = Column('SpatialReferenceID', Integer, primary_key=True)
+    srs_id = Column('SRSID', Integer)
+    srs_name = Column('SRSName', String)
+    is_geographic = Column('IsGeographic', Boolean)
+    notes = Column('Notes', String)
+
+    def __repr__(self):
+        return "<SpatialReference('%s', '%s')>" % (self.id, self.srs_name)
 
 class Site(Base):
     __tablename__ = 'Sites'
@@ -359,59 +350,7 @@ class Source(Base):
         return "<Source('%s', '%s', '%s')>" % (self.id, self.organization, self.description)
 
 
-class SpatialReference(Base):
-    __tablename__ = 'SpatialReferences'
 
-    id = Column('SpatialReferenceID', Integer, primary_key=True)
-    srs_id = Column('SRSID', Integer)
-    srs_name = Column('SRSName', String)
-    is_geographic = Column('IsGeographic', Boolean)
-    notes = Column('Notes', String)
-
-    def __repr__(self):
-        return "<SpatialReference('%s', '%s')>" % (self.id, self.srs_name)
-
-
-class SpeciationCV(Base):
-    __tablename__ = 'SpeciationCV'
-
-    term = Column('Term', String, primary_key=True)
-    definition = Column('Definition', String)
-
-    def __repr__(self):
-        return "<SpeciationCV('%s', '%s')>" % (self.term, self.definition)
-
-
-class TopicCategoryCV(Base):
-    __tablename__ = 'TopicCategoryCV'
-
-    term = Column('Term', String, primary_key=True)
-    definition = Column('Definition', String)
-
-    def __repr__(self):
-        return "<TopicCategoryCV('%s', '%s')>" % (self.term, self.definition)
-
-
-class Unit(Base):
-    __tablename__ = 'Units'
-
-    id = Column('UnitsID', Integer, primary_key=True)
-    name = Column('UnitsName', String)
-    type = Column('UnitsType', String)
-    abbreviation = Column('UnitsAbbreviation', String)  # (convert_unicode=True))
-
-    def __repr__(self):
-        return "<Unit('%s', '%s', '%s')>" % (self.id, self.name, self.type)
-
-
-class ValueTypeCV(Base):
-    __tablename__ = 'ValueTypeCV'
-
-    term = Column('Term', String, primary_key=True)
-    definition = Column('Definition', String)
-
-    def __repr__(self):
-        return "<ValueTypeCV('%s', '%s')>" % (self.term, self.definition)
 
 
 class Variable(Base):
@@ -459,6 +398,69 @@ class VerticalDatumCV(Base):
     def __repr__(self):
         return "<VerticalDatumCV('%s', '%s')>" % (self.term, self.definition)
 
+def copy_data_value(from_dv):
+    new = DataValue()
+    new.data_value = from_dv.data_value
+    new.value_accuracy = from_dv.value_accuracy
+    new.local_date_time = from_dv.local_date_time
+    new.utc_offset = from_dv.utc_offset
+    new.date_time_utc = from_dv.date_time_utc
+    new.site_id = from_dv.site_id
+    new.variable_id = from_dv.variable_id
+    new.offset_value = from_dv.offset_value
+    new.offset_type_id = from_dv.offset_type_id
+    new.censor_code = from_dv.censor_code
+    new.qualifier_id = from_dv.qualifier_id
+    new.method_id = from_dv.method_id
+    new.source_id = from_dv.source_id
+    new.sample_id = from_dv.sample_id
+    new.derived_from_id = from_dv.derived_from_id
+    new.quality_control_level_id = from_dv.quality_control_level_id
+    return new
+
+
+class DataValue(Base):
+    __tablename__ = 'DataValues'
+
+    id = Column('ValueID', Integer, primary_key=True)
+    data_value = Column('DataValue', Float)
+    value_accuracy = Column('ValueAccuracy', Float)
+    local_date_time = Column('LocalDateTime', DateTime)
+    utc_offset = Column('UTCOffset', Float)
+    date_time_utc = Column('DateTimeUTC', DateTime)
+    site_id = Column('SiteID', Integer, ForeignKey('Sites.SiteID'), nullable=False)
+    variable_id = Column('VariableID', Integer, ForeignKey('Variables.VariableID'), nullable=False)
+    offset_value = Column('OffsetValue', Float)
+    offset_type_id = Column('OffsetTypeID', Integer, ForeignKey('OffsetTypes.OffsetTypeID'))
+    censor_code = Column('CensorCode', String)
+    qualifier_id = Column('QualifierID', Integer, ForeignKey('Qualifiers.QualifierID'))
+    method_id = Column('MethodID', Integer, ForeignKey('Methods.MethodID'), nullable=False)
+    source_id = Column('SourceID', Integer, ForeignKey('Sources.SourceID'), nullable=False)
+    sample_id = Column('SampleID', Integer, ForeignKey('Samples.SampleID'))
+    derived_from_id = Column('DerivedFromID', Integer)
+    quality_control_level_id = Column('QualityControlLevelID', Integer,
+                                      ForeignKey('QualityControlLevels.QualityControlLevelID'), nullable=False)
+
+    # relationships
+    site = relationship(Site)
+    variable = relationship(Variable)
+    method = relationship(Method)
+    source = relationship(Source)
+    quality_control_level = relationship(QualityControlLevel)
+
+    qualifier = relationship(Qualifier)
+    offset_type = relationship(OffsetType)
+    sample = relationship(Sample)
+
+    def list_repr(self):
+        return [self.id, self.data_value, self.value_accuracy, self.local_date_time,
+                self.utc_offset, self.date_time_utc, self.site_id, self.variable_id,
+                self.offset_value, self.offset_type_id, self.censor_code, self.qualifier_id,
+                self.method_id, self.source_id, self.sample_id, self.derived_from_id,
+                self.quality_control_level_id]
+
+    def __repr__(self):
+        return "<DataValue('%s', '%s', '%s')>" % (self.data_value, self.local_date_time, self.value_accuracy)
 
 def copy_series(from_series):
     new = Series()

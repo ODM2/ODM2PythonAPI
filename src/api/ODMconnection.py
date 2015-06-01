@@ -2,9 +2,9 @@ from sqlalchemy.exc import SQLAlchemyError, DBAPIError
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from src.api.ODM1_1_1.models import Variables as Variable2
+from src.api.ODM2.models import Variables as Variable2
 
-#from ODM1_1_1.models import Variables as Variable1
+from ODM1_1_1.models import Variable as Variable1
 #from ODM1_1_1.variable import Variable as Variable1_1_1
 
 
