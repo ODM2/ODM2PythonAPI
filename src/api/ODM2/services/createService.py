@@ -459,7 +459,7 @@ class createResults(serviceBase):
         self._session.commit()
 
         return tsr
-
+    '''
 
     def createTimeSeriesResultValues(self, resultid, datavalues, datetimes, datetimeoffsets, censorcodecv,
                                      qualitycodecv,
@@ -483,7 +483,17 @@ class createResults(serviceBase):
         except Exception, e:
             print e
             return None
+    '''
 
+    def createTimeSeriesResultValues(self, datavalues):
+        try:
+            datavalues.to_sql(name="timeseriesresultvalues", if_exists='append', con=self._session_factory.engine, index=False)
+
+            self._session.commit()
+            return datavalues
+        except Exception, e:
+            print e
+            return None
 
 # ################################################################################
 # Sampling Features
@@ -611,10 +621,3 @@ class createSimulation(serviceBase):
 
         return sim
 
-# ################################################################################
-# ODM2
-# ################################################################################
-
-class createODM2(serviceBase):
-   def test(self):
-        return None
