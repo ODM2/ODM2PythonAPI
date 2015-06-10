@@ -28,7 +28,7 @@ class serviceBase(object):
 
 
         self._debug = debug
-        #self._session
+        #self._sessiona
 
     #self._session_factory=""
    # def getSessionFactory( session = None):
