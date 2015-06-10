@@ -460,7 +460,7 @@ class createResults(serviceBase):
 
         return tsr
 
-
+    '''
     def createTimeSeriesResultValues(self, resultid, datavalues, datetimes, datetimeoffsets, censorcodecv,
                                      qualitycodecv,
                                      timeaggregationinterval, timeaggregationunit):
@@ -480,6 +480,17 @@ class createResults(serviceBase):
                 self._session.add(values)
             self._session.commit()
             return values
+        except Exception, e:
+            print e
+            return None
+    '''
+
+    def createTimeSeriesResultValues(self, datavalues):
+        try:
+            datavalues.to_sql(name="timeseriesresultvalues", if_exists='append', con=self._session_factory.engine, index=False)
+
+            self._session.commit()
+            return datavalues
         except Exception, e:
             print e
             return None

@@ -41,8 +41,3 @@ class modelBase():
     Base = declarative_base()
     metadata = Base.metadata
 
-
-    def getDBtype():
-        print dir(Base)
-        print dir(metadata)
-        return ""

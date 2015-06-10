@@ -8,21 +8,23 @@ from sqlalchemy.orm import relationship
 #from sqlalchemy.dialects.mssql.base import BIT
 
 from apiCustomType import Geometry
-
+'''
 from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 metadata = Base.metadata
 
 #from base import modelBase as Base
+'''
 
-
+from base import modelBase
+Base = modelBase.Base
 
 
 # ################################################################################
 # CV
 # ################################################################################
 
-class CVActionType(Base.Base):
+class CVActionType(Base):
     __tablename__ = 'cv_actiontype'
     __table_args__ = {u'schema': 'odm2'}
 
