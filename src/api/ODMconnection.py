@@ -1,24 +1,25 @@
 from sqlalchemy.exc import SQLAlchemyError, DBAPIError
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-
-from src.api.ODM2.models import Variables as Variable2
-
+# from src.api.ODM2.models import Variables as Variable2
+from src.api.ODM2.base import Schema
 from ODM1_1_1.models import Variable as Variable1
-#from ODM1_1_1.variable import Variable as Variable1_1_1
 
 
 class SessionFactory():
     def __init__(self, connection_string, echo):
-        self.engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600, pool_timeout=5, pool_size=20,
+        self.engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600, pool_timeout=5,
+                                    pool_size=20,
                                     max_overflow=0)
-        self.psql_test_engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600, pool_timeout=5,
-                                    max_overflow=0,  connect_args={'connect_timeout': 1})
-        self.ms_test_engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600, pool_timeout=5,
-                                    max_overflow=0,  connect_args={'timeout': 1})
-
+        self.psql_test_engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600,
+                                              pool_timeout=5,
+                                              max_overflow=0, connect_args={'connect_timeout': 1})
+        self.ms_test_engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600,
+                                            pool_timeout=5,
+                                            max_overflow=0, connect_args={'timeout': 1})
 
         # Create session maker
+
         self.Session = sessionmaker(bind=self.engine)
         self.psql_test_Session = sessionmaker(bind=self.psql_test_engine)
         self.ms_test_Session = sessionmaker(bind=self.ms_test_engine)
@@ -30,7 +31,6 @@ class SessionFactory():
         return "<SessionFactory('%s')>" % (self.engine)
 
 
-
 class dbconnection():
     def __init__(self, debug=False):
         self.debug = debug
@@ -38,28 +38,56 @@ class dbconnection():
         self.version = 0
         self._connection_format = "%s+%s://%s:%s@%s/%s"
 
+    @staticmethod
+    def _getSchema(engine):
+        from sqlalchemy.engine import reflection
+
+        insp=reflection.Inspector.from_engine(engine)
+
+        for name in insp.get_schema_names():
+            if 'odm2'== name.lower():
+                return name
+        else:
+            return insp.default_schema_name
+
+    @classmethod
+    def _setSchema(self, engine):
+
+        s = self._getSchema(engine)
+
+        print Schema.getSchema()
+        print s
+        Schema.setSchema(s)
+        #Schema.setSchema(s)
+        print Schema.getSchema()
+
     @classmethod
     def createConnection(self, engine, address, db, user, password):
-        connection_string= dbconnection.buildConnDict(dbconnection(), engine, address, db, user, password)
-        #if self.testConnection(connection_string):
+        connection_string = dbconnection.buildConnDict(dbconnection(), engine, address, db, user, password)
+        # if self.testConnection(connection_string):
         if self.testEngine(connection_string):
-            #print "sucess"
-            return SessionFactory(connection_string, echo  = False)
+            # print "sucess"
+            return SessionFactory(connection_string, echo=False)
         else:
             return None
 
     @classmethod
     def testEngine(self, connection_string):
-        s= SessionFactory(connection_string, echo  = False)
+        s = SessionFactory(connection_string, echo=False)
+
         try:
-            print dir (Variable2)
             if 'mssql' in connection_string:
-                s.ms_test_Session().query(Variable2.VariableCode).first()#.execute("Select top 1 VariableCode From ODM2.Variables")
+                self._setSchema(s.ms_test_engine)
+                from src.api.ODM2.models import Variables as Variable2
+                s.ms_test_Session().query(Variable2.VariableCode).limit(1).first()
             elif 'postgresql' in connection_string:
-                s.psql_test_Session().query(Variable2.VariableCode).first()#.execute('Select "VariableCode" From "ODM2"."Variables" Limit 1')
-                #s.psql_test_Session().execute('Select "VariableNameCV" From "ODM2"."Variables" Limit 1')
+                self._setSchema(s.psql_test_engine)
+                from src.api.ODM2.models import Variables as Variable2
+                s.psql_test_Session().query(Variable2.VariableCode).limit(1).first()
             elif 'mysql' in connection_string:
-                s.psql_test_Session().query(Variable2.VariableCode).first()#.execute('Select variablecode From variables Limit 1')
+                self._setSchema(s.psql_test_engine)
+                from src.api.ODM2.models import Variables as Variable2
+                s.psql_test_Session().query(Variable2.VariableCode).limit(1).first()
 
         except Exception as e:
             print "Connection was unsuccessful ", e.message
@@ -67,17 +95,16 @@ class dbconnection():
         return True
 
     def testEngine1_1(self, connection_string):
-        s= SessionFactory(connection_string, echo  = False)
+        s = SessionFactory(connection_string, echo=False)
         try:
-
-            #s.ms_test_Session().query(Variable1).limit(1).first()
+            # s.ms_test_Session().query(Variable1).limit(1).first()
 
             if 'mssql' in connection_string:
                 s.ms_test_Session().execute("Select top 1 VariableCode From Variables")
 
             elif 'postgresql' in connection_string:
                 s.psql_test_Session().execute('Select "VariableCode" From "Variables" Limit 1')
-                #s.psql_test_Session().execute('Select "VariableNameCV" From "ODM2"."Variables" Limit 1')
+                # s.psql_test_Session().execute('Select "VariableNameCV" From "ODM2"."Variables" Limit 1')
             elif 'mysql' in connection_string:
                 s.psql_test_Session().execute('Select variablecode From variables Limit 1')
 
@@ -85,7 +112,6 @@ class dbconnection():
             print "Connection was unsuccessful ", e.message
             return False
         return True
-
 
     def buildConnDict(self, engine, address, db, user, password):
         line_dict = {}
@@ -113,7 +139,6 @@ class dbconnection():
         self._connections.append(conn_dict)
         self._current_connection = self._connections[-1]
 
-
     def testConnection(self, conn_dict):
         try:
             self.version = self.get_db_version(conn_dict)
@@ -127,11 +152,9 @@ class dbconnection():
     def deleteConnection(self, conn_dict):
         self._connections[:] = [x for x in self._connections if x != conn_dict]
 
-
     ## ###################
     # private variables
     ## ###################
-
 
     def __buildConnectionString(self, conn_dict):
         driver = ""
@@ -147,8 +170,5 @@ class dbconnection():
         conn_string = self._connection_format % (
             conn_dict['engine'], driver, conn_dict['user'], conn_dict['password'], conn_dict['address'],
             conn_dict['db'])
-        #print conn_string
+        # print conn_string
         return conn_string
-
-
-

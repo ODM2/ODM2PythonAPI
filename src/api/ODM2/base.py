@@ -41,3 +41,22 @@ class modelBase():
     Base = declarative_base()
     metadata = Base.metadata
 
+
+
+
+
+class Schema():
+
+    schemaname =""
+
+    @classmethod
+    def setSchema(cls, value):
+        print "setting schema to ", value
+        cls.schemaname = value
+
+    @classmethod
+    def getSchema(cls):
+        print "getting schema: ", cls.schemaname
+        return cls.schemaname.lower()
+
+

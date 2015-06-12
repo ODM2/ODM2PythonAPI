@@ -34,6 +34,11 @@ def compiles_as_bound(cls):
             path = '"odm2"."samplingfeatures"."FeatureGeometry"'
             format = "%s(%s)"
             return format % (el, path)
+        '''
+        else:
+            #call default function
+            return func.ST_AsText("FeatureGeometry")
+        '''
 
     return cls
 

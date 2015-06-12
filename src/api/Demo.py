@@ -5,7 +5,7 @@ import pprint
 import matplotlib.pyplot as plt
 from matplotlib import dates
 
-from ODM2.services import *
+
 from ODMconnection import dbconnection
 
 this_file = os.path.realpath(__file__)
@@ -17,21 +17,20 @@ sys.path.insert(0, directory)
 # ----------------------------------------
 
 
-session_factory = dbconnection.createConnection('mysql', 'jws.uwrl.usu.edu', 'odm2', 'ODM', 'ODM123!!')
-#session_factory = dbconnection.createConnection('postgresql', 'localhost', 'ODM2', 'odm', 'odm')
-#session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')
+# session_factory = dbconnection.createConnection('mysql', 'jws.uwrl.usu.edu', 'odm2', 'ODM', 'ODM123!!')
+session_factory = dbconnection.createConnection('postgresql', 'localhost', 'ODM2', 'odm', 'odm')
+# session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')
+# session_factory = dbconnection.createConnection('mssql', 'local', 'odm2', 'ODM', 'odm')
 
+from ODM2.services.readService import *
 
-
-
-# Create a connection for each of the schemas. Currently the schemas each have a different
+# Currently the schemas each have a different
 # connection but it will be changed to all the services sharing a connection
 # ----------------------------------------------------------------------------------------
 
-# session = scoped_session(session_factory)
+
 
 _session = session_factory.getSession()
-_engine = session_factory.engine
 
 core_read = readCore(_session)
 result_read = readResults(_session)
@@ -84,17 +83,15 @@ try:
     sf = core_read.getSamplingFeatureByCode('USU-LBR-Mendon')
     print "\n-------- Information about an individual SamplingFeature ---------"
     print (
-    "The following are some of the attributes of a SamplingFeature retrieved using getSamplingFeatureByCode(): \n" +
-    "SamplingFeatureCode: " + sf.SamplingFeatureCode + "\n" +
-    "SamplingFeatureName: " + sf.SamplingFeatureName + "\n" +
-    "SamplingFeatureDescription: " + sf.SamplingFeatureDescription + "\n" +
-    "SamplingFeatureGeotypeCV: " + sf.SamplingFeatureGeotypeCV + "\n"
-                                                                 "SamplingFeatureGeometry: " + sf.FeatureGeometry + "\n" +
-    "Elevation_m: " + str(sf.Elevation_m))
+        "The following are some of the attributes of a SamplingFeature retrieved using getSamplingFeatureByCode(): \n" +
+        "SamplingFeatureCode: " + sf.SamplingFeatureCode + "\n" +
+        "SamplingFeatureName: " + sf.SamplingFeatureName + "\n" +
+        "SamplingFeatureDescription: " + sf.SamplingFeatureDescription + "\n" +
+        "SamplingFeatureGeotypeCV: " + sf.SamplingFeatureGeotypeCV + "\n"
+                                                                     "SamplingFeatureGeometry: " + sf.FeatureGeometry + "\n" +
+        "Elevation_m: " + str(sf.Elevation_m))
 except Exception as e:
     print "Unable to demo getSamplingFeatureByCode: ", e
-
-
 
 
 # Drill down and get objects linked by foreign keys
@@ -120,29 +117,28 @@ print "\n------- Example of Retrieving Attributes of a Time Series Result ------
 try:
     tsResult = result_read.getTimeSeriesResultByResultId(19)
     print (
-    "The following are some of the attributes for the TimeSeriesResult retrieved using getTimeSeriesResultByResultID(): \n" +
-    "ResultTypeCV: " + tsResult.ResultTypeCV + "\n" +
-    # Get the ProcessingLevel from the TimeSeriesResult's ProcessingLevel object
-    "ProcessingLevel: " + tsResult.ProcessingLevelObj.Definition + "\n" +
-    "SampledMedium: " + tsResult.SampledMediumCV + "\n" +
-    # Get the variable information from the TimeSeriesResult's Variable object
-    "Variable: " + tsResult.VariableObj.VariableCode + ": " + tsResult.VariableObj.VariableNameCV + "\n"
-                                                                                                    "AggregationStatistic: " + tsResult.AggregationStatisticCV + "\n" +
-    "Elevation_m: " + str(sf.Elevation_m) + "\n" +
-    # Get the site information by drilling down
-    "SamplingFeature: " + tsResult.FeatureActionObj.SamplingFeatureObj.SamplingFeatureCode + " - " +
-    tsResult.FeatureActionObj.SamplingFeatureObj.SamplingFeatureName)
+        "The following are some of the attributes for the TimeSeriesResult retrieved using getTimeSeriesResultByResultID(): \n" +
+        "ResultTypeCV: " + tsResult.ResultTypeCV + "\n" +
+        # Get the ProcessingLevel from the TimeSeriesResult's ProcessingLevel object
+        "ProcessingLevel: " + tsResult.ProcessingLevelObj.Definition + "\n" +
+        "SampledMedium: " + tsResult.SampledMediumCV + "\n" +
+        # Get the variable information from the TimeSeriesResult's Variable object
+        "Variable: " + tsResult.VariableObj.VariableCode + ": " + tsResult.VariableObj.VariableNameCV + "\n"
+                                                                                                        "AggregationStatistic: " + tsResult.AggregationStatisticCV + "\n" +
+        "Elevation_m: " + str(sf.Elevation_m) + "\n" +
+        # Get the site information by drilling down
+        "SamplingFeature: " + tsResult.FeatureActionObj.SamplingFeatureObj.SamplingFeatureCode + " - " +
+        tsResult.FeatureActionObj.SamplingFeatureObj.SamplingFeatureName)
 except Exception as e:
     print "Unable to demo Example of retrieving Attributes of a time Series Result: ", e
 
 # Get the values for a particular TimeSeriesResult
 print "\n-------- Example of Retrieving Time Series Result Values ---------"
 
-
-tsValues = result_read.getTimeSeriesResultValuesByResultId(19) #Return type is a pandas dataframe
+tsValues = result_read.getTimeSeriesResultValuesByResultId(19)  # Return type is a pandas dataframe
 
 # Print a few Time Series Values to the console
-#tsValues.set_index('ValueDateTime', inplace=True)
+# tsValues.set_index('ValueDateTime', inplace=True)
 try:
     print tsValues.head()
 except Exception as e:
@@ -166,4 +162,3 @@ try:
     plt.show()
 except Exception as e:
     print "Unable to demo plotting of tsValues: ", e
-
