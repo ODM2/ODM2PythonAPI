@@ -1,5 +1,7 @@
 from sqlalchemy.dialects.mssql.base import MSSQLCompiler
 from sqlalchemy.dialects.mysql.mysqldb import MySQLCompiler
+from sqlalchemy.dialects.postgresql.psycopg2 import PGCompiler
+from sqlalchemy.dialects.sqlite.pysqlite import SQLiteDialect
 from sqlalchemy import func
 from sqlalchemy.sql.expression import FunctionElement
 from sqlalchemy.types import UserDefinedType
@@ -23,6 +25,7 @@ def compiles_as_bound(cls):
         #GEOMETRY::ST_GeomFromText
 
         elif isinstance(compiler, MySQLCompiler):
+
             el = element.name.split('_')[1].lower()
             path = "`ODM2`.`SamplingFeatures`.`FeatureGeometry`"
             format = "%s(%s)"
@@ -116,8 +119,15 @@ class Geometry(GeometryBase):
 
     def column_expression(self, col):
 
-        value = ST_AsText(col, type_=self)
-        if value is  None:
+        value = func.ST_AsText(col, type_=self)
+        # value = ST_AsText(col, type_=self)
+        print dir(self)
+#        print self.dialect_impl()
+#        print self._default_dialect()
+        print self.compile()
+        print value
+        print col
+        if value is None:
             value = func.ST_AsText(col, type_=self)
         return value
 

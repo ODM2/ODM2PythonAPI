@@ -4,7 +4,7 @@ from src.api.ODM2.models import TimeSeriesResults,  TimeSeriesResultValues,  Spa
 from src.api.ODM2.models import Sites
 #from src.api.ODM2.LikeODM1.model import Site
 
-__author__ = 'jmeline'
+__author__ = 'sreeder'
 
 from .. import serviceBase
 import datetime as dt

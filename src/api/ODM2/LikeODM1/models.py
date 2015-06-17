@@ -26,7 +26,7 @@ class SpatialReference(Base):
 
     id = Column('spatialreferenceid', Integer, primary_key=True)
     srs_id = Column('srsid', String)
-    srs_name = Column('srsName', String)
+    srs_name = Column('srsname', String)
     is_geographic = None
     #is_geographic = Column('IsGeographic', Boolean)
     notes = Column('description', String)
@@ -246,21 +246,22 @@ class ODMVersion:
     #__tablename__ = 'ODMVersion'
 
     #version_number = Column('VersionNumber', String, primary_key=True)
-    version_number = 2
+    version_number = column_property('2.0')
 
     def __repr__(self):
         return "<ODMVersion('%s')>" % (self.version_number)
 
-'''
-class CensorCodeCV(Base):
-    __tablename__ = 'cvterms'
 
-    term = Column('Term', String, primary_key=True)
-    definition = Column('Definition', String)
+class CensorCodeCV(Base):
+    __tablename__ = 'cv_censorcode'
+    __table_args__ = {u'schema': 'odm2'}
+
+    term = Column('term', String, primary_key=True)
+    definition = Column('definition', String)
 
     def __repr__(self):
         return "<CensorCodeCV('%s', '%s')>" % (self.term, self.definition)
-
+'''
 class DataTypeCV(Base):
     __tablename__ = 'cvterms'
 
@@ -278,16 +279,17 @@ class GeneralCategoryCV(Base):
 
     def __repr__(self):
         return "<GeneralCategoryCV('%s', '%s')>" % (self.term, self.definition)
-
+'''
 class SampleMediumCV(Base):
-    __tablename__ = 'cvterms'
+    __tablename__ = 'cv_sampledmedium'
+    __table_args__ = {u'schema': 'odm2'}
 
-    term = Column('Term', String, primary_key=True)
-    definition = Column('Definition', String)
+    term = Column('term', String, primary_key=True)
+    definition = Column('definition', String)
 
     def __repr__(self):
         return "<SampleMedium('%s', '%s')>" % (self.term, self.definition)
-
+'''
 class SampleTypeCV(Base):
     __tablename__ = 'cvterms'
 
@@ -296,25 +298,27 @@ class SampleTypeCV(Base):
 
     def __repr__(self):
         return "<SampleTypeCV('%s', '%s')>" % (self.term, self.definition)
-
+'''
 class SiteTypeCV(Base):
-    __tablename__ = 'cvterms'
+    __tablename__ = 'cv_sitetype'
+    __table_args__ = {u'schema': 'odm2'}
 
-    term = Column('Term', String, primary_key=True)
-    definition = Column('Definition', String)
+    term = Column('term', String, primary_key=True)
+    definition = Column('definition', String)
 
     def __repr__(self):
         return "<SiteTypeCV('%s', '%s')>" % (self.term, self.definition)
 
 class SpeciationCV(Base):
-    __tablename__ = 'cvterms'
+    __tablename__ = 'cv_speciation'
+    __table_args__ = {u'schema': 'odm2'}
 
-    term = Column('Term', String, primary_key=True)
-    definition = Column('Definition', String)
+    term = Column('term', String, primary_key=True)
+    definition = Column('definition', String)
 
     def __repr__(self):
         return "<SpeciationCV('%s', '%s')>" % (self.term, self.definition)
-
+'''
 class TopicCategoryCV(Base):
     __tablename__ = 'cvterms'
 
@@ -332,21 +336,23 @@ class ValueTypeCV(Base):
 
     def __repr__(self):
         return "<ValueTypeCV('%s', '%s')>" % (self.term, self.definition)
-
+'''
 class VariableNameCV(Base):
-    __tablename__ = 'cvterms'
+    __tablename__ = 'cv_variablename'
+    __table_args__ = {u'schema': 'odm2'}
 
-    term = Column('Term', String, primary_key=True)
-    definition = Column('Definition', String)
+    term = Column('term', String, primary_key=True)
+    definition = Column('definition', String)
 
     def __repr__(self):
         return "<VariableNameCV('%s', '%s')>" % (self.term, self.definition)
 
 class VerticalDatumCV(Base):
-    __tablename__ = 'cvterms'
+    __tablename__ = 'cv_elevationdatum'
+    __table_args__ = {u'schema': 'odm2'}
 
-    term = Column('Term', String, primary_key=True)
-    definition = Column('Definition', String)
+    term = Column('term', String, primary_key=True)
+    definition = Column('definition', String)
 
     def __repr__(self):
         return "<VerticalDatumCV('%s', '%s')>" % (self.term, self.definition)
@@ -358,14 +364,14 @@ class Sample(Base):
     id = Column('sampleid', Integer, primary_key=True)
     type = Column('sampletype', String, nullable=False)
     lab_sample_code = Column('labsamplecode', String, nullable=False)
-    lab_method_id = Column('labmethodid', Integer, ForeignKey('odm2.labmethods.labmethodid'), nullable=False)
+    lab_method_id = Column('labmethodid', Integer, ForeignKey(LabMethod.labmethodid), nullable=False)
 
     # relationships
     #lab_method = relationship(LabMethod)
 
     def __repr__(self):
         return "<Sample('%s', '%s', '%s', '%s')>" % (self.id, self.type, self.lab_sample_code, self.lab_method_id)
-
+'''
 class Qualifier(Base):
     __tablename__ = u'annotations'
     __table_args__ = {u'schema': u'odm2'}
@@ -384,7 +390,7 @@ class OffsetType(Base):
     __table_args__ = {u'schema': 'ODM2'}
 
     id = Column('offsettypeid', Integer, primary_key=True)
-    unit_id = Column('zlocationunitsid', Integer, ForeignKey('odm2.units.unitsid'), nullable=False)
+    unit_id = Column('zlocationunitsid', Integer, ForeignKey(Unit.unitsid), nullable=False)
     description = Column('offsetdescription', String)
 
     # relationships
@@ -398,10 +404,10 @@ class QualityControlLevel(Base):
     __tablename__ = u'processinglevels'
     __table_args__ = {u'schema': u'ODM2'}
 
-    id = Column('ProcessingLevelid', Integer, primary_key=True)
-    code = Column('ProcessingLevelCode', String, nullable=False)
-    definition = Column('Definition', String, nullable=False)
-    explanation = Column('Explanation', String, nullable=False)
+    id = Column('processinglevelid', Integer, primary_key=True)
+    code = Column('processinglevelcode', String, nullable=False)
+    definition = Column('definition', String, nullable=False)
+    explanation = Column('explanation', String, nullable=False)
 
     def __repr__(self):
         return "<QualityControlLevel('%s', '%s', '%s', '%s')>" % (self.id, self.code, self.definition, self.explanation)
@@ -575,3 +581,13 @@ class Series:
 #     def get_table_columns(self):
 #         return self.__table__.columns.keys()
 #
+
+import inspect
+import sys
+
+def change_schema(schema):
+    #get a list of all of the classes in the module
+    clsmembers = inspect.getmembers(sys.modules[__name__], lambda member: inspect.isclass(member) and member.__module__ == __name__)
+
+    for name, Tbl in clsmembers:
+        Tbl.__table__.schema = schema

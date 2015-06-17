@@ -1,8 +1,7 @@
 from sqlalchemy.exc import SQLAlchemyError, DBAPIError
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-# from src.api.ODM2.models import Variables as Variable2
-from src.api.ODM2.base import Schema
+from src.api.ODM2.models import Variables as Variable2, change_schema
 from ODM1_1_1.models import Variable as Variable1
 
 
@@ -38,6 +37,18 @@ class dbconnection():
         self.version = 0
         self._connection_format = "%s+%s://%s:%s@%s/%s"
 
+
+
+    @classmethod
+    def createConnection(self, engine, address, db, user, password):
+        connection_string = dbconnection.buildConnDict(dbconnection(), engine, address, db, user, password)
+        # if self.testConnection(connection_string):
+        if self.testEngine(connection_string):
+            # print "sucess"
+            return SessionFactory(connection_string, echo=False)
+        else:
+            return None
+
     @staticmethod
     def _getSchema(engine):
         from sqlalchemy.engine import reflection
@@ -55,21 +66,11 @@ class dbconnection():
 
         s = self._getSchema(engine)
 
-        print Schema.getSchema()
-        print s
-        Schema.setSchema(s)
-        #Schema.setSchema(s)
-        print Schema.getSchema()
+        print "orig", Variable2.__table__.schema
+        print "New", s
+        change_schema(s)
 
-    @classmethod
-    def createConnection(self, engine, address, db, user, password):
-        connection_string = dbconnection.buildConnDict(dbconnection(), engine, address, db, user, password)
-        # if self.testConnection(connection_string):
-        if self.testEngine(connection_string):
-            # print "sucess"
-            return SessionFactory(connection_string, echo=False)
-        else:
-            return None
+        print "set new", Variable2.__table__.schema
 
     @classmethod
     def testEngine(self, connection_string):

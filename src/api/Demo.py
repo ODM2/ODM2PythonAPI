@@ -7,7 +7,7 @@ from matplotlib import dates
 
 
 from ODMconnection import dbconnection
-
+from ODM2.services.readService import *
 this_file = os.path.realpath(__file__)
 directory = os.path.dirname(this_file)
 sys.path.insert(0, directory)
@@ -17,12 +17,12 @@ sys.path.insert(0, directory)
 # ----------------------------------------
 
 
-# session_factory = dbconnection.createConnection('mysql', 'jws.uwrl.usu.edu', 'odm2', 'ODM', 'ODM123!!')
-session_factory = dbconnection.createConnection('postgresql', 'localhost', 'ODM2', 'odm', 'odm')
+session_factory = dbconnection.createConnection('mysql', 'jws.uwrl.usu.edu', 'odm2', 'ODM', 'ODM123!!')
+# session_factory = dbconnection.createConnection('postgresql', 'localhost', 'ODM2', 'odm', 'odm')
 # session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')
 # session_factory = dbconnection.createConnection('mssql', 'local', 'odm2', 'ODM', 'odm')
 
-from ODM2.services.readService import *
+
 
 # Currently the schemas each have a different
 # connection but it will be changed to all the services sharing a connection

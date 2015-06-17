@@ -3,7 +3,7 @@
 
 
 from sqlalchemy.ext.declarative import declarative_base
-
+#from sqlalchemy import MetaData
 class Singleton(type):
     _instances = {}
 
@@ -40,23 +40,18 @@ class modelBase():
 
     Base = declarative_base()
     metadata = Base.metadata
+    '''
+    metadata =MetaData(schema='odm2')
+    print "Schema:", metadata.schema
+
+    def __init__(self, schema):
+       self.metadata =MetaData(schema='odm2')
+    '''
 
 
 
 
 
-class Schema():
 
-    schemaname =""
-
-    @classmethod
-    def setSchema(cls, value):
-        print "setting schema to ", value
-        cls.schemaname = value
-
-    @classmethod
-    def getSchema(cls):
-        print "getting schema: ", cls.schemaname
-        return cls.schemaname.lower()
 
 
