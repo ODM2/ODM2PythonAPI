@@ -1,20 +1,20 @@
 # CV imports
-from ODMconnection import SessionFactory
-from ODM1_1_1 import VerticalDatumCV
-from ODM1_1_1 import SiteTypeCV
-from ODM1_1_1 import VariableNameCV
-from ODM1_1_1 import SpeciationCV
-from ODM1_1_1 import SampleMediumCV
-from ODM1_1_1 import ValueTypeCV
-from ODM1_1_1 import DataTypeCV
-from ODM1_1_1 import GeneralCategoryCV
-from ODM1_1_1 import CensorCodeCV
-from ODM1_1_1 import TopicCategoryCV
-from ODM1_1_1 import SampleTypeCV
-from ODM1_1_1 import OffsetType
-from ODM1_1_1 import Sample
-from ODM1_1_1 import Qualifier
-from ODM1_1_1 import Unit
+from src.api.ODMconnection import SessionFactory
+from src.api.ODM1_1_1.models import VerticalDatumCV
+from src.api.ODM1_1_1.models import SiteTypeCV
+from src.api.ODM1_1_1.models import VariableNameCV
+from src.api.ODM1_1_1.models import SpeciationCV
+from src.api.ODM1_1_1.models import SampleMediumCV
+from src.api.ODM1_1_1.models import ValueTypeCV
+from src.api.ODM1_1_1.models import DataTypeCV
+from src.api.ODM1_1_1.models import GeneralCategoryCV
+from src.api.ODM1_1_1.models import CensorCodeCV
+from src.api.ODM1_1_1.models import TopicCategoryCV
+from src.api.ODM1_1_1.models import SampleTypeCV
+from src.api.ODM1_1_1.models import OffsetType
+from src.api.ODM1_1_1.models import Sample
+from src.api.ODM1_1_1.models import Qualifier
+from src.api.ODM1_1_1.models import Unit
 
 
 class CVService():

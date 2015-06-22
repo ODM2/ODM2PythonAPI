@@ -17,6 +17,10 @@ class serviceBase(object):
 
     __metaclass__ = Singleton
 
+    '''
+    def __init__(self, session):
+        self._session = session
+    '''
     def __init__(self,  session_factory, debug=False):
 
         self._session_factory = session_factory

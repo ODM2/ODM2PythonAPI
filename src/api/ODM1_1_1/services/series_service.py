@@ -4,23 +4,23 @@ import logging
 from sqlalchemy import distinct, func
 
 
-from odmtools.odmdata import SessionFactory
-from odmtools.odmdata import Site
-from odmtools.odmdata import Variable
-from odmtools.odmdata import Unit
-from odmtools.odmdata import Series
-from odmtools.odmdata import DataValue
-from odmtools.odmdata import Qualifier
-from odmtools.odmdata import OffsetType
-from odmtools.odmdata import Sample
-from odmtools.odmdata import Method
-from odmtools.odmdata import QualityControlLevel
-from odmtools.odmdata import ODMVersion
-from odmtools.common.logger import LoggerTool
+from src.api.ODMconnection import SessionFactory
+from src.api.ODM1_1_1.models import Site
+from src.api.ODM1_1_1.models import Variable
+from src.api.ODM1_1_1.models import Unit
+from src.api.ODM1_1_1.models import Series
+from src.api.ODM1_1_1.models import DataValue
+from src.api.ODM1_1_1.models import Qualifier
+from src.api.ODM1_1_1.models import OffsetType
+from src.api.ODM1_1_1.models import Sample
+from src.api.ODM1_1_1.models import Method
+from src.api.ODM1_1_1.models import QualityControlLevel
+from src.api.ODM1_1_1.models import ODMVersion
+#from odmtools.common.logger import LoggerTool
 import pandas as pd
 
-tool = LoggerTool()
-logger = tool.setupLogger(__name__, __name__ + '.log', 'w', logging.DEBUG)
+#tool = LoggerTool()
+#logger = tool.setupLogger(__name__, __name__ + '.log', 'w', logging.DEBUG)
 
 
 class SeriesService():
@@ -483,10 +483,10 @@ class SeriesService():
             except Exception as e:
                 self._edit_session.rollback()
                 raise e
-            logger.debug("Existing File was overwritten with new information")
+            #logger.debug("Existing File was overwritten with new information")
             return True
         else:
-            logger.debug("There wasn't an existing file to overwrite, please select 'Save As' first")
+            #logger.debug("There wasn't an existing file to overwrite, please select 'Save As' first")
             # there wasn't an existing file to overwrite
             raise Exception("Series does not exist, unable to save. Please select 'Save As'")
 
@@ -500,7 +500,7 @@ class SeriesService():
         # Save As case
         if self.series_exists(series):
             msg = "There is already an existing file with this information. Please select 'Save' or 'Save Existing' to overwrite"
-            logger.debug(msg)
+            #logger.debug(msg)
             raise Exception(msg)
         else:
             try:
@@ -513,7 +513,7 @@ class SeriesService():
                 raise e
 
 
-        logger.debug("A new series was added to the database, series id: "+str(series.id))
+        #logger.debug("A new series was added to the database, series id: "+str(series.id))
         return True
 
     def save_values(self, values):

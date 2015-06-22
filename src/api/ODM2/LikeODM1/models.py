@@ -239,6 +239,8 @@ class Method(Base):
     def __repr__(self):
         return "<Method('%s', '%s', '%s')>" % (self.id, self.description, self.link)
 
+
+
 # ###################################################################################
 #                            ODMVersion
 # ###################################################################################
@@ -246,7 +248,10 @@ class ODMVersion:
     #__tablename__ = 'ODMVersion'
 
     #version_number = Column('VersionNumber', String, primary_key=True)
-    version_number = column_property('2.0')
+    #version_number = column_property('2.0')
+    @property
+    def version_number(self):
+        return "2.0"
 
     def __repr__(self):
         return "<ODMVersion('%s')>" % (self.version_number)
@@ -356,7 +361,7 @@ class VerticalDatumCV(Base):
 
     def __repr__(self):
         return "<VerticalDatumCV('%s', '%s')>" % (self.term, self.definition)
-'''
+
 class Sample(Base):
     __tablename__ = 'samples'
     __table_args__ = {u'schema': u'odm2'}
@@ -364,14 +369,14 @@ class Sample(Base):
     id = Column('sampleid', Integer, primary_key=True)
     type = Column('sampletype', String, nullable=False)
     lab_sample_code = Column('labsamplecode', String, nullable=False)
-    lab_method_id = Column('labmethodid', Integer, ForeignKey(LabMethod.labmethodid), nullable=False)
+    lab_method_id = Column('labmethodid', Integer, ForeignKey(LabMethod.id), nullable=False)
 
     # relationships
     #lab_method = relationship(LabMethod)
 
     def __repr__(self):
         return "<Sample('%s', '%s', '%s', '%s')>" % (self.id, self.type, self.lab_sample_code, self.lab_method_id)
-'''
+
 class Qualifier(Base):
     __tablename__ = u'annotations'
     __table_args__ = {u'schema': u'odm2'}
@@ -390,7 +395,7 @@ class OffsetType(Base):
     __table_args__ = {u'schema': 'ODM2'}
 
     id = Column('offsettypeid', Integer, primary_key=True)
-    unit_id = Column('zlocationunitsid', Integer, ForeignKey(Unit.unitsid), nullable=False)
+    unit_id = Column('zlocationunitsid', Integer, ForeignKey(Unit.id), nullable=False)
     description = Column('offsetdescription', String)
 
     # relationships

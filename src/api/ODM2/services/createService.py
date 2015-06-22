@@ -1,7 +1,4 @@
-from src.api.ODM2.models import TimeSeriesResults,  TimeSeriesResultValues,  SpatialReferences,  DeploymentActions,  \
-    Models,  RelatedModels,  Simulations,  Actions,  DatasetsResults,  ActionBy,  FeatureActions,  Results,  Variables,  \
-    Methods,  ProcessingLevels,  SamplingFeatures,  Units,  Organizations,  People,  Affiliations,  Datasets
-from src.api.ODM2.models import Sites
+from src.api.ODM2.models import *
 #from src.api.ODM2.LikeODM1.model import Site
 
 __author__ = 'sreeder'
@@ -10,30 +7,28 @@ from .. import serviceBase
 import datetime as dt
 import uuid
 
-
+class ReadODM2( serviceBase):
+    '''
+    def __init__(self, session):
+        self._session = session
+    '''
 # ################################################################################
 # Annotations
 # ################################################################################
-class createAnnotations(serviceBase):
-    def test(self):
-        return None
+
 
 
 # ################################################################################
 # CV
 # ################################################################################
 
-class createCV(serviceBase):
-    def test(self):
-        return None
+
 
 
 # ################################################################################
 # Core
 # ################################################################################
 
-
-class createCore(serviceBase):
     def createVariable(self, code, name, vType, nodv, speciation=None, definition=None):
         """
 
@@ -363,18 +358,13 @@ class createCore(serviceBase):
 # Data Quality
 # ################################################################################
 
-class createDataQuality(serviceBase):
-    def test(self):
-        return None
 
 
 # ################################################################################
 # Equipment
 # ################################################################################
 
-class createEquipment(serviceBase):
-    def test(self):
-        return None
+
 
 
 # ################################################################################
@@ -382,36 +372,28 @@ class createEquipment(serviceBase):
 # ################################################################################
 
 
-class createExtensionProperties(serviceBase):
-    def test(self):
-        return None
+
 
 
 # ################################################################################
 # External Identifiers
 # ################################################################################
 
-class createExternalIdentifiers(serviceBase):
-    def test(self):
-        return None
+
 
 
 # ################################################################################
 # Lab Analyses
 # ################################################################################
 
-class createLabAnalyses(serviceBase):
-    def test(self):
-        return None
+
 
 
 # ################################################################################
 # Provenance
 # ################################################################################
 
-class createProvenance(serviceBase):
-    def test(self):
-        return None
+
 
 
 # ################################################################################
@@ -419,9 +401,6 @@ class createProvenance(serviceBase):
 # ################################################################################
 
 
-class createResults(serviceBase):
-    def test(self):
-        return None
 
     def createTimeSeriesResult(self, result, aggregationstatistic, xloc=None, xloc_unitid=None, yloc=None,
                                yloc_unitid=None, zloc=None, zloc_unitid=None,
@@ -498,7 +477,7 @@ class createResults(serviceBase):
 # Sampling Features
 # ################################################################################
 
-class createSamplingFeatures(serviceBase):
+
     def createSite(self, vType, latitude, longitude):
         """Create Site table
 
@@ -511,7 +490,7 @@ class createSamplingFeatures(serviceBase):
         :return:
         """
 
-        s = Site()
+        s = Sites()
         s.SiteTypeCV = vType
         s.Latitude = latitude
         s.Longitude = longitude
@@ -537,7 +516,7 @@ class createSamplingFeatures(serviceBase):
 # ################################################################################
 # Sensors
 # ################################################################################
-class createSensors(serviceBase):
+
     def createDeploymentAction(self, actionId, cvType, desc, configActionId, calibActionId, spatialOffSet,
                                deploymentSchematicLink, **kwargs):
         """Create DeploymentAction Object
@@ -573,7 +552,7 @@ class createSensors(serviceBase):
 # Simulation
 # ################################################################################
 
-class createSimulation(serviceBase):
+
     def createModel(self, code, name, description=None):
         model = Models()
         model.ModelCode = code

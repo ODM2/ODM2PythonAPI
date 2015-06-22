@@ -679,7 +679,7 @@ class Units(Base):
 
 class Variables(Base):
     __tablename__ = u'variables'
-    __table_args__ = {u'schema': ''}  # __table_args__ = {u'schema': Schema.getSchema()}
+    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
 
     VariableID = Column('variableid', Integer, primary_key=True, nullable=False)
     VariableTypeCV = Column('variabletypecv', ForeignKey(CVVariableType.Name), nullable=False, index=True)

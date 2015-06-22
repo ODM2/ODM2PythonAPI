@@ -1,9 +1,10 @@
 import sqlite3
 
-from ODM1_1_1 import SessionFactory
-from ODM1_1_1 import DataValue
-from series_service import SeriesService
-from ODM1_1_1 import series as series_module
+from src.api.ODMconnection import SessionFactory
+from src.api.ODM1_1_1.models import DataValue
+from src.api.ODM1_1_1.services.series_service import SeriesService
+
+from src.api.ODM1_1_1.models import Series as series_module
 
 
 class EditService():

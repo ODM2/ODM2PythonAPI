@@ -3,9 +3,9 @@
 from sqlalchemy import distinct
 import sqlalchemy.exc
 
-from ODMconnection import SessionFactory
-from ODM2.LikeODM1.models import Site, Unit, Qualifier, OffsetType, Sample, Method, QualityControlLevel, ODMVersion, Variable,\
-    Source, DataValue, Series
+from src.api.ODMconnection import SessionFactory
+from src.api.ODM2.LikeODM1.models import Site, Unit, Qualifier, OffsetType,  Method, QualityControlLevel, ODMVersion, Variable, Source, DataValue, Series
+#from src.api.ODM2.LikeODM1.models import Sample
 # from ODM1_1_1 import Series
 
 
@@ -14,14 +14,11 @@ from ODM2.LikeODM1.models import Site, Unit, Qualifier, OffsetType, Sample, Meth
 class SeriesService():
     # Accepts a string for creating a SessionFactory, default uses odmdata/connection.cfg
 
-
     '''def __init__(self, connection_string="", debug=False):
         self._session_factory = SessionFactory(connection_string, debug)
         self._edit_session = self._session_factory.getSession()
         self._debug = debug
         '''
-
-
     def __init__(self,  connection, debug=False):
         self._session_factory = connection
         self._session = connection.getSession()
