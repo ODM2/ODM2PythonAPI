@@ -72,6 +72,18 @@ class ReadODM2( serviceBase   ):
         except:
             return None
 
+    def getResultById(self, resultId):
+        """Select by variableId
+
+        :param variableId:
+            :type Integer:
+        :return Return matching Variable object filtered by variableId:
+            :type Variable:
+        """
+        try:
+            return self._session.query(Results).filter_by(ResultID=resultId).first()
+        except:
+            return None
     """
     Method
     """
