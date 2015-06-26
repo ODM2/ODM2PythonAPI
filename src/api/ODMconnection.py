@@ -1,7 +1,7 @@
 from sqlalchemy.exc import SQLAlchemyError, DBAPIError
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from src.api.ODM2.models import Variables as Variable2, change_schema
+from api.ODM2.models import Variables as Variable2, change_schema
 from ODM1_1_1.models import Variable as Variable1
 
 
@@ -77,15 +77,15 @@ class dbconnection():
         try:
             if 'mssql' in connection_string:
                 self._setSchema(s.ms_test_engine)
-                from src.api.ODM2.models import Variables as Variable2
+                from api.ODM2.models import Variables as Variable2
                 s.ms_test_Session().query(Variable2.VariableCode).limit(1).first()
             elif 'postgresql' in connection_string:
                 self._setSchema(s.psql_test_engine)
-                from src.api.ODM2.models import Variables as Variable2
+                from api.ODM2.models import Variables as Variable2
                 s.psql_test_Session().query(Variable2.VariableCode).limit(1).first()
             elif 'mysql' in connection_string:
                 self._setSchema(s.psql_test_engine)
-                from src.api.ODM2.models import Variables as Variable2
+                from api.ODM2.models import Variables as Variable2
                 s.psql_test_Session().query(Variable2.VariableCode).limit(1).first()
 
         except Exception as e:

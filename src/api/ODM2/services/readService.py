@@ -1,16 +1,17 @@
 from sqlalchemy import func
 import pandas as pd
 
-from src.api.ODM2.models import *
+from api.ODM2.models import *
 from .. import serviceBase
 
 
 __author__ = 'jmeline'
 
 class ReadODM2( serviceBase   ):
-
+    '''
     def __init__(self, session):
         self._session = session
+    '''
 
 # ################################################################################
 # Annotations
