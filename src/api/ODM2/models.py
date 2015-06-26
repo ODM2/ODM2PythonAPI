@@ -95,7 +95,7 @@ class CVDataQualityType(Base):
     def __repr__(self):
         return "<CVDataQualityType('%s', '%s', '%s', '%s')>" % (self.Term, self.Name, self.Definition, self.Category)
 
-class CVDatasetType(Base):
+class CVDataSetType(Base):
     __tablename__ = 'cv_datasettypecv'
     __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
 
@@ -601,18 +601,18 @@ class DataSets(Base):
     __tablename__ = u'datasets'
     __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
 
-    DatasetID = Column('datasetid', Integer, primary_key=True, nullable=False)
+    DataSetID = Column('datasetid', Integer, primary_key=True, nullable=False)
 
     # This has been changed to String to support multiple database uuid types
-    DatasetUUID = Column('datasetuuid', String(255), nullable=False)
-    DatasetTypeCV = Column('datasettypecv', ForeignKey(CVDatasetType.Name), nullable=False, index=True)
-    DatasetCode = Column('datasetcode', String(50), nullable=False)
-    DatasetTitle = Column('datasettitle', String(255), nullable=False)
-    DatasetAbstract = Column('datasetabstract', String(500), nullable=False)
+    DataSetUUID = Column('datasetuuid', String(255), nullable=False)
+    DataSetTypeCV = Column('datasettypecv', ForeignKey(CVDataSetType.Name), nullable=False, index=True)
+    DataSetCode = Column('datasetcode', String(50), nullable=False)
+    DataSetTitle = Column('datasettitle', String(255), nullable=False)
+    DataSetAbstract = Column('datasetabstract', String(500), nullable=False)
 
     def __repr__(self):
-        return "<Datasets('%s', '%s', '%s', '%s', '%s')>" % (
-            self.DatasetID, self.DatasetTypeCV, self.DatasetCode, self.DatasetTitle, self.DatasetAbstract)
+        return "<DataSets('%s', '%s', '%s', '%s', '%s')>" % (
+            self.DataSetID, self.DataSetTypeCV, self.DataSetCode, self.DataSetTitle, self.DataSetAbstract)
 
 
 class ProcessingLevels(Base):
@@ -1032,8 +1032,8 @@ class Simulations(Base):
     SimulationEndDateTimeUTCOffset = Column('simulationenddatetimeutcoffset', Integer, nullable=False)
     TimeStepValue = Column('timestepvalue', Float(53), nullable=False)
     TimeStepUnitsID = Column('timestepunitsid', ForeignKey(Units.UnitsID), nullable=False)
-    InputDatasetID = Column('inputdatasetid', ForeignKey(DataSets.DatasetID))
-    OutputDatasetID = Column('outputdatasetid', Integer)
+    InputDataSetID = Column('inputdatasetid', ForeignKey(DataSets.DataSetID))
+    OutputDataSetID = Column('outputdatasetid', Integer)
     ModelID = Column('modelid', ForeignKey(Models.ModelID), nullable=False)
 
     Action = relationship(Actions)
@@ -1145,15 +1145,15 @@ class SamplingFeatureAnnotations(Base):
 # ################################################################################
 # Data Quality
 # ################################################################################
-class DatasetsResults(Base):
+class DataSetsResults(Base):
     __tablename__ = u'datasetsresults'
     __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    DatasetID = Column('datasetid', ForeignKey(DataSets.DatasetID), nullable=False)
+    DataSetID = Column('datasetid', ForeignKey(DataSets.DataSetID), nullable=False)
     ResultID = Column('resultid', ForeignKey(Results.ResultID), nullable=False)
 
-    DatasetObj = relationship(DataSets)
+    DataSetObj = relationship(DataSets)
     ResultObj = relationship(Results)
 
 
@@ -1506,18 +1506,18 @@ class AuthorLists(Base):
                % (self.BridgeID, self.CitationID, self.PersonID, self.AuthorOrder, self.CitationObj, self.PersonObj)
 
 
-class DatasetCitations(Base):
+class DataSetCitations(Base):
     __tablename__ = u'datasetcitations'
     __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    DatasetID = Column('datasetid', ForeignKey(DataSets.DatasetID), nullable=False)
+    DataSetID = Column('datasetid', ForeignKey(DataSets.DataSetID), nullable=False)
     RelationshipTypeCV = Column('relationshiptypecv', ForeignKey(CVRelationshipType.Name), nullable=False,
                                 index=True)
     CitationID = Column('citationid', ForeignKey(Citations.CitationID), nullable=False)
 
     CitationObj = relationship(Citations)
-    DatasetObj = relationship(DataSets)
+    DataSetObj = relationship(DataSets)
 
 
 ResultDerivationEquations = Table(
@@ -1582,19 +1582,19 @@ class RelatedCitations(Base):
                                       primaryjoin='RelatedCitations.RelatedCitationID == Citations.CitationID')
 
 
-class RelatedDatasets(Base):
+class RelatedDataSets(Base):
     __tablename__ = u'relateddatasets'
     __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
 
     RelationID = Column('relationid', Integer, primary_key=True, nullable=False)
-    DatasetID = Column('datasetid', ForeignKey(DataSets.DatasetID), nullable=False)
+    DataSetID = Column('datasetid', ForeignKey(DataSets.DataSetID), nullable=False)
     RelationshipTypeCV = Column('relationshiptypecv', ForeignKey(CVRelationshipType.Name), nullable=False,
                                 index=True)
-    RelatedDatasetID = Column('relateddatasetid', ForeignKey(DataSets.DatasetID), nullable=False)
+    RelatedDataSetID = Column('relateddatasetid', ForeignKey(DataSets.DataSetID), nullable=False)
     VersionCode = Column('versioncode', String(50))
 
-    DatasetObj = relationship(DataSets, primaryjoin='RelatedDatasets.DatasetID == DataSets.DatasetID')
-    RelatedDatasetObj = relationship(DataSets, primaryjoin='RelatedDatasets.RelatedDatasetID == DataSets.DatasetID')
+    DataSetObj = relationship(DataSets, primaryjoin='RelatedDataSets.DataSetID == DataSets.DataSetID')
+    RelatedDataSetObj = relationship(DataSets, primaryjoin='RelatedDataSets.RelatedDataSetID == DataSets.DataSetID')
 
 
 class RelatedResults(Base):
