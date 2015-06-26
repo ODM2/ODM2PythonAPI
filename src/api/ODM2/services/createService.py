@@ -7,7 +7,7 @@ from .. import serviceBase
 import datetime as dt
 import uuid
 
-class ReadODM2( serviceBase):
+class CreateODM2( serviceBase):
     '''
     def __init__(self, session):
         self._session = session

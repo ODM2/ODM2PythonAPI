@@ -12,9 +12,10 @@ sys.path.insert(0, directory)
 # Create a connection to the ODM2 database
 # ----------------------------------------
 # conn = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'ODM123!!')
-# conn = dbconnection.createConnection('mysql', 'jws.uwrl.usu.edu', 'odm2', 'ODM', 'ODM123!!')
+conn = dbconnection.createConnection('mysql', 'jws.uwrl.usu.edu', 'odm2', 'ODM', 'ODM123!!')
 # conn = dbconnection.createConnection('mssql', '(local)', 'ODM2SS', 'ODM', 'odm')
-conn = dbconnection.createConnection('postgresql', 'arroyo.uwrl.usu.edu:5432', 'ODMSS', 'Stephanie', 'odm')
+# conn = dbconnection.createConnection('postgresql', 'arroyo.uwrl.usu.edu:5432', 'ODM2', 'Stephanie', 'odm')
+# conn = dbconnection.createConnection('postgresql', 'localhost', 'ODM2', 'odm', 'odm')
 # conn = dbconnection.createConnection('mysql', '127.0.0.1:3306', 'ODM2', 'Stephanie', 'odm')
 # -------------------------------------------------
 

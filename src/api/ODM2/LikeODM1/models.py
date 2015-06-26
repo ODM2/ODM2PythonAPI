@@ -502,7 +502,10 @@ class DataValue(Base):
     def __repr__(self):
         return "<DataValue(%s)>" % ', '.join([str(x) for x in self.list_repr()])
 
-
+'''
+/anaconda/lib/python2.7/site-packages/sqlalchemy/ext/declarative/base.py:353: SAWarning: On class 'DataValue', Column object 'samplingfeatureid' named directly multiple times, only one will be used: sample_id, site_id
+  (self.classname, name, (", ".join(sorted(keys))))
+'''
 method_table = Methods().__table__
 processing_levels_table = ProcessingLevels().__table__
 

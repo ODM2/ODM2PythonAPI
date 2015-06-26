@@ -32,16 +32,16 @@ session_factory = dbconnection.createConnection('mysql', 'jws.uwrl.usu.edu', 'od
 
 _session = session_factory.getSession()
 
-core_read = readCore(_session)
-result_read = readResults(_session)
-sampfeat_read = readSamplingFeatures(_session)
+read = ReadODM2(_session)
+#read = readResults(_session)
+#read = readSamplingFeatures(_session)
 
 pp = pprint.PrettyPrinter(indent=8)
 
 # Run some basic sample queries.
 # ------------------------------
 # Get all of the variables from the database and print their names to the console
-allVars = core_read.getVariables()
+allVars = read.getVariables()
 numVars = len(allVars)
 print "\n------------ Simple Variables Query ---------------"
 print "There are " + str(numVars) + " Variables in the ODM2 database retrieved using getVariables()."
@@ -52,7 +52,7 @@ pp.pprint(allVars)
 
 
 # Get all of the people from the database
-allPeople = core_read.getPeople()
+allPeople = read.getPeople()
 numPeople = len(allPeople)
 print "\n------------ Simple People Query ------------------"
 print "There are " + str(numPeople) + " People in the ODM2 database retrieved using getPeople()."
@@ -64,7 +64,7 @@ pp.pprint(allPeople)
 
 # Get all of the SamplingFeatures from the database that are Sites
 try:
-    siteFeatures = core_read.getSamplingFeaturesByType('Site')
+    siteFeatures = read.getSamplingFeaturesByType('Site')
     numSites = len(siteFeatures)
     print "\n--------------- Information about Site SamplingFeatures ------------"
     print "There are " + str(
@@ -80,15 +80,15 @@ except Exception as e:
 # Now get the SamplingFeature object for a SamplingFeature code
 
 try:
-    sf = core_read.getSamplingFeatureByCode('USU-LBR-Mendon')
+    sf = read.getSamplingFeatureByCode('USU-LBR-Mendon')
     print "\n-------- Information about an individual SamplingFeature ---------"
     print (
         "The following are some of the attributes of a SamplingFeature retrieved using getSamplingFeatureByCode(): \n" +
         "SamplingFeatureCode: " + sf.SamplingFeatureCode + "\n" +
         "SamplingFeatureName: " + sf.SamplingFeatureName + "\n" +
         "SamplingFeatureDescription: " + sf.SamplingFeatureDescription + "\n" +
-        "SamplingFeatureGeotypeCV: " + sf.SamplingFeatureGeotypeCV + "\n"
-                                                                     "SamplingFeatureGeometry: " + sf.FeatureGeometry + "\n" +
+        "SamplingFeatureGeotypeCV: " + sf.SamplingFeatureGeotypeCV + "\n" +
+        "SamplingFeatureGeometry: " + sf.FeatureGeometry + "\n" +
         "Elevation_m: " + str(sf.Elevation_m))
 except Exception as e:
     print "Unable to demo getSamplingFeatureByCode: ", e
@@ -98,7 +98,7 @@ except Exception as e:
 print "\n------------ Foreign Key Example --------- \n",
 try:
     # Call getResults, but return only the first result
-    firstResult = core_read.getResults()[0]
+    firstResult = read.getResults()[0]
     print "The FeatureAction object for the Result is: ", firstResult.FeatureActionObj
     print "The Action object for the Result is: ", firstResult.FeatureActionObj.ActionObj
     print ("\nThe following are some of the attributes for the Action that created the Result: \n" +
@@ -115,7 +115,7 @@ except Exception as e:
 # Now get a particular Result using a ResultID
 print "\n------- Example of Retrieving Attributes of a Time Series Result -------"
 try:
-    tsResult = result_read.getTimeSeriesResultByResultId(19)
+    tsResult = read.getTimeSeriesResultByResultId(19)
     print (
         "The following are some of the attributes for the TimeSeriesResult retrieved using getTimeSeriesResultByResultID(): \n" +
         "ResultTypeCV: " + tsResult.ResultTypeCV + "\n" +
@@ -135,7 +135,7 @@ except Exception as e:
 # Get the values for a particular TimeSeriesResult
 print "\n-------- Example of Retrieving Time Series Result Values ---------"
 
-tsValues = result_read.getTimeSeriesResultValuesByResultId(19)  # Return type is a pandas dataframe
+tsValues = read.getTimeSeriesResultValuesByResultId(19)  # Return type is a pandas dataframe
 
 # Print a few Time Series Values to the console
 # tsValues.set_index('ValueDateTime', inplace=True)

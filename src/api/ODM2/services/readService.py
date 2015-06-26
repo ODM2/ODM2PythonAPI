@@ -8,10 +8,10 @@ from .. import serviceBase
 __author__ = 'jmeline'
 
 class ReadODM2( serviceBase   ):
-    '''
+
     def __init__(self, session):
         self._session = session
-    '''
+
 # ################################################################################
 # Annotations
 # ################################################################################

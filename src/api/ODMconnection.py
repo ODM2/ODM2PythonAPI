@@ -37,8 +37,6 @@ class dbconnection():
         self.version = 0
         self._connection_format = "%s+%s://%s:%s@%s/%s"
 
-
-
     @classmethod
     def createConnection(self, engine, address, db, user, password):
         connection_string = dbconnection.buildConnDict(dbconnection(), engine, address, db, user, password)

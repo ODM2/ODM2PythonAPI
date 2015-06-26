@@ -3,17 +3,21 @@ __author__ = 'stephanie'
 
 
 
-dbtype = 10
 
-if dbtype == 2.0:
-    import ODM1_1_1.models as ODM
-else :
-    import ODM2.LikeODM1.models as ODM
-
-#one time thing, easier
+import ODM1_1_1.models as ODM1
+import ODM2.LikeODM1.models as ODM2
 
 
+#Set Default
+ODM = ODM1
 
+def refreshDB(ver):
+    if ver == 1.0:
+        ODM = ODM1
+    elif ver == 2.0:
+        ODM = ODM2
+
+'''
 import ODM1_1_1.models as ODM1
 import ODM2.LikeODM1.models as ODM2
 
@@ -141,3 +145,5 @@ class VerticalDatumCV():
 
 class DataValue():
     pass
+
+'''
