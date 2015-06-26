@@ -4,18 +4,8 @@ import logging
 from sqlalchemy import distinct, func
 
 
-from src.api.ODMconnection import SessionFactory
-from src.api.ODM1_1_1.models import Site
-from src.api.ODM1_1_1.models import Variable
-from src.api.ODM1_1_1.models import Unit
-from src.api.ODM1_1_1.models import Series
-from src.api.ODM1_1_1.models import DataValue
-from src.api.ODM1_1_1.models import Qualifier
-from src.api.ODM1_1_1.models import OffsetType
-from src.api.ODM1_1_1.models import Sample
-from src.api.ODM1_1_1.models import Method
-from src.api.ODM1_1_1.models import QualityControlLevel
-from src.api.ODM1_1_1.models import ODMVersion
+from api.ODMconnection import SessionFactory
+from api.ODM1_1_1.models import Site, Variable, Unit, Series, DataValue, Qualifier, OffsetType, Sample, Method, QualityControlLevel, ODMVersion
 #from odmtools.common.logger import LoggerTool
 import pandas as pd
 

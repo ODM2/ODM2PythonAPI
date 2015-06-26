@@ -8,7 +8,7 @@ metadata = MetaData()
 
 ################ODM 2 Tables###########
 
-from src.api.ODM2.models import Actions, ActionBy, Organizations, Affiliations, People, \
+from api.ODM2.models import Actions, ActionBy, Organizations, Affiliations, People, \
     SamplingFeatures, Results, Variables, Methods, TimeSeriesResults, \
     TimeSeriesResultValues, Sites, FeatureActions, ProcessingLevels
 

@@ -597,7 +597,7 @@ class FeatureActions(Base):
         return "<FeatureActions('%s', '%s', '%s', )>" % (self.FeatureActionID, self.SamplingFeatureID, self.ActionID)
 
 
-class Datasets(Base):
+class DataSets(Base):
     __tablename__ = u'datasets'
     __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
 
@@ -1032,12 +1032,12 @@ class Simulations(Base):
     SimulationEndDateTimeUTCOffset = Column('simulationenddatetimeutcoffset', Integer, nullable=False)
     TimeStepValue = Column('timestepvalue', Float(53), nullable=False)
     TimeStepUnitsID = Column('timestepunitsid', ForeignKey(Units.UnitsID), nullable=False)
-    InputDatasetID = Column('inputdatasetid', ForeignKey(Datasets.DatasetID))
+    InputDatasetID = Column('inputdatasetid', ForeignKey(DataSets.DatasetID))
     OutputDatasetID = Column('outputdatasetid', Integer)
     ModelID = Column('modelid', ForeignKey(Models.ModelID), nullable=False)
 
     Action = relationship(Actions)
-    Dataset = relationship(Datasets)
+    DataSet = relationship(DataSets)
     Model = relationship(Models)
     Unit = relationship(Units)
 
@@ -1150,10 +1150,10 @@ class DatasetsResults(Base):
     __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    DatasetID = Column('datasetid', ForeignKey(Datasets.DatasetID), nullable=False)
+    DatasetID = Column('datasetid', ForeignKey(DataSets.DatasetID), nullable=False)
     ResultID = Column('resultid', ForeignKey(Results.ResultID), nullable=False)
 
-    DatasetObj = relationship(Datasets)
+    DatasetObj = relationship(DataSets)
     ResultObj = relationship(Results)
 
 
@@ -1511,13 +1511,13 @@ class DatasetCitations(Base):
     __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    DatasetID = Column('datasetid', ForeignKey(Datasets.DatasetID), nullable=False)
+    DatasetID = Column('datasetid', ForeignKey(DataSets.DatasetID), nullable=False)
     RelationshipTypeCV = Column('relationshiptypecv', ForeignKey(CVRelationshipType.Name), nullable=False,
                                 index=True)
     CitationID = Column('citationid', ForeignKey(Citations.CitationID), nullable=False)
 
     CitationObj = relationship(Citations)
-    DatasetObj = relationship(Datasets)
+    DatasetObj = relationship(DataSets)
 
 
 ResultDerivationEquations = Table(
@@ -1587,14 +1587,14 @@ class RelatedDatasets(Base):
     __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
 
     RelationID = Column('relationid', Integer, primary_key=True, nullable=False)
-    DatasetID = Column('datasetid', ForeignKey(Datasets.DatasetID), nullable=False)
+    DatasetID = Column('datasetid', ForeignKey(DataSets.DatasetID), nullable=False)
     RelationshipTypeCV = Column('relationshiptypecv', ForeignKey(CVRelationshipType.Name), nullable=False,
                                 index=True)
-    RelatedDatasetID = Column('relateddatasetid', ForeignKey(Datasets.DatasetID), nullable=False)
+    RelatedDatasetID = Column('relateddatasetid', ForeignKey(DataSets.DatasetID), nullable=False)
     VersionCode = Column('versioncode', String(50))
 
-    DatasetObj = relationship(Datasets, primaryjoin='RelatedDatasets.DatasetID == Datasets.DatasetID')
-    RelatedDatasetObj = relationship(Datasets, primaryjoin='RelatedDatasets.RelatedDatasetID == Datasets.DatasetID')
+    DatasetObj = relationship(DataSets, primaryjoin='RelatedDatasets.DatasetID == DataSets.DatasetID')
+    RelatedDatasetObj = relationship(DataSets, primaryjoin='RelatedDatasets.RelatedDatasetID == DataSets.DatasetID')
 
 
 class RelatedResults(Base):

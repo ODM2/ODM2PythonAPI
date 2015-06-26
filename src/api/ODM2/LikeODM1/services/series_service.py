@@ -3,8 +3,8 @@
 from sqlalchemy import distinct
 import sqlalchemy.exc
 
-from src.api.ODMconnection import SessionFactory
-from src.api.ODM2.LikeODM1.models import Site, Unit, Qualifier, OffsetType,  Method, QualityControlLevel, ODMVersion, Variable, Source, DataValue, Series
+from api.ODMconnection import SessionFactory
+from api.ODM2.LikeODM1.models import Site, Unit, Qualifier, OffsetType,  Method, QualityControlLevel, ODMVersion, Variable, Source, DataValue, Series
 #from src.api.ODM2.LikeODM1.models import Sample
 # from ODM1_1_1 import Series
 

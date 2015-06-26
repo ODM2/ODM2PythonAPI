@@ -100,7 +100,6 @@ class dbconnection():
 
             if 'mssql' in connection_string:
                 s.ms_test_Session().execute("Select top 1 VariableCode From Variables")
-
             elif 'postgresql' in connection_string:
                 s.psql_test_Session().execute('Select "VariableCode" From "Variables" Limit 1')
                 # s.psql_test_Session().execute('Select "VariableNameCV" From "ODM2"."Variables" Limit 1')

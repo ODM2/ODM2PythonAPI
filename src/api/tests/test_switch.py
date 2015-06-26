@@ -1,7 +1,7 @@
 __author__ = 'stephanie'
 
-from src.api.ODMconnection import dbconnection
-from src.api.versionSwitcher import ODM, refreshDB
+from api.ODMconnection import dbconnection
+from api.versionSwitcher import ODM, refreshDB
 
 class TestSwitch:
 
