@@ -11,6 +11,7 @@ from geoalchemy2 import Geometry as GeometryBase
 
 
 def compiles_as_bound(cls):
+    '''
     @compiles(cls)
     def compile_function(element, compiler, **kw):
 
@@ -23,25 +24,35 @@ def compiles_as_bound(cls):
 
         else:
             val= "%s(%s)"%("ST_AsText", "\"ODM2\".\"SamplingFeatures\".\"FeatureGeometry\"")
-
+    '''
     @compiles(cls, 'postgresql')
     def compile_function(element, compiler, **kw):
-        print  "postgresql Alter Table %s Alter column %s"%element.table.name, element.column.name
+
+        print  "postgresql Alter Table %s Alter column %s" % (dir(element), dir(compiler))
         return None
 
     @compiles(cls, 'mysql')
     def compile_function(element, compiler, **kw):
-        print  "mysql Alter Table %s Alter column %s"%element.table.name, element.column.name
-        return None
+        print element.schema
+        print element.name
+        print element.clauses
+        print element.params
+
+
+        print  "mysql Alter Table %s Alter column %s" % (dir(element), dir(compiler))
+        #return None
+        return "%s(%s)"%("astext", "`ODM2`.`SamplingFeatures`.`FeatureGeometry`")
+
+
 
     @compiles(cls, 'sqlite')
     def compile_function(element, compiler, **kw):
-        print  "sqlite Alter Table %s Alter column %s"%element.table.name, element.column.name
+        print  "sqlite Alter Table %s Alter column %s"% (dir(element), dir(compiler))
         return None
 
     @compiles(cls, 'mssql')
     def compile_function(element, compiler, **kw):
-        print  "mssql Alter Table %s Alter column %s"%element.table.name, element.column.name
+        print  "mssql Alter Table %s Alter column %s"%(dir(element), dir(compiler))
         return None
 
     return cls

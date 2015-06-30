@@ -8,8 +8,9 @@ directory = os.path.dirname(this_file)
 sys.path.insert(0, directory)
 
 
+
 from .ODM2.models import Variables as Variable2, change_schema
-from .ODM1_1_1.models import Variable as Variable1
+from .versionSwitcher import ODM, refreshDB #import Variable as Variable1
 
 
 class SessionFactory():
@@ -43,17 +44,27 @@ class dbconnection():
         self._connection_format = "%s+%s://%s:%s@%s/%s"
 
     @classmethod
-    def createConnection(self, engine, address, db=None, user=None, password=None):
+    def createConnection(self, engine, address, db=None, user=None, password=None, dbtype = 2.0):
+
         if engine == 'sqlite':
             connection_string = engine +':///'+address
         else:
             connection_string = dbconnection.buildConnDict(dbconnection(), engine, address, db, user, password)
         # if self.testConnection(connection_string):
-        if self.testEngine(connection_string):
-            # print "sucess"
-            return SessionFactory(connection_string, echo=False)
+        refreshDB(dbtype)
+
+        if dbtype == 2.0:
+            if self.testEngine(connection_string):
+                # print "sucess"
+                return SessionFactory(connection_string, echo=False)
+            else:
+                return None
         else:
-            return None
+            if self.testEngine1_1(connection_string):
+                # print "sucess"
+                return SessionFactory(connection_string, echo=False)
+            else:
+                return None
 
     @staticmethod
     def _getSchema(engine):
@@ -90,11 +101,12 @@ class dbconnection():
             return False
         return True
 
+    @classmethod
     def testEngine1_1(self, connection_string):
         s = SessionFactory(connection_string, echo=False)
         try:
             # s.ms_test_Session().query(Variable1).limit(1).first()
-            s.test_Session.execute(Variable1).limit(1).first()
+            s.test_Session().query(ODM.Variable.code).limit(1).first()
             '''
             if 'mssql' in connection_string:
                 s.ms_test_Session().execute(Variable1).limit(1).first()

@@ -1,6 +1,5 @@
-from sqlalchemy import BigInteger, Column, Date, DateTime, Float, ForeignKey, Integer, String, Boolean, func, Table
+from sqlalchemy import BigInteger, Column, Date, DateTime, Float, ForeignKey, Integer, String, Boolean, Table
 from sqlalchemy.orm import relationship
-import sqlalchemy.orm as orm
 
 
 # Should not be importing anything from a specific dialect
@@ -17,7 +16,7 @@ metadata = Base.metadata
 
 #from base import modelBase as Base
 
-from base import modelBase
+from src.api.base import modelBase
 Base = modelBase.Base
 
 

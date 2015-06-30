@@ -13,8 +13,8 @@ directory = os.path.dirname(os.path.dirname(this_file))
 print directory
 sys.path.insert(0, directory)
 
-from api.ODMconnection import dbconnection
-from api.ODM2.services.readService import *
+from src.api.ODMconnection import dbconnection
+from src.api.ODM2.services.readService import *
 # Create a connection to the ODM2 database
 # ----------------------------------------
 

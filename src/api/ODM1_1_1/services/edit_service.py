@@ -1,20 +1,19 @@
 import sqlite3
 
-
-from odmtools.odmdata import DataValue
+from ...versionSwitcher import ODM
 from series_service import SeriesService
 
-from odmtools.odmdata import series as series_module
+#from odmtools.odmdata import series as series_module
 
 import pandas as pd
 import datetime
 import numpy as np
 
-import logging
-from odmtools.common.logger import LoggerTool
+#import logging
+#from odmtools.common.logger import LoggerTool
 
-tool = LoggerTool()
-logger = tool.setupLogger(__name__, __name__ + '.log', 'w', logging.DEBUG)
+#tool = LoggerTool()
+#logger = tool.setupLogger(__name__, __name__ + '.log', 'w', logging.DEBUG)
 
 
 class EditService():
@@ -38,17 +37,17 @@ class EditService():
             #self._series_service = self.memDB.series_service#SeriesService(connection_string, debug)
 
         elif connection_string is not "" and connection is None:
-            from odmtools.odmdata import MemoryDatabase
+            from ..memory_database import MemoryDatabase
             self.memDB= MemoryDatabase()#(series_service)
             self.memDB.set_series_service(SeriesService(connection_string, False))
 
 
         else:
-            logger.error("must send in either a remote db connection string or a memory database object")
+            print ("ERROR: must send in either a remote db connection string or a memory database object")
 
-        logger.debug("Initializing Memory Database")
+        #logger.debug("Initializing Memory Database")
         self.memDB.initEditValues(series_id)
-        logger.debug("Finished Initializing Memory Database")
+        #logger.debug("Finished Initializing Memory Database")
         self._populate_series()
         self.reset_filter()
 
@@ -192,7 +191,7 @@ class EditService():
         copy_df['change_threshold'] = abs(df['values'] - df['diff'])
 
         if not isinstance(value, float):
-            logger.error("Need to have a float")
+            print("Need to have a float")
             return
 
         copy_df['threshold'] = value
@@ -283,7 +282,7 @@ class EditService():
         return self.memDB.series_service.get_method_by_id(method_id)
 
     def get_variable(self, variable_id):
-        logger.debug(variable_id)
+        #logger.debug(variable_id)
         return self.memDB.series_service.get_variable_by_id(variable_id)
 
 
@@ -441,7 +440,7 @@ class EditService():
         '''
 
         series = self.memDB.series_service.get_series_by_id(self._series_id)
-        logger.debug("original editing series id: %s" % str(series.id))
+        print("original editing series id: %s" % str(series.id))
 
         if (var or method or qcl ):
             tseries = self.memDB.series_service.get_series_by_id_quint(site_id=int(series.site_id),
@@ -452,7 +451,7 @@ class EditService():
                                                                   qcl_id=qcl_id if qcl else int(
                                                                       series.quality_control_level_id))
             if tseries:
-                logger.debug("Save existing series ID: %s" % str(series.id))
+                print("Save existing series ID: %s" % str(series.id))
                 series = tseries
             else:
                 print "Series doesn't exist (if you are not, you should be running SaveAs)"
@@ -460,7 +459,7 @@ class EditService():
         if is_new_series:
 
 
-            series = series_module.copy_series(series)
+            series = ODM.Series.copy_series(series)
 
 
             if var:
@@ -522,10 +521,10 @@ class EditService():
 
         series, dvs = self.updateSeries(is_new_series=False)
         if self.memDB.series_service.save_series(series, dvs):
-            logger.debug("series saved!")
+            print ("series saved!")
             return True
         else:
-            logger.debug("The Save was unsuccessful")
+            print("The Save was unsuccessful")
             return False
 
     def save_as(self, var=None, method=None, qcl=None):
@@ -538,10 +537,10 @@ class EditService():
         series, dvs = self.updateSeries(var, method, qcl, is_new_series=True)
 
         if self.memDB.series_service.save_new_series(series, dvs):
-            logger.debug("series saved!")
+            print("series saved!")
             return True
         else:
-            logger.debug("The Save As Function was Unsuccessful")
+            print("The Save As Function was Unsuccessful")
             return False
 
     def save_existing(self, var=None, method=None, qcl=None):
@@ -553,10 +552,10 @@ class EditService():
         """
         series, dvs = self.updateSeries(var, method, qcl, is_new_series=False)
         if self.memDB.series_service.save_series(series, dvs):
-            logger.debug("series saved!")
+            print("series saved!")
             return True
         else:
-            logger.debug("The Save As Existing Function was Unsuccessful")
+            print("The Save As Existing Function was Unsuccessful")
             return False
 
     def create_qcl(self, code, definition, explanation):

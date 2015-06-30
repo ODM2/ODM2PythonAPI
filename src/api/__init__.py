@@ -1,5 +1,5 @@
 from .ODMconnection import SessionFactory, dbconnection
-from .ODM2.base import serviceBase
+from src.api.base import serviceBase
 
 __all__ = [
     'SessionFactory',
