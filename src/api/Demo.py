@@ -1,16 +1,12 @@
-import sys
-import os
+
 import pprint
 
 import matplotlib.pyplot as plt
 from matplotlib import dates
 
 
-from ODMconnection import dbconnection
-from ODM2.services.readService import *
-this_file = os.path.realpath(__file__)
-directory = os.path.dirname(this_file)
-sys.path.insert(0, directory)
+from src.api.ODMconnection import dbconnection
+from src.api.ODM2.services.readService import *
 
 
 # Create a connection to the ODM2 database
@@ -32,7 +28,7 @@ session_factory = dbconnection.createConnection('mysql', 'jws.uwrl.usu.edu', 'od
 
 _session = session_factory.getSession()
 
-read = ReadODM2(_session)
+read = ReadODM2(session_factory)
 #read = readResults(_session)
 #read = readSamplingFeatures(_session)
 

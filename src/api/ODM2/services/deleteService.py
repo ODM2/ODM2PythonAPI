@@ -1,5 +1,5 @@
 from .. import serviceBase
-from api.ODM2.models import *
+from ...ODM2.models import *
 __author__ = 'jmeline'
 
 # ################################################################################

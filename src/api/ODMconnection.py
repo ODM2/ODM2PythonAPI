@@ -1,27 +1,32 @@
 from sqlalchemy.exc import SQLAlchemyError, DBAPIError
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from api.ODM2.models import Variables as Variable2, change_schema
-from ODM1_1_1.models import Variable as Variable1
+
+import os, sys
+this_file = os.path.realpath(__file__)
+directory = os.path.dirname(this_file)
+sys.path.insert(0, directory)
+
+
+from .ODM2.models import Variables as Variable2, change_schema
+from .ODM1_1_1.models import Variable as Variable1
 
 
 class SessionFactory():
     def __init__(self, connection_string, echo):
-        self.engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600, pool_timeout=5,
-                                    pool_size=20,
-                                    max_overflow=0)
-        self.psql_test_engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600,
-                                              pool_timeout=5,
-                                              max_overflow=0, connect_args={'connect_timeout': 1})
-        self.ms_test_engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600,
-                                            pool_timeout=5,
-                                            max_overflow=0, connect_args={'timeout': 1})
+        if 'sqlite' in connection_string:
+            self.engine = create_engine(connection_string, encoding='utf-8', echo=echo)
+            self.test_engine = self.engine
+        if 'mssql' in connection_string:
+              self.engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600, pool_timeout=5, pool_size=20, max_overflow=0)
+              self.test_engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600, pool_timeout=5, max_overflow=0, connect_args={'timeout': 1})
+        elif 'postgresql' in connection_string or 'mysql' in connection_string:
+            self.engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600, pool_timeout=5, pool_size=20, max_overflow=0)
+            self.test_engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600, pool_timeout=5, max_overflow=0, connect_args={'connect_timeout': 1})
 
         # Create session maker
-
         self.Session = sessionmaker(bind=self.engine)
-        self.psql_test_Session = sessionmaker(bind=self.psql_test_engine)
-        self.ms_test_Session = sessionmaker(bind=self.ms_test_engine)
+        self.test_Session = sessionmaker(bind=self.test_engine)
 
     def getSession(self):
         return self.Session()
@@ -38,8 +43,11 @@ class dbconnection():
         self._connection_format = "%s+%s://%s:%s@%s/%s"
 
     @classmethod
-    def createConnection(self, engine, address, db, user, password):
-        connection_string = dbconnection.buildConnDict(dbconnection(), engine, address, db, user, password)
+    def createConnection(self, engine, address, db=None, user=None, password=None):
+        if engine == 'sqlite':
+            connection_string = engine +':///'+address
+        else:
+            connection_string = dbconnection.buildConnDict(dbconnection(), engine, address, db, user, password)
         # if self.testConnection(connection_string):
         if self.testEngine(connection_string):
             # print "sucess"
@@ -75,19 +83,8 @@ class dbconnection():
         s = SessionFactory(connection_string, echo=False)
 
         try:
-            if 'mssql' in connection_string:
-                self._setSchema(s.ms_test_engine)
-                from api.ODM2.models import Variables as Variable2
-                s.ms_test_Session().query(Variable2.VariableCode).limit(1).first()
-            elif 'postgresql' in connection_string:
-                self._setSchema(s.psql_test_engine)
-                from api.ODM2.models import Variables as Variable2
-                s.psql_test_Session().query(Variable2.VariableCode).limit(1).first()
-            elif 'mysql' in connection_string:
-                self._setSchema(s.psql_test_engine)
-                from api.ODM2.models import Variables as Variable2
-                s.psql_test_Session().query(Variable2.VariableCode).limit(1).first()
-
+            self._setSchema(s.test_engine)
+            s.test_Session().query(Variable2.VariableCode).limit(1).first()
         except Exception as e:
             print "Connection was unsuccessful ", e.message
             return False
@@ -97,14 +94,16 @@ class dbconnection():
         s = SessionFactory(connection_string, echo=False)
         try:
             # s.ms_test_Session().query(Variable1).limit(1).first()
-
+            s.test_Session.execute(Variable1).limit(1).first()
+            '''
             if 'mssql' in connection_string:
-                s.ms_test_Session().execute("Select top 1 VariableCode From Variables")
+                s.ms_test_Session().execute(Variable1).limit(1).first()
             elif 'postgresql' in connection_string:
                 s.psql_test_Session().execute('Select "VariableCode" From "Variables" Limit 1')
                 # s.psql_test_Session().execute('Select "VariableNameCV" From "ODM2"."Variables" Limit 1')
             elif 'mysql' in connection_string:
                 s.psql_test_Session().execute('Select variablecode From variables Limit 1')
+            '''
 
         except Exception as e:
             print "Connection was unsuccessful ", e.message

@@ -1,9 +1,4 @@
 
-
-
-
-
-
 from sqlalchemy.dialects.mssql.base import MSSQLCompiler
 from sqlalchemy.dialects.mysql.mysqldb import MySQLCompiler
 from sqlalchemy import func
@@ -29,8 +24,27 @@ def compiles_as_bound(cls):
         else:
             val= "%s(%s)"%("ST_AsText", "\"ODM2\".\"SamplingFeatures\".\"FeatureGeometry\"")
 
-    return cls
+    @compiles(cls, 'postgresql')
+    def compile_function(element, compiler, **kw):
+        print  "postgresql Alter Table %s Alter column %s"%element.table.name, element.column.name
+        return None
 
+    @compiles(cls, 'mysql')
+    def compile_function(element, compiler, **kw):
+        print  "mysql Alter Table %s Alter column %s"%element.table.name, element.column.name
+        return None
+
+    @compiles(cls, 'sqlite')
+    def compile_function(element, compiler, **kw):
+        print  "sqlite Alter Table %s Alter column %s"%element.table.name, element.column.name
+        return None
+
+    @compiles(cls, 'mssql')
+    def compile_function(element, compiler, **kw):
+        print  "mssql Alter Table %s Alter column %s"%element.table.name, element.column.name
+        return None
+
+    return cls
 
 @compiles_as_bound
 class ST_AsText(FunctionElement):

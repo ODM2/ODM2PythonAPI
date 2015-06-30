@@ -1,7 +1,7 @@
 from sqlalchemy import func
 import pandas as pd
 
-from api.ODM2.models import *
+from ...ODM2.models import *
 from .. import serviceBase
 
 
