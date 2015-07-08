@@ -83,11 +83,11 @@ class dbconnection():
 
         s = self._getSchema(engine)
 
-        print "orig", Variable2.__table__.schema
-        print "New", s
+        # print "orig", Variable2.__table__.schema
+        # print "New", s
         change_schema(s)
 
-        print "set new", Variable2.__table__.schema
+        # print "set new", Variable2.__table__.schema
 
     @classmethod
     def testEngine(self, connection_string):

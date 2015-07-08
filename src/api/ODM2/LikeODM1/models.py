@@ -462,19 +462,19 @@ class DataValue(Base):
 
     id = joined_table.c.odm2_timeseriesresultvalues_valueid
     data_value = joined_table.c.odm2_timeseriesresultvalues_datavalue
-    value_accuracy = None ## question for jeff
+    value_accuracy = None  ## question for jeff
     local_date_time = joined_table.c.odm2_timeseriesresultvalues_valuedatetime
     utc_offset = joined_table.c.odm2_timeseriesresultvalues_valuedatetimeutcoffset
-    date_time_utc = None ## column propertly datetimeutcoffset
+    date_time_utc = None  ## column propertly datetimeutcoffset
     site_id = joined_table.c.odm2_featureactions_samplingfeatureid
     variable_id = joined_table.c.ODM2_RESULT_Aliased_variableid
-    offset_value = None ## Question for jeff
-    offset_type_id = None ## Question for Jeff
+    offset_value = None  ## Question for jeff
+    offset_type_id = None  ## Question for Jeff
     censor_code = joined_table.c.odm2_timeseriesresultvalues_censorcodecv
-    qualifier_id = None ## Join with annotations..
+    qualifier_id = None  ## Join with annotations..
     method_id = joined_table.c.ODM2_ACTION_ALIASED_methodid
     source_id = joined_table.c.ODM2_ACTION_BY_ALIASED_affiliationid
-    sample_id = site_id ## Question for jeff
+    sample_id = site_id  ## Question for jeff
     derived_from_id = None
     quality_control_level_id = joined_table.c.odm2_timeseriesresultvalues_qualitycodecv
 
@@ -506,12 +506,14 @@ class DataValue(Base):
 /anaconda/lib/python2.7/site-packages/sqlalchemy/ext/declarative/base.py:353: SAWarning: On class 'DataValue', Column object 'samplingfeatureid' named directly multiple times, only one will be used: sample_id, site_id
   (self.classname, name, (", ".join(sorted(keys))))
 '''
+
+'''
 method_table = Methods().__table__
 processing_levels_table = ProcessingLevels().__table__
 
-
 joined_table = feature_action_table.join(result_aliased_table, result_table.c.featureactionid == feature_action_table.c.featureactionid)
-joined_table = joined_table.join(site_join, site_join.c.odm2_sites_samplingfeatureid == joined_table.c.odm2_featureactions_samplingfeatureid)
+joined_table = joined_table.join(site_join, site_join.c.odm2_sites_samplingfeatureid ==
+                                 joined_table.c.odm2_featureactions_samplingfeatureid)
 joined_table = joined_table.join(variable_join, joined_table.c.ODM2_RESULT_Aliased_RID == variable_join.c.ODM2_Aliased_RID)
 
 # Obtaining Action
@@ -522,79 +524,86 @@ joined_table = joined_table.join(method_table, joined_table.c.odm2_actions_metho
 
 # Obtaining Source
 joined_table = joined_table.join(action_by_table, joined_table.c.odm2_actions_actionid == action_by_table.c.actionid)
+
 joined_table = joined_table.join(source_join, joined_table.c.odm2_actionby_affiliationid == source_join.c.odm2_affiliations_affiliationid)
 
 # Obtaining Processing Level
 joined_table = joined_table.join(processing_levels_table, joined_table.c.ODM2_RESULT_Aliased_processinglevelid == processing_levels_table.c.processinglevelid)
 
-
+'''
 class Series:
     pass
-#
-# class Series(Base):
-#     # __tablename__ = 'SeriesCatalog'
-#     __table__ = joined_table
-#
-#     id = joined_table.c.ODM2_RESULT_Aliased_RID
-#     site_id = joined_table.c.odm2_sites_samplingfeatureid
-#     site_code = joined_table.c.odm2_samplingfeatuers_samplingfeaturecode
-#     site_name = joined_table.c.odm2_samplingfeatuers_samplingfeaturename
-#     variable_id = joined_table.c.ODM2_RESULT_Aliased_variableid
-#     variable_code = joined_table.c.odm2_variables_variablecode
-#     variable_name = joined_table.c.odm2_variables_variablenamecv
-#     speciation = joined_table.c.odm2_variables_speciationcv
-#     variable_units_id = joined_table.c.ODM2_Aliased_unitsid
-#     variable_units_name = None #joined_table.c.
-#     sample_medium = joined_table.c.ODM2_RESULT_Aliased_sampledmediumcv
-#     value_type = joined_table.c.odm2_variables_variabletypecv
-#     time_support = joined_table.c.odm2_timeseriesresults_intendedtimespacing                 # Column('TimeSupport', Float, nullable=False)
-#     time_unit_id = joined_table.c.odm2_timeseriesresults_intendedtimespacingunitsid          # Column('TimeUnitsID', Integer, ForeignKey('Units.UnitsID'), nullable=False)
-#     data_type = joined_table.c.odm2_timeseriesresults_aggregationstatisticcv
-#     time_units_name = None # join with units
-#     general_category = None
-#     method_id = joined_table.c.odm2_methods_methodid
-#     method_description = joined_table.c.odm2_methods_methoddescription
-#     source_id = joined_table.c.odm2_affiliations_affiliationid
-#     description = joined_table.c.odm2_organizations_organizationdescription  # Column('OrganizationDescription', String, nullable=False)
-#     link = joined_table.c.odm2_organizations_organizationlink
-#     citation = None # please calculate
-#     quality_control_level_id = joined_table.c.odm2_processingLevels_processinglevelid
-#     quality_control_level_code = joined_table.c.odm2_processingLevels_processinglevelcode
-#     begin_date_time = joined_table.c.odm2_actions_begindatetime
-#     end_date_time = joined_table.c.odm2_actions_enddatetime
-#     begin_date_time_utc = None #Column('BeginDateTimeUTC', DateTime)
-#     end_date_time_utc = None #Column('EndDateTimeUTC', DateTime)
-#     value_count = joined_table.c.ODM2_RESULT_Aliased_valuecount
-#
-#     # data_values = relationship("DataValue",
-#     #                            primaryjoin="and_(DataValue.site_id == Series.site_id, "
-#     #                                        "DataValue.variable_id == Series.variable_id, "
-#     #                                        "DataValue.method_id == Series.method_id, "
-#     #                                        "DataValue.source_id == Series.source_id, "
-#     #                                        "DataValue.quality_control_level_id == Series.quality_control_level_id)",
-#     #                            foreign_keys="[DataValue.site_id, DataValue.variable_id, DataValue.method_id, DataValue.source_id, DataValue.quality_control_level_id]",
-#     #                            order_by="DataValue.local_date_time",
-#     #                            backref="series")
-#     #
-#     # site = relationship(Site)
-#     # variable = relationship(Variable)
-#     # method = relationship(Method)
-#     # source = relationship(Source)
-#     # quality_control_level = relationship(QualityControlLevel)
-#
-#     # TODO add all to repr
-#     def __repr__(self):
-#         return "<Series('%s')>" % (self.id)
-#
-#     def get_table_columns(self):
-#         return self.__table__.columns.keys()
-#
+'''
+
+class Series(Base):
+    # __tablename__ = 'SeriesCatalog'
+    __table__ = joined_table
+
+    id = joined_table.c.ODM2_RESULT_Aliased_RID
+
+    site_id = joined_table.c.odm2_sites_samplingfeatureid
+
+    site_code = joined_table.c.odm2_samplingfeatures_samplingfeaturecode
+    site_name = joined_table.c.odm2_samplingfeatures_samplingfeaturename
+    variable_id = joined_table.c.ODM2_RESULT_Aliased_variableid
+    variable_code = joined_table.c.odm2_variables_variablecode
+    variable_name = joined_table.c.odm2_variables_variablenamecv
+    speciation = joined_table.c.odm2_variables_speciationcv
+    variable_units_id = joined_table.c.ODM2_Aliased_unitsid
+    variable_units_name = None  # joined_table.c.
+    sample_medium = joined_table.c.ODM2_RESULT_Aliased_sampledmediumcv
+    value_type = joined_table.c.odm2_variables_variabletypecv
+    time_support = joined_table.c.odm2_timeseriesresults_intendedtimespacing     # Column('TimeSupport', Float, nullable=False)
+    time_unit_id = joined_table.c.odm2_timeseriesresults_intendedtimespacingunitsid          # Column('TimeUnitsID', Integer, ForeignKey('Units.UnitsID'), nullable=False)
+    data_type = joined_table.c.odm2_timeseriesresults_aggregationstatisticcv
+    time_units_name = None  # join with units
+    general_category = None
+    method_id = joined_table.c.odm2_methods_methodid
+    method_description = joined_table.c.odm2_methods_methoddescription
+    source_id = joined_table.c.odm2_affiliations_affiliationid
+    description = joined_table.c.odm2_organizations_organizationdescription  # Column('OrganizationDescription', String, nullable=False)
+    link = joined_table.c.odm2_organizations_organizationlink
+    citation = None  # please calculate
+    quality_control_level_id = joined_table.c.odm2_processinglevels_processinglevelid
+    quality_control_level_code = joined_table.c.odm2_processinglevels_processinglevelcode
+    begin_date_time = joined_table.c.odm2_actions_begindatetime
+    end_date_time = joined_table.c.odm2_actions_enddatetime
+    begin_date_time_utc = None  # Column('BeginDateTimeUTC', DateTime)
+    end_date_time_utc = None  # Column('EndDateTimeUTC', DateTime)
+    value_count = joined_table.c.ODM2_RESULT_Aliased_valuecount
+
+
+    # data_values = relationship("DataValue",
+    #                            primaryjoin="and_(DataValue.site_id == Series.site_id, "
+    #                                        "DataValue.variable_id == Series.variable_id, "
+    #                                        "DataValue.method_id == Series.method_id, "
+    #                                        "DataValue.source_id == Series.source_id, "
+    #                                        "DataValue.quality_control_level_id == Series.quality_control_level_id)",
+    #                            foreign_keys="[DataValue.site_id, DataValue.variable_id, DataValue.method_id, DataValue.source_id, DataValue.quality_control_level_id]",
+    #                            order_by="DataValue.local_date_time",
+    #                            backref="series")
+    #
+    # site = relationship(Site)
+    # variable = relationship(Variable)
+    # method = relationship(Method)
+    # source = relationship(Source)
+    # quality_control_level = relationship(QualityControlLevel)
+
+    # TODO add all to repr
+    def __repr__(self):
+        return "<Series('%s')>" % (self.id)
+
+    def get_table_columns(self):
+        return self.__table__.columns.keys()
+'''
+
+
 
 import inspect
 import sys
 
 def change_schema(schema):
-    #get a list of all of the classes in the module
+    # get a list of all of the classes in the module
     clsmembers = inspect.getmembers(sys.modules[__name__], lambda member: inspect.isclass(member) and member.__module__ == __name__)
 
     for name, Tbl in clsmembers:

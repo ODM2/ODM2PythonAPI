@@ -1,7 +1,7 @@
 __author__ = 'stephanie'
 # run with 'py.test -s test_example.py'
-from api.ODMconnection import dbconnection
-from api.ODM2.models import *
+from src.api.ODMconnection import dbconnection
+from src.api.ODM2.models import *
 
 
 

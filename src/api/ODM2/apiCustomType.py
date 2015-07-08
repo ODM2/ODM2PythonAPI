@@ -9,7 +9,7 @@ from sqlalchemy.ext.compiler import compiles
 
 from geoalchemy2 import Geometry as GeometryBase
 
-
+# function to pull from the database
 def compiles_as_bound(cls):
     '''
     @compiles(cls)
@@ -31,19 +31,17 @@ def compiles_as_bound(cls):
         print  "postgresql Alter Table %s Alter column %s" % (dir(element), dir(compiler))
         return None
 
-    @compiles(cls, 'mysql')
+    @compiles(cls)#, 'mysql')
     def compile_function(element, compiler, **kw):
-        print element.schema
-        print element.name
-        print element.clauses
-        print element.params
+        # print element.schema
+        # print element.name
+        # print element.clauses
+        # print element.params
 
 
         print  "mysql Alter Table %s Alter column %s" % (dir(element), dir(compiler))
         #return None
         return "%s(%s)"%("astext", "`ODM2`.`SamplingFeatures`.`FeatureGeometry`")
-
-
 
     @compiles(cls, 'sqlite')
     def compile_function(element, compiler, **kw):
@@ -56,6 +54,47 @@ def compiles_as_bound(cls):
         return None
 
     return cls
+
+
+# function to save to the database
+def saves_as_bound(cls):
+
+    @compiles(cls, 'postgresql')
+    def compile_function(element, compiler, **kw):
+
+        print  "postgresql Save Table %s Alter column %s" % (dir(element), dir(compiler))
+        return None
+
+    @compiles(cls)#, 'mysql')
+    def compile_function(element, compiler, **kw):
+        # print element.schema
+        # print element.name
+        # print element.clauses
+        # print element.params
+
+
+        print  "mysql Save Table %s Alter column %s" % (dir(element), dir(compiler))
+        #return None
+        return "%s(%s)"%("ST_GeomFromText", "`ODM2`.`SamplingFeatures`.`FeatureGeometry`")
+
+    @compiles(cls, 'sqlite')
+    def compile_function(element, compiler, **kw):
+        print  "sqlite Save Table %s Alter column %s"% (dir(element), dir(compiler))
+        return None
+
+    @compiles(cls, 'mssql')
+    def compile_function(element, compiler, **kw):
+        print  "mssql Save Table %s Alter column %s"%(dir(element), dir(compiler))
+        return None
+
+    return cls
+
+
+
+@saves_as_bound
+class ST_GeomFromText(FunctionElement):
+    name = "GeomFromText"
+
 
 @compiles_as_bound
 class ST_AsText(FunctionElement):
@@ -78,6 +117,10 @@ class Geometry(GeometryBase):
         if value is  None:
             value = func.ST_AsText(col, type_=self)
         return value
+
+    def bind_expression(self, bindvalue):
+
+        return ST_GeomFromText(bindvalue, type_=self)
 
 
 
