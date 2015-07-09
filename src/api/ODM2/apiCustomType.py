@@ -29,7 +29,8 @@ def compiles_as_bound(cls):
     def compile_function(element, compiler, **kw):
 
         print  "postgresql Alter Table %s Alter column %s" % (dir(element), dir(compiler))
-        return None
+        #ST_GeomFromText(compiler)
+        return "%s(%s)"%("ST_AsText", "\"ODM2\".\"SamplingFeatures\".\"FeatureGeometry\"")
 
     @compiles(cls)#, 'mysql')
     def compile_function(element, compiler, **kw):
@@ -39,18 +40,21 @@ def compiles_as_bound(cls):
         # print element.params
 
 
-        print  "mysql Alter Table %s Alter column %s" % (dir(element), dir(compiler))
+        print  "mysql Alter Table %s Alter column %s" % (element.name.lower().replace('_', ''), "find odm2.samplingfeatures.featuregeometry")
         #return None
         return "%s(%s)"%("astext", "`ODM2`.`SamplingFeatures`.`FeatureGeometry`")
 
     @compiles(cls, 'sqlite')
     def compile_function(element, compiler, **kw):
         print  "sqlite Alter Table %s Alter column %s"% (dir(element), dir(compiler))
-        return None
+        return "ST_AsText(samplingfeatures.featuregeometry"
+        #return "samplingfeatures.featuregeometry"
+        #return None
 
     @compiles(cls, 'mssql')
     def compile_function(element, compiler, **kw):
         print  "mssql Alter Table %s Alter column %s"%(dir(element), dir(compiler))
+        #compiler.STAsText()
         return None
 
     return cls
@@ -63,14 +67,14 @@ def saves_as_bound(cls):
     def compile_function(element, compiler, **kw):
 
         print  "postgresql Save Table %s Alter column %s" % (dir(element), dir(compiler))
-        return None
+        return "%s(%s)"%("ST_GeomFromText", "\"ODM2\".\"SamplingFeatures\".\"FeatureGeometry\"")
 
     @compiles(cls)#, 'mysql')
     def compile_function(element, compiler, **kw):
-        # print element.schema
-        # print element.name
-        # print element.clauses
-        # print element.params
+        print element.schema
+        print element.name
+        print element.clauses
+        print element.params
 
 
         print  "mysql Save Table %s Alter column %s" % (dir(element), dir(compiler))
@@ -85,6 +89,7 @@ def saves_as_bound(cls):
     @compiles(cls, 'mssql')
     def compile_function(element, compiler, **kw):
         print  "mssql Save Table %s Alter column %s"%(dir(element), dir(compiler))
+        #Geometry::STGeomFromText(compiler, 0)
         return None
 
     return cls
@@ -93,18 +98,18 @@ def saves_as_bound(cls):
 
 @saves_as_bound
 class ST_GeomFromText(FunctionElement):
-    name = "GeomFromText"
+    name = "ST_GeomFromText"
 
 
 @compiles_as_bound
 class ST_AsText(FunctionElement):
-    name = 'STAsText'
+    name = 'ST_AsText'
 
 
 
 @compiles_as_bound
 class ST_AsBinary(FunctionElement):
-    name = 'STAsBinary'
+    name = 'ST_AsBinary'
 
 
 
@@ -114,12 +119,11 @@ class Geometry(GeometryBase):
 
         value = ST_AsText(col, type_=self)
 
-        if value is  None:
+        if value is None:
             value = func.ST_AsText(col, type_=self)
         return value
 
     def bind_expression(self, bindvalue):
-
         return ST_GeomFromText(bindvalue, type_=self)
 
 

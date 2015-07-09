@@ -770,7 +770,6 @@ class EquipmentActions(Base):
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     EquipmentID = Column('equipmentid', ForeignKey(Equipment.EquipmentID), nullable=False)
     ActionID = Column('actionid', ForeignKey(Actions.ActionID), nullable=False)
-
     ActionObj = relationship(Actions)
     EquipmentObj = relationship(Equipment)
 
@@ -856,13 +855,15 @@ class SpatialOffsets(Base):
     SpatialOffsetTypeCV = Column('spatialoffsettypecv', ForeignKey(CVSpatialOffsetType.Name), nullable=False,
                                  index=True)
     Offset1Value = Column('offset1value', Float(53),  nullable=False)
-    Offset1UnitID = Column('offset1unitid', Integer, nullable=False)
+    Offset1UnitID = Column('offset1unitid', Integer, ForeignKey(Units.UnitsID), nullable=False)
     Offset2Value = Column('offset2value', Float(53))
-    Offset2UnitID = Column('offset2unitid', Integer)
+    Offset2UnitID = Column('offset2unitid', Integer, ForeignKey(Units.UnitsID))
     Offset3Value = Column('offset3value', Float(53))
-    Offset3UnitID = Column('offset3unitid', Integer)
+    Offset3UnitID = Column('offset3unitid', Integer, ForeignKey(Units.UnitsID))
 
-
+    Offset1UnitObj = relationship(Units, primaryjoin='SpatialOffsets.Offset1UnitID == Units.UnitsID')
+    Offset2UnitObj = relationship(Units, primaryjoin='SpatialOffsets.Offset2UnitID == Units.UnitsID')
+    Offset3UnitObj = relationship(Units, primaryjoin='SpatialOffsets.Offset3UnitID == Units.UnitsID')
 
 
 class Sites(Base):
