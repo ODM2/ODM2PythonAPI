@@ -417,16 +417,16 @@ class ReadODM2( serviceBase   ):
     Datasets
     """
 
-    def getDatasets(self):
+    def getDataSets(self):
         try:
-            return self._session.query(Datasets).all()
+            return self._session.query(DataSets).all()
         except:
             return None
 
     def getDatasetByCode(self, dscode):
 
         try:
-            return self._session.query(Datasets).filer(Datasets.DatasetCode.ilike(dscode)).first()
+            return self._session.query(DataSets).filer(DataSets.DataSetCode.ilike(dscode)).first()
         except:
             return None
 

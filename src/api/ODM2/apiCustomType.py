@@ -47,7 +47,7 @@ def compiles_as_bound(cls):
     @compiles(cls, 'sqlite')
     def compile_function(element, compiler, **kw):
         print  "sqlite Alter Table %s Alter column %s"% (dir(element), dir(compiler))
-        return "ST_AsText(samplingfeatures.featuregeometry"
+        return "%s(%s)"%("ST_AsText","samplingfeatures.featuregeometry")
         #return "samplingfeatures.featuregeometry"
         #return None
 
@@ -89,7 +89,7 @@ def saves_as_bound(cls):
     @compiles(cls, 'mssql')
     def compile_function(element, compiler, **kw):
         print  "mssql Save Table %s Alter column %s"%(dir(element), dir(compiler))
-        #Geometry::STGeomFromText(compiler, 0)
+        return "Geometry::STGeomFromText(%s, 0)"%("samplingfeature.featuregeometry")
         return None
 
     return cls
