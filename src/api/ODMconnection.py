@@ -1,8 +1,8 @@
 from sqlalchemy.exc import SQLAlchemyError, DBAPIError
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from src.api.ODM2.models import Variables as Variable2, change_schema
-from src.api.ODM1_1_1.models import Variable as Variable1
+from .ODM2.models import Variables as Variable2, change_schema
+from .versionSwitcher import ODM, refreshDB #import Variable as Variable1
 
 
 class SessionFactory():
@@ -75,43 +75,20 @@ class dbconnection():
 
         s = self._getSchema(engine)
 
-<<<<<<< HEAD
-        # print "orig", Variable2.__table__.schema
-        # print "New", s
-        change_schema(s)
-
-        # print "set new", Variable2.__table__.schema
-=======
         #print "orig", Variable2.__table__.schema
         #print "New", s
         change_schema(s)
 
         #print "set new", Variable2.__table__.schema
->>>>>>> Added capability to perform duplicate value checks
 
     @classmethod
     def testEngine(self, connection_string):
         s = SessionFactory(connection_string, echo=False)
 
         try:
-<<<<<<< HEAD
             self._setSchema(s.test_engine)
             s.test_Session().query(Variable2.VariableCode).limit(1).first()
-=======
-            if 'mssql' in connection_string:
-                self._setSchema(s.ms_test_engine)
-                from src.api.ODM2.models import Variables as Variable2
-                s.ms_test_Session().query(Variable2.VariableCode).limit(1).first()
-            elif 'postgresql' in connection_string:
-                self._setSchema(s.psql_test_engine)
-                from src.api.ODM2.models import Variables as Variable2
-                s.psql_test_Session().query(Variable2.VariableCode).limit(1).first()
-            elif 'mysql' in connection_string:
-                self._setSchema(s.psql_test_engine)
-                from src.api.ODM2.models import Variables as Variable2
-                s.psql_test_Session().query(Variable2.VariableCode).limit(1).first()
 
->>>>>>> Added capability to perform duplicate value checks
         except Exception as e:
             print "Connection was unsuccessful ", e.message
             return False
