@@ -1,5 +1,7 @@
 from .. import serviceBase
-from ...ODM2.models import *
+from src.api.ODM2.models import *
+
+from datetime import datetime
 
 __author__ = 'jmeline'
 # ################################################################################
@@ -21,8 +23,9 @@ class UpdateODM2(serviceBase):
 # ################################################################################
 # Core
 # ################################################################################
-
-
+    def updateResultValidDateTime(self, resultId, dateTime):
+        q = self._session.query(Results).filter(Results.ResultID==int(resultId)).update({'ValidDateTime':dateTime.to_datetime()})
+        self._session.commit()
 
 
 # ################################################################################

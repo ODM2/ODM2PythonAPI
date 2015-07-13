@@ -1,7 +1,7 @@
 from sqlalchemy import func
 import pandas as pd
 
-from ...ODM2.models import *
+from src.api.ODM2.models import *
 from .. import serviceBase
 
 
@@ -408,6 +408,10 @@ class ReadODM2( serviceBase   ):
                 filter_by(ActionID=actionID).all()
         except:
             return None
+
+    def getResultValidDateTime(self, resultId):
+        q = self._session.query(Results.ValidDateTime).filter(Results.ResultID==int(resultId))
+        return q.first()
 
     """
     Datasets
