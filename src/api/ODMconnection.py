@@ -1,6 +1,7 @@
 from sqlalchemy.exc import SQLAlchemyError, DBAPIError
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
 from .ODM2.models import Variables as Variable2, change_schema
 from .versionSwitcher import ODM, refreshDB #import Variable as Variable1
 
@@ -75,17 +76,20 @@ class dbconnection():
 
         s = self._getSchema(engine)
 
+
         #print "orig", Variable2.__table__.schema
         #print "New", s
         change_schema(s)
 
         #print "set new", Variable2.__table__.schema
 
+
     @classmethod
     def testEngine(self, connection_string):
         s = SessionFactory(connection_string, echo=False)
 
         try:
+
             self._setSchema(s.test_engine)
             s.test_Session().query(Variable2.VariableCode).limit(1).first()
 

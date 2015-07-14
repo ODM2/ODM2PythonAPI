@@ -1721,6 +1721,7 @@ class TimeSeriesResults(Base):
     AggregationStatisticCV = Column('aggregationstatisticcv', ForeignKey(CVAggregationStatistic.Name),
                                     nullable=False, index=True)
 
+    ResultObj = relationship(Results)
     IntendedTimeSpacingUnitsObj = relationship(Units,
                                                primaryjoin='TimeSeriesResults.IntendedTimeSpacingUnitsID == Units.UnitsID')
     SpatialReferenceObj = relationship(SpatialReferences)

@@ -12,10 +12,8 @@ from src.api.ODM2.services.readService import *
 # Create a connection to the ODM2 database
 # ----------------------------------------
 
-
 # session_factory = dbconnection.createConnection('mysql', 'jws.uwrl.usu.edu', 'odm2', 'ODM', 'ODM123!!')
 # session_factory = dbconnection.createConnection('postgresql', 'localhost', 'ODM2', 'odm', 'odm')
-# session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')
 # session_factory = dbconnection.createConnection('mssql', 'local', 'odm2', 'ODM', 'odm')
 session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')
 
@@ -111,27 +109,27 @@ except Exception as e:
 # Now get a particular Result using a ResultID
 print "\n------- Example of Retrieving Attributes of a Time Series Result -------"
 try:
-    tsResult = read.getTimeSeriesResultByResultId(19)
+    tsResult = read.getTimeSeriesResultByResultId(4)
     print (
         "The following are some of the attributes for the TimeSeriesResult retrieved using getTimeSeriesResultByResultID(): \n" +
-        "ResultTypeCV: " + tsResult.ResultTypeCV + "\n" +
+        "ResultTypeCV: " + tsResult.ResultObj.ResultTypeCV + "\n" +
         # Get the ProcessingLevel from the TimeSeriesResult's ProcessingLevel object
-        "ProcessingLevel: " + tsResult.ProcessingLevelObj.Definition + "\n" +
-        "SampledMedium: " + tsResult.SampledMediumCV + "\n" +
+        "ProcessingLevel: " + tsResult.ResultObj.ProcessingLevelObj.Definition + "\n" +
+        "SampledMedium: " + tsResult.ResultObj.SampledMediumCV + "\n" +
         # Get the variable information from the TimeSeriesResult's Variable object
-        "Variable: " + tsResult.VariableObj.VariableCode + ": " + tsResult.VariableObj.VariableNameCV + "\n"
+        "Variable: " + tsResult.ResultObj.VariableObj.VariableCode + ": " + tsResult.ResultObj.VariableObj.VariableNameCV + "\n"
                                                                                                         "AggregationStatistic: " + tsResult.AggregationStatisticCV + "\n" +
         "Elevation_m: " + str(sf.Elevation_m) + "\n" +
         # Get the site information by drilling down
-        "SamplingFeature: " + tsResult.FeatureActionObj.SamplingFeatureObj.SamplingFeatureCode + " - " +
-        tsResult.FeatureActionObj.SamplingFeatureObj.SamplingFeatureName)
+        "SamplingFeature: " + tsResult.ResultObj.FeatureActionObj.SamplingFeatureObj.SamplingFeatureCode + " - " +
+        tsResult.ResultObj.FeatureActionObj.SamplingFeatureObj.SamplingFeatureName)
 except Exception as e:
     print "Unable to demo Example of retrieving Attributes of a time Series Result: ", e
 
 # Get the values for a particular TimeSeriesResult
 print "\n-------- Example of Retrieving Time Series Result Values ---------"
 
-tsValues = read.getTimeSeriesResultValuesByResultId(19)  # Return type is a pandas dataframe
+tsValues = read.getTimeSeriesResultValuesByResultId(tsResult.ResultID)  # Return type is a pandas dataframe
 
 # Print a few Time Series Values to the console
 # tsValues.set_index('ValueDateTime', inplace=True)

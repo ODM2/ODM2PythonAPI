@@ -27,37 +27,35 @@ def compiles_as_bound(cls):
     '''
     @compiles(cls, 'postgresql')
     def compile_function(element, compiler, **kw):
-
-        print  "postgresql Alter Table %s Alter column %s" % (dir(element), dir(compiler))
-        #ST_GeomFromText(compiler)
-        return "%s(%s)"%("ST_AsText", "\"ODM2\".\"SamplingFeatures\".\"FeatureGeometry\"")
+        val = "%s(%s)"%(element.name, compiler.process(element.clauses.clauses[0]))
+        print  "postgresql Alter Table %s " % val
+        #ST_AsText("\"ODM2\".\"SamplingFeatures\".\"FeatureGeometry\"")
+        return val
 
     @compiles(cls)#, 'mysql')
     def compile_function(element, compiler, **kw):
-        # print element.schema
-        # print element.name
-        # print element.clauses
-        # print element.params
 
-
-        print  "mysql Alter Table %s Alter column %s" % (element.name.lower().replace('_', ''), "find odm2.samplingfeatures.featuregeometry")
-        #return None
-        return "%s(%s)"%("astext", "`ODM2`.`SamplingFeatures`.`FeatureGeometry`")
+        val="%s(%s)"%(element.name.lower().split('_')[1], compiler.process(element.clauses.clauses[0]))
+        print  "mysql Alter Table %s" % val
+        #astext("`ODM2`.`SamplingFeatures`.`FeatureGeometry`")
+        #ST_astext()
+        return val
 
     @compiles(cls, 'sqlite')
     def compile_function(element, compiler, **kw):
         print  "sqlite Alter Table %s Alter column %s"% (dir(element), dir(compiler))
-        return "%s(%s)"%("ST_AsText","samplingfeatures.featuregeometry")
-        #return "samplingfeatures.featuregeometry"
-        #return None
+        return "%s(%s)"%(element.name, compiler.process(element.clauses.clauses[0]))
+        #return ST_AsText(samplingfeatures.featuregeometry)
+
 
     @compiles(cls, 'mssql')
     def compile_function(element, compiler, **kw):
         print  "mssql Alter Table %s Alter column %s"%(dir(element), dir(compiler))
-        #compiler.STAsText()
-        return None
+        #[SamplingFeatures_1].[FeatureGeometry].STAsText()
+        return "%s.%s()" % ( compiler.process(element.clauses.clauses[0]), element.name.replace('_', '') )
 
     return cls
+
 
 
 # function to save to the database
@@ -71,26 +69,24 @@ def saves_as_bound(cls):
 
     @compiles(cls)#, 'mysql')
     def compile_function(element, compiler, **kw):
-        print element.schema
-        print element.name
-        print element.clauses
-        print element.params
-
+        # print element.schema
+        # print element.name
+        # print element.clauses
+        # print element.params
 
         print  "mysql Save Table %s Alter column %s" % (dir(element), dir(compiler))
         #return None
-        return "%s(%s)"%("ST_GeomFromText", "`ODM2`.`SamplingFeatures`.`FeatureGeometry`")
+        return "%s(%s)"%("ST_GeomFromText", "`SamplingFeatures`.`FeatureGeometry`")
 
     @compiles(cls, 'sqlite')
     def compile_function(element, compiler, **kw):
         print  "sqlite Save Table %s Alter column %s"% (dir(element), dir(compiler))
-        return None
+        return "%s(%s)" % ("STGeomFromText", "samplingfeatures.featuregeometry")
 
     @compiles(cls, 'mssql')
     def compile_function(element, compiler, **kw):
         print  "mssql Save Table %s Alter column %s"%(dir(element), dir(compiler))
-        return "Geometry::STGeomFromText(%s, 0)"%("samplingfeature.featuregeometry")
-        return None
+        return "Geometry::%s(%s, 0)"%("STGeomFromText", "samplingfeature.featuregeometry")
 
     return cls
 
