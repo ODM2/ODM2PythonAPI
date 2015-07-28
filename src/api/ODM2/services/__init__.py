@@ -1,5 +1,5 @@
 __author__ = 'jmeline'
-
+'''
 from createService import createAnnotations, createCore, createCV, createDataQuality, createEquipment, \
     createExtensionProperties, createExternalIdentifiers, createLabAnalyses, createODM2, createProvenance, \
     createResults, createSamplingFeatures, createSensors, createSimulation
@@ -37,3 +37,10 @@ __all__ = [
     'updateLabAnalyses', 'updateExternalIdentifiers', 'updateCore', 'updateCV', 'updateDataQuality', 'updateEquipment',
     'updateExtensionProperties'
 ]
+'''
+from createService import CreateODM2
+from deleteService import DeleteODM2
+from readService import ReadODM2
+from updateService import UpdateODM2
+
+__all__= ['CreateODM2', 'DeleteODM2', 'ReadODM2', 'UpdateODM2' ]

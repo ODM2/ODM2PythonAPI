@@ -4,37 +4,25 @@ import logging
 from sqlalchemy import distinct, func
 
 
-from odmtools.odmdata import SessionFactory
-from odmtools.odmdata import Site
-from odmtools.odmdata import Variable
-from odmtools.odmdata import Unit
-from odmtools.odmdata import Series
-from odmtools.odmdata import DataValue
-from odmtools.odmdata import Qualifier
-from odmtools.odmdata import OffsetType
-from odmtools.odmdata import Sample
-from odmtools.odmdata import Method
-from odmtools.odmdata import QualityControlLevel
-from odmtools.odmdata import ODMVersion
-from odmtools.common.logger import LoggerTool
+from ...ODMconnection import SessionFactory
+from ...versionSwitcher import ODM#.models import Site, Variable, Unit, Series, DataValue, Qualifier, OffsetType, Sample, Method, QualityControlLevel, ODMVersion
+from ...base import serviceBase
+#from odmtools.common.logger import LoggerTool
 import pandas as pd
 
-tool = LoggerTool()
-logger = tool.setupLogger(__name__, __name__ + '.log', 'w', logging.DEBUG)
+#tool = LoggerTool()
+#logger = tool.setupLogger(__name__, __name__ + '.log', 'w', logging.DEBUG)
 
 
-class SeriesService():
+class SeriesService(serviceBase):
     # Accepts a string for creating a SessionFactory, default uses odmdata/connection.cfg
-    def __init__(self, connection_string="", debug=False):
-        self._session_factory = SessionFactory(connection_string, debug)
-        self._edit_session = self._session_factory.get_session()
-        self._debug = debug
+
 
     def reset_session(self):
-        self._edit_session = self._session_factory.get_session()  # Reset the session in order to prevent memory leaks
+        self._session = self._session_factory.get_session()  # Reset the session in order to prevent memory leaks
 
     def get_db_version(self):
-        return self._edit_session.query(ODMVersion).first().version_number
+        return self._session.query(ODM.ODMVersion).first().version_number
 
 #####################
 #
@@ -48,7 +36,7 @@ class SeriesService():
 
         :return: List[Sites]
         """
-        return self._edit_session.query(Site).order_by(Site.code).all()
+        return self._session.query(ODM.Site).order_by(ODM.Site.code).all()
 
 
     def get_used_sites(self):
@@ -57,7 +45,7 @@ class SeriesService():
         :return: List[Sites]
         """
         try:
-            site_ids = [x[0] for x in self._edit_session.query(distinct(Series.site_id)).all()]
+            site_ids = [x[0] for x in self._session.query(distinct(ODM.Series.site_id)).all()]
         except:
             site_ids = None
 
@@ -66,7 +54,7 @@ class SeriesService():
 
         Sites = []
         for site_id in site_ids:
-            Sites.append(self._edit_session.query(Site).filter_by(id=site_id).first())
+            Sites.append(self._session.query(ODM.Site).filter_by(id=site_id).first())
 
         return Sites
 
@@ -78,7 +66,7 @@ class SeriesService():
         :return: Sites
         """
         try:
-            return self._edit_session.query(Site).filter_by(id=site_id).first()
+            return self._session.query(ODM.Site).filter_by(id=site_id).first()
         except:
             return None
 
@@ -90,7 +78,7 @@ class SeriesService():
         """
 
         try:
-            var_ids = [x[0] for x in self._edit_session.query(distinct(Series.variable_id)).all()]
+            var_ids = [x[0] for x in self._session.query(distinct(ODM.Series.variable_id)).all()]
         except:
             var_ids = None
 
@@ -101,7 +89,7 @@ class SeriesService():
 
         #create list of variables from the list of ids
         for var_id in var_ids:
-            Variables.append(self._edit_session.query(Variable).filter_by(id=var_id).first())
+            Variables.append(self._session.query(ODM.Variable).filter_by(id=var_id).first())
 
         return Variables
 
@@ -110,7 +98,7 @@ class SeriesService():
 
         :return: List[Variables]
         """
-        return self._edit_session.query(Variable).all()
+        return self._session.query(ODM.Variable).all()
 
     def get_variable_by_id(self, variable_id):
         """
@@ -119,7 +107,7 @@ class SeriesService():
         :return: Variables
         """
         try:
-            return self._edit_session.query(Variable).filter_by(id=variable_id).first()
+            return self._session.query(ODM.Variable).filter_by(id=variable_id).first()
         except:
             return None
 
@@ -130,7 +118,7 @@ class SeriesService():
         :return: Variables
         """
         try:
-            return self._edit_session.query(Variable).filter_by(code=variable_code).first()
+            return self._session.query(ODM.Variable).filter_by(code=variable_code).first()
         except:
             return None
 
@@ -141,14 +129,14 @@ class SeriesService():
         :return: List[Variables]
         """
         try:
-            var_ids = [x[0] for x in self._edit_session.query(distinct(Series.variable_id)).filter_by(
+            var_ids = [x[0] for x in self._session.query(distinct(ODM.Series.variable_id)).filter_by(
                 site_code=site_code).all()]
         except:
             var_ids = None
 
         variables = []
         for var_id in var_ids:
-            variables.append(self._edit_session.query(Variable).filter_by(id=var_id).first())
+            variables.append(self._session.query(ODM.Variable).filter_by(id=var_id).first())
 
         return variables
 
@@ -158,7 +146,7 @@ class SeriesService():
 
         :return: List[Units]
         """
-        return self._edit_session.query(Unit).all()
+        return self._session.query(ODM.Unit).all()
 
     def get_unit_by_name(self, unit_name):
         """
@@ -167,7 +155,7 @@ class SeriesService():
         :return: Units
         """
         try:
-            return self._edit_session.query(Unit).filter_by(name=unit_name).first()
+            return self._session.query(ODM.Unit).filter_by(name=unit_name).first()
         except:
             return None
 
@@ -178,7 +166,7 @@ class SeriesService():
         :return: Units
         """
         try:
-            return self._edit_session.query(Unit).filter_by(id=unit_id).first()
+            return self._session.query(ODM.Unit).filter_by(id=unit_id).first()
         except:
             return None
 
@@ -188,7 +176,7 @@ class SeriesService():
 
         :return: List[Qualifiers]
         """
-        result = self._edit_session.query(Qualifier).order_by(Qualifier.code).all()
+        result = self._session.query(ODM.Qualifier).order_by(ODM.Qualifier.code).all()
         return result
 
     def get_qualifiers_by_series_id(self, series_id):
@@ -197,40 +185,40 @@ class SeriesService():
         :param series_id:
         :return:
         """
-        subquery = self._edit_session.query(DataValue.qualifier_id).outerjoin(
-            Series.data_values).filter(Series.id == series_id, DataValue.qualifier_id != None).distinct().subquery()
-        return self._edit_session.query(Qualifier).join(subquery).distinct().all()
+        subquery = self._session.query(ODM.DataValue.qualifier_id).outerjoin(
+            ODM.Series.data_values).filter(ODM.Series.id == series_id, ODM.DataValue.qualifier_id != None).distinct().subquery()
+        return self._session.query(ODM.Qualifier).join(subquery).distinct().all()
 
     #QCL methods
     def get_all_qcls(self):
-        return self._edit_session.query(QualityControlLevel).all()
+        return self._session.query(ODM.QualityControlLevel).all()
 
     def get_qcl_by_id(self, qcl_id):
         try:
-            return self._edit_session.query(QualityControlLevel).filter_by(id=qcl_id).first()
+            return self._session.query(ODM.QualityControlLevel).filter_by(id=qcl_id).first()
         except:
             return None
 
     def get_qcl_by_code(self, qcl_code):
         try:
-            return self._edit_session.query(QualityControlLevel).filter_by(code=qcl_code).first()
+            return self._session.query(ODM.QualityControlLevel).filter_by(code=qcl_code).first()
         except:
             return None
 
     # Method methods
     def get_all_methods(self):
-        return self._edit_session.query(Method).all()
+        return self._session.query(ODM.Method).all()
 
     def get_method_by_id(self, method_id):
         try:
-            result = self._edit_session.query(Method).filter_by(id=method_id).first()
+            result = self._session.query(ODM.Method).filter_by(id=method_id).first()
         except:
             result = None
         return result
 
     def get_method_by_description(self, method_code):
         try:
-            result = self._edit_session.query(Method).filter_by(description=method_code).first()
+            result = self._session.query(ODM.Method).filter_by(description=method_code).first()
         except:
             result = None
         return result
@@ -241,9 +229,9 @@ class SeriesService():
         :param series_id:
         :return:
         """
-        subquery = self._edit_session.query(DataValue.offset_type_id).outerjoin(
-            Series.data_values).filter(Series.id == series_id, DataValue.offset_type_id != None).distinct().subquery()
-        return self._edit_session.query(OffsetType).join(subquery).distinct().all()
+        subquery = self._session.query(ODM.DataValue.offset_type_id).outerjoin(
+            ODM.Series.data_values).filter(ODM.Series.id == series_id, ODM.DataValue.offset_type_id != None).distinct().subquery()
+        return self._session.query(ODM.OffsetType).join(subquery).distinct().all()
 
     def get_samples_by_series_id(self, series_id):
         """
@@ -251,9 +239,9 @@ class SeriesService():
         :param series_id:
         :return:
         """
-        subquery = self._edit_session.query(DataValue.sample_id).outerjoin(
-            Series.data_values).filter(Series.id == series_id, DataValue.sample_id != None).distinct().subquery()
-        return self._edit_session.query(Sample).join(subquery).distinct().all()
+
+        subquery = self._session.query(ODM.DataValue.sample_id).outerjoin(ODM.Series.data_values).filter(ODM.Series.id == series_id, ODM.DataValue.sample_id != None).distinct().subquery()
+        return self._session.query(ODM.Sample).join(subquery).distinct().all()
 
     # Series Catalog methods
     def get_all_series(self):
@@ -262,8 +250,8 @@ class SeriesService():
         :return: List[Series]
         """
 
-        #logger.debug("%s" % self._edit_session.query(Series).order_by(Series.id).all())
-        return self._edit_session.query(Series).order_by(Series.id).all()
+        #logger.debug("%s" % self._session.query(Series).order_by(Series.id).all())
+        return self._session.query(ODM.Series).order_by(ODM.Series.id).all()
 
     def get_series_by_site(self , site_id):
         """
@@ -272,7 +260,7 @@ class SeriesService():
         :return: List[Series]
         """
         try:
-            selectedSeries = self._edit_session.query(Series).filter_by(site_id=site_id).order_by(Series.id).all()
+            selectedSeries = self._session.query(ODM.Series).filter_by(site_id=site_id).order_by(ODM.Series.id).all()
             return selectedSeries
         except:
             return None
@@ -284,7 +272,7 @@ class SeriesService():
         :return: Series
         """
         try:
-            return self._edit_session.query(Series).filter_by(id=series_id).first()
+            return self._session.query(ODM.Series).filter_by(id=series_id).first()
         except Exception as e:
             print e
             return None
@@ -300,7 +288,7 @@ class SeriesService():
         :return: Series
         """
         try:
-            return self._edit_session.query(Series).filter_by(
+            return self._session.query(ODM.Series).filter_by(
                 site_id=site_id, variable_id=var_id, method_id=method_id,
                 source_id=source_id, quality_control_level_id=qcl_id).first()
         except:
@@ -320,7 +308,7 @@ class SeriesService():
         '''
         series= self.get_series_by_id(series_id)
         if series:
-            q = self._edit_session.query(DataValue).filter_by(
+            q = self._session.query(ODM.DataValue).filter_by(
                     site_id=series.site_id,
                     variable_id=series.variable_id,
                     method_id=series.method_id,
@@ -341,7 +329,7 @@ class SeriesService():
 
         :return: Pandas DataFrame object
         """
-        q = self._edit_session.query(DataValue).order_by(DataValue.local_date_time)
+        q = self._session.query(ODM.DataValue).order_by(ODM.DataValue.local_date_time)
         query = q.statement.compile(dialect=self._session_factory.engine.dialect)
         data = pd.read_sql_query(sql=query, con=self._session_factory.engine,
                           params=query.params)
@@ -359,11 +347,11 @@ class SeriesService():
 
         :return:
         """
-        result = self._edit_session.query(DataValue).order_by(DataValue.local_date_time).all()
+        result = self._session.query(ODM.DataValue).order_by(ODM.DataValue.local_date_time).all()
         return [x.list_repr() for x in result]
 
     def get_all_values(self):
-        return self._edit_session.query(DataValue).order_by(DataValue.local_date_time).all()
+        return self._session.query(ODM.DataValue).order_by(ODM.DataValue.local_date_time).all()
 
     @staticmethod
     def calcSeason(row):
@@ -384,14 +372,14 @@ class SeriesService():
 
         :return:
         """
-        q = self._edit_session.query(DataValue.data_value.label('DataValue'),
-                                   DataValue.local_date_time.label('LocalDateTime'),
-                                   DataValue.censor_code.label('CensorCode'),
-                                   func.strftime('%m', DataValue.local_date_time).label('Month'),
-                                   func.strftime('%Y', DataValue.local_date_time).label('Year')
+        q = self._session.query(ODM.DataValue.data_value.label('DataValue'),
+                                   ODM.DataValue.local_date_time.label('LocalDateTime'),
+                                   ODM.DataValue.censor_code.label('CensorCode'),
+                                   func.strftime('%m', ODM.DataValue.local_date_time).label('Month'),
+                                   func.strftime('%Y',ODM.DataValue.local_date_time).label('Year')
                                    #DataValue.local_date_time.strftime('%m'),
                                    #DataValue.local_date_time.strftime('%Y'))
-        ).order_by(DataValue.local_date_time)
+        ).order_by(ODM.DataValue.local_date_time)
         query = q.statement.compile(dialect=self._session_factory.engine.dialect)
         data = pd.read_sql_query(sql=query,
                                  con=self._session_factory.engine,
@@ -430,11 +418,15 @@ class SeriesService():
         :return:
         """
         try:
-            return self._edit_session.query(DataValue).filter_by(id=id).first()
+            return self._session.query(ODM.DataValue).filter_by(id=id).first()
         except:
             return None
 
-
+    def get_all_sources(self):
+        try:
+            return self._session.query(ODM.Source).all()
+        except:
+            return None
 
 
 #####################
@@ -448,9 +440,9 @@ class SeriesService():
         :param series:
         :return:
         """
-        merged_series = self._edit_session.merge(series)
-        self._edit_session.add(merged_series)
-        self._edit_session.commit()
+        merged_series = self._session.merge(series)
+        self._session.add(merged_series)
+        self._session.commit()
 
     def update_dvs(self, dv_list):
         """
@@ -458,9 +450,9 @@ class SeriesService():
         :param dv_list:
         :return:
         """
-        merged_dv_list = map(self._edit_session.merge, dv_list)
-        self._edit_session.add_all(merged_dv_list)
-        self._edit_session.commit()
+        merged_dv_list = map(self._session.merge, dv_list)
+        self._session.add_all(merged_dv_list)
+        self._session.commit()
 
 #####################
 #
@@ -477,16 +469,16 @@ class SeriesService():
         if self.series_exists(series):
 
             try:
-                self._edit_session.add(series)
-                self._edit_session.commit()
+                self._session.add(series)
+                self._session.commit()
                 self.save_values(dvs)
             except Exception as e:
-                self._edit_session.rollback()
+                self._session.rollback()
                 raise e
-            logger.debug("Existing File was overwritten with new information")
+            #logger.debug("Existing File was overwritten with new information")
             return True
         else:
-            logger.debug("There wasn't an existing file to overwrite, please select 'Save As' first")
+            #logger.debug("There wasn't an existing file to overwrite, please select 'Save As' first")
             # there wasn't an existing file to overwrite
             raise Exception("Series does not exist, unable to save. Please select 'Save As'")
 
@@ -500,20 +492,20 @@ class SeriesService():
         # Save As case
         if self.series_exists(series):
             msg = "There is already an existing file with this information. Please select 'Save' or 'Save Existing' to overwrite"
-            logger.debug(msg)
+            #logger.debug(msg)
             raise Exception(msg)
         else:
             try:
-                self._edit_session.add(series)
-                self._edit_session.commit()
+                self._session.add(series)
+                self._session.commit()
                 self.save_values(dvs)
-                #self._edit_session.add_all(dvs)
+                #self._session.add_all(dvs)
             except Exception as e:
-                self._edit_session.rollback()
+                self._session.rollback()
                 raise e
 
 
-        logger.debug("A new series was added to the database, series id: "+str(series.id))
+        #logger.debug("A new series was added to the database, series id: "+str(series.id))
         return True
 
     def save_values(self, values):
@@ -537,15 +529,15 @@ class SeriesService():
         :return:
         """
         self.update_dvs(data_values)
-        series = Series()
+        series = ODM.Series()
         series.site_id = site_id
         series.variable_id = variable_id
         series.method_id = method_id
         series.source_id = source_id
         series.quality_control_level_id = qcl_id
 
-        self._edit_session.add(series)
-        self._edit_session.commit()
+        self._session.add(series)
+        self._session.commit()
         return series
 
     def create_method(self, description, link):
@@ -555,13 +547,13 @@ class SeriesService():
         :param link:
         :return:
         """
-        meth = Method()
+        meth = ODM.Method()
         meth.description = description
         if link is not None:
             meth.link = link
 
-        self._edit_session.add(meth)
-        self._edit_session.commit()
+        self._session.add(meth)
+        self._session.commit()
         return meth
 
     def create_variable_by_var(self, var):
@@ -571,8 +563,8 @@ class SeriesService():
         :return:
         """
         try:
-            self._edit_session.add(var)
-            self._edit_session.commit()
+            self._session.add(var)
+            self._session.commit()
             return var
         except:
             return None
@@ -597,7 +589,7 @@ class SeriesService():
         :param no_data_value:
         :return:
         """
-        var = Variable()
+        var = ODM.Variable()
         var.code = code
         var.name = name
         var.speciation = speciation
@@ -611,8 +603,8 @@ class SeriesService():
         var.general_category = general_category
         var.no_data_value = no_data_value
 
-        self._edit_session.add(var)
-        self._edit_session.commit()
+        self._session.add(var)
+        self._session.commit()
         return var
 
     def create_qcl(self, code, definition, explanation):
@@ -623,19 +615,19 @@ class SeriesService():
         :param explanation:
         :return:
         """
-        qcl = QualityControlLevel()
+        qcl = ODM.QualityControlLevel()
         qcl.code = code
         qcl.definition = definition
         qcl.explanation = explanation
 
-        self._edit_session.add(qcl)
-        self._edit_session.commit()
+        self._session.add(qcl)
+        self._session.commit()
         return qcl
 
 
     def create_qualifier_by_qual(self, qualifier):
-        self._edit_session.add(qualifier)
-        self._edit_session.commit()
+        self._session.add(qualifier)
+        self._session.commit()
         return qualifier
 
     def create_qualifier(self,  code, description):
@@ -645,7 +637,7 @@ class SeriesService():
         :param description:
         :return:
         """
-        qual = Qualifier()
+        qual = ODM.Qualifier()
         qual.code = code
         qual.description = description
 
@@ -665,9 +657,9 @@ class SeriesService():
         """
         self.delete_values_by_series(series)
 
-        delete_series = self._edit_session.merge(series)
-        self._edit_session.delete(delete_series)
-        self._edit_session.commit()
+        delete_series = self._session.merge(series)
+        self._session.delete(delete_series)
+        self._session.commit()
 
 
     def delete_values_by_series(self, series):
@@ -677,7 +669,7 @@ class SeriesService():
         :return:
         """
         try:
-            return self._edit_session.query(DataValue).filter_by(site_id = series.site_id,
+            return self._session.query(ODM.DataValue).filter_by(site_id = series.site_id,
                                                                  variable_id = series.variable_id,
                                                                  method_id = series.method_id,
                                                                  source_id = series.source_id,
@@ -691,7 +683,7 @@ class SeriesService():
         :param id_list: list of ids
         :return:
         """
-        self._edit_session.query(DataValue).filter(DataValue.id.in_(id_list)).delete(False)
+        self._session.query(ODM.DataValue).filter(ODM.DataValue.id.in_(id_list)).delete(False)
 
 #####################
 #
@@ -725,7 +717,7 @@ class SeriesService():
         :return:
         """
         try:
-            result = self._edit_session.query(Series).filter_by(
+            result = self._session.query(ODM.Series).filter_by(
                 site_id=site_id,
                 variable_id=var_id,
                 method_id=method_id,
@@ -743,7 +735,7 @@ class SeriesService():
         :return:
         """
         try:
-            result = self._edit_session.query(QualityControlLevel).filter_by(code=q.code, definition=q.definition).one()
+            result = self._session.query(ODM.QualityControlLevel).filter_by(code=q.code, definition=q.definition).one()
             return True
         except:
 
@@ -756,7 +748,7 @@ class SeriesService():
         :return:
         """
         try:
-            result = self._edit_session.query(Method).filter_by(description=m.description).one()
+            result = self._session.query(ODM.Method).filter_by(description=m.description).one()
             return True
         except:
             return False
@@ -768,7 +760,7 @@ class SeriesService():
         :return:
         """
         try:
-            result = self._edit_session.query(Variable).filter_by(code=v.code,
+            result = self._session.query(ODM.Variable).filter_by(code=v.code,
                                                                   name=v.name, speciation=v.speciation,
                                                                   variable_unit_id=v.variable_unit_id,
                                                                   sample_medium=v.sample_medium,

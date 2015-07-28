@@ -31,7 +31,7 @@ from memory_database import MemoryDatabase
 from series import copy_series
 from data_value import copy_data_value
 '''
-import model
+import models
 
 __all__ = [
     'Base',

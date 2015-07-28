@@ -1,11 +1,14 @@
 from .. import serviceBase
+from src.api.ODM2.models import *
+
+from datetime import datetime
 
 __author__ = 'jmeline'
 # ################################################################################
 # Annotations
 # ################################################################################
 
-class updateAnnotations(serviceBase):
+class UpdateODM2(serviceBase):
     def test(self):
         return None
 
@@ -14,27 +17,22 @@ class updateAnnotations(serviceBase):
 # CV
 # ################################################################################
 
-class updateCV(serviceBase):
-    def test(self):
-        return None
+
 
 
 # ################################################################################
 # Core
 # ################################################################################
-
-class updateCore(serviceBase):
-    def test(self):
-        return None
+    def updateResultValidDateTime(self, resultId, dateTime):
+        q = self._session.query(Results).filter(Results.ResultID==int(resultId)).update({'ValidDateTime':dateTime.to_datetime()})
+        self._session.commit()
 
 
 # ################################################################################
 # Data Quality
 # ################################################################################
 
-class updateDataQuality(serviceBase):
-    def test(self):
-        return None
+
 
 
 # ################################################################################
@@ -42,77 +40,58 @@ class updateDataQuality(serviceBase):
 # ################################################################################
 
 
-class updateEquipment(serviceBase):
-    def test(self):
-        return None
+
 
 
 # ################################################################################
 # Extension Properties
 # ################################################################################
 
-class updateExtensionProperties(serviceBase):
-    def test(self):
-        return None
+
 
 
 # ################################################################################
 # External Identifiers
 # ################################################################################
 
-class updateExternalIdentifiers(serviceBase):
-    def test(self):
-        return None
+
 
 
 # ################################################################################
 # Lab Analyses
 # ################################################################################
 
-class updateLabAnalyses(serviceBase):
-    def test(self):
-        return None
+
 
 
 # ################################################################################
 # Provenance
 # ################################################################################
 
-class updateProvenance(serviceBase):
-    def test(self):
-        return None
+
 
 
 # ################################################################################
 # Results
 # ################################################################################
 
-class updateResults(serviceBase):
-    def test(self):
-        return None
+
 
 
 # ################################################################################
 # Sampling Features
 # ################################################################################
 
-class updateSamplingFeatures(serviceBase):
-    def test(self):
-        return None
+
 
 
 # ################################################################################
 # Sensors
 # ################################################################################
 
-class updateSensors(serviceBase):
-    def test(self):
-        return None
+
 
 # ################################################################################
 # ODM2
 # ################################################################################
 
-class updateODM2(serviceBase):
-   def test(self):
-        return None

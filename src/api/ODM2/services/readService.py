@@ -1,17 +1,23 @@
 from sqlalchemy import func
 import pandas as pd
 
-from src.api.ODM2.models import Variables, People, Methods, ProcessingLevels, SamplingFeatures, Units, Datasets, \
-    Actions, Equipment, Sites, SpatialReferences
+from src.api.ODM2.models import *
+from .. import serviceBase
+
 
 __author__ = 'jmeline'
+
+class ReadODM2( serviceBase   ):
+    '''
+    def __init__(self, session):
+        self._session = session
+    '''
+
 # ################################################################################
 # Annotations
 # ################################################################################
 
-class readAnnotations(object):
-    def test(self):
-        return None
+
 
 
 # ################################################################################
@@ -19,9 +25,7 @@ class readAnnotations(object):
 # ################################################################################
 
 
-class readCV(object):
-    def test(self):
-        return None
+
 
 
 # ################################################################################
@@ -29,11 +33,6 @@ class readCV(object):
 # ################################################################################
 
 
-class readCore(object):
-    """queries to tables contained in the core schema"""
-
-    def __init__(self, session):
-        self._session = session
 
     """
     Variable
@@ -278,7 +277,7 @@ class readCore(object):
         :return Organization Objects:
             :type list:
         """
-        return self._session.query(Organization).all()
+        return self._session.query(Organizations).all()
 
     def getOrganizationById(self, orgId):
         """Select by orgId
@@ -289,7 +288,7 @@ class readCore(object):
             :type Organization:
         """
         try:
-            return self._session.query(Organization).filter_by(OrganizationID=orgId).first()
+            return self._session.query(Organizations).filter_by(OrganizationID=orgId).first()
         except:
             return None
 
@@ -302,7 +301,7 @@ class readCore(object):
             :type Organization:
         """
         try:
-            return self._session.query(Organization).filter_by(OrganizationCode=orgCode).first()
+            return self._session.query(Organizations).filter_by(OrganizationCode=orgCode).first()
 
         except:
             return None
@@ -357,7 +356,7 @@ class readCore(object):
         """
 
         try:
-            return self._session.query(Affiliation).filter(Organization.OrganizationCode.ilike(orgcode)) \
+            return self._session.query(Affiliations).filter(Organizations.OrganizationCode.ilike(orgcode)) \
                 .filter(People.PersonFirstName.ilike(personfirst)) \
                 .filter(People.PersonLastName.ilike(personlast)).first()
         except:
@@ -372,7 +371,7 @@ class readCore(object):
         """
 
         try:
-            return self._session.query(Affiliation).filter(People.PersonFirstName.ilike(personfirst)) \
+            return self._session.query(Affiliations).filter(People.PersonFirstName.ilike(personfirst)) \
                 .filter(People.PersonLastName.ilike(personlast)).all()
         except:
             return None
@@ -384,29 +383,29 @@ class readCore(object):
     def getResults(self):
 
         try:
-            return self._session.query(Result).all()
+            return self._session.query(Results).all()
         except:
             return None
 
     def getResultByActionID(self, actionID):
 
         try:
-            return self._session.query(Result).join(Featureaction).join(Actions).filter_by(ActionID=actionID).all()
+            return self._session.query(Results).join(FeatureActions).join(Actions).filter_by(ActionID=actionID).all()
         except:
             return None
 
     def getResultByID(self, resultID):
         try:
-            return self._session.query(Result).filter_by(ResultID=resultID).one()
+            return self._session.query(Results).filter_by(ResultID=resultID).one()
         except:
             return None
 
     def getResultAndGeomByID(self, resultID):
         try:
-            return self._session.query(Result, SamplingFeatures.FeatureGeometry.ST_AsText()). \
-                join(Featureaction). \
+            return self._session.query(Results, SamplingFeatures.FeatureGeometry.ST_AsText()). \
+                join(FeatureActions). \
                 join(SamplingFeatures). \
-                join(Result). \
+                join(Results). \
                 filter_by(ResultID=resultID).one()
         except:
             return None
@@ -414,28 +413,32 @@ class readCore(object):
     def getResultAndGeomByActionID(self, actionID):
 
         try:
-            return self._session.query(Result, SamplingFeatures.FeatureGeometry.ST_AsText()). \
-                join(Featureaction). \
+            return self._session.query(Results, SamplingFeatures.FeatureGeometry.ST_AsText()). \
+                join(FeatureActions). \
                 join(SamplingFeatures). \
                 join(Actions). \
                 filter_by(ActionID=actionID).all()
         except:
             return None
 
+    def getResultValidDateTime(self, resultId):
+        q = self._session.query(Results.ValidDateTime).filter(Results.ResultID==int(resultId))
+        return q.first()
+
     """
     Datasets
     """
 
-    def getDatasets(self):
+    def getDataSets(self):
         try:
-            return self._session.query(Datasets).all()
+            return self._session.query(DataSets).all()
         except:
             return None
 
     def getDatasetByCode(self, dscode):
 
         try:
-            return self._session.query(Datasets).filer(Datasets.DatasetCode.ilike(dscode)).first()
+            return self._session.query(DataSets).filer(DataSets.DataSetCode.ilike(dscode)).first()
         except:
             return None
 
@@ -444,21 +447,21 @@ class readCore(object):
 # Data Quality
 # ################################################################################
 
-class readDataQuality(object):
+
     def getAllDataQuality(self):
         """Select all on Data Quality
 
         :return Dataquality Objects:
             :type list:
         """
-        return self._session.query(Dataquality).all()
+        return self._session.query(DataQuality).all()
 
 
 # ################################################################################
 # Equipment
 # ################################################################################
 
-class readEquipment(object):
+
     def getAllEquipment(self):
         return self._session.query(Equipment).all()
 
@@ -467,56 +470,43 @@ class readEquipment(object):
 # Extension Properties
 # ################################################################################
 
-class readExtensionProperties(object):
-    def test(self):
-        return None
 
 
 # ################################################################################
 # External Identifiers
 # ################################################################################
 
-class readExternalIdentifiers(object):
-    def test(self):
-        return None
+
 
 
 # ################################################################################
 # Lab Analyses
 # ################################################################################
 
-class readLabAnalyses(object):
-    def test(self):
-        return None
+
 
 
 # ################################################################################
 # Provenance
 # ################################################################################
 
-class readProvenance(object):
 
     """
     Citation
     """
 
-    # def getCitations(self):
-    #     self._session.query(Provenance)
-    #
+    def getCitations(self):
+        self._session.query(Citations).all()
 
-    def test(self):
-        return None
+
+
 
 
 # ################################################################################
 # Results
 # ################################################################################
 
-class readResults(object):
-    """queries to tables contained in Results schema"""
 
-    def __init__(self, session):
-        self._session = session
     """
     TimeSeriesResults
     """
@@ -527,7 +517,7 @@ class readResults(object):
         :return TimeSeriesResults Objects:
             :type list:
         """
-        return self._session.query(Timeseriesresult).all()
+        return self._session.query(TimeSeriesResults).all()
 
     def getTimeSeriesResultByResultId(self, resultId):
         """Select by resultID on ResultID
@@ -538,7 +528,7 @@ class readResults(object):
         """
 
         try:
-            return self._session.query(Timeseriesresult).filter_by(ResultID=resultId).one()
+            return self._session.query(TimeSeriesResults).filter_by(ResultID=resultId).one()
         except:
             return None
 
@@ -558,7 +548,7 @@ class readResults(object):
             :type list:
         """
 
-        q = self._session.query(Timeseriesresultvalue).all()
+        q = self._session.query(TimeSeriesResults).all()
         df = pd.DataFrame([dv.list_repr() for dv in q])
         df.columns = q[0].get_columns()
         return df
@@ -573,7 +563,7 @@ class readResults(object):
             :type Timeseriesresultvalue:
         """
         try:
-            q = self._session.query(Timeseriesresultvalue).filter_by(ResultID=resultId).all()
+            q = self._session.query(TimeSeriesResults).filter_by(ResultID=resultId).all()
 
             df = pd.DataFrame([dv.list_repr() for dv in q])
             df.columns = q[0].get_columns()
@@ -596,10 +586,10 @@ class readResults(object):
         endtime = starttime if not endtime else endtime
 
         try:
-            return self._session.query(Timeseriesresultvalue).filter_by(ResultID=resultid) \
-                .filter(Timeseriesresultvalue.ValueDateTime >= starttime) \
-                .filter(Timeseriesresultvalue.ValueDateTime <= endtime) \
-                .order_by(Timeseriesresultvalue.ValueDateTime).all()
+            return self._session.query(TimeSeriesResultValues).filter_by(ResultID=resultid) \
+                .filter(TimeSeriesResultValues.ValueDateTime >= starttime) \
+                .filter(TimeSeriesResultValues.ValueDateTime <= endtime) \
+                .order_by(TimeSeriesResultValues.ValueDateTime).all()
         except:
             return None
 
@@ -608,10 +598,7 @@ class readResults(object):
 # Annotations
 # ################################################################################
 
-class readSamplingFeatures(object):
-    """Queries to tables contained in the SamplingFeature """
-    def __init__(self, session):
-        self._session = session
+
     """
     Site
     """
@@ -664,10 +651,6 @@ class readSamplingFeatures(object):
 # ################################################################################
 
 
-class readSensors(object):
-    """
-    DeploymentAction
-    """
 
 
     def getAllDeploymentAction(self):
@@ -676,7 +659,7 @@ class readSensors(object):
         :return DeploymentAction Objects:
             :type list:
         """
-        return self._session.query(Deploymentaction).all()
+        return self._session.query(DeploymentAction).all()
 
         # return self._session.query)
 
@@ -689,7 +672,7 @@ class readSensors(object):
             :type DeploymentAction:
         """
         try:
-            return self._session.query(Deploymentaction).filter_by(DeploymentActionID=deploymentId).one()
+            return self._session.query(DeploymentAction).filter_by(DeploymentActionID=deploymentId).one()
         except:
             return None
 
@@ -712,7 +695,6 @@ class readSensors(object):
 # ################################################################################
 
 
-class readSimulation(object):
     def getAllModels(self):
 
         try:

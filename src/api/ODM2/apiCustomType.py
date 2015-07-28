@@ -1,3 +1,4 @@
+
 from sqlalchemy.dialects.mssql.base import MSSQLCompiler
 from sqlalchemy.dialects.mysql.mysqldb import MySQLCompiler
 from sqlalchemy import func
@@ -8,144 +9,124 @@ from sqlalchemy.ext.compiler import compiles
 
 from geoalchemy2 import Geometry as GeometryBase
 
-
+# function to pull from the database
 def compiles_as_bound(cls):
-    @compiles(cls)
-    def compile_function(element, compiler, **kw):
-        #print type(compiler)
-
-        if isinstance(compiler, MSSQLCompiler):
-            val = ", ".join([compiler.process(e) for e in element.clauses.clauses[1:]])
-            el = element.name.replace('_', '')
-            path = "[SamplingFeatures_1].[FeatureGeometry]"
-            format = "%s.%s(%s)"
-            return format % (path, el, val)
-        #GEOMETRY::ST_GeomFromText
-
-        elif isinstance(compiler, MySQLCompiler):
-            el = element.name.split('_')[1].lower()
-            path = "`ODM2`.`SamplingFeatures`.`FeatureGeometry`"
-            format = "%s(%s)"
-            return format % (el, path)
-
-        else:
-            #postgres
-            el = element.name
-            path = '"odm2"."samplingfeatures"."FeatureGeometry"'
-            format = "%s(%s)"
-            return format % (el, path)
-
-    return cls
-
-# TODO: what about sqlite
-#how do i generalize the query for casing issues
-
-
-def save_as_bound(cls):
-    @compiles(cls)
-    def compile_function(element, compiler, **kw):
-        #print type(compiler)
-
-        if isinstance(compiler, MSSQLCompiler):
-            val = ", ".join([compiler.process(e) for e in element.clauses.clauses[1:]])
-            el = element.name.replace('_', '')
-            #path = "[SamplingFeatures_1].[FeatureGeometry]"
-            format = "%s.%s(%s)"
-            return format % ( el, val)
-        #GEOMETRY::ST_GeomFromText
-
-        elif isinstance(compiler, MySQLCompiler):
-            el = element.name.split('_')[1].lower()
-            #path = "`ODM2`.`SamplingFeatures`.`FeatureGeometry`"
-            format= "%s(%s)"
-            return format % (el, ":FeatureGeometry")
-
-        else:
-            el = element.name
-            #path = '"ODM2"."SamplingFeatures"."FeatureGeometry"'
-            format = "%s(%s)"
-            return format % (el)
-
-
-
-
-
-
-        #works
     '''
+    @compiles(cls)
+    def compile_function(element, compiler, **kw):
+
         if isinstance(compiler, MSSQLCompiler):
             #return "%s.%s(%s)" % (element.clauses.clauses[0], element.name,", ".join([compiler.process(e) for e in element.clauses.clauses[1:]]))
-            return "%s.%s(%s)" % ("[SamplingFeatures_1].[FeatureGeometry]", element.name,", ".join([compiler.process(e) for e in element.clauses.clauses[1:]]))
+            val = "%s.%s(%s)" % ("[SamplingFeatures_1].[FeatureGeometry]", element.name,", ".join([compiler.process(e) for e in element.clauses.clauses[1:]]))
+
         elif isinstance(compiler, MySQLCompiler):
-
-            return "%s(%s)"%("astext", "`ODM2`.`SamplingFeatures`.`FeatureGeometry`")
-
-            # TODO: jws.uwrl.usu.edu does not have the function ST_AsText() it is just called AsText() is it an older version
-            #return "%s(%s)"%(element.name[2:] if element.name.startswith('ST') else element.name, element.clauses.__str__().replace("\"", "`"))
-            return "%s(%s)"%(element.name[0:2]+"_"+element.name[2:] if element.name.startswith('ST') else element.name, element.clauses.__str__().replace("\"", "`"))
+            val= "%s(%s)"%("astext", "`ODM2`.`SamplingFeatures`.`FeatureGeometry`")
 
         else:
-            return "%s(%s)"%("ST_AsText", "\"ODM2\".\"SamplingFeatures\".\"FeatureGeometry\"")
-    return cls
+            val= "%s(%s)"%("ST_AsText", "\"ODM2\".\"SamplingFeatures\".\"FeatureGeometry\"")
     '''
+    @compiles(cls, 'postgresql')
+    def compile_function(element, compiler, **kw):
+        val = "%s(%s)"%(element.name, compiler.process(element.clauses.clauses[0]))
+        print  "postgresql Alter Table %s " % val
+        #ST_AsText("\"ODM2\".\"SamplingFeatures\".\"FeatureGeometry\"")
+        return val
 
+    @compiles(cls)#, 'mysql')
+    def compile_function(element, compiler, **kw):
+
+        val="%s(%s)"%(element.name.lower().split('_')[1], compiler.process(element.clauses.clauses[0]))
+        print  "mysql Alter Table %s" % val
+        #astext("`ODM2`.`SamplingFeatures`.`FeatureGeometry`")
+        #ST_astext()
+        return val
+
+    @compiles(cls, 'sqlite')
+    def compile_function(element, compiler, **kw):
+        print  "sqlite Alter Table %s Alter column %s"% (dir(element), dir(compiler))
+        return "%s(%s)"%(element.name, compiler.process(element.clauses.clauses[0]))
+        #return ST_AsText(samplingfeatures.featuregeometry)
+
+
+    @compiles(cls, 'mssql')
+    def compile_function(element, compiler, **kw):
+        print  "mssql Alter Table %s Alter column %s"%(dir(element), dir(compiler))
+        #[SamplingFeatures_1].[FeatureGeometry].STAsText()
+        return "%s.%s()" % ( compiler.process(element.clauses.clauses[0]), element.name.replace('_', '') )
+
+    return cls
+
+
+
+# function to save to the database
+def saves_as_bound(cls):
+
+    @compiles(cls, 'postgresql')
+    def compile_function(element, compiler, **kw):
+
+        print  "postgresql Save Table %s Alter column %s" % (dir(element), dir(compiler))
+        return "%s(%s)"%("ST_GeomFromText", "\"ODM2\".\"SamplingFeatures\".\"FeatureGeometry\"")
+
+    @compiles(cls)#, 'mysql')
+    def compile_function(element, compiler, **kw):
+        # print element.schema
+        # print element.name
+        # print element.clauses
+        # print element.params
+
+        print  "mysql Save Table %s Alter column %s" % (dir(element), dir(compiler))
+        #return None
+        return "%s(%s)"%("ST_GeomFromText", "`SamplingFeatures`.`FeatureGeometry`")
+
+    @compiles(cls, 'sqlite')
+    def compile_function(element, compiler, **kw):
+        print  "sqlite Save Table %s Alter column %s"% (dir(element), dir(compiler))
+        return "%s(%s)" % ("STGeomFromText", "samplingfeatures.featuregeometry")
+
+    @compiles(cls, 'mssql')
+    def compile_function(element, compiler, **kw):
+        print  "mssql Save Table %s Alter column %s"%(dir(element), dir(compiler))
+        return "Geometry::%s(%s, 0)"%("STGeomFromText", "samplingfeature.featuregeometry")
+
+    return cls
+
+
+
+@saves_as_bound
+class ST_GeomFromText(FunctionElement):
+    name = "ST_GeomFromText"
 
 
 @compiles_as_bound
 class ST_AsText(FunctionElement):
     name = 'ST_AsText'
 
+
+
 @compiles_as_bound
 class ST_AsBinary(FunctionElement):
     name = 'ST_AsBinary'
 
-@save_as_bound
-class ST_GeomFromText(FunctionElement):
-    name = 'ST_GeomFromText'
-
 
 
 class Geometry(GeometryBase):
-    from_text = 'Geometry::STGeomFromText'
-    from_text = 'GeomFromText'
 
     def column_expression(self, col):
 
         value = ST_AsText(col, type_=self)
-        if value is  None:
+
+        if value is None:
             value = func.ST_AsText(col, type_=self)
         return value
 
-
     def bind_expression(self, bindvalue):
-        #return func.ST_GeomFromText(bindvalue, type_=self)
-        #value = ST_GeomFromText(bindvalue,  type_=self)
-        value= getattr(func, self.from_text)(bindvalue, type_=self)
-        if value is  None:
-            value = func.ST_GeomFromText(bindvalue, type_=self)
-        return value
-
-    def getfuncname(self):
-        pass
+        return ST_GeomFromText(bindvalue, type_=self)
 
 
 
 
 
-'''
-from sqlalchemy import func
-from sqlalchemy.types import UserDefinedType
-
-class Geometry(UserDefinedType):
-    def get_col_spec(self):
-        return "GEOMETRY"
-
-    def bind_expression(self, bindvalue):
-        return func.ST_GeomFromText(bindvalue, type_=self)
-
-    def column_expression(self, col):
-        return func.ST_AsText(col, type_=self)
 
 
-'''
+
 
