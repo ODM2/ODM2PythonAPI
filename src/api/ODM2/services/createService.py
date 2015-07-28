@@ -262,7 +262,7 @@ class CreateODM2( serviceBase):
         return a
 
     def createDataset(self, dstype, dscode, dstitle, dsabstract):
-        ds = Datasets()
+        ds = DataSets()
 
         # create the dataset
         ds.DatasetTypeCV = dstype
@@ -277,7 +277,7 @@ class CreateODM2( serviceBase):
         return ds
 
     def createDatasetResults(self, dsid, resultid):
-        dsr = DatasetsResults()
+        dsr = DataSetsResults()
 
         # link dataset to results
         dsr.DatasetID = dsid
@@ -408,7 +408,7 @@ class CreateODM2( serviceBase):
 
         tsr = TimeSeriesResults()
 
-        # tsr.ResultID = result.ResultID
+        tsr.ResultID = result.ResultID
         #tsr.ResultUUID = result.ResultUUID
 
 
@@ -425,14 +425,14 @@ class CreateODM2( serviceBase):
 
 
         #tsr.ResultID = result.ResultID
-        tsr.ResultUUID = result.ResultUUID
-        tsr.FeatureActionID = result.FeatureActionID
-        tsr.VariableID = result.VariableID
-        tsr.UnitsID = result.UnitsID
-        tsr.ProcessingLevelID = result.ProcessingLevelID
-        tsr.ValueCount = result.ValueCount
-        tsr.SampledMediumCV = result.SampledMediumCV
-        tsr.ResultTypeCV = result.ResultTypeCV
+        # tsr.ResultUUID = result.ResultUUID
+        # tsr.FeatureActionID = result.FeatureActionID
+        # tsr.VariableID = result.VariableID
+        # tsr.UnitsID = result.UnitsID
+        # tsr.ProcessingLevelID = result.ProcessingLevelID
+        # tsr.ValueCount = result.ValueCount
+        # tsr.SampledMediumCV = result.SampledMediumCV
+        # tsr.ResultTypeCV = result.ResultTypeCV
 
         self._session.add(tsr)
         self._session.commit()

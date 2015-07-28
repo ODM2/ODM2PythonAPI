@@ -1,8 +1,8 @@
 
 import pprint
 
-import matplotlib.pyplot as plt
-from matplotlib import dates
+#import matplotlib.pyplot as plt
+#from matplotlib import dates
 
 
 from src.api.ODMconnection import dbconnection
@@ -141,18 +141,19 @@ except Exception as e:
 # Plot the time series
 
 try:
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    tsValues.plot(x='ValueDateTime', y='DataValue', kind='line',
-                  title=tsResult.VariableObj.VariableNameCV + " at " + tsResult.FeatureActionObj.SamplingFeatureObj.SamplingFeatureName,
-                  ax=ax)
-    ax.set_ylabel(tsResult.VariableObj.VariableNameCV + " (" + tsResult.UnitObj.UnitsAbbreviation + ")")
-    ax.set_xlabel("Date/Time")
-    ax.xaxis.set_minor_locator(dates.MonthLocator())
-    ax.xaxis.set_minor_formatter(dates.DateFormatter('%b'))
-    ax.xaxis.set_major_locator(dates.YearLocator())
-    ax.xaxis.set_major_formatter(dates.DateFormatter('\n%Y'))
-    ax.grid(True)
-    plt.show()
+    pass
+    # fig = plt.figure()
+    # ax = fig.add_subplot(111)
+    # tsValues.plot(x='ValueDateTime', y='DataValue', kind='line',
+    #               title=tsResult.VariableObj.VariableNameCV + " at " + tsResult.FeatureActionObj.SamplingFeatureObj.SamplingFeatureName,
+    #               ax=ax)
+    # ax.set_ylabel(tsResult.VariableObj.VariableNameCV + " (" + tsResult.UnitObj.UnitsAbbreviation + ")")
+    # ax.set_xlabel("Date/Time")
+    # ax.xaxis.set_minor_locator(dates.MonthLocator())
+    # ax.xaxis.set_minor_formatter(dates.DateFormatter('%b'))
+    # ax.xaxis.set_major_locator(dates.YearLocator())
+    # ax.xaxis.set_major_formatter(dates.DateFormatter('\n%Y'))
+    # ax.grid(True)
+    # plt.show()
 except Exception as e:
     print "Unable to demo plotting of tsValues: ", e
