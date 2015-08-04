@@ -1,0 +1,8 @@
+six
+sqlalchemy
+geoalchemy2
+
+matplotlib
+dateutils
+
+sqlalchemy-migrate
