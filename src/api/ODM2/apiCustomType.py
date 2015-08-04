@@ -64,8 +64,8 @@ def saves_as_bound(cls):
     @compiles(cls, 'postgresql')
     def compile_function(element, compiler, **kw):
 
-        print  "postgresql Save Table %s Alter column %s" % (dir(element), dir(compiler))
-        return "%s(%s)"%("ST_GeomFromText", "\"ODM2\".\"SamplingFeatures\".\"FeatureGeometry\"")
+        print  "postgresql Save Table %s Alter column %s" % (element.name, kw)
+        return "%s(%s)"%(element.name, "'POINT (30 10)'")
 
     @compiles(cls)#, 'mysql')
     def compile_function(element, compiler, **kw):
@@ -74,19 +74,19 @@ def saves_as_bound(cls):
         # print element.clauses
         # print element.params
 
-        print  "mysql Save Table %s Alter column %s" % (dir(element), dir(compiler))
+        print  "mysql Save Table %s Alter column %s" % (element.name, "location of point")
         #return None
-        return "%s(%s)"%("ST_GeomFromText", "`SamplingFeatures`.`FeatureGeometry`")
+        return "%s(%s)"%("ST_GeomFromText", "'POINT (30 10)'")
 
     @compiles(cls, 'sqlite')
     def compile_function(element, compiler, **kw):
         print  "sqlite Save Table %s Alter column %s"% (dir(element), dir(compiler))
-        return "%s(%s)" % ("STGeomFromText", "samplingfeatures.featuregeometry")
+        return "%s(%s)" % ("STGeomFromText", "'POINT (30 10)'")
 
     @compiles(cls, 'mssql')
     def compile_function(element, compiler, **kw):
         print  "mssql Save Table %s Alter column %s"%(dir(element), dir(compiler))
-        return "Geometry::%s(%s, 0)"%("STGeomFromText", "samplingfeature.featuregeometry")
+        return "Geometry::%s(%s, 0)"%("STGeomFromText", "'POINT (30 10)'")
 
     return cls
 
@@ -95,7 +95,9 @@ def saves_as_bound(cls):
 @saves_as_bound
 class ST_GeomFromText(FunctionElement):
     name = "ST_GeomFromText"
-
+    def __init__(self, *clauses, **kwargs):
+        FunctionElement.__init__(self, *clauses, **kwargs)
+        print "st_geomFromTExt ", clauses, kwargs
 
 @compiles_as_bound
 class ST_AsText(FunctionElement):
@@ -106,6 +108,7 @@ class ST_AsText(FunctionElement):
 @compiles_as_bound
 class ST_AsBinary(FunctionElement):
     name = 'ST_AsBinary'
+
 
 
 
