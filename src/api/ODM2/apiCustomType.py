@@ -61,13 +61,20 @@ def compiles_as_bound(cls):
 # function to save to the database
 def saves_as_bound(cls):
 
+    @compiles(cls)
+    def compile_function(element, compiler, **kw):
+        pass
     @compiles(cls, 'postgresql')
     def compile_function(element, compiler, **kw):
 
-        print  "postgresql Save Table %s Alter column %s" % (element.name, kw)
-        return "%s(%s)"%(element.name, "'POINT (30 10)'")
+        print  "postgresql Save : %s" % element.__str__()
 
-    @compiles(cls)#, 'mysql')
+        #return "%s(%s)"%(element.name, "'POINT (30 10)'")
+        #return "%s(%s)"%(element.name, "'POINT (30 10)'")
+
+        return element.__str__()
+
+    @compiles(cls, 'mysql')
     def compile_function(element, compiler, **kw):
         # print element.schema
         # print element.name
@@ -76,17 +83,20 @@ def saves_as_bound(cls):
 
         print  "mysql Save Table %s Alter column %s" % (element.name, "location of point")
         #return None
-        return "%s(%s)"%("ST_GeomFromText", "'POINT (30 10)'")
+        #return "%s(%s)"%(element.name, "'POINT (30 10)'")
+        return element.__str__()
 
     @compiles(cls, 'sqlite')
     def compile_function(element, compiler, **kw):
         print  "sqlite Save Table %s Alter column %s"% (dir(element), dir(compiler))
-        return "%s(%s)" % ("STGeomFromText", "'POINT (30 10)'")
+        #return "%s(%s)" % (element.name.replace('_', ''), "'POINT (30 10)'")
+        return "%s(%s)" % (element.name.replace('_', ''), "'POINT (30 10)'")
 
     @compiles(cls, 'mssql')
     def compile_function(element, compiler, **kw):
         print  "mssql Save Table %s Alter column %s"%(dir(element), dir(compiler))
-        return "Geometry::%s(%s, 0)"%("STGeomFromText", "'POINT (30 10)'")
+        #return "Geometry::%s(%s, 0)"%(element.name.replace('_', ''), "'POINT (30 10)'")
+        return "Geometry::%s"%element.name.replace('_', '')
 
     return cls
 
@@ -97,7 +107,8 @@ class ST_GeomFromText(FunctionElement):
     name = "ST_GeomFromText"
     def __init__(self, *clauses, **kwargs):
         FunctionElement.__init__(self, *clauses, **kwargs)
-        print "st_geomFromTExt ", clauses, kwargs
+        self.geometry = clauses[0]
+
 
 @compiles_as_bound
 class ST_AsText(FunctionElement):
@@ -123,8 +134,13 @@ class Geometry(GeometryBase):
         return value
 
     def bind_expression(self, bindvalue):
-        return ST_GeomFromText(bindvalue, type_=self)
+        val = None
+        try:
+            val = GeometryBase.bind_expression(self, bindvalue)
+        except:
 
+            val = ST_GeomFromText(bindvalue, type_=self)
+        return val
 
 
 
