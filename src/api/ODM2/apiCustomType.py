@@ -52,7 +52,7 @@ def compiles_as_bound(cls):
     def compile_function(element, compiler, **kw):
         print  "mssql Alter Table %s Alter column %s"%(dir(element), dir(compiler))
         #[SamplingFeatures_1].[FeatureGeometry].STAsText()
-        return "%s.%s()" % ( compiler.process(element.clauses.clauses[0]), element.name.replace('_', '') )
+        return "%s.%s()" % (compiler.process(element.clauses.clauses[0]), element.name.replace('_', '') )
 
     return cls
 
@@ -64,39 +64,34 @@ def saves_as_bound(cls):
     @compiles(cls)
     def compile_function(element, compiler, **kw):
         pass
+
     @compiles(cls, 'postgresql')
     def compile_function(element, compiler, **kw):
 
         print  "postgresql Save : %s" % element.__str__()
 
-        #return "%s(%s)"%(element.name, "'POINT (30 10)'")
-        #return "%s(%s)"%(element.name, "'POINT (30 10)'")
-
         return element.__str__()
 
     @compiles(cls, 'mysql')
     def compile_function(element, compiler, **kw):
-        # print element.schema
-        # print element.name
-        # print element.clauses
-        # print element.params
 
-        print  "mysql Save Table %s Alter column %s" % (element.name, "location of point")
-        #return None
+        print "mysql Save Table %s Alter column %s" % (element.name, "location of point")
         #return "%s(%s)"%(element.name, "'POINT (30 10)'")
         return element.__str__()
 
     @compiles(cls, 'sqlite')
     def compile_function(element, compiler, **kw):
         print  "sqlite Save Table %s Alter column %s"% (dir(element), dir(compiler))
+        element.name= element.name.replace('_', '')
+        print element.name
         #return "%s(%s)" % (element.name.replace('_', ''), "'POINT (30 10)'")
-        return "%s(%s)" % (element.name.replace('_', ''), "'POINT (30 10)'")
+        return element
 
     @compiles(cls, 'mssql')
     def compile_function(element, compiler, **kw):
         print  "mssql Save Table %s Alter column %s"%(dir(element), dir(compiler))
         #return "Geometry::%s(%s, 0)"%(element.name.replace('_', ''), "'POINT (30 10)'")
-        return "Geometry::%s"%element.name.replace('_', '')
+        element.name = "Geometry::%s" % element.name.replace('_', '')
 
     return cls
 
@@ -105,9 +100,7 @@ def saves_as_bound(cls):
 @saves_as_bound
 class ST_GeomFromText(FunctionElement):
     name = "ST_GeomFromText"
-    def __init__(self, *clauses, **kwargs):
-        FunctionElement.__init__(self, *clauses, **kwargs)
-        self.geometry = clauses[0]
+
 
 
 @compiles_as_bound
@@ -138,8 +131,8 @@ class Geometry(GeometryBase):
         try:
             val = GeometryBase.bind_expression(self, bindvalue)
         except:
-
-            val = ST_GeomFromText(bindvalue, type_=self)
+            pass
+        val = ST_GeomFromText(bindvalue, type_=self)
         return val
 
 
