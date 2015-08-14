@@ -79,7 +79,7 @@ print "\t\tData Values: get_all_series()"
 print "************************************************"
 print
 
-#pp.pprint(odm1service.get_all_series())
+pp.pprint(odm1service.get_all_series())
 
 
 print

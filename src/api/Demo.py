@@ -16,7 +16,7 @@ from src.api.ODM2.services.readService import *
 # session_factory = dbconnection.createConnection('postgresql', 'localhost', 'ODM2', 'odm', 'odm')
 # session_factory = dbconnection.createConnection('mssql', 'local', 'odm2', 'ODM', 'odm')
 #session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')
-
+session_factory = dbconnection.createConnection('mssql', 'arroyolittlebear', 'ODM', 'ODM', 'odm', dbtype=1.1)
 
 # Currently the schemas each have a different
 # connection but it will be changed to all the services sharing a connection

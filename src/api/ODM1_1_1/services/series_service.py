@@ -7,11 +7,10 @@ from sqlalchemy import distinct, func
 from ...ODMconnection import SessionFactory
 from ...versionSwitcher import ODM#.models import Site, Variable, Unit, Series, DataValue, Qualifier, OffsetType, Sample, Method, QualityControlLevel, ODMVersion
 from ...base import serviceBase
-#from odmtools.common.logger import LoggerTool
+
 import pandas as pd
 
-#tool = LoggerTool()
-#logger = tool.setupLogger(__name__, __name__ + '.log', 'w', logging.DEBUG)
+
 
 
 class SeriesService(serviceBase):

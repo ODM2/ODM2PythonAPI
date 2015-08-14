@@ -37,6 +37,16 @@ class SpatialReference(Base):
 
 sf_table = SamplingFeatures().__table__
 site_table = Sites().__table__
+
+
+site_table = select([
+    site_table.c.samplingfeatureid,
+    site_table.c.spatialreferenceid.label('sitespatialreferenceid'),
+    site_table.c.latitude,
+    site_table.c.longitude,
+    site_table.c.sitetypecv,
+]).alias("odm2_sites")
+
 site_join = site_table.join(sf_table, site_table.c.samplingfeatureid == sf_table.c.samplingfeatureid)
 class Site(Base):
     __tablename__ = u'sites'
@@ -48,7 +58,7 @@ class Site(Base):
     name = site_join.c.odm2_samplingfeatures_samplingfeaturename
     latitude = site_join.c.odm2_sites_latitude
     longitude = site_join.c.odm2_sites_longitude
-    lat_long_datum_id = site_join.c.odm2_sites_spatialreferenceid # ._clone().foreign_keys = ForeignKey("SpatialReference.id")#, Integer, ForeignKey("SpatialReference.id"))#column_property(site_table.c.LatLonDatumID, ForeignKey('SpatialReference.id'))
+    lat_long_datum_id = site_join.c.odm2_sites_sitespatialreferenceid # ._clone().foreign_keys = ForeignKey("SpatialReference.id")#, Integer, ForeignKey("SpatialReference.id"))#column_property(site_table.c.LatLonDatumID, ForeignKey('SpatialReference.id'))
     elevation_m = site_join.c.odm2_samplingfeatures_elevation_m
     vertical_datum_id = site_join.c.odm2_samplingfeatures_elevationdatumcv
 
@@ -102,7 +112,7 @@ result_table = Results().__table__
 result_aliased_table = select([
     result_table.c.resultid.label("RID"),
     result_table.c.unitsid,
-    result_table.c.variableid,
+    result_table.c.variableid.label("VARID"),
     result_table.c.sampledmediumcv,
 
 
@@ -420,11 +430,20 @@ class QualityControlLevel(Base):
 
 timeseriesresultvalues_table = TimeSeriesResultValues.__table__
 # timeseriesresults_table = TimeSeriesResults.__table__
-feature_action_table = FeatureActions.__table__
-result_table = Results.__table__
+
+
 action_table = Actions.__table__
 action_by_table = ActionBy.__table__
 
+
+feature_action_table = FeatureActions.__table__
+feature_action_table = select([
+    feature_action_table.c.actionid.label("actid"),
+    feature_action_table.c.featureactionid.label("FeAID"),
+    feature_action_table.c.samplingfeatureid.label("SFID")
+]).alias("odm2_featureactions")
+
+result_table = Results.__table__
 result_aliased_table = select([
     result_table.c.resultid.label("RID"),
     result_table.c.unitsid,
@@ -433,8 +452,6 @@ result_aliased_table = select([
     result_table.c.featureactionid.label("FAID"),
     result_table.c.processinglevelid,
     result_table.c.valuecount,
-
-
 ]).alias("ODM2_RESULT_Aliased")
 
 action_aliased_table = select([
@@ -451,8 +468,8 @@ action_by_aliased_table = select([
 
 joined_table = timeseriesresultvalues_table.join(result_aliased_table, timeseriesresultvalues_table.c.resultid ==
                                                  result_aliased_table.c.RID)
-joined_table = joined_table.join(feature_action_table, feature_action_table.c.featureactionid == result_aliased_table.c.FAID)
-joined_table = joined_table.join(action_aliased_table, feature_action_table.c.actionid == action_aliased_table.c.AID)
+joined_table = joined_table.join(feature_action_table, feature_action_table.c.FeAID == result_aliased_table.c.FAID)
+joined_table = joined_table.join(action_aliased_table, feature_action_table.c.actid == action_aliased_table.c.AID)
 joined_table = joined_table.join(action_by_aliased_table, action_aliased_table.c.AID == action_by_aliased_table.c.ABID)
 
 
@@ -466,7 +483,7 @@ class DataValue(Base):
     local_date_time = joined_table.c.odm2_timeseriesresultvalues_valuedatetime
     utc_offset = joined_table.c.odm2_timeseriesresultvalues_valuedatetimeutcoffset
     date_time_utc = None  ## column propertly datetimeutcoffset
-    site_id = joined_table.c.odm2_featureactions_samplingfeatureid
+    site_id = joined_table.c.odm2_featureactions_FeAID
     variable_id = joined_table.c.ODM2_RESULT_Aliased_variableid
     offset_value = None  ## Question for jeff
     offset_type_id = None  ## Question for Jeff
@@ -507,17 +524,17 @@ class DataValue(Base):
   (self.classname, name, (", ".join(sorted(keys))))
 '''
 
-'''
+
 method_table = Methods().__table__
 processing_levels_table = ProcessingLevels().__table__
 
-joined_table = feature_action_table.join(result_aliased_table, result_table.c.featureactionid == feature_action_table.c.featureactionid)
+joined_table = feature_action_table.join(result_aliased_table, result_table.c.featureactionid == feature_action_table.c.FeAID)
 joined_table = joined_table.join(site_join, site_join.c.odm2_sites_samplingfeatureid ==
-                                 joined_table.c.odm2_featureactions_samplingfeatureid)
+                                 joined_table.c.odm2_featureactions_SFID)
 joined_table = joined_table.join(variable_join, joined_table.c.ODM2_RESULT_Aliased_RID == variable_join.c.ODM2_Aliased_RID)
 
 # Obtaining Action
-joined_table = joined_table.join(action_table, joined_table.c.odm2_featureactions_actionid == action_table.c.actionid)
+joined_table = joined_table.join(action_table, joined_table.c.odm2_featureactions_actid == action_table.c.actionid)
 
 # Obtaining Method
 joined_table = joined_table.join(method_table, joined_table.c.odm2_actions_methodid == method_table.c.methodid)
@@ -532,6 +549,7 @@ joined_table = joined_table.join(processing_levels_table, joined_table.c.ODM2_RE
 
 '''
 class Series:
+    print "test"
     pass
 '''
 
@@ -595,7 +613,7 @@ class Series(Base):
 
     def get_table_columns(self):
         return self.__table__.columns.keys()
-'''
+
 
 
 
