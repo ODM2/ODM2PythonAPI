@@ -5,8 +5,8 @@ import pprint
 #from matplotlib import dates
 
 
-from src.api.ODMconnection import dbconnection
-from src.api.ODM2.services.readService import *
+from ODMconnection import dbconnection
+from ODM2.services.readService import *
 
 
 # Create a connection to the ODM2 database

@@ -1,8 +1,8 @@
 import sys
 import os
-from src.api.ODMconnection import dbconnection
+from ODMconnection import dbconnection
 import pprint
-from src.api.ODM1_1_1.services import SeriesService
+from ODM1_1_1.services import SeriesService
 
 this_file = os.path.realpath(__file__)
 directory = os.path.dirname(this_file)
