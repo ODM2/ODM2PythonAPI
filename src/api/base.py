@@ -4,6 +4,7 @@
 
 from sqlalchemy.ext.declarative import declarative_base
 #from sqlalchemy import MetaData
+# from .ODMconnection import SessionFactory
 class Singleton(type):
     _instances = {}
 
@@ -21,10 +22,18 @@ class serviceBase(object):
     def __init__(self, session):
         self._session = session
     '''
-    def __init__(self,  session_factory, debug=False):
+    def __init__(self,  session_factory=None, debug=False):
+        '''
+        must send in either a session_factory or a connection, exclusive or
+        '''
 
+        # if connection is  None:
         self._session_factory = session_factory
+        # else:
+        #     self._session_factory = SessionFactory(connection)
+
         self._session = session_factory.getSession()
+
 
         # self._session.autoflush = False
         #print "Session ", self._session

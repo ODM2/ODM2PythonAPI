@@ -9,7 +9,7 @@ import ODM2.LikeODM1.models as ODM2
 
 
 #Set Default
-ODM = ODM2
+ODM = ODM1
 
 def refreshDB(ver):
     if ver == 1.1:

@@ -39,7 +39,7 @@ class dbconnection():
         self._connection_format = "%s+%s://%s:%s@%s/%s"
 
     @classmethod
-    def createConnection(self, engine, address, db=None, user=None, password=None, dbtype = 2.0):
+    def createConnection(self, engine, address, db=None, user=None, password=None, dbtype = 1.1):
 
         if engine == 'sqlite':
             connection_string = engine +':///'+address
