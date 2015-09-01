@@ -16,7 +16,7 @@ metadata = Base.metadata
 
 #from base import modelBase as Base
 
-from src.api.base import modelBase
+from api.base import modelBase
 Base = modelBase.Base
 
 

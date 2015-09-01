@@ -41,7 +41,7 @@ def compiles_as_bound(cls):
     @compiles(cls, 'sqlite')
     def compile_function(element, compiler, **kw):
         print "sqlite Alter Table %s Alter column %s"% (dir(element), dir(compiler))
-        return "%s(%s)"%(element.name, compiler.process(element.clauses.clauses[0]))
+        return "%s(%s)"%(element.name.split('_')[-1], compiler.process(element.clauses.clauses[0]))
         #return ST_AsText(samplingfeatures.featuregeometry)
 
 
@@ -79,7 +79,7 @@ def saves_as_bound(cls):
     @compiles(cls, 'sqlite')
     def compile_function(element, compiler, **kw):
         print "sqlite Save Table %s Alter column %s"% (dir(element), dir(compiler))
-        element.name= element.name.replace('_', '')
+        element.name= element.name.split('_')[-1]
         print element.name
         #return "%s(%s)" % (element.name.replace('_', ''), "'POINT (30 10)'")
         return element

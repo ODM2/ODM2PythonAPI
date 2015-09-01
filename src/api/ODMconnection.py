@@ -13,7 +13,7 @@ class SessionFactory():
         if 'sqlite' in connection_string:
             self.engine = create_engine(connection_string, encoding='utf-8', echo=echo)
             self.test_engine = self.engine
-        if 'mssql' in connection_string:
+        elif 'mssql' in connection_string:
               self.engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600)
               self.test_engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600, connect_args={'timeout': 1})
         elif 'postgresql' in connection_string or 'mysql' in connection_string:
@@ -46,20 +46,27 @@ class dbconnection():
         else:
             connection_string = dbconnection.buildConnDict(dbconnection(), engine, address, db, user, password)
         # if self.testConnection(connection_string):
+
+        if self.isValidConnection(connection_string, dbtype):
+            return SessionFactory(connection_string, echo = False)
+        else :
+            return None
+
+    def isValidConnection(self, connection_string, dbtype):
         refreshDB(dbtype)
 
         if dbtype == 2.0:
             if self.testEngine(connection_string):
                 # print "sucess"
-                return SessionFactory(connection_string, echo=False)
+               return True
             else:
-                return None
+                return False
         else:
             if self.testEngine1_1(connection_string):
                 # print "sucess"
-                return SessionFactory(connection_string, echo=False)
+                return True
             else:
-                return None
+                return False
 
     @staticmethod
     def _getSchema(engine):
@@ -131,15 +138,7 @@ class dbconnection():
         self._connections.append(conn_dict)
         self._current_connection = self._connections[-1]
 
-    def testConnection(self, conn_dict):
-        try:
-            self.version = self.get_db_version(conn_dict)
-        except DBAPIError:
-            pass
-            # print e.message
-        except SQLAlchemyError:
-            return False
-        return True
+
 
     def deleteConnection(self, conn_dict):
         self._connections[:] = [x for x in self._connections if x != conn_dict]

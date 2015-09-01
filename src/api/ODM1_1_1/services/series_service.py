@@ -18,10 +18,10 @@ class SeriesService(serviceBase):
 
 
     def reset_session(self):
-        self._session = self._session_factory.get_session()  # Reset the session in order to prevent memory leaks
+        self._session = self._session_factory.getSession()  # Reset the session in order to prevent memory leaks
 
-    def get_db_version(self):
-        return self._session.query(ODM.ODMVersion).first().version_number
+    # def get_db_version(self):
+    #     return self._session.query(ODM.ODMVersion).first().version_number
 
 #####################
 #
