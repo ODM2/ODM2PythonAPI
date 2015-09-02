@@ -169,7 +169,6 @@ class SeriesService(serviceBase):
         except:
             return None
 
-
     def get_all_qualifiers(self):
         """
 

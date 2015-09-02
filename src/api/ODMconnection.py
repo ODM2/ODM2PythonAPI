@@ -52,6 +52,7 @@ class dbconnection():
         else :
             return None
 
+    @classmethod
     def isValidConnection(self, connection_string, dbtype):
         refreshDB(dbtype)
 
