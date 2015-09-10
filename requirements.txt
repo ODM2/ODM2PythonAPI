@@ -6,6 +6,3 @@ matplotlib
 dateutils
 
 sqlalchemy-migrate
-
-typecheck
-valideer
