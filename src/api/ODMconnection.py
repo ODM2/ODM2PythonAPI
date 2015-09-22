@@ -8,6 +8,7 @@ from .versionSwitcher import ODM, refreshDB #import Variable as Variable1
 import urllib
 import sys
 
+
 class SessionFactory():
     def __init__(self, connection_string, echo):
         if 'sqlite' in connection_string:
