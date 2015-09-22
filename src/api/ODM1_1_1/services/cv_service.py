@@ -4,9 +4,22 @@ from .ODM1_1_1.models import SessionFactory, VerticalDatumCV, SiteTypeCV, Variab
     alueTypeCV, DataTypeCV, GeneralCategoryCV, CensorCodeCV, TopicCategoryCV, SampleTypeCV, OffsetType, Sample, \
     Qualifier, Unit
 '''
-from ...versionSwitcher import ODM
+#from ...versionSwitcher import ODM
 from ...base import serviceBase
 from sqlalchemy import not_
+
+
+import ODM1_1_1.models as ODM1
+import ODM2.LikeODM1.models as ODM2
+
+#Set Default
+ODM = ODM2
+
+def refreshDB(ver):
+    if ver == 1.1:
+        ODM = ODM1
+    elif ver == 2.0:
+        ODM = ODM2
 
 
 class CVService(serviceBase):
@@ -22,9 +35,6 @@ class CVService(serviceBase):
     def get_samples(self):
         result = self._session.query(ODM.Sample).order_by(ODM.Sample.lab_sample_code).all()
         return result
-
-
-
     def get_site_type_cvs(self):
         result = self._session.query(ODM.SiteTypeCV).order_by(ODM.SiteTypeCV.term).all()
         return result

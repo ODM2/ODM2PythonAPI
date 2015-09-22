@@ -4,7 +4,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from .ODM2.models import Variables as Variable2, change_schema
-from .versionSwitcher import ODM, refreshDB #import Variable as Variable1
+#from .versionSwitcher import ODM, refreshDB #import Variable as Variable1
+from .ODM1_1_1.services import ODM, refreshDB
 import urllib
 import sys
 

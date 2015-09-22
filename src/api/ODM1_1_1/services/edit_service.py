@@ -1,6 +1,6 @@
 import sqlite3
 
-from ...versionSwitcher import ODM
+#from ...versionSwitcher import ODM
 from series_service import SeriesService
 
 #from odmtools.odmdata import series as series_module
@@ -14,6 +14,8 @@ import numpy as np
 
 #tool = LoggerTool()
 #logger = tool.setupLogger(__name__, __name__ + '.log', 'w', logging.DEBUG)
+
+
 
 
 class EditService():
@@ -459,7 +461,7 @@ class EditService():
         if is_new_series:
 
 
-            series = ODM.Series.copy_series(series)
+            series = self.memDB.series_service.copy_series(series)
 
 
             if var:
