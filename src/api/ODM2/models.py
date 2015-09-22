@@ -16,7 +16,7 @@ metadata = Base.metadata
 
 #from base import modelBase as Base
 
-from src.api.base import modelBase
+from api.base import modelBase
 Base = modelBase.Base
 
 
@@ -689,7 +689,7 @@ class Results(Base):
     # ResultUUID = Column(UNIQUEIDENTIFIER, nullable=False)
     ResultUUID = Column('resultuuid', String(36), nullable=False)
     FeatureActionID = Column('featureactionid', ForeignKey(FeatureActions.FeatureActionID), nullable=False)
-    ResultTypeCV = Column(ForeignKey(CVResultType.Name), nullable=False, index=True)
+    ResultTypeCV = Column('resulttypecv', ForeignKey(CVResultType.Name), nullable=False, index=True)
     VariableID = Column('variableid', ForeignKey(Variables.VariableID), nullable=False)
     UnitsID = Column('unitsid', ForeignKey(Units.UnitsID), nullable=False)
     TaxonomicClassifierID = Column('taxonomicclassifierid',

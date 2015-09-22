@@ -1,69 +1,3 @@
-'''rom base import Base
-from censor_code_cv import CensorCodeCV
-from data_type_cv import DataTypeCV
-from data_value import DataValue
-from general_category_cv import GeneralCategoryCV
-from iso_metadata import ISOMetadata
-from lab_method import LabMethod
-from method import Method
-from odm_version import ODMVersion
-from offset_type import OffsetType
-from qualifier import Qualifier
-from quality_control_level import QualityControlLevel
-from sample import Sample
-from sample_medium_cv import SampleMediumCV
-from sample_type_cv import SampleTypeCV
-from series import Series
-from session_factory import SessionFactory
-from site import Site
-from site_type_cv import SiteTypeCV
-from source import Source
-from spatial_reference import SpatialReference
-from speciation_cv import SpeciationCV
-from topic_category_cv import TopicCategoryCV
-from unit import Unit
-from value_type_cv import ValueTypeCV
-from variable import Variable
-from variable_name_cv import VariableNameCV
-from vertical_datum_cv import VerticalDatumCV
-
-from series import copy_series
-from data_value import copy_data_value
-
-__all__ = [
-    'Base',
-    'CensorCodeCV',
-    'DataTypeCV',
-    'DataValue',
-    'GeneralCategoryCV',
-    'ISOMetadata',
-    'LabMethod',
-    'Method',
-    'ODMVersion',
-    'OffsetType',
-    'Qualifier',
-    'QualityControlLevel',
-    'Sample',
-    'SampleMediumCV',
-    'SampleTypeCV',
-    'Series',
-    'SessionFactory',
-    'Site',
-    'SiteTypeCV',
-    'Source',
-    'SpatialReference',
-    'SpeciationCV',
-    'TopicCategoryCV',
-    'Unit',
-    'ValueTypeCV',
-    'Variable',
-    'VariableNameCV',
-    'VerticalDatumCV',
-    'MemoryDatabase',
-    'copy_series',
-    'copy_data_value'
-]
-'''
 
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -398,26 +332,6 @@ class VerticalDatumCV(Base):
     def __repr__(self):
         return "<VerticalDatumCV('%s', '%s')>" % (self.term, self.definition)
 
-def copy_data_value(from_dv):
-    new = DataValue()
-    new.data_value = from_dv.data_value
-    new.value_accuracy = from_dv.value_accuracy
-    new.local_date_time = from_dv.local_date_time
-    new.utc_offset = from_dv.utc_offset
-    new.date_time_utc = from_dv.date_time_utc
-    new.site_id = from_dv.site_id
-    new.variable_id = from_dv.variable_id
-    new.offset_value = from_dv.offset_value
-    new.offset_type_id = from_dv.offset_type_id
-    new.censor_code = from_dv.censor_code
-    new.qualifier_id = from_dv.qualifier_id
-    new.method_id = from_dv.method_id
-    new.source_id = from_dv.source_id
-    new.sample_id = from_dv.sample_id
-    new.derived_from_id = from_dv.derived_from_id
-    new.quality_control_level_id = from_dv.quality_control_level_id
-    return new
-
 
 class DataValue(Base):
     __tablename__ = 'DataValues'
@@ -462,41 +376,9 @@ class DataValue(Base):
     def __repr__(self):
         return "<DataValue('%s', '%s', '%s')>" % (self.data_value, self.local_date_time, self.value_accuracy)
 
-def copy_series(from_series):
-    new = Series()
-    new.site_id = from_series.site_id
-    new.site_code = from_series.site_code
-    new.site_name = from_series.site_name
-    new.variable_id = from_series.variable_id
-    new.variable_code = from_series.variable_code
-    new.variable_name = from_series.variable_name
-    new.speciation = from_series.speciation
-    new.variable_units_id = from_series.variable_units_id
-    new.variable_units_name = from_series.variable_units_name
-    new.sample_medium = from_series.sample_medium
-    new.value_type = from_series.value_type
-    new.time_support = from_series.time_support
-    new.time_units_id = from_series.time_units_id
-    new.time_units_name = from_series.time_units_name
-    new.data_type = from_series.data_type
-    new.general_category = from_series.general_category
-    new.method_id = from_series.method_id
-    new.method_description = from_series.method_description
-    new.source_id = from_series.source_id
-    new.source_description = from_series.source_description
-    new.organization = from_series.organization
-    new.citation = from_series.citation
-    new.quality_control_level_id = from_series.quality_control_level_id
-    new.quality_control_level_code = from_series.quality_control_level_code
-    new.begin_date_time = from_series.begin_date_time
-    new.begin_date_time_utc = from_series.begin_date_time_utc
-    new.end_date_time_utc = from_series.end_date_time_utc
-    new.value_count = from_series.value_count
-    return new
-
 
 class Series(Base):
-    __tablename__ = 'seriescatalog'
+    __tablename__ = 'SeriesCatalog'
 
     id = Column('SeriesID', Integer, primary_key=True)
     site_id = Column('SiteID', Integer, ForeignKey('Sites.SiteID'), nullable=False)

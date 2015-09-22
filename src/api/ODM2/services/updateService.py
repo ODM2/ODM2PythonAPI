@@ -1,5 +1,5 @@
 from .. import serviceBase
-from src.api.ODM2.models import *
+from api.ODM2.models import *
 
 from datetime import datetime
 

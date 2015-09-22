@@ -1,25 +1,22 @@
-import sys
-import os
-from src.api.ODMconnection import dbconnection
-import pprint
-from src.api.ODM1_1_1.services import SeriesService
+__author__ = 'stephanie'
 
-this_file = os.path.realpath(__file__)
-directory = os.path.dirname(this_file)
-sys.path.insert(0, directory)
+import matplotlib.pyplot as plt
+from matplotlib import dates
+import pprint
+from api.ODMconnection import dbconnection
+from api.ODM1_1_1.services import SeriesService
 
 
 # Create a connection to the ODM2 database
 # ----------------------------------------
-# conn = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'ODM123!!')
-# conn = dbconnection.createConnection('mysql', 'jws.uwrl.usu.edu', 'odm2', 'ODM', 'ODM123!!', 2.0)
-# conn = dbconnection.createConnection('mssql', '(local)', 'ODM2SS', 'ODM', 'odm')
-# conn = dbconnection.createConnection('postgresql', 'localhost', 'ODM2', 'odm', 'odm')
-# conn = dbconnection.createConnection('mysql', '127.0.0.1:3306', 'ODM2', 'Stephanie', 'odm')
-# -------------------------------------------------
+
+#createconnection (dbtype, servername, dbname, username, password)
+#session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')
+session_factory = dbconnection.createConnection('mysql', 'jws.uwrl.usu.edu', 'odm2', 'ODM', 'ODM123!!', 2)
+
 
 #ODM1 DB
-conn = dbconnection.createConnection('mysql', 'jws.uwrl.usu.edu', 'odm', "ODM", "ODM123!!", 1.1)
+# session_factory = dbconnection.createConnection('mysql', 'jws.uwrl.usu.edu', 'odm', "ODM", "ODM123!!", 1.1)
 
 pp = pprint.PrettyPrinter(indent=8)
 
@@ -29,8 +26,8 @@ print "\t\tODM2 -> ODM1 Demo: "
 print "************************************************"
 print
 
-odm1service = SeriesService(conn)
-pp.pprint(conn)
+odm1service = SeriesService(session_factory)
+pp.pprint(session_factory)
 
 print
 print "************************************************"
@@ -79,7 +76,7 @@ print "\t\tData Values: get_all_series()"
 print "************************************************"
 print
 
-#pp.pprint(odm1service.get_all_series())
+pp.pprint(odm1service.get_all_series())
 
 
 print
@@ -88,7 +85,5 @@ print "\t\tData Values: get_all_DataValues()"
 print "************************************************"
 print
 
-#pp.pprint(odm1service.get_values_by_series(1))
+pp.pprint(odm1service.get_values_by_series(1))
 
-
-#

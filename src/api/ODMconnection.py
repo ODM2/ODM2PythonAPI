@@ -1,9 +1,13 @@
+
 from sqlalchemy.exc import SQLAlchemyError, DBAPIError
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from .ODM2.models import Variables as Variable2, change_schema
-from .versionSwitcher import ODM, refreshDB #import Variable as Variable1
+#from .versionSwitcher import ODM, refreshDB #import Variable as Variable1
+from .ODM1_1_1.services import ODM, refreshDB
+import urllib
+import sys
 
 
 class SessionFactory():
@@ -11,9 +15,9 @@ class SessionFactory():
         if 'sqlite' in connection_string:
             self.engine = create_engine(connection_string, encoding='utf-8', echo=echo)
             self.test_engine = self.engine
-        if 'mssql' in connection_string:
-              self.engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600, pool_timeout=5, pool_size=20, max_overflow=0)
-              self.test_engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600, pool_timeout=5, max_overflow=0, connect_args={'timeout': 1})
+        elif 'mssql' in connection_string:
+              self.engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600)
+              self.test_engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600, connect_args={'timeout': 1})
         elif 'postgresql' in connection_string or 'mysql' in connection_string:
             self.engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600, pool_timeout=5, pool_size=20, max_overflow=0)
             self.test_engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600, pool_timeout=5, max_overflow=0, connect_args={'connect_timeout': 1})
@@ -37,27 +41,35 @@ class dbconnection():
         self._connection_format = "%s+%s://%s:%s@%s/%s"
 
     @classmethod
-    def createConnection(self, engine, address, db=None, user=None, password=None, dbtype = 2.0):
+    def createConnection(self, engine, address, db=None, user=None, password=None, dbtype = 1.1):
 
         if engine == 'sqlite':
             connection_string = engine +':///'+address
         else:
             connection_string = dbconnection.buildConnDict(dbconnection(), engine, address, db, user, password)
         # if self.testConnection(connection_string):
+
+        if self.isValidConnection(connection_string, dbtype):
+            return SessionFactory(connection_string, echo = False)
+        else :
+            return None
+
+    @classmethod
+    def isValidConnection(self, connection_string, dbtype):
         refreshDB(dbtype)
 
         if dbtype == 2.0:
             if self.testEngine(connection_string):
                 # print "sucess"
-                return SessionFactory(connection_string, echo=False)
+               return True
             else:
-                return None
+                return False
         else:
             if self.testEngine1_1(connection_string):
                 # print "sucess"
-                return SessionFactory(connection_string, echo=False)
+                return True
             else:
-                return None
+                return False
 
     @staticmethod
     def _getSchema(engine):
@@ -75,21 +87,14 @@ class dbconnection():
     def _setSchema(self, engine):
 
         s = self._getSchema(engine)
-
-
-        #print "orig", Variable2.__table__.schema
-        #print "New", s
         change_schema(s)
 
-        #print "set new", Variable2.__table__.schema
 
 
     @classmethod
     def testEngine(self, connection_string):
         s = SessionFactory(connection_string, echo=False)
-
         try:
-
             self._setSchema(s.test_engine)
             s.test_Session().query(Variable2.VariableCode).limit(1).first()
 
@@ -104,15 +109,6 @@ class dbconnection():
         try:
             # s.ms_test_Session().query(Variable1).limit(1).first()
             s.test_Session().query(ODM.Variable.code).limit(1).first()
-            '''
-            if 'mssql' in connection_string:
-                s.ms_test_Session().execute(Variable1).limit(1).first()
-            elif 'postgresql' in connection_string:
-                s.psql_test_Session().execute('Select "VariableCode" From "Variables" Limit 1')
-                # s.psql_test_Session().execute('Select "VariableNameCV" From "ODM2"."Variables" Limit 1')
-            elif 'mysql' in connection_string:
-                s.psql_test_Session().execute('Select variablecode From variables Limit 1')
-            '''
 
         except Exception as e:
             print "Connection was unsuccessful ", e.message
@@ -145,15 +141,7 @@ class dbconnection():
         self._connections.append(conn_dict)
         self._current_connection = self._connections[-1]
 
-    def testConnection(self, conn_dict):
-        try:
-            self.version = self.get_db_version(conn_dict)
-        except DBAPIError:
-            pass
-            # print e.message
-        except SQLAlchemyError:
-            return False
-        return True
+
 
     def deleteConnection(self, conn_dict):
         self._connections[:] = [x for x in self._connections if x != conn_dict]
@@ -162,19 +150,45 @@ class dbconnection():
     # private variables
     ## ###################
 
+    # def __buildConnectionString(self, conn_dict):
+    #     driver = ""
+    #     if conn_dict['engine'] == 'mssql':
+    #         driver = "pyodbc"
+    #     elif conn_dict['engine'] == 'mysql':
+    #         driver = "pymysql"
+    #     elif conn_dict['engine'] == 'postgresql':
+    #         driver = "psycopg2"
+    #     else:
+    #         driver = "None"
+    #
+    #     conn_string = self._connection_format % (
+    #         conn_dict['engine'], driver, conn_dict['user'], conn_dict['password'], conn_dict['address'],
+    #         conn_dict['db'])
+    #     # print conn_string
+    #     return conn_string
+
     def __buildConnectionString(self, conn_dict):
         driver = ""
-        if conn_dict['engine'] == 'mssql':
+        print "****", conn_dict
+        if conn_dict['engine'] == 'mssql' and sys.platform != 'win32':
             driver = "pyodbc"
-        elif conn_dict['engine'] == 'mysql':
-            driver = "pymysql"
-        elif conn_dict['engine'] == 'postgresql':
-            driver = "psycopg2"
-        else:
-            driver = "None"
+            #'DRIVER={FreeTDS};DSN=%s;UID=%s;PWD=%s;' % (conn_dict['address'], conn_dict['user'], conn_dict['password'])
+            quoted = urllib.quote_plus('DRIVER={FreeTDS};DSN=%s;UID=%s;PWD=%s;' % (conn_dict['address'], conn_dict['user'], conn_dict['password']))
+            conn_string = 'mssql+pyodbc:///?odbc_connect={}'.format(quoted)
 
-        conn_string = self._connection_format % (
-            conn_dict['engine'], driver, conn_dict['user'], conn_dict['password'], conn_dict['address'],
-            conn_dict['db'])
-        # print conn_string
+        else:
+            if conn_dict['engine'] == 'mssql':
+                driver = "pyodbc"
+            elif conn_dict['engine'] == 'mysql':
+                driver = "pymysql"
+            elif conn_dict['engine'] == 'postgresql':
+                driver = "psycopg2"
+            else:
+                driver = "None"
+
+            conn_string = self._connection_format % (
+                conn_dict['engine'], driver, conn_dict['user'], conn_dict['password'], conn_dict['address'],
+                conn_dict['db'])
+
+        print "******", conn_string
         return conn_string

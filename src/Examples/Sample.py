@@ -13,15 +13,16 @@ directory = os.path.dirname(os.path.dirname(this_file))
 print directory
 sys.path.insert(0, directory)
 
-from src.api.ODMconnection import dbconnection
-from src.api.ODM2.services.readService import *
+from api.ODMconnection import dbconnection
+from api.ODM2.services.readService import *
 # Create a connection to the ODM2 database
 # ----------------------------------------
 
 
 #connect to database
 #createconnection (dbtype, servername, dbname, username, password)
-session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')
+#session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')
+session_factory = dbconnection.createConnection('mysql', 'jws.uwrl.usu.edu', 'odm2', 'ODM', 'ODM123!!', 2)
 
 
 
@@ -75,6 +76,26 @@ try:
         "Elevation_m: " + str(sf.Elevation_m))
 except Exception as e:
     print "Unable to demo getSamplingFeatureByCode: ", e
+
+#add sampling feature
+try:
+    from api.ODM2.models import SamplingFeatures
+    newsf = SamplingFeatures()
+    newsf = SamplingFeatures()
+    newsf.FeatureGeometry = sf.FeatureGeometry
+    newsf.Elevation_m=100
+    newsf.ElevationDatumCV=sf.ElevationDatumCV
+    newsf.SamplingFeatureCode= "TestSF"
+    newsf.SamplingFeatureDescription = "this is a test to add Feature Geomotry"
+    newsf.SamplingFeatureGeotypeCV= sf.SamplingFeatureGeotypeCV
+    newsf.SamplingFeatureTypeCV=sf.SamplingFeatureTypeCV
+    newsf.SamplingFeatureUUID= sf.SamplingFeatureUUID+"1"
+    session_factory.getSession().add(newsf)
+    session_factory.getSession().commit()
+    print "new sampling deature added to database", newsf
+
+except Exception as e :
+    print "error adding a sampling feature" + e
 
 
 # Drill down and get objects linked by foreign keys

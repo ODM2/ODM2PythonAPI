@@ -1,17 +1,27 @@
 import logging
 
 
-from sqlalchemy import distinct, func
+from sqlalchemy import distinct, func, not_
 
 
-from ...ODMconnection import SessionFactory
-from ...versionSwitcher import ODM#.models import Site, Variable, Unit, Series, DataValue, Qualifier, OffsetType, Sample, Method, QualityControlLevel, ODMVersion
 from ...base import serviceBase
-#from odmtools.common.logger import LoggerTool
 import pandas as pd
 
-#tool = LoggerTool()
-#logger = tool.setupLogger(__name__, __name__ + '.log', 'w', logging.DEBUG)
+
+import api.ODM1_1_1.models as ODM1
+import api.ODM2.LikeODM1.models as ODM2
+
+#Set Default
+ODM = ODM2
+
+def refreshDB(ver):
+    if ver == 1.1:
+        ODM = ODM1
+    elif ver == 2.0:
+        ODM = ODM2
+
+
+
 
 
 class SeriesService(serviceBase):
@@ -19,10 +29,10 @@ class SeriesService(serviceBase):
 
 
     def reset_session(self):
-        self._session = self._session_factory.get_session()  # Reset the session in order to prevent memory leaks
+        self._session = self._session_factory.getSession()  # Reset the session in order to prevent memory leaks
 
-    def get_db_version(self):
-        return self._session.query(ODM.ODMVersion).first().version_number
+    # def get_db_version(self):
+    #     return self._session.query(ODM.ODMVersion).first().version_number
 
 #####################
 #
@@ -169,7 +179,6 @@ class SeriesService(serviceBase):
             return self._session.query(ODM.Unit).filter_by(id=unit_id).first()
         except:
             return None
-
 
     def get_all_qualifiers(self):
         """
@@ -540,7 +549,7 @@ class SeriesService(serviceBase):
         self._session.commit()
         return series
 
-    def create_method(self, description, link):
+    def create_method(self, description, link=None):
         """
 
         :param description:
@@ -772,3 +781,112 @@ class SeriesService(serviceBase):
             return result
         except:
             return None
+
+
+
+
+
+####CV_Service
+
+    def get_vertical_datum_cvs(self):
+        result = self._session.query(ODM.VerticalDatumCV).order_by(ODM.VerticalDatumCV.term).all()
+        return result
+
+    def get_samples(self):
+        result = self._session.query(ODM.Sample).order_by(ODM.Sample.lab_sample_code).all()
+        return result
+    def get_site_type_cvs(self):
+        result = self._session.query(ODM.SiteTypeCV).order_by(ODM.SiteTypeCV.term).all()
+        return result
+
+    def get_variable_name_cvs(self):
+        result = self._session.query(ODM.VariableNameCV).order_by(ODM.VariableNameCV.term).all()
+        return result
+
+    def get_offset_type_cvs(self):
+        result = self._session.query(ODM.OffsetType).order_by(ODM.OffsetType.id).all()
+        return result
+
+    def get_speciation_cvs(self):
+        result = self._session.query(ODM.SpeciationCV).order_by(ODM.SpeciationCV.term).all()
+        return result
+
+    def get_sample_medium_cvs(self):
+        result = self._session.query(ODM.SampleMediumCV).order_by(ODM.SampleMediumCV.term).all()
+        return result
+
+    def get_value_type_cvs(self):
+        result = self._session.query(ODM.ValueTypeCV).order_by(ODM.ValueTypeCV.term).all()
+        return result
+
+    def get_data_type_cvs(self):
+        result = self._session.query(ODM.DataTypeCV).order_by(ODM.DataTypeCV.term).all()
+        return result
+
+    def get_general_category_cvs(self):
+        result = self._session.query(ODM.GeneralCategoryCV).order_by(ODM.GeneralCategoryCV.term).all()
+        return result
+
+    def get_censor_code_cvs(self):
+        result = self._session.query(ODM.CensorCodeCV).order_by(ODM.CensorCodeCV.term).all()
+        return result
+
+    def get_sample_type_cvs(self):
+        result = self._session.query(ODM.SampleTypeCV).order_by(ODM.SampleTypeCV.term).all()
+        return result
+
+    def get_units(self):
+        result = self._session.query(ODM.Unit).all()
+        return result
+
+    def get_units_not_uni(self):
+        result = self._session.query(ODM.Unit).filter(not_(ODM.Unit.name.contains('angstrom'))).all()
+        return result
+
+    def get_units_names(self):
+        result = self._session.query(ODM.Unit.name).all()
+        return result
+
+    # return a single cv
+    def get_unit_by_name(self, unit_name):
+        result = self._session.query(ODM.Unit).filter_by(name=unit_name).first()
+        return result
+
+    def get_unit_by_id(self, unit_id):
+        result = self._session.query(ODM.Unit).filter_by(id=unit_id).first()
+        return result
+
+
+
+
+    def copy_series(from_series):
+        new = ODM.Series()
+        new.site_id = from_series.site_id
+        new.site_code = from_series.site_code
+        new.site_name = from_series.site_name
+        new.variable_id = from_series.variable_id
+        new.variable_code = from_series.variable_code
+        new.variable_name = from_series.variable_name
+        new.speciation = from_series.speciation
+        new.variable_units_id = from_series.variable_units_id
+        new.variable_units_name = from_series.variable_units_name
+        new.sample_medium = from_series.sample_medium
+        new.value_type = from_series.value_type
+        new.time_support = from_series.time_support
+        new.time_units_id = from_series.time_units_id
+        new.time_units_name = from_series.time_units_name
+        new.data_type = from_series.data_type
+        new.general_category = from_series.general_category
+        new.method_id = from_series.method_id
+        new.method_description = from_series.method_description
+        new.source_id = from_series.source_id
+        new.source_description = from_series.source_description
+        new.organization = from_series.organization
+        new.citation = from_series.citation
+        new.quality_control_level_id = from_series.quality_control_level_id
+        new.quality_control_level_code = from_series.quality_control_level_code
+        new.begin_date_time = from_series.begin_date_time
+        new.begin_date_time_utc = from_series.begin_date_time_utc
+        new.end_date_time_utc = from_series.end_date_time_utc
+        new.value_count = from_series.value_count
+        return new
