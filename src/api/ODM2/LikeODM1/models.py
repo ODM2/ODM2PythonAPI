@@ -281,18 +281,18 @@ class Method(Base):
 # ###################################################################################
 #                            ODMVersion
 # ###################################################################################
-class ODMVersion:
-    #__tablename__ = 'ODMVersion'
-
-    # version_number = Column('VersionNumber', String, primary_key=True)
-    # version_number = column_property('2.0')
-
-    @property
-    def version_number(self):
-        return "2.0"
-
-    def __repr__(self):
-        return "<ODMVersion('%s')>" % (self.version_number)
+# class ODMVersion:
+#     #__tablename__ = 'ODMVersion'
+#
+#     # version_number = Column('VersionNumber', String, primary_key=True)
+#     # version_number = column_property('2.0')
+#
+#     @property
+#     def version_number(self):
+#         return "2.0"
+#
+#     def __repr__(self):
+#         return "<ODMVersion('%s')>" % (self.version_number)
 
 
 class CensorCodeCV(Base):
@@ -512,7 +512,11 @@ class DataValue(Base):
     quality_control_level_id = joined_table.c.odm2_timeseriesresultvalues_qualitycodecv
 
     qualifier_id = None  ## Join with annotations..
-    date_time_utc = column_property(local_date_time+utc_offset)  ## column propertly datetimeutcoffset
+    # date_time_utc = column_property(local_date_time+utc_offset)  ## column propertly datetimeutcoffset
+    # @declared_attr
+    @property
+    def date_time_utc(cls):
+        return cls.local_date_time + timedelta(cls.utc_offset)
     # @classmethod
     # def date_time_utc(cls):
     #     return select([])
