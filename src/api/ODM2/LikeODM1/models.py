@@ -516,7 +516,7 @@ class DataValue(Base):
     # @declared_attr
     @property
     def date_time_utc(cls):
-        return cls.local_date_time + timedelta(cls.utc_offset)
+        return cls.local_date_time - timedelta(hours= cls.utc_offset)
     # @classmethod
     # def date_time_utc(cls):
     #     return select([])
@@ -631,10 +631,18 @@ class Series(Base):
     quality_control_level_code = joined_table_2.c.odm2_processinglevels_processinglevelcode
     begin_date_time = joined_table_2.c.odm2_actions_begindatetime
     end_date_time = joined_table_2.c.odm2_actions_enddatetime
-    begin_date_time_utc = None  # Column('BeginDateTimeUTC', DateTime)
-    end_date_time_utc = None  # Column('EndDateTimeUTC', DateTime)
+
     value_count = joined_table_2.c.odm2_results_valuecount
 
+    # begin_date_time_utc = None  # Column('BeginDateTimeUTC', DateTime)
+    # end_date_time_utc = None  # Column('EndDateTimeUTC', DateTime)
+    utc_offset= -7#joined_table_2.c.odm2_timeseriesresultvalues_valuedatetimeutcoffset
+    @property
+    def begin_date_time_utc(cls):
+        return cls.begin_date_time - timedelta(hours=cls.utc_offset)
+    @property
+    def end_date_time_utc(cls):
+        return cls.end_date_time - timedelta(hours=cls.utc_offset)
 
     # data_values = relationship("DataValue",
     #                            primaryjoin="and_(DataValue.site_id == Series.site_id, "

@@ -12,11 +12,11 @@ from api.ODM1_1_1.services import SeriesService
 
 #createconnection (dbtype, servername, dbname, username, password)
 #session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')
-session_factory = dbconnection.createConnection('mysql', 'jws.uwrl.usu.edu', 'odm2', 'ODM', 'ODM123!!', 2)
+# session_factory = dbconnection.createConnection('mysql', 'jws.uwrl.usu.edu', 'odm2', 'ODM', 'ODM123!!', 2)
 
 
 #ODM1 DB
-# session_factory = dbconnection.createConnection('mysql', 'jws.uwrl.usu.edu', 'odm', "ODM", "ODM123!!", 1.1)
+session_factory = dbconnection.createConnection('mysql', 'jws.uwrl.usu.edu', 'odm', "ODM", "ODM123!!", 1.1)
 
 pp = pprint.PrettyPrinter(indent=8)
 
@@ -76,7 +76,7 @@ print "\t\tData Values: get_all_series()"
 print "************************************************"
 print
 
-pp.pprint(odm1service.get_all_series())
+pp.pprint(odm1service.get_series_by_id(1))
 
 
 print
@@ -85,5 +85,5 @@ print "\t\tData Values: get_all_DataValues()"
 print "************************************************"
 print
 
-pp.pprint(odm1service.get_values_by_series(1))
+pp.pprint(odm1service.get_data_value_by_id(155722))
 
