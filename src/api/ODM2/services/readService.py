@@ -24,8 +24,46 @@ class ReadODM2( serviceBase   ):
 # CV
 # ################################################################################
 
+    def getCVSamplingFeatureTypes(self):
+        """Select all on Sampling Features
 
+        :return CVSamplingFeatureType Objects:
+            :type list:
+        """
+        return self._session.query(CVSamplingFeatureType).all()
+    
+    def getCVSiteTypes(self):
+        """Select all on Sampling Features
 
+        :return CVSiteType Objects:
+            :type list:
+        """
+        return self._session.query(CVSiteType).all()
+    
+    def getCVSpacialReferenceTypes(self):
+        """Select all on SpatialReferences
+
+        :return CVSpacialReferenceType Objects:
+            :type list:
+        """
+        return self._session.query(SpatialReferences).all()
+
+    def getCVSamplingFeatureGeoTypes(self):
+        """Select all on Sampling Features
+
+        :return CVSamplingFeatureGeoType Objects:
+            :type list:
+        """
+        return self._session.query(CVSamplingFeatureGeoType).all()
+
+    def getCVElevationDatums(self):
+        """Select all on CVElevationDatum
+
+        :return CVElevationDatum Objects:
+            :type list:
+        """
+        return self._session.query(CVElevationDatum).all()
+    
 
 
 # ################################################################################
