@@ -207,12 +207,15 @@ class Source(Base):
     @property
     def city(self):
         return "Unknown"
+
     @property
     def state(self):
         return "Unknown"
+
     @property
     def zip_code(self):
         return "Unknown"
+
     @property
     def citation(self):
         return "Not Specified"
@@ -410,7 +413,7 @@ class Sample(Base):
     lab_method_id = Column('labmethodid', Integer, ForeignKey(LabMethod.id), nullable=False)
 
     # relationships
-    #lab_method = relationship(LabMethod)
+    lab_method = relationship(LabMethod, primaryjoin = lab_method_id==LabMethod.id)
 
     def __repr__(self):
         return "<Sample('%s', '%s', '%s', '%s')>" % (self.id, self.type, self.lab_sample_code, self.lab_method_id)
@@ -437,7 +440,7 @@ class OffsetType(Base):
     description = Column('offsetdescription', String)
 
     # relationships
-    unit = relationship(Unit)
+    unit = relationship(Unit, primaryjoin =unit_id==Unit.id)
 
     def __repr__(self):
         return "<Unit('%s', '%s', '%s')>" % (self.id, self.unit_id, self.description)
@@ -524,15 +527,15 @@ class DataValue(Base):
 
 
     # relationships
-    # site = relationship(Site)
-    # variable = relationship(Variable)
-    # method = relationship(Method)
-    # source = relationship(Source)
-    # quality_control_level = relationship(QualityControlLevel)
-    #
-    # qualifier = relationship(Qualifier)
-    # offset_type = relationship(OffsetType)
-    # sample = relationship(Sample)
+    # site = relationship(Site, primaryjoin = site_id==Site.id)
+    variable = relationship(Variable, primaryjoin =variable_id==Variable.id)
+    # method = relationship(Method,primaryjoin =method_id == Method.id)
+    source = relationship(Source, primaryjoin =source_id == Source.id)
+    # quality_control_level = relationship(QualityControlLevel, primaryjoin =quality_control_level_id==QualityControlLevel.id)
+
+    # qualifier = relationship(Qualifier, primaryjoin =qualifier_id==Qualifier.id)
+    # offset_type = relationship(OffsetType, primaryjoin =offset_type_id==OffsetType.id)
+    # sample = relationship(Sample, primaryjoin =sample_id == Sample.id)
 
     def list_repr(self):
         return [self.id, self.data_value, self.value_accuracy, self.local_date_time,
@@ -637,9 +640,12 @@ class Series(Base):
     # begin_date_time_utc = None  # Column('BeginDateTimeUTC', DateTime)
     # end_date_time_utc = None  # Column('EndDateTimeUTC', DateTime)
     utc_offset= -7#joined_table_2.c.odm2_timeseriesresultvalues_valuedatetimeutcoffset
+
     @property
     def begin_date_time_utc(cls):
-        return cls.begin_date_time - timedelta(hours=cls.utc_offset)
+        val=cls.begin_date_time - timedelta(hours=cls.utc_offset)
+        return val
+
     @property
     def end_date_time_utc(cls):
         return cls.end_date_time - timedelta(hours=cls.utc_offset)
@@ -654,11 +660,11 @@ class Series(Base):
     #                            order_by="DataValue.local_date_time",
     #                            backref="series")
     #
-    # site = relationship(Site)
-    # variable = relationship(Variable)
-    # method = relationship(Method)
-    # source = relationship(Source)
-    # quality_control_level = relationship(QualityControlLevel)
+    # site = relationship(Site, primaryjoin = site_id==Site.id)
+    variable = relationship(Variable, primaryjoin= variable_id == Variable.id)
+    # method = relationship(Method, primaryjoin= method_id ==Method.id)
+    # source = relationship(Source, primaryjoin= source_id ==Source.id)
+    # quality_control_level = relationship(QualityControlLevel, primaryjoin = quality_control_level_id==QualityControlLevel.id)
 
     # TODO add all to repr
     def __repr__(self):

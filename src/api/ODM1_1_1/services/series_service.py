@@ -12,21 +12,22 @@ import api.ODM1_1_1.models as ODM1
 import api.ODM2.LikeODM1.models as ODM2
 
 #Set Default
-ODM = ODM2
-
-def refreshDB(ver):
-    if ver == 1.1:
-        ODM = ODM1
-    elif ver == 2.0:
-        ODM = ODM2
-
-
+global ODM
+ODM = ODM1
 
 
 
 class SeriesService(serviceBase):
     # Accepts a string for creating a SessionFactory, default uses odmdata/connection.cfg
 
+    def refreshDB(self, ver):
+        self._version= ver
+        if ver == 1.1:
+            global ODM
+            ODM = ODM1
+        elif ver == 2.0:
+            global ODM
+            ODM = ODM2
 
     def reset_session(self):
         self._session = self._session_factory.getSession()  # Reset the session in order to prevent memory leaks
@@ -47,7 +48,6 @@ class SeriesService(serviceBase):
         :return: List[Sites]
         """
         return self._session.query(ODM.Site).order_by(ODM.Site.code).all()
-
 
     def get_used_sites(self):
         """
@@ -855,8 +855,6 @@ class SeriesService(serviceBase):
     def get_unit_by_id(self, unit_id):
         result = self._session.query(ODM.Unit).filter_by(id=unit_id).first()
         return result
-
-
 
 
     def copy_series(from_series):

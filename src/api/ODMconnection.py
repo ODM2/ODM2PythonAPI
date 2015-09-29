@@ -5,13 +5,13 @@ from sqlalchemy.orm import sessionmaker
 
 from .ODM2.models import Variables as Variable2, change_schema
 #from .versionSwitcher import ODM, refreshDB #import Variable as Variable1
-from .ODM1_1_1.services import ODM, refreshDB
+from .ODM1_1_1.services import ODM#, refreshDB
 import urllib
 import sys
 
 
 class SessionFactory():
-    def __init__(self, connection_string, echo):
+    def __init__(self, connection_string, echo, version = 1.1):
         if 'sqlite' in connection_string:
             self.engine = create_engine(connection_string, encoding='utf-8', echo=echo)
             self.test_engine = self.engine
@@ -25,6 +25,7 @@ class SessionFactory():
         # Create session maker
         self.Session = sessionmaker(bind=self.engine)
         self.test_Session = sessionmaker(bind=self.test_engine)
+        self.version=version
 
     def getSession(self):
         return self.Session()
@@ -50,13 +51,13 @@ class dbconnection():
         # if self.testConnection(connection_string):
 
         if self.isValidConnection(connection_string, dbtype):
-            return SessionFactory(connection_string, echo = False)
+            return SessionFactory(connection_string, echo = False, version= dbtype)
         else :
             return None
 
     @classmethod
     def isValidConnection(self, connection_string, dbtype):
-        refreshDB(dbtype)
+        #refreshDB(dbtype)
 
         if dbtype == 2.0:
             if self.testEngine(connection_string):
@@ -88,8 +89,6 @@ class dbconnection():
 
         s = self._getSchema(engine)
         change_schema(s)
-
-
 
     @classmethod
     def testEngine(self, connection_string):

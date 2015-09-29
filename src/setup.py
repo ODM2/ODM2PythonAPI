@@ -5,6 +5,11 @@ https://packaging.python.org/en/latest/distributing.html
 https://github.com/pypa/sampleproject
 """
 
+'''
+to install in development mode, run the following code from command line
+"python setup.py develop"
+'''
+
 # Always prefer setuptools over distutils
 from setuptools import setup, find_packages
 # To use a consistent encoding

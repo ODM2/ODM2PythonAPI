@@ -3,28 +3,42 @@
 
 
 from sqlalchemy.ext.declarative import declarative_base
-#from sqlalchemy import MetaData
+# #from sqlalchemy import MetaData
 # from .ODMconnection import SessionFactory
-# class Singleton(type):
-#     _instances = {}
-#
-#     def __call__(cls, *args, **kwargs):
-#         if cls not in cls._instances:
-#             cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
-#             #print "Singleton", cls._instances[cls]
-#         return cls._instances[cls]
+
+#only one copy of class at a time
+class Singleton(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
+            #print "Singleton", cls._instances[cls]
+        return cls._instances[cls]
+
+#only one copy of class with a particular connection
+class SingletonByConn(type):
+    _instances= {}
+
+    def __call__(cls, *args, **kwargs):
+        conn= args[0].engine
+        if (cls, conn) not in cls._instances:
+
+            cls._instances[(cls, conn)] = super(SingletonByConn, cls).__call__(*args, **kwargs)
+            #print "Singleton", cls._instances[cls]
+        return cls._instances[(cls, conn)]
 
 class serviceBase(object):
 
-    # __metaclass__ = Singleton
+    #__metaclass__ = SingletonByConn
 
     '''
     def __init__(self, session):
         self._session = session
     '''
-    def __init__(self,  session_factory=None, debug=False):
+    def __init__(self,  session_factory, debug=False):
         '''
-        must send in either a session_factory or a connection, exclusive or
+         must send in either a session_factory #TODO  or a connection, exclusive or
         '''
 
         # if connection is  None:
@@ -33,7 +47,7 @@ class serviceBase(object):
         #     self._session_factory = SessionFactory(connection)
 
         self._session = self._session_factory.getSession()
-
+        self._version = session_factory.version
         self._debug = debug
         #self._sessiona
 
