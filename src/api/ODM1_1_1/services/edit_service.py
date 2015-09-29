@@ -295,12 +295,12 @@ class EditService():
     def change_value(self, value, operator):
         filtered_points = self.get_filtered_points()
 
-        ids = filtered_points["ValueID"].astype(int).tolist()
+        ids = filtered_points.index.tolist()#["ValueID"].astype(int).tolist()
         self.memDB.updateValue(ids, operator, float(value))
         self._populate_series()
 
         ## update filtered_dataframe
-        self.filtered_dataframe = self._series_points_df[self._series_points_df['ValueID'].isin(ids)]
+        self.filtered_dataframe = self._series_points_df[self._series_points_df.index.isin(ids)]
 
     def add_points(self, points):
         # todo: add the ability to send in multiple datetimes to a single 'point'
@@ -313,7 +313,7 @@ class EditService():
     def delete_points(self):
         filtered_points = self.get_filtered_points()
         if not filtered_points.empty:
-            values = filtered_points['ValueID'].astype(float).tolist()
+            values = filtered_points.index.tolist()#['ValueID'].astype(float).tolist()
 
             self.memDB.delete(values)
             self._populate_series()
@@ -334,17 +334,17 @@ class EditService():
         mdf = df["DataValue"].mask(issel)
         mdf.interpolate(method = "time", inplace=True)
         tmp_filter_list["DataValue"]=mdf[issel]
-        ids = tmp_filter_list['ValueID'].tolist()
+        ids = tmp_filter_list.index.tolist()
 
         #update_list = [(row["DataValue"], row["ValueID"]) for index, row in tmp_filter_list.iterrows()]
-        update_list = [{"value": row["DataValue"], "id": row["ValueID"]} for index, row in tmp_filter_list.iterrows()]
+        update_list = [{"value": row["DataValue"], "id": index} for index, row in tmp_filter_list.iterrows()]
 
         self.memDB.update(update_list)
 
 
         self._populate_series()
 
-        self.filtered_dataframe = self._series_points_df[self._series_points_df['ValueID'].isin(ids)]
+        self.filtered_dataframe = self._series_points_df[self._series_points_df.index.isin(ids)]
 
     def drift_correction(self, gap_width):
         if self.isOneGroup():
@@ -356,15 +356,15 @@ class EditService():
             f = lambda row :  row["DataValue"]+(gap_width * ((row.name-startdate).total_seconds() / x_l))
             tmp_filter_list["DataValue"]=tmp_filter_list.apply(f, axis = 1)
 
-            update_list = [{"value": row["DataValue"], "id": row["ValueID"]} for index, row in tmp_filter_list.iterrows()]
+            update_list = [{"value": row["DataValue"], "id": index} for index, row in tmp_filter_list.iterrows()]
 
-            ids = tmp_filter_list['ValueID'].tolist()
+            ids = tmp_filter_list.index.tolist()#['ValueID'].tolist()
             self.memDB.update(update_list)
 
 
             self._populate_series()
 
-            self.filtered_dataframe = self._series_points_df[self._series_points_df['ValueID'].isin(ids)]
+            self.filtered_dataframe = self._series_points_df[self._series_points_df.index.isin(ids)]
             return True
         return False
 
@@ -397,7 +397,8 @@ class EditService():
         #self._cursor.executemany(query, [(str(x[0]),) for x in filtered_points])
         self._cursor.executemany(query, [(str(x),) for x in filtered_points["ValueID"].astype(int).tolist()])
         '''
-        self.memDB.updateFlag(filtered_points["ValueID"].astype(int).tolist(), qualifier_id)
+        self.memDB.updateFlag(filtered_points.index.tolist(), qualifier_id)
+                              #["ValueID"].astype(int).tolist(), qualifier_id)
 
     ###################
     # Save/Restore
