@@ -133,6 +133,7 @@ class CreateODM2( serviceBase):
             :type NullType:
         :return:
         """
+        
         sf = SamplingFeatures()
         sf.SamplingFeatureTypeCV = vType
         sf.SamplingFeatureCode = code
@@ -478,7 +479,7 @@ class CreateODM2( serviceBase):
 # ################################################################################
 
 
-    def createSite(self, vType, latitude, longitude):
+    def createSite(self, sfId, spatialRefId, vType, latitude, longitude):
         """Create Site table
 
         :param vType:
@@ -491,6 +492,8 @@ class CreateODM2( serviceBase):
         """
 
         s = Sites()
+        s.SamplingFeatureID = sfId
+        s.SpatialReferenceID = spatialRefId
         s.SiteTypeCV = vType
         s.Latitude = latitude
         s.Longitude = longitude

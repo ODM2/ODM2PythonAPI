@@ -64,7 +64,37 @@ class ReadODM2( serviceBase   ):
         """
         return self._session.query(CVElevationDatum).all()
     
+    def getCVVariableTypes(self):
+        """Select all on CVVariableType
 
+        :return CVVariableType Objects:
+            :type list:
+        """
+        return self._session.query(CVVariableType).all()
+    
+    def getCVVariableNames(self):
+        """Select all on CVVariableName
+
+        :return CVVariableName Objects:
+            :type list:
+        """
+        return self._session.query(CVVariableName).all()
+    
+    def getCVSpeciations(self):
+        """Select all on CVSpeciation
+
+        :return CVSpeciation Objects:
+            :type list:
+        """
+        return self._session.query(CVSpeciation).all()
+    
+    def getCVUnitsTypes(self):
+        """Select all on CVUnitsType
+
+        :return CVUnitsType Objects:
+            :type list:
+        """
+        return self._session.query(CVUnitsType).all()
 
 # ################################################################################
 # Core
