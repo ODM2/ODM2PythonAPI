@@ -74,11 +74,17 @@ for conn in conns:
 
     print
     print "************************************************"
-    print "\t\tData Values: get_all_series()"
+    print "\t\tSeries: get_all_series()"
     print "************************************************"
     print
 
-    pp.pprint(odm1service.get_series_by_id(1))
+    ser = odm1service.get_series_by_id(1)
+    pp.pprint(ser)
+    ser = odm1service.get_series_by_id(173)
+    pp.pprint(ser)
+    if ser:
+        print ser.variable
+
 
     print
     print "************************************************"
@@ -87,6 +93,7 @@ for conn in conns:
     print
 
     pp.pprint(odm1service.get_values_by_series(1))
+    pp.pprint(odm1service.get_values_by_series(173))
     print "The end"
 
 

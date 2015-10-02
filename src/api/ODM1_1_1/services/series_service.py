@@ -406,11 +406,12 @@ class SeriesService(serviceBase):
         :return:
         """
         series = self.get_series_by_id(seriesID)
+        values = self.get_values_by_series(seriesID)
 
         DataValues = [
             (dv.data_value, dv.local_date_time, dv.censor_code, dv.local_date_time.strftime('%m'),
                 dv.local_date_time.strftime('%Y'))
-            for dv in series.data_values
+            for dv in values
             if dv.data_value != noDataValue if dv.local_date_time >= startDate if dv.local_date_time <= endDate
         ]
         data = pd.DataFrame(DataValues, columns=["DataValue", "LocalDateTime", "CensorCode", "Month", "Year"])
