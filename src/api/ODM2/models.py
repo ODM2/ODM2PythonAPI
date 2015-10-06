@@ -545,9 +545,9 @@ class SamplingFeatures(Base):
     FeatureGeometry = Column('featuregeometry', Geometry)
 
     def __repr__(self):
-        return "<SamplingFeatures('%s', '%s', '%s', '%s')>" % (
+        return "<SamplingFeatures('%s', '%s', '%s', '%s', '%s')>" % (
             self.SamplingFeatureCode, self.SamplingFeatureName, self.SamplingFeatureDescription,
-            self.Elevation_m)  # self.FeatureGeometry)
+            self.Elevation_m, self.FeatureGeometry)
 
 
 class FeatureActions(Base):
@@ -1401,7 +1401,8 @@ class SamplingFeatureExternalIdentifiers(Base):
                                         ForeignKey(ExternalIdentifierSystems.ExternalIdentifierSystemID),
                                         nullable=False)
     SamplingFeatureExternalIdentifier = Column('samplingfeatureexternalidentifier', String(255), nullable=False)
-    SamplingFeatureExternalIdentifierURI = Column('samplingfeatureexternalidentifieruri', String(255))
+    SamplingFeatureExternalIdentifierURI = Column('samplingfeatureexternalidentiferuri', String(255))
+
 
     ExternalIdentifierSystemObj = relationship(ExternalIdentifierSystems)
     SamplingFeatureObj = relationship(SamplingFeatures)

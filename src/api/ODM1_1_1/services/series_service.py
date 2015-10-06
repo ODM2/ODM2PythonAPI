@@ -307,8 +307,7 @@ class SeriesService(serviceBase):
         # Pass in probably a Series object, match it against the database
         pass
 
-
-    #Data Value Methods
+    # Data Value Methods
     def get_values_by_series(self, series_id):
         '''
 
@@ -492,7 +491,6 @@ class SeriesService(serviceBase):
             # there wasn't an existing file to overwrite
             raise Exception("Series does not exist, unable to save. Please select 'Save As'")
 
-
     def save_new_series(self, series, dvs):
         """ Create as a new catalog entry
         :param series:
@@ -514,7 +512,6 @@ class SeriesService(serviceBase):
                 self._session.rollback()
                 raise e
 
-
         #logger.debug("A new series was added to the database, series id: "+str(series.id))
         return True
 
@@ -525,7 +522,6 @@ class SeriesService(serviceBase):
         :return:
         """
         values.to_sql(name="datavalues", if_exists='append', con=self._session_factory.engine, index=False)
-
 
     def create_new_series(self, data_values, site_id, variable_id, method_id, source_id, qcl_id):
         """
@@ -634,7 +630,6 @@ class SeriesService(serviceBase):
         self._session.commit()
         return qcl
 
-
     def create_qualifier_by_qual(self, qualifier):
         self._session.add(qualifier)
         self._session.commit()
@@ -670,7 +665,6 @@ class SeriesService(serviceBase):
         delete_series = self._session.merge(series)
         self._session.delete(delete_series)
         self._session.commit()
-
 
     def delete_values_by_series(self, series):
         """
@@ -738,6 +732,7 @@ class SeriesService(serviceBase):
             return True
         except:
             return False
+
     def qcl_exists(self, q):
         """
 
@@ -784,9 +779,6 @@ class SeriesService(serviceBase):
             return None
 
 
-
-
-
 ####CV_Service
 
     def get_vertical_datum_cvs(self):
@@ -796,6 +788,7 @@ class SeriesService(serviceBase):
     def get_samples(self):
         result = self._session.query(ODM.Sample).order_by(ODM.Sample.lab_sample_code).all()
         return result
+
     def get_site_type_cvs(self):
         result = self._session.query(ODM.SiteTypeCV).order_by(ODM.SiteTypeCV.term).all()
         return result
@@ -856,7 +849,6 @@ class SeriesService(serviceBase):
     def get_unit_by_id(self, unit_id):
         result = self._session.query(ODM.Unit).filter_by(id=unit_id).first()
         return result
-
 
     def copy_series(from_series):
         new = ODM.Series()

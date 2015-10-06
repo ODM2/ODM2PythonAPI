@@ -41,30 +41,38 @@ def saves_as_bound(cls):
 
     @compiles(cls)
     def compile_function(element, compiler, **kw):
-        return element.__str__()
+        return element
 
     @compiles(cls, 'postgresql')
     def compile_function(element, compiler, **kw):
         #print "postgresql Save : %s" % element.__str__()
-        return element.__str__()
+        return "%s(%s)"%(element.name, "'POINT(30 10)'")
 
     @compiles(cls, 'mysql')
     def compile_function(element, compiler, **kw):
-        print "mysql Save Table %s Alter column %s" % (element.name, element.__str__())
-        #return "%s(%s)"%(element.name, "'POINT (30 10)'")
-        return element.__str__()
+        name= element.name.split('_')[-1]
+
+        # GeomFromText("POINT(30 10)")
+        # GeomFromText(:featuregeometry)
+
+        val = "%s(%s)"%(name, element.clauses.clauses[0])
+        return val
 
     @compiles(cls, 'sqlite')
     def compile_function(element, compiler, **kw):
-        element.name= element.name.split('_')[-1]
-        # print element.name
+        name= element.name.split('_')[-1]
         #return "%s(%s)" % (element.name.replace('_', ''), "'POINT (30 10)'")
-        return element.__str__()
+
+        return "%s(%s)"%(name, "'POINT(30 10)'")
 
     @compiles(cls, 'mssql')
     def compile_function(element, compiler, **kw):
         #return "Geometry::%s(%s, 0)"%(element.name.replace('_', ''), "'POINT (30 10)'")
-        element.name = "Geometry::%s" % element.name.replace('_', '')
+        name = "Geometry::%s" % element.name.replace('_', '')
+        return "%s(%s,0)"%(name, "'POINT(30 10)'")
+
+
+
     return cls
 
 
@@ -81,7 +89,7 @@ class ST_AsText(FunctionElement):
 class ST_AsBinary(FunctionElement):
     name = 'ST_AsBinary'
 
-
+from sqlalchemy import String, type_coerce
 class Geometry(GeometryBase):
 
     def column_expression(self, col):
@@ -91,12 +99,15 @@ class Geometry(GeometryBase):
         return value
 
     def bind_expression(self, bindvalue):
-        val = None
-        try:
-            val = GeometryBase.bind_expression(self, bindvalue)
-        except:
-            pass
-        val = ST_GeomFromText(bindvalue, type_=self)
+
+        #mysql, sqlite
+        val = func.GeomFromText(bindvalue, type_=self)
+
+        #postgresql
+        #val = func.ST_GeomFromText(bindvalue, type_=self)
+        #mssql
+        if val is None:
+            val = ST_GeomFromText(bindvalue, type_=self)
         return val
 
 

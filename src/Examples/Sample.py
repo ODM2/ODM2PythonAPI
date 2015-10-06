@@ -8,10 +8,10 @@ from matplotlib import dates
 
 
 #this will be removed when we can installthe api
-this_file = os.path.realpath(__file__)
-directory = os.path.dirname(os.path.dirname(this_file))
-print directory
-sys.path.insert(0, directory)
+# this_file = os.path.realpath(__file__)
+# directory = os.path.dirname(os.path.dirname(this_file))
+# print directory
+# sys.path.insert(0, directory)
 
 from api.ODMconnection import dbconnection
 from api.ODM2.services.readService import *
@@ -23,6 +23,7 @@ from api.ODM2.services.readService import *
 #createconnection (dbtype, servername, dbname, username, password)
 #session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')
 session_factory = dbconnection.createConnection('mysql', 'jws.uwrl.usu.edu', 'odm2', 'ODM', 'ODM123!!', 2)
+# session_factory= dbconnection.createConnection('mssql')
 
 
 
@@ -78,24 +79,25 @@ except Exception as e:
     print "Unable to demo getSamplingFeatureByCode: ", e
 
 #add sampling feature
+print "\n------------ Create Sampling Feature --------- \n",
 try:
     from api.ODM2.models import SamplingFeatures
     newsf = SamplingFeatures()
-    newsf = SamplingFeatures()
-    newsf.FeatureGeometry = sf.FeatureGeometry
+    session = session_factory.getSession()
+    newsf.FeatureGeometry = "POINT(-111.946 41.718)"
     newsf.Elevation_m=100
     newsf.ElevationDatumCV=sf.ElevationDatumCV
     newsf.SamplingFeatureCode= "TestSF"
     newsf.SamplingFeatureDescription = "this is a test to add Feature Geomotry"
-    newsf.SamplingFeatureGeotypeCV= sf.SamplingFeatureGeotypeCV
+    newsf.SamplingFeatureGeotypeCV= "Point"
     newsf.SamplingFeatureTypeCV=sf.SamplingFeatureTypeCV
-    newsf.SamplingFeatureUUID= sf.SamplingFeatureUUID+"1"
-    session_factory.getSession().add(newsf)
-    session_factory.getSession().commit()
-    print "new sampling deature added to database", newsf
+    newsf.SamplingFeatureUUID= sf.SamplingFeatureUUID+"2"
+    session.add(newsf)
+    session.commit()
+    print "new sampling feature added to database", newsf
 
 except Exception as e :
-    print "error adding a sampling feature" + e
+    print "error adding a sampling feature: " + str(e)
 
 
 # Drill down and get objects linked by foreign keys

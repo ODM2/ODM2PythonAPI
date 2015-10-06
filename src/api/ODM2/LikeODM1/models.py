@@ -28,7 +28,7 @@ class SpatialReference(Base):
     srs_id = Column('srsid', String)
     srs_name = Column('srsname', String)
     is_geographic = None
-    #is_geographic = Column('IsGeographic', Boolean)
+    # is_geographic = Column('IsGeographic', Boolean)
     notes = Column('description', String)
 
     def __repr__(self):
@@ -65,21 +65,18 @@ class Site(Base):
 
     local_x = None
     local_y = None
-    local_projection_id = None  #Column('LocalProjectionID', Integer, ForeignKey('SpatialReferences.SpatialReferenceID'))
+    local_projection_id = None  # Column('LocalProjectionID', Integer, ForeignKey('SpatialReferences.SpatialReferenceID'))
     pos_accuracy_m = None
     state = None
     county = None
     comments = None
 
-
-
     # relationships
     # TODO @sreeder, Please take a look at this line as it throws: sqlalchemy.exc.InvalidRequestError: Class <class 'ODM2.LikeODM1.model.Site2'> does not have a mapped column named 'lat_long_datum_id'
     # :)
-    #spatial_ref = relationship(SpatialReference, primaryjoin=("SpatialReference.id==Site2.lat_long_datum_id"))
-    #spatial_ref = relationship(SpatialReference)
-    #spatial_ref = relationship(SpatialReference, primaryjoin="Site.lat_long_datum_id == SpatialReference.id")
-
+    # spatial_ref = relationship(SpatialReference, primaryjoin=("SpatialReference.id==Site2.lat_long_datum_id"))
+    # spatial_ref = relationship(SpatialReference)
+    # spatial_ref = relationship(SpatialReference, primaryjoin="Site.lat_long_datum_id == SpatialReference.id")
 
     def __repr__(self):
         return "<Site('%s', '%s', '%s')>" % (self.code, self.name, self.elevation_m)
@@ -208,7 +205,6 @@ class Source(Base):
     email = source_join.c.odm2_affiliations_primaryemail  # Column('Email', String, nullable=False)
     address = source_join.c.odm2_affiliations_primaryaddress  # Column('Address', String, nullable=False)
 
-
     @property
     def city(self):
         return "Unknown"
@@ -233,7 +229,7 @@ class Source(Base):
     #iso_metadata_id = Column('MetadataID', Integer, ForeignKey('ODM2.ISOMetadata.Metadataid'), nullable=False)
     '''
     # relationships
-    #iso_metadata = relationship(ISOMetadata)
+    # iso_metadata = relationship(ISOMetadata)
 
     def __repr__(self):
         return "<Source('%s', '%s', '%s', '%s', '%s', '%s', '%s')>" % \
@@ -530,28 +526,23 @@ class DataValue(Base):
     utc_offset = joined_table.c.odm2_timeseriesresultvalues_valuedatetimeutcoffset
     site_id = joined_table.c.odm2_featureactions_SFID  #joined_table.c.odm2_featureactions_FeAID
     variable_id = joined_table.c.odm2_results_variableid
-    offset_value = None  #column_property(-1)  ## Question for jeff
-    offset_type_id = None  #column_property(-1)#None  ## Question for Jeff
+    offset_value = None  # column_property(-1)  ## Question for jeff
+    offset_type_id = None  # column_property(-1)#None  ## Question for Jeff
     censor_code = joined_table.c.odm2_timeseriesresultvalues_censorcodecv
 
     method_id = joined_table.c.odm2_actions_methodid
     source_id = joined_table.c.odm2_actionby_affiliationid
-    sample_id = column_property(site_id)  ## Question for jeff
-    derived_from_id = None  #column_property(-1)
+    sample_id = column_property(site_id)  # Question for jeff
+    derived_from_id = None  # column_property(-1)
     quality_control_level_id = joined_table.c.odm2_timeseriesresultvalues_qualitycodecv
 
-    qualifier_id = None  ## Join with annotations..
-    # date_time_utc = column_property(local_date_time+utc_offset)  ## column propertly datetimeutcoffset
+    qualifier_id = None  # Join with annotations..
+    # date_time_utc = column_property(local_date_time+utc_offset)  ## column property datetimeutcoffset
     # @declared_attr
+
     @property
     def date_time_utc(cls):
         return cls.local_date_time - timedelta(hours=cls.utc_offset)
-
-    # @classmethod
-    # def date_time_utc(cls):
-    #     return select([])
-
-
 
     # relationships
     # site = relationship(Site, primaryjoin = site_id==Site.id)
@@ -587,22 +578,27 @@ method_table = Methods().__table__
 method_table = select([
     method_table.c.methodid,
     method_table.c.methoddescription,
-    #method_table.c.organizationid.label('methodorgid'),
+    # method_table.c.organizationid.label('methodorgid'),
 
 ]).alias("odm2_methods")
 
 processing_levels_table = ProcessingLevels().__table__
-
+'''
 joined_table_2 = feature_action_table.join(result_aliased_table, feature_action_table.c.FeAID ==
                                            result_aliased_table.c.FAID)
+# Obtain TSResults
+joined_table_2 = joined_table_2.join(ts_table, joined_table_2.c.odm2_results_RID ==
+                                     ts_table.c.resultid)
+'''
+joined_table_2 = result_aliased_table.join(ts_table, result_aliased_table.c.RID== ts_table.c.resultid)
+joined_table_2= joined_table_2.join(feature_action_table, joined_table_2.c.odm2_results_FAID== feature_action_table.c.FeAID)
+
 joined_table_2 = joined_table_2.join(site_join, joined_table_2.c.odm2_featureactions_SFID ==
                                      site_join.c.odm2_sites_samplingfeatureid)
 joined_table_2 = joined_table_2.join(variables_table, joined_table_2.c.odm2_results_variableid ==
                                      variables_table.c.variableid)
 
-# Obtain TSResults
-joined_table_2 = joined_table_2.join(ts_table, joined_table_2.c.odm2_results_RID ==
-                                     ts_table.c.resultid)
+
 # Obtaining Action
 joined_table_2 = joined_table_2.join(action_aliased_table, joined_table_2.c.odm2_featureactions_actid ==
                                      action_aliased_table.c.AID)
@@ -666,7 +662,7 @@ class Series(Base):
 
     # begin_date_time_utc = None  # Column('BeginDateTimeUTC', DateTime)
     # end_date_time_utc = None  # Column('EndDateTimeUTC', DateTime)
-    utc_offset = -7  #joined_table_2.c.odm2_timeseriesresultvalues_valuedatetimeutcoffset
+    utc_offset = -7  # joined_table_2.c.odm2_timeseriesresultvalues_valuedatetimeutcoffset
 
     @property
     def begin_date_time_utc(cls):
