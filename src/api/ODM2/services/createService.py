@@ -111,7 +111,7 @@ class CreateODM2( serviceBase):
 
         return pl
 
-    def createSamplingFeature(self, code, vType, name=None, description=None, geoType=None, elevation=None,
+    def createSamplingFeature(self, uuid, code, vType, name=None, description=None, geoType=None, elevation=None,
                               elevationDatum=None, featureGeo=None):
         """Create SamplingFeature table
 
@@ -135,6 +135,7 @@ class CreateODM2( serviceBase):
         """
         
         sf = SamplingFeatures()
+        sf.SamplingFeatureUUID = uuid
         sf.SamplingFeatureTypeCV = vType
         sf.SamplingFeatureCode = code
         sf.SamplingFeatureName = name
