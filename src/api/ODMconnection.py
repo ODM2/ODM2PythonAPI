@@ -56,7 +56,7 @@ class dbconnection():
             return None
 
     @classmethod
-    def isValidConnection(self, connection_string, dbtype):
+    def isValidConnection(self, connection_string, dbtype=2.0):
         #refreshDB(dbtype)
 
         if dbtype == 2.0:
@@ -178,6 +178,8 @@ class dbconnection():
         else:
             if conn_dict['engine'] == 'mssql':
                 driver = "pyodbc"
+                self._connection_format = "%s+%s://%s:%s@%s/%s?driver=SQL+Server+Native+Client+10.0"
+
             elif conn_dict['engine'] == 'mysql':
                 driver = "pymysql"
             elif conn_dict['engine'] == 'postgresql':
