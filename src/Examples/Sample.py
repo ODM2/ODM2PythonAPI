@@ -21,7 +21,8 @@ from api.ODM2.services.readService import *
 
 #connect to database
 #createconnection (dbtype, servername, dbname, username, password)
-session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')
+#session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')
+session_factory = dbconnection.createConnection('sqlite', '/Users/stephanie/DEV/DBs/ODM2.sqlite', 2.0)
 # session_factory= dbconnection.createConnection('mssql')
 
 

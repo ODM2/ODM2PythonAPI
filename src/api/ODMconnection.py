@@ -15,16 +15,26 @@ LIBSPATIALITE_PATH = './libspatialite.so.5.1.0'
 class SessionFactory():
     def __init__(self, connection_string, echo, version = 1.1):
         if 'sqlite' in connection_string:
-            from pysqlite2 import dbapi2 as sqlite
-            self.engine = create_engine(connection_string, module = sqlite, encoding='utf-8', echo=echo)
 
-            @event.listens_for(self.engine, "connect")
-            def connect(dbapi_connection, connection_rec):
-                    dbapi_connection.enable_load_extension(True)
-                    dbapi_connection.execute("SELECT load_extension('{0}');".format("mod_spatialite"))
+            #from pysqlite2 import dbapi2 as sqlite
+            #import pyspatialite.dpabi as sqlite
+            # self.engine = create_engine(connection_string, model = sqlite ,encoding='utf-8', echo=echo)
 
-            self.engine.execute("SELECT InitSpatialMetaData();")#("SELECT load_extension('mod_spatialite');")#
+            # @event.listens_for(self.engine, "connect")
+            # def connect(dbapi_connection, connection_rec):
+            #         dbapi_connection.enable_load_extension(True)
+            #         dbapi_connection.execute("SELECT load_extension('{0}');".format("mod_spatialite"))
+
+            # self.engine.execute("SELECT InitSpatialMetaData();")#
+            # self.engine.connect().connection.enable_load_extension(True)
+            # self.engine.execute("SELECT load_extension('mod_spatialite');")#
+            self.engine = create_engine(connection_string,  encoding='utf-8', echo=echo)
             self.test_engine = self.engine
+
+            # engine = create_engine(...)
+            # conn = engine.connect()
+            # conn.connection.<do DBAPI things>
+            # cursor = conn.connection.cursor(<DBAPI specific arguments..>)
 
         elif 'mssql' in connection_string:
               self.engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600)
@@ -57,14 +67,17 @@ class dbconnection():
 
         if engine == 'sqlite':
             connection_string = engine +':///'+address
+            return SessionFactory(connection_string, echo = False, version= dbtype)
+
         else:
             connection_string = dbconnection.buildConnDict(dbconnection(), engine, address, db, user, password)
+            if self.isValidConnection(connection_string, dbtype):
+                return SessionFactory(connection_string, echo = False, version= dbtype)
+            else :
+                return None
         # if self.testConnection(connection_string):
 
-        if self.isValidConnection(connection_string, dbtype):
-            return SessionFactory(connection_string, echo = False, version= dbtype)
-        else :
-            return None
+
 
     @classmethod
     def isValidConnection(self, connection_string, dbtype=2.0):
