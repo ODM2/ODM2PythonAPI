@@ -67,12 +67,16 @@ class dbconnection():
 
         if engine == 'sqlite':
             connection_string = engine +':///'+address
-            return SessionFactory(connection_string, echo = False, version= dbtype)
+            s = SessionFactory(connection_string, echo = False, version= dbtype)
+            self._setSchema(s.engine)
+            return s
 
         else:
             connection_string = dbconnection.buildConnDict(dbconnection(), engine, address, db, user, password)
             if self.isValidConnection(connection_string, dbtype):
-                return SessionFactory(connection_string, echo = False, version= dbtype)
+                s= SessionFactory(connection_string, echo = False, version= dbtype)
+                self._setSchema(s.engine)
+                return s
             else :
                 return None
         # if self.testConnection(connection_string):
