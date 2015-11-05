@@ -7,6 +7,27 @@ from .. import serviceBase
 
 __author__ = 'jmeline'
 
+
+class DetailedResult:
+    def __init__(self, result,
+                 samplingFeature,
+                 method, variable,
+                 processingLevel,
+                 unit):
+        # result.result_id etc.
+        self.resultID = result.ResultID
+        self.samplingFeatureCode = samplingFeature.SamplingFeatureCode
+        self.methodCode = method.MethodCode
+        self.variableCode = variable.VariableCode
+        self.processingLevelCode = processingLevel.ProcessingLevelCode
+        self.unitsName = unit.UnitsName
+
+        self.samplingFeatureName = samplingFeature.SamplingFeatureName
+        self.methodName = method.MethodName
+        self.variableNameCV = variable.VariableNameCV
+        self.processingLevelDef = processingLevel.Definition
+
+
 class ReadODM2( serviceBase   ):
     '''
     def __init__(self, session):
@@ -101,6 +122,22 @@ class ReadODM2( serviceBase   ):
 # ################################################################################
 
 
+    def getDetailedResultInfo(self, resultTypeCV):
+        q = self._session.query(Results, SamplingFeatures, Methods, Variables,
+            ProcessingLevels, Units).filter(Results.VariableID==Variables.VariableID)\
+            .filter(Results.UnitsID==Units.UnitsID)\
+            .filter(Results.FeatureActionID==FeatureActions.FeatureActionID)\
+            .filter(FeatureActions.SamplingFeatureID==SamplingFeatures.SamplingFeatureID)\
+            .filter(FeatureActions.ActionID==Actions.ActionID)\
+            .filter(Actions.MethodID==Methods.MethodID)\
+            .filter(Results.ProcessingLevelID==ProcessingLevels.ProcessingLevelID)\
+            .filter(Results.ResultTypeCV==resultTypeCV)
+        resultList = []
+        for r,s,m,v,p,u in q.all():
+            detailedResult = DetailedResult(\
+                r,s,m,v,p,u)
+            resultList.append(detailedResult)
+        return resultList
 
     """
     Variable
@@ -302,6 +339,27 @@ class ReadODM2( serviceBase   ):
 
         print GeomText
 
+    """
+    Action
+    """
+
+    def getActions(self):
+        """
+        Select all on Action
+        """
+        print self._session.query(Actions).all()
+        return self._session.query(Actions).all()
+
+    def getActionById(self, actionId):
+        """
+        Select by actionId
+        """
+        try:
+            return self._session.query(Actions).filter_by(ActionID=actionId).first()
+        except:
+            return None
+
+    
     """
     Unit
     """
