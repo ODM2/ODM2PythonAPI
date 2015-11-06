@@ -117,6 +117,18 @@ class ReadODM2( serviceBase   ):
         """
         return self._session.query(CVUnitsType).all()
 
+    def getCVActionTypes(self):
+        """
+        Select all on CVActionType
+        """
+        return self._session.query(CVActionType).all()
+    
+    def getCVMethodTypes(self):
+        """
+        Select all on CVMethodType
+        """
+        return self._session.query(CVMethodType).all()
+
 # ################################################################################
 # Core
 # ################################################################################
@@ -226,6 +238,9 @@ class ReadODM2( serviceBase   ):
             return self._session.query(Methods).filter_by(MethodCode=methodCode).first()
         except:
             return None
+    
+    def getMethodsByType(self, methodTypeCV):
+        return self._session.query(Methods).filter_by(MethodTypeCV=methodTypeCV).all()
 
     """
     ProcessingLevel
@@ -347,7 +362,6 @@ class ReadODM2( serviceBase   ):
         """
         Select all on Action
         """
-        print self._session.query(Actions).all()
         return self._session.query(Actions).all()
 
     def getActionById(self, actionId):
@@ -358,7 +372,7 @@ class ReadODM2( serviceBase   ):
             return self._session.query(Actions).filter_by(ActionID=actionId).first()
         except:
             return None
-
+    
     
     """
     Unit
