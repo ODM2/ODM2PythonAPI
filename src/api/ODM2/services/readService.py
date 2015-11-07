@@ -35,8 +35,8 @@ class DetailedAffiliation:
         self.organization = "(" + org.OrganizationCode + ") " +\
                             org.OrganizationName
 
-    def __repr__(self):
-        return str(self.name) + " " + str(self.organization)
+    #def __repr__(self):
+    #    return str(self.name) + " " + str(self.organization)
 
 class ReadODM2( serviceBase   ):
     '''
@@ -143,7 +143,7 @@ class ReadODM2( serviceBase   ):
 # Core
 # ################################################################################
     
-    def getDetailedAffiliationInfo(self, affiliationID):
+    def getDetailedAffiliationInfo(self):
         q = self._session.query(Affiliations, People, Organizations)\
             .filter(Affiliations.PersonID==People.PersonID)\
             .filter(Affiliations.OrganizationID==Organizations.OrganizationID)
