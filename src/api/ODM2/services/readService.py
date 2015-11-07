@@ -27,6 +27,16 @@ class DetailedResult:
         self.variableNameCV = variable.VariableNameCV
         self.processingLevelDef = processingLevel.Definition
 
+class DetailedAffiliation:
+    def __init__(self, person, org):
+        self.name = person.PersonFirstName + \
+                    " " + \
+                    person.PersonLastName
+        self.organization = "(" + org.OrganizationCode + ") " +\
+                            org.OrganizationName
+
+    def __repr__(self):
+        return str(self.name) + " " + str(self.organization)
 
 class ReadODM2( serviceBase   ):
     '''
@@ -132,7 +142,16 @@ class ReadODM2( serviceBase   ):
 # ################################################################################
 # Core
 # ################################################################################
-
+    
+    def getDetailedAffiliationInfo(self, affiliationID):
+        q = self._session.query(Affiliations, People, Organizations)\
+            .filter(Affiliations.PersonID==People.PersonID)\
+            .filter(Affiliations.OrganizationID==Organizations.OrganizationID)
+        affiliationList = []
+        for a,p,o in q.all():
+            detailedAffiliation = DetailedAffiliation(p,o)
+            affiliationList.append(detailedAffiliation)
+        return affiliationList
 
     def getDetailedResultInfo(self, resultTypeCV):
         q = self._session.query(Results, SamplingFeatures, Methods, Variables,
@@ -501,6 +520,9 @@ class ReadODM2( serviceBase   ):
                 .filter(People.PersonLastName.ilike(personlast)).first()
         except:
             return None
+    
+    def getAffiliations(self):
+        return self._session.query(Affiliations).all()
 
     def getAffiliationsByPerson(self, personfirst, personlast):
         """
