@@ -27,6 +27,16 @@ class DetailedResult:
         self.variableNameCV = variable.VariableNameCV
         self.processingLevelDef = processingLevel.Definition
 
+class DetailedAffiliation:
+    def __init__(self, person, org):
+        self.name = person.PersonFirstName + \
+                    " " + \
+                    person.PersonLastName
+        self.organization = "(" + org.OrganizationCode + ") " +\
+                            org.OrganizationName
+
+    #def __repr__(self):
+    #    return str(self.name) + " " + str(self.organization)
 
 class ReadODM2( serviceBase   ):
     '''
@@ -117,10 +127,31 @@ class ReadODM2( serviceBase   ):
         """
         return self._session.query(CVUnitsType).all()
 
+    def getCVActionTypes(self):
+        """
+        Select all on CVActionType
+        """
+        return self._session.query(CVActionType).all()
+    
+    def getCVMethodTypes(self):
+        """
+        Select all on CVMethodType
+        """
+        return self._session.query(CVMethodType).all()
+
 # ################################################################################
 # Core
 # ################################################################################
-
+    
+    def getDetailedAffiliationInfo(self):
+        q = self._session.query(Affiliations, People, Organizations)\
+            .filter(Affiliations.PersonID==People.PersonID)\
+            .filter(Affiliations.OrganizationID==Organizations.OrganizationID)
+        affiliationList = []
+        for a,p,o in q.all():
+            detailedAffiliation = DetailedAffiliation(p,o)
+            affiliationList.append(detailedAffiliation)
+        return affiliationList
 
     def getDetailedResultInfo(self, resultTypeCV):
         q = self._session.query(Results, SamplingFeatures, Methods, Variables,
@@ -226,6 +257,9 @@ class ReadODM2( serviceBase   ):
             return self._session.query(Methods).filter_by(MethodCode=methodCode).first()
         except:
             return None
+    
+    def getMethodsByType(self, methodTypeCV):
+        return self._session.query(Methods).filter_by(MethodTypeCV=methodTypeCV).all()
 
     """
     ProcessingLevel
@@ -347,7 +381,6 @@ class ReadODM2( serviceBase   ):
         """
         Select all on Action
         """
-        print self._session.query(Actions).all()
         return self._session.query(Actions).all()
 
     def getActionById(self, actionId):
@@ -358,7 +391,7 @@ class ReadODM2( serviceBase   ):
             return self._session.query(Actions).filter_by(ActionID=actionId).first()
         except:
             return None
-
+    
     
     """
     Unit
@@ -487,6 +520,9 @@ class ReadODM2( serviceBase   ):
                 .filter(People.PersonLastName.ilike(personlast)).first()
         except:
             return None
+    
+    def getAffiliations(self):
+        return self._session.query(Affiliations).all()
 
     def getAffiliationsByPerson(self, personfirst, personlast):
         """
