@@ -467,11 +467,54 @@ class CreateODM2( serviceBase):
 
     def createTimeSeriesResultValues(self, datavalues):
         try:
-            datavalues.to_sql(name="timeseriesresultvalues", if_exists='append', con=self._session_factory.engine, index=False)
+            #using Pandas built-in  --slow
+            #changing way values sent --unknown error on insert
+            datavalues.to_sql(name=TimeSeriesResultValues.__tablename__,
+                              schema=TimeSeriesResultValues.__table_args__['schema'],
+                              if_exists='append',
+                              chunksize= 1000,
+                              con=self._session_factory.engine,
+                              index=False)
             self._session.commit()
+
+
+            #using sqlalchemy core --sending empty parameters
+            # data = datavalues.to_dict('records')
+            # self._session.execute(TimeSeriesResultValues.__table__.insert(data))
+
+            #using cursor and StringIO --not all cursors have the copy_from function
+            # print "using cursor"
+            # import cStringIO
+            # #stream the data using 'to_csv' and StringIO(); then use sql's 'copy_from' function
+            # output = cStringIO.StringIO()
+            # #ignore the index
+            # datavalues.to_csv(output, sep='\t', header=False, index=False)
+            # #jump to start of stream
+            # output.seek(0)
+            # contents = output.getvalue()
+            # connection = self._session_factory.engine.raw_connection()
+            # cur = connection.cursor()
+            # #null values become ''
+            # cur.copy_from(output, 'ODM2.TimeSeriesResultValues', null="")
+            # connection.commit()
+            # cur.close()
+
+            #using Bulk Insert  * user must have permissions --file created locally code running remote
+           #  datavalues.to_csv('C:\\Users\\Stephanie\\temp.csv')
+           #  sql = """
+           #     BULK INSERT ODM2.TimeSeriesResultValues
+           #     FROM 'C:\\Users\\Stephanie\\temp.csv' WITH (
+           #     FIELDTERMINATOR=',',
+           #     ROWTERMINATOR='\\n');
+           # """
+           #  self._session.execute(sql)
+
+
+
+
             return datavalues
         except Exception, e:
-            print e.message
+            print e
             return None
 
 
