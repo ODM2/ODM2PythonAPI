@@ -469,6 +469,11 @@ class CreateODM2( serviceBase):
         try:
             #using Pandas built-in  --slow
             #changing way values sent --unknown error on insert
+            #cols = datavalues.columns.tolist()
+            #['ValueDateTime', 'DataValue', 'TimeAggregationInterval', 'TimeAggregationIntervalUnitsID', 'QualityCodeCV', 'CensorCodeCV', 'ResultID', 'ValueDateTimeUTCOffset']
+            cols = ['ResultID','DataValue','ValueDateTime','ValueDateTimeUTCOffset','CensorCodeCV','QualityCodeCV','TimeAggregationInterval','TimeAggregationIntervalUnitsID']
+            datavalues = datavalues[cols]
+            #print datavalues
             datavalues.to_sql(name=TimeSeriesResultValues.__tablename__,
                               schema=TimeSeriesResultValues.__table_args__['schema'],
                               if_exists='append',

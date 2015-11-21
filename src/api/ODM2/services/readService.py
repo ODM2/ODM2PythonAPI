@@ -153,7 +153,7 @@ class ReadODM2( serviceBase   ):
             affiliationList.append(detailedAffiliation)
         return affiliationList
 
-    def getDetailedResultInfo(self, resultTypeCV):
+    def getDetailedResultInfo(self, resultTypeCV, resultID=None):
         q = self._session.query(Results, SamplingFeatures, Methods, Variables,
             ProcessingLevels, Units).filter(Results.VariableID==Variables.VariableID)\
             .filter(Results.UnitsID==Units.UnitsID)\
@@ -164,10 +164,16 @@ class ReadODM2( serviceBase   ):
             .filter(Results.ProcessingLevelID==ProcessingLevels.ProcessingLevelID)\
             .filter(Results.ResultTypeCV==resultTypeCV)
         resultList = []
-        for r,s,m,v,p,u in q.all():
-            detailedResult = DetailedResult(\
-                r,s,m,v,p,u)
-            resultList.append(detailedResult)
+        if resultID:
+            for r,s,m,v,p,u in q.filter_by(ResultID=resultID).all():
+                detailedResult = DetailedResult(\
+                    r,s,m,v,p,u)
+                resultList.append(detailedResult)
+        else:
+            for r,s,m,v,p,u in q.all():
+                detailedResult = DetailedResult(\
+                    r,s,m,v,p,u)
+                resultList.append(detailedResult)
         return resultList
 
     """
