@@ -566,7 +566,7 @@ class SamplingFeatures(Base):
         from shapely import wkb
         return "<SamplingFeatures('%s', '%s', '%s', '%s', '%s')>" % (
             self.SamplingFeatureCode, self.SamplingFeatureName, self.SamplingFeatureDescription,
-            self.Elevation_m, self.FeatureGeometry)
+            self.Elevation_m, wkb.loads(str(self.FeatureGeometry.geom_wkb)).wkt if self.FeatureGeometry is not None else None)#self.FeatureGeometry)
 
 GeometryDDL(SamplingFeatures.__table__) #Geoalchemy1
 
