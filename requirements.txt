@@ -1,6 +1,7 @@
 six
 sqlalchemy
-geoalchemy2
+geoalchemy
+shapely
 
 matplotlib
 dateutils
