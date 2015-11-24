@@ -431,6 +431,12 @@ class ReadODM2( serviceBase   ):
             return self._session.query(Units).filter(Units.UnitsName.ilike(unitName)).first()
         except:
             return None
+    
+    def getUnitsByTypeCV(self, unitsTypeCV):
+        try:
+            return self._session.query(Units).filter(Units.UnitsTypeCV.ilike(unitsTypeCV)).all()
+        except:
+            return None
 
     """
     Organization
