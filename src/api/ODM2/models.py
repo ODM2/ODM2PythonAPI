@@ -173,7 +173,7 @@ class CVMediumType(Base):
     Category = Column('category', String(255))
     SourceVocabularyUri = Column('sourcevocabularyuri', String(255))
     def __repr__(self):
-        return "<CVMedium('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
+        return "<CVMedium('%s', '%s', '%s', '%s')>" %(self.Term, self.Name, self.Definition, self.Category)
 
 class CVMethodType(Base):
     __tablename__ = 'cv_methodtype'

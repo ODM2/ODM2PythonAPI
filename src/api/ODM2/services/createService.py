@@ -471,10 +471,11 @@ class CreateODM2( serviceBase):
             #changing way values sent --unknown error on insert
             #cols = datavalues.columns.tolist()
             #['ValueDateTime', 'DataValue', 'TimeAggregationInterval', 'TimeAggregationIntervalUnitsID', 'QualityCodeCV', 'CensorCodeCV', 'ResultID', 'ValueDateTimeUTCOffset']
-            cols = ['ResultID','DataValue','ValueDateTime','ValueDateTimeUTCOffset','CensorCodeCV','QualityCodeCV','TimeAggregationInterval','TimeAggregationIntervalUnitsID']
-            datavalues = datavalues[cols]
+            #cols = ['ResultID','DataValue','ValueDateTime','ValueDateTimeUTCOffset','CensorCodeCV','QualityCodeCV','TimeAggregationInterval','TimeAggregationIntervalUnitsID']
+            #datavalues = datavalues[cols]
             #print datavalues
-            datavalues.to_sql(name=TimeSeriesResultValues.__tablename__,
+            #datavalues.to_sql(name=TimeSeriesResultValues.__tablename__,
+            datavalues.to_sql(name="TimeSeriesResultValues",
                               schema=TimeSeriesResultValues.__table_args__['schema'],
                               if_exists='append',
                               chunksize= 1000,

@@ -138,6 +138,24 @@ class ReadODM2( serviceBase   ):
         Select all on CVMethodType
         """
         return self._session.query(CVMethodType).all()
+    
+    def getCVMediumTypes(self):
+        """
+        Select all on CVMediumType
+        """
+        return self._session.query(CVMediumType).all()
+    
+    def getCVAggregationStatistics(self):
+        """
+        Select all on CVAggregationStatistic
+        """
+        return self._session.query(CVAggregationStatistic).all()
+    
+    def getCVStatus(self):
+        """
+        Select all on CVStatus
+        """
+        return self._session.query(CVStatus).all()
 
 # ################################################################################
 # Core
