@@ -1,5 +1,5 @@
-from api.base import serviceBase
-from api.base import modelBase
+from odm2api.base import serviceBase
+from odm2api.base import modelBase
 
 __all__ = [
     'serviceBase',
