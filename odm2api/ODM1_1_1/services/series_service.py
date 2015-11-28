@@ -8,8 +8,8 @@ from ...base import serviceBase
 import pandas as pd
 
 
-import api.ODM1_1_1.models as ODM1
-import api.ODM2.LikeODM1.models as ODM2
+import odm2api.ODM1_1_1.models as ODM1
+import odm2api.ODM2.LikeODM1.models as ODM2
 
 #Set Default
 global ODM
