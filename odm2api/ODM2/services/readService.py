@@ -1,11 +1,10 @@
+__author__ = 'jmeline'
+
 from sqlalchemy import func
 import pandas as pd
 
-from api.ODM2.models import *
-from .. import serviceBase
-
-
-__author__ = 'jmeline'
+from odm2api.ODM2 import serviceBase
+from odm2api.ODM2.models import *
 
 
 class DetailedResult:
