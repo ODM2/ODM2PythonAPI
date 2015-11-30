@@ -31,11 +31,6 @@ class SessionFactory():
             self.engine = create_engine(connection_string,  encoding='utf-8', echo=echo)
             self.test_engine = self.engine
 
-            # engine = create_engine(...)
-            # conn = engine.connect()
-            # conn.connection.<do DBAPI things>
-            # cursor = conn.connection.cursor(<DBAPI specific arguments..>)
-
         elif 'mssql' in connection_string:
               self.engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600)
               self.test_engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600, connect_args={'timeout': 1})

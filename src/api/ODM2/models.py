@@ -13,7 +13,7 @@ Base = declarative_base()
 metadata = Base.metadata
 '''
 
-#from geoalchemy import *
+from geoalchemy import *
 
 #from base import modelBase as Base
 
