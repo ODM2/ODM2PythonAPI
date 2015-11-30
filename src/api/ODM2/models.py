@@ -5,13 +5,8 @@ from sqlalchemy.orm import relationship
 # Should not be importing anything from a specific dialect
 # from sqlalchemy.dialects.mssql.base import BIT
 
-from apiCustomType import Geometry
-'''
-from sqlalchemy.ext.declarative import declarative_base
+# from apiCustomType import Geometry
 
-Base = declarative_base()
-metadata = Base.metadata
-'''
 
 from geoalchemy import *
 
@@ -563,17 +558,17 @@ class SamplingFeatures(Base):
     Elevation_m = Column('elevation_m', Float(53))
     ElevationDatumCV = Column('elevationdatumcv', ForeignKey(CVElevationDatum.Name), index=True)
     #FeatureGeometry = Column('featuregeometry', Geometry) # Geoalchemy 2
-    #FeatureGeometry = GeometryColumn('featuregeometry', Point) #Geoalchemy 1, #wkb.loads(str(self.FeatureGeometry.geom_wkb)).wkt if self.FeatureGeometry is not None else None
-    FeatureGeometry = Column('featuregeometry', BLOB)# custom geometry queries
+    FeatureGeometry = GeometryColumn('featuregeometry', Point) #Geoalchemy 1, #wkb.loads(str(self.FeatureGeometry.geom_wkb)).wkt if self.FeatureGeometry is not None else None
+    # FeatureGeometry = Column('featuregeometry', BLOB)# custom geometry queries
 
 
     def __repr__(self):
         from shapely import wkb
         return "<SamplingFeatures('%s', '%s', '%s', '%s', '%s')>" % (
             self.SamplingFeatureCode, self.SamplingFeatureName, self.SamplingFeatureDescription,
-            self.Elevation_m, self.FeatureGeometry)
+            self.Elevation_m, wkb.loads(str(self.FeatureGeometry.geom_wkb)).wkt if self.FeatureGeometry is not None else None)#self.FeatureGeometry)
 
-#GeometryDDL(SamplingFeatures.__table__) #Geoalchemy1
+GeometryDDL(SamplingFeatures.__table__) #Geoalchemy1
 
 class FeatureActions(Base):
     __tablename__ = u'featureactions'
