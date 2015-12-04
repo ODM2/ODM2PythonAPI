@@ -2064,12 +2064,31 @@ class TransectResultValues(Base):
     TransectResultObj = relationship(TransectResults)
 
 
-import inspect
-import sys
 
-def change_schema(schema):
+
+def _changeSchema(schema):
+    import inspect
+    import sys
     #get a list of all of the classes in the module
     clsmembers = inspect.getmembers(sys.modules[__name__], lambda member: inspect.isclass(member) and member.__module__ == __name__)
 
     for name, Tbl in clsmembers:
-        Tbl.__table__.schema = schema
+        import sqlalchemy.ext.declarative.api as api
+        if isinstance(Tbl, api.DeclarativeMeta):
+            Tbl.__table__.schema = schema
+
+
+def _getSchema(engine):
+    from sqlalchemy.engine import reflection
+
+    insp=reflection.Inspector.from_engine(engine)
+
+    for name in insp.get_schema_names():
+        if 'odm2'== name.lower():
+            return name
+    else:
+        return insp.default_schema_name
+
+def setSchema(engine):
+    s = _getSchema(engine)
+    _changeSchema(s)

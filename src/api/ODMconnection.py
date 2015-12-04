@@ -3,11 +3,12 @@ from sqlalchemy.exc import SQLAlchemyError, DBAPIError
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from .ODM2.models import Variables as Variable2, change_schema
+from .ODM2.models import Variables as Variable2, setSchema
 #from .versionSwitcher import ODM, refreshDB #import Variable as Variable1
 from .ODM1_1_1.services import ODM#, refreshDB
 import urllib
 import sys
+import os
 
 
 LIBSPATIALITE_PATH = './libspatialite.so.5.1.0'
@@ -15,6 +16,21 @@ LIBSPATIALITE_PATH = './libspatialite.so.5.1.0'
 class SessionFactory():
     def __init__(self, connection_string, echo, version = 1.1):
         if 'sqlite' in connection_string:
+            # from sqlite3 import dbapi2 as sqlite
+            # put the spatialite dll on the path. If one had pyspatialite installed thn
+            # this would not be required... but trying to get that on a windows machine
+            # was way too hard to bother
+            # dirDLLspatialite = 'C:/bin'
+            # os.environ['PATH'] = dirDLLspatialite + ';' + os.environ['PATH']
+
+            # #engine = create_engine('sqlite:///D:\\temp\\test_1.db', module=sqlite, echo=False)
+            # engine = create_engine(connection_string, module=sqlite, echo=False)
+
+            # this enables the extension on each connection
+            # @event.listens_for(engine, "connect")
+            # def connect(dbapi_connection, connection_rec):
+            #     dbapi_connection.enable_load_extension(True)
+            #     dbapi_connection.execute("SELECT load_extension('libspatialite-4.dll')")
 
             #from pysqlite2 import dbapi2 as sqlite
             #import pyspatialite.dpabi as sqlite
@@ -63,20 +79,18 @@ class dbconnection():
         if engine == 'sqlite':
             connection_string = engine +':///'+address
             s = SessionFactory(connection_string, echo = False, version= dbtype)
-            self._setSchema(s.engine)
+            setSchema(s.engine)
             return s
 
         else:
             connection_string = dbconnection.buildConnDict(dbconnection(), engine, address, db, user, password)
             if self.isValidConnection(connection_string, dbtype):
                 s= SessionFactory(connection_string, echo = False, version= dbtype)
-                self._setSchema(s.engine)
+                setSchema(s.engine)
                 return s
             else :
                 return None
         # if self.testConnection(connection_string):
-
-
 
     @classmethod
     def isValidConnection(self, connection_string, dbtype=2.0):
@@ -95,29 +109,11 @@ class dbconnection():
             else:
                 return False
 
-    @staticmethod
-    def _getSchema(engine):
-        from sqlalchemy.engine import reflection
-
-        insp=reflection.Inspector.from_engine(engine)
-
-        for name in insp.get_schema_names():
-            if 'odm2'== name.lower():
-                return name
-        else:
-            return insp.default_schema_name
-
-    @classmethod
-    def _setSchema(self, engine):
-
-        s = self._getSchema(engine)
-        change_schema(s)
-
     @classmethod
     def testEngine(self, connection_string):
         s = SessionFactory(connection_string, echo=False)
         try:
-            self._setSchema(s.test_engine)
+            setSchema(s.test_engine)
             s.test_Session().query(Variable2.VariableCode).limit(1).first()
 
         except Exception as e:
@@ -162,7 +158,6 @@ class dbconnection():
 
         self._connections.append(conn_dict)
         self._current_connection = self._connections[-1]
-
 
 
     def deleteConnection(self, conn_dict):
