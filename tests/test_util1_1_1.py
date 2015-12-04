@@ -1,6 +1,6 @@
 import datetime
 
-from api.ODM1_1_1 import *
+from odm2api.ODM1_1_1 import *
 
 
 def build_db(engine):

@@ -27,7 +27,8 @@ class DetailedResult:
         self.processingLevelDef = processingLevel.Definition
 
 class DetailedAffiliation:
-    def __init__(self, person, org):
+    def __init__(self, affiliation, person, org):
+        self.affiliationID = affiliation.AffiliationID
         self.name = person.PersonFirstName + \
                     " " + \
                     person.PersonLastName
@@ -137,6 +138,24 @@ class ReadODM2( serviceBase   ):
         Select all on CVMethodType
         """
         return self._session.query(CVMethodType).all()
+    
+    def getCVMediumTypes(self):
+        """
+        Select all on CVMediumType
+        """
+        return self._session.query(CVMediumType).all()
+    
+    def getCVAggregationStatistics(self):
+        """
+        Select all on CVAggregationStatistic
+        """
+        return self._session.query(CVAggregationStatistic).all()
+    
+    def getCVStatus(self):
+        """
+        Select all on CVStatus
+        """
+        return self._session.query(CVStatus).all()
 
 # ################################################################################
 # Core
@@ -148,7 +167,7 @@ class ReadODM2( serviceBase   ):
             .filter(Affiliations.OrganizationID==Organizations.OrganizationID)
         affiliationList = []
         for a,p,o in q.all():
-            detailedAffiliation = DetailedAffiliation(p,o)
+            detailedAffiliation = DetailedAffiliation(a,p,o)
             affiliationList.append(detailedAffiliation)
         return affiliationList
 
@@ -513,6 +532,12 @@ class ReadODM2( serviceBase   ):
         try:
             return self._session.query(People).filter(People.PersonFirstName.ilike(personfirst)). \
                 filter(People.PersonLastName.ilike(personlast)).first()
+        except:
+            return None
+
+    def getAllAffiliations(self):
+        try:
+            return self._session.query(Affiliations).all()
         except:
             return None
 

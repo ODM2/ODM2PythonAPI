@@ -1,6 +1,13 @@
 six
 sqlalchemy
-geoalchemy2
+geoalchemy
+#Change line #242 in geoalchemy/base.py
+#from:
+#class SpatialComparator(ColumnProperty.ColumnComparator):
+#to :
+#class SpatialComparator(ColumnProperty.Comparator):
+
+shapely
 
 matplotlib
 dateutils

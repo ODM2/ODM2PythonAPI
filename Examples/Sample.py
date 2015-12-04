@@ -13,8 +13,8 @@ from matplotlib import dates
 # print directory
 # sys.path.insert(0, directory)
 
-from api.ODMconnection import dbconnection
-from api.ODM2.services.readService import *
+from odm2api.ODMconnection import dbconnection
+from odm2api.ODM2.services.readService import *
 # Create a connection to the ODM2 database
 # ----------------------------------------
 
@@ -22,7 +22,7 @@ from api.ODM2.services.readService import *
 #connect to database
 #createconnection (dbtype, servername, dbname, username, password)
 #session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')
-session_factory = dbconnection.createConnection('mysql', 'jws.uwrl.usu.edu', 'odm2', 'ODM', 'ODM123!!', 2)
+session_factory = dbconnection.createConnection('sqlite', '/Users/stephanie/DEV/DBs/ODM2.sqlite', 2.0)
 # session_factory= dbconnection.createConnection('mssql')
 
 
@@ -49,7 +49,13 @@ allPeople = read.getPeople()
 for x in allPeople:
     print x.PersonFirstName + " " + x.PersonLastName
 
-
+try:
+    print "\n-------- Information about an Affiliation ---------"
+    allaff = read.getAllAffiliations()
+    for x in allaff:
+        print x.PersonObj.PersonFirstName + ": " + str(x.OrganizationID)
+except Exception as e:
+    print "Unable to demo getAllAffiliations", e
 
 # Get all of the SamplingFeatures from the database that are Sites
 try:
@@ -81,7 +87,7 @@ except Exception as e:
 #add sampling feature
 print "\n------------ Create Sampling Feature --------- \n",
 try:
-    from api.ODM2.models import SamplingFeatures
+    from odm2api.ODM2.models import SamplingFeatures
     newsf = SamplingFeatures()
     session = session_factory.getSession()
     newsf.FeatureGeometry = "POINT(-111.946 41.718)"
@@ -93,7 +99,7 @@ try:
     newsf.SamplingFeatureTypeCV=sf.SamplingFeatureTypeCV
     newsf.SamplingFeatureUUID= sf.SamplingFeatureUUID+"2"
     session.add(newsf)
-    session.commit()
+    #session.commit()
     print "new sampling feature added to database", newsf
 
 except Exception as e :

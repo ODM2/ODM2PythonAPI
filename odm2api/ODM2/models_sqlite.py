@@ -17,7 +17,7 @@ metadata = Base.metadata
 
 #from base import modelBase as Base
 
-from src.api.base import modelBase
+from odm2api.base import modelBase
 Base = modelBase.Base
 
 from sqlalchemy.dialects import postgresql, mysql, sqlite

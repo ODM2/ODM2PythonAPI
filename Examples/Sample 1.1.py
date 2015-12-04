@@ -1,9 +1,9 @@
 __author__ = 'stephanie'
 import sys
 import os
-from api.ODMconnection import dbconnection
+from odm2api.ODMconnection import dbconnection
 import pprint
-from api.ODM1_1_1.services import SeriesService
+from odm2api.ODM1_1_1.services import SeriesService
 
 this_file = os.path.realpath(__file__)
 directory = os.path.dirname(this_file)
