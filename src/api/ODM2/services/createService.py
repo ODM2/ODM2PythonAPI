@@ -151,7 +151,7 @@ class CreateODM2( serviceBase):
         return sf
 
 
-    def createUnit(self, type, abbrev, name):
+    def createUnit(self, type, abbrev, name, link=None):
         """Create Unit table
 
         :param code:
@@ -166,6 +166,7 @@ class CreateODM2( serviceBase):
         unit.UnitsTypeCV = type
         unit.UnitsAbbreviation = abbrev
         unit.UnitsName = name
+        unit.UnitsLink = link
 
         self._session.add(unit)
         self._session.commit()

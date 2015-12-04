@@ -28,7 +28,8 @@ class DetailedResult:
         self.processingLevelDef = processingLevel.Definition
 
 class DetailedAffiliation:
-    def __init__(self, person, org):
+    def __init__(self, affiliation, person, org):
+        self.affiliationID = affiliation.AffiliationID
         self.name = person.PersonFirstName + \
                     " " + \
                     person.PersonLastName
@@ -167,7 +168,7 @@ class ReadODM2( serviceBase   ):
             .filter(Affiliations.OrganizationID==Organizations.OrganizationID)
         affiliationList = []
         for a,p,o in q.all():
-            detailedAffiliation = DetailedAffiliation(p,o)
+            detailedAffiliation = DetailedAffiliation(a,p,o)
             affiliationList.append(detailedAffiliation)
         return affiliationList
 
