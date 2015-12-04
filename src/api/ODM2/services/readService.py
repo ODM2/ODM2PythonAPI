@@ -536,6 +536,12 @@ class ReadODM2( serviceBase   ):
         except:
             return None
 
+    def getAllAffiliations(self):
+        try:
+            return self._session.query(Affiliations).all()
+        except:
+            return None
+
     def getAffiliationByPersonAndOrg(self, personfirst, personlast, orgcode):
         """
         Select all affiliation of person

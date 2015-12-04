@@ -1,6 +1,6 @@
 from sqlalchemy import func
-from sqlalchemy.sql.expression import FunctionElement
-from sqlalchemy.types import UserDefinedType
+from sqlalchemy.sql.expression import FunctionElement, ClauseElement, Executable
+#from sqlalchemy.types import UserDefinedType
 from sqlalchemy.ext.compiler import compiles
 
 
@@ -9,13 +9,17 @@ from geoalchemy2 import Geometry as GeometryBase
 # function to pull from the database
 def compiles_as_bound(cls):
 
+    @compiles(cls)
+    def compile_function(element, compiler, **kw):
+        return None
+
     @compiles(cls, 'postgresql')
     def compile_function(element, compiler, **kw):
         val = "%s(%s)"%(element.name, compiler.process(element.clauses.clauses[0]))
         #ST_AsText("\"ODM2\".\"SamplingFeatures\".\"FeatureGeometry\"")
         return val
 
-    @compiles(cls)#, 'mysql')
+    @compiles(cls, 'mysql')
     def compile_function(element, compiler, **kw):
         val="%s(%s)"%(element.name.lower().split('_')[1], compiler.process(element.clauses.clauses[0]))
         #astext("`ODM2`.`SamplingFeatures`.`FeatureGeometry`")
@@ -24,12 +28,15 @@ def compiles_as_bound(cls):
 
     @compiles(cls, 'sqlite')
     def compile_function(element, compiler, **kw):
-        return "%s(%s)"%(element.name.split('_')[-1], compiler.process(element.clauses.clauses[0]))
-        #return ST_AsText(samplingfeatures.featuregeometry)
+        #ST_AsText(samplingfeatures.featuregeometry)
+        #assuming the user is using spatialite
+        #return "%s(%s)"%(element.name.split('_')[-1], compiler.process(element.clauses.clauses[0]))
+        #what if user does not have a spatial db?
+        return "%s"%compiler.process(element.clauses.clauses[0])
 
     @compiles(cls, 'mssql')
     def compile_function(element, compiler, **kw):
-        #[SamplingFeatures_1].[FeatureGeometry].STAsText()
+        #[SamplingFeatures].[FeatureGeometry].STAsText()
         return "%s.%s()" % (compiler.process(element.clauses.clauses[0]), element.name.replace('_', '') )
 
     return cls
@@ -55,23 +62,30 @@ def saves_as_bound(cls):
         # GeomFromText("POINT(30 10)")
         # GeomFromText(:featuregeometry)
 
-        val = "%s(%s)"%(name, element.clauses.clauses[0])
+        val = "%s(%s)"%(name, compiler.process(element.bindelement))
         return val
 
     @compiles(cls, 'sqlite')
     def compile_function(element, compiler, **kw):
         name= element.name.split('_')[-1]
         #return "%s(%s)" % (element.name.replace('_', ''), "'POINT (30 10)'")
+        #assuming the user is using spatialite
+        #return "%s(%s)"%(name, "'POINT(30 10)'")
 
-        return "%s(%s)"%(name, "'POINT(30 10)'")
+        #what if user does not have a spatial?
+# >>> self.bindtemplate
+# '?'
+# (BindParameter('featuregeometry', None, type_=Geometry()),)
+# >>> dialect.paramstyle
+        #print compiler.bindtemplate
+        return "%s(%s)"%(name, '')
 
     @compiles(cls, 'mssql')
     def compile_function(element, compiler, **kw):
         #return "Geometry::%s(%s, 0)"%(element.name.replace('_', ''), "'POINT (30 10)'")
         name = "Geometry::%s" % element.name.replace('_', '')
+
         return "%s(%s,0)"%(name, "'POINT(30 10)'")
-
-
 
     return cls
 
@@ -81,6 +95,8 @@ def saves_as_bound(cls):
 class ST_GeomFromText(FunctionElement):
     name = "ST_GeomFromText"
 
+
+
 @compiles_as_bound
 class ST_AsText(FunctionElement):
     name = 'ST_AsText'
@@ -89,7 +105,8 @@ class ST_AsText(FunctionElement):
 class ST_AsBinary(FunctionElement):
     name = 'ST_AsBinary'
 
-from sqlalchemy import String, type_coerce
+
+
 class Geometry(GeometryBase):
 
     def column_expression(self, col):
@@ -99,20 +116,16 @@ class Geometry(GeometryBase):
         return value
 
     def bind_expression(self, bindvalue):
-
-        #mysql, sqlite
+        val = None
+        # mysql, sqlite
         val = func.GeomFromText(bindvalue, type_=self)
 
-        #postgresql
-        #val = func.ST_GeomFromText(bindvalue, type_=self)
-        #mssql
+        # postgresql
+        # val = func.ST_GeomFromText(bindvalue, type_=self)
+        # mssql
         if val is None:
             val = ST_GeomFromText(bindvalue, type_=self)
         return val
-
-
-
-
 
 
 
