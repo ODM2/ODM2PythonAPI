@@ -55,6 +55,9 @@ class ReadODM2( serviceBase   ):
 # ################################################################################
 # CV
 # ################################################################################
+    
+    def getCVOrganizationTypes(self):
+        return self._session.query(CVOrganizationType).all()
 
     def getCVSamplingFeatureTypes(self):
         """Select all on Sampling Features

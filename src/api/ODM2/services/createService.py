@@ -257,7 +257,8 @@ class CreateODM2( serviceBase):
         a.AffiliationEndDate = affiliation_end
 
         self._session.add(a)
-        self._session.flush()
+        self._session.commit()
+        #self._session.flush()
         # self._session.refresh(a)
 
         print a.OrganizationID
