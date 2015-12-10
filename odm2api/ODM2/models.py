@@ -8,7 +8,9 @@ from sqlalchemy.orm import relationship
 # from apiCustomType import Geometry
 
 
-from geoalchemy import *
+from geoalchemy import GeometryDDL, GeometryColumn
+from geoalchemy.geometry import Geometry
+#geoalchemy.geometry.Geometry
 
 #from base import modelBase as Base
 
@@ -558,7 +560,7 @@ class SamplingFeatures(Base):
     Elevation_m = Column('elevation_m', Float(53))
     ElevationDatumCV = Column('elevationdatumcv', ForeignKey(CVElevationDatum.Name), index=True)
     #FeatureGeometry = Column('featuregeometry', Geometry) # Geoalchemy 2
-    FeatureGeometry = GeometryColumn('featuregeometry', Point) #Geoalchemy 1, #wkb.loads(str(self.FeatureGeometry.geom_wkb)).wkt if self.FeatureGeometry is not None else None
+    FeatureGeometry = GeometryColumn('featuregeometry', Geometry) #Geoalchemy 1, #wkb.loads(str(self.FeatureGeometry.geom_wkb)).wkt if self.FeatureGeometry is not None else None
     # FeatureGeometry = Column('featuregeometry', BLOB)# custom geometry queries
 
 
