@@ -75,7 +75,7 @@ setup(
     # your project is installed. For an analysis of "install_requires" vs pip's
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=['pandas', 'sqlalchemy', 'pyodbc', 'pymysql', 'psycopg2'],
+    install_requires=['pandas', 'sqlalchemy', 'geoalchemy', 'shapely'],#'pyodbc', 'pymysql', 'psycopg2',
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). You can install these using the following syntax,
