@@ -337,7 +337,8 @@ class CreateODM2( serviceBase):
                      taxonomicclass=None, resultdatetime=None, resultdatetimeutcoffset=None,
                      validdatetime=None, validdatetimeutcoffset=None, statuscv=None):
         result = Results()
-        result.ResultUUID = uuid.uuid4().hex
+        #result.ResultUUID = uuid.uuid4().hex
+        result.ResultUUID = str(uuid.uuid4()) # Denver
         result.FeatureActionID = featureactionid
         result.ResultTypeCV = resulttypecv
         result.VariableID = variableid
