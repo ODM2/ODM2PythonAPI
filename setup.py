@@ -78,7 +78,9 @@ setup(
 
     install_requires=['pandas', 'sqlalchemy', 'geoalchemy',
                       'pyodbc', 'pymysql', 'psycopg2', 'shapely'],
-
+    dependency_links=[
+        "git+https://github.com/ODM2/geoalchemy.git@odm2#egg=geoalchemy"
+    ],
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). You can install these using the following syntax,
