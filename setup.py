@@ -76,10 +76,10 @@ setup(
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
 
-    install_requires=['pandas', 'sqlalchemy', 'geoalchemy',
+    install_requires=['pandas', 'sqlalchemy', 'geoalchemy>=0.7.3.dev',
                       'pyodbc', 'pymysql', 'psycopg2', 'shapely'],
     dependency_links=[
-        "git+https://github.com/ODM2/geoalchemy.git@odm2#egg=geoalchemy"
+        "git+https://github.com/ODM2/geoalchemy.git@odm2#egg=geoalchemy-0.7.3.dev"
     ],
 
     # List additional groups of dependencies here (e.g. development
