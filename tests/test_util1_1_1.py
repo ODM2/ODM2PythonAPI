@@ -1,7 +1,7 @@
 import datetime
 
-from odm2api.ODM1_1_1 import *
-
+from odm2api.ODM1_1_1.models import *
+from odm2api import base as Base
 
 def build_db(engine):
     Base.metadata.create_all(engine)

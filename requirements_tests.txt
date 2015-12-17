@@ -13,4 +13,9 @@ shapely
 dateutils
 pandas
 
+#db support
+pymysql
+pysqlite
+pyspatialite
+
 #sqlalchemy-migrate

@@ -78,6 +78,7 @@ setup(
 
     install_requires=['pandas', 'sqlalchemy', 'geoalchemy>=0.7.3.dev',
                       'pyodbc', 'pymysql', 'psycopg2', 'shapely'],
+    # dependency_links- geoalchemy from the ODM repository
     dependency_links=[
         "git+https://github.com/ODM2/geoalchemy.git@odm2#egg=geoalchemy-0.7.3.dev"
     ],

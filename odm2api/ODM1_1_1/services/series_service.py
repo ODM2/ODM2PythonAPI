@@ -23,11 +23,14 @@ class SeriesService(serviceBase):
     def refreshDB(self, ver):
         self._version= ver
         if ver == 1.1:
-            global ODM
+            #global ODM
             ODM = ODM1
         elif ver == 2.0:
-            global ODM
+            #global ODM
             ODM = ODM2
+        else:
+            #global ODM
+            ODM = ODM1
 
     def reset_session(self):
         self._session = self._session_factory.getSession()  # Reset the session in order to prevent memory leaks
