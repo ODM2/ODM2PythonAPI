@@ -639,7 +639,7 @@ class TaxonomicClassifiers(Base):
     __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
 
     TaxonomicClassifierID = Column('taxonomicclassifierid', Integer, primary_key=True, nullable=False)
-    TaxonomicClassifierTypeCV = Column('taxonomicclassifiertypcv', ForeignKey(CVTaxonomicClassifierType.Name),
+    TaxonomicClassifierTypeCV = Column('taxonomicclassifiertypecv', ForeignKey(CVTaxonomicClassifierType.Name),
                                        nullable=False, index=True)
     TaxonomicClassifierName = Column('taxonomicclassifiername', String(255),
                                      nullable=False)

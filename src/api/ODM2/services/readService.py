@@ -199,6 +199,14 @@ class ReadODM2( serviceBase   ):
         return resultList
 
     """
+    Taxonomic Classifiers
+    """
+
+    def getTaxonomicClassifiers(self):
+        return self._session.query(TaxonomicClassifiers).all()
+
+
+    """
     Variable
     """
 
