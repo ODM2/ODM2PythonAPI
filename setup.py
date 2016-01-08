@@ -17,6 +17,9 @@ from codecs import open
 from os import path
 
 here = path.abspath(path.dirname(__file__))
+with open('requirements.txt') as f:
+    require = f.readlines()
+install_requires = [r.strip() for r in require]
 
 # Get the long description from the relevant file
 # with open(path.join(here, 'DESCRIPTION.rst'), encoding='utf-8') as f:
@@ -76,11 +79,10 @@ setup(
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
 
-    install_requires=['pandas', 'sqlalchemy', 'geoalchemy>=0.7.3.dev',
-                      'pyodbc', 'pymysql', 'psycopg2', 'shapely'],
+    install_requires=install_requires,
     # dependency_links- geoalchemy from the ODM repository
     dependency_links=[
-        "git+https://github.com/ODM2/geoalchemy.git@odm2#egg=geoalchemy-0.7.3.dev"
+        "git+https://github.com/ODM2/geoalchemy.git@v0.7.3#egg=geoalchemy-0.7.3"
     ],
 
     # List additional groups of dependencies here (e.g. development
