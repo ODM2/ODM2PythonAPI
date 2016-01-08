@@ -1,11 +1,11 @@
+pyodbc
+pymysql
+#psycopg2  # Commented out because I could not pip install it.
 six
 sqlalchemy
--e git+https://github.com/ODM2/geoalchemy.git
-
+geoalchemy==0.7.3
 shapely
-
 #matplotlib
 dateutils
 pandas
-
 #sqlalchemy-migrate
