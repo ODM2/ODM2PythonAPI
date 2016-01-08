@@ -1,11 +1,6 @@
 six
 sqlalchemy
--e git+https://github.com/ODM2/geoalchemy.git@odm2
-#Change line #242 in geoalchemy/base.py
-#from:
-#class SpatialComparator(ColumnProperty.ColumnComparator):
-#to :
-#class SpatialComparator(ColumnProperty.Comparator):
+-e git+https://github.com/ODM2/geoalchemy.git
 
 shapely
 
