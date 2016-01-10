@@ -19,7 +19,8 @@ from os import path
 here = path.abspath(path.dirname(__file__))
 with open('requirements.txt') as f:
     require = f.readlines()
-install_requires = [r.strip() for r in require]
+install_requires = [r.strip() for r in require if
+                    not r.startswith('http') and not r.startswith('#')]
 
 # Get the long description from the relevant file
 # with open(path.join(here, 'DESCRIPTION.rst'), encoding='utf-8') as f:
