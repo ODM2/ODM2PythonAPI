@@ -2,7 +2,8 @@ pyodbc
 pymysql
 six
 sqlalchemy
-https://github.com/ODM2/geoalchemy/archive/v0.7.3.tar.gz
+geoalchemy
+#https://github.com/ODM2/geoalchemy/archive/v0.7.3.tar.gz
 shapely
 dateutils
 pandas
