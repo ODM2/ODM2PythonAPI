@@ -6,3 +6,27 @@ A Python-based application programmer's interface for the Observations Data Mode
 ### Credits
 
 This work was supported by National Science Foundation Grants [EAR-1224638](http://www.nsf.gov/awardsearch/showAward?AWD_ID=1224638) and [ACI-1339834](http://www.nsf.gov/awardsearch/showAward?AWD_ID=1339834). Any opinions, findings, and conclusions or recommendations expressed in this material are those of the author(s) and do not necessarily reflect the views of the National Science Foundation.
+
+### Installation
+
+Currently the easiest and most reliable way to install the ODM2 Python API (`odm2api`) is using the [Conda package management system](http://conda.pydata.org/docs/) via either [Anaconda](https://www.continuum.io/downloads) or [Miniconda](http://conda.pydata.org/miniconda.html). To create a new `odm2api` environment, first download the conda environment file [condaenvironment_1.yml](https://raw.githubusercontent.com/ODM2/ODM2PythonAPI/master/condaenvironment_1.yml). Then, on a terminal shell:
+
+1. Go to the directory where `condaenvironment_1.yml` was downloaded.
+2. Create a new conda environment. This command will create an environment called 'odm2api_env1':    
+
+  ```bash
+  conda env create -f condaenvironment_1.yml
+  ```
+3. Activate the new environment:    
+
+  ```bash
+  activate odm2api_env1  # On Windows
+  ```    
+  ```bash
+  source activate odm2api_env1  # On OS X or Linux
+  ```
+4. Install the `odm2api` package into the environment:  
+
+  ```bash
+  pip install --process-dependency-links git+https://github.com/ODM2/ODM2PythonAPI.git
+  ```
