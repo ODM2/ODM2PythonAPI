@@ -559,17 +559,17 @@ class SamplingFeatures(Base):
                                       index=True)
     Elevation_m = Column('elevation_m', Float(53))
     ElevationDatumCV = Column('elevationdatumcv', ForeignKey(CVElevationDatum.Name), index=True)
-    #FeatureGeometry = Column('featuregeometry', Geometry) # Geoalchemy 2
-    FeatureGeometry = GeometryColumn('featuregeometry', Geometry) #Geoalchemy 1, #wkb.loads(str(self.FeatureGeometry.geom_wkb)).wkt if self.FeatureGeometry is not None else None
+    FeatureGeometry = Column('featuregeometry', Geometry) # Geoalchemy 2
+    #FeatureGeometry = GeometryColumn('featuregeometry', Geometry) #Geoalchemy 1, #wkb.loads(str(self.FeatureGeometry.geom_wkb)).wkt if self.FeatureGeometry is not None else None
     # FeatureGeometry = Column('featuregeometry', BLOB)# custom geometry queries
 
 
     def __repr__(self):
-        from shapely import wkb
-        return "<SamplingFeatures('%s', '%s', '%s', '%s', '%s')>" % (
-            self.SamplingFeatureCode, self.SamplingFeatureName, self.SamplingFeatureDescription,
-            self.Elevation_m, wkb.loads(str(self.FeatureGeometry.geom_wkb)).wkt if self.FeatureGeometry is not None else None)#self.FeatureGeometry)
-
+        #from shapely import wkb
+        #return "<SamplingFeatures('%s', '%s', '%s', '%s', '%s')>" % (
+        #    self.SamplingFeatureCode, self.SamplingFeatureName, self.SamplingFeatureDescription,
+        #    self.Elevation_m, wkb.loads(str(self.FeatureGeometry.geom_wkb)).wkt if self.FeatureGeometry is not None else None)#self.FeatureGeometry)
+        return "<SamplingFeatures('%s', '%s', '%s', '%s', '%s')>" % (self.SamplingFeatureCode, self.SamplingFeatureName, self.SamplingFeatureDescription, self.Elevation_m, self.FeatureGeometry)
 GeometryDDL(SamplingFeatures.__table__) #Geoalchemy1
 
 class FeatureActions(Base):

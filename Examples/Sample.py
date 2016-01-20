@@ -22,7 +22,8 @@ from odm2api.ODM2.services.readService import *
 #connect to database
 #createconnection (dbtype, servername, dbname, username, password)
 #session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')
-session_factory = dbconnection.createConnection('sqlite', '/Users/stephanie/DEV/DBs/ODM2.sqlite', 2.0)
+#session_factory = dbconnection.createConnection('connection type: sqlite|mysql|mssql|postgresql', '/your/path/to/db/goes/here', 2.0)
+session_factory = dbconnection.createConnection('sqlite', '/Users/denversmith/Downloads/ODM2.sqlite', 2.0)
 # session_factory= dbconnection.createConnection('mssql')
 
 
@@ -73,14 +74,21 @@ except Exception as e:
 try:
     sf = read.getSamplingFeatureByCode('USU-LBR-Mendon')
     print "\n-------- Information about an individual SamplingFeature ---------"
-    print (
-        "The following are some of the attributes of a SamplingFeature retrieved using getSamplingFeatureByCode(): \n" +
-        "SamplingFeatureCode: " + sf.SamplingFeatureCode + "\n" +
-        "SamplingFeatureName: " + sf.SamplingFeatureName + "\n" +
-        "SamplingFeatureDescription: " + sf.SamplingFeatureDescription + "\n" +
-        "SamplingFeatureGeotypeCV: " + sf.SamplingFeatureGeotypeCV + "\n" +
-        "SamplingFeatureGeometry: " + sf.FeatureGeometry + "\n" +
-        "Elevation_m: " + str(sf.Elevation_m))
+    print "The following are some of the attributes of a SamplingFeature retrieved using getSamplingFeatureByCode(): \n"
+    print "SamplingFeatureCode: " + sf.SamplingFeatureCode
+    print "SamplingFeatureName: " + sf.SamplingFeatureName
+    print "SamplingFeatureDescription: %s" % sf.SamplingFeatureDescription
+    print "SamplingFeatureGeotypeCV: %s" % sf.SamplingFeatureGeotypeCV
+    print "SamplingFeatureGeometry: %s" % sf.FeatureGeometry.geom_wkb
+    print "Elevation_m: %s" % str(sf.Elevation_m)
+    #print (
+    #    "The following are some of the attributes of a SamplingFeature retrieved using getSamplingFeatureByCode(): \n" +
+    #    "SamplingFeatureCode: " + sf.SamplingFeatureCode + "\n" +
+    #    "SamplingFeatureName: " + sf.SamplingFeatureName + "\n" +
+    #    "SamplingFeatureDescription: " + sf.SamplingFeatureDescription + "\n" +
+    #    "SamplingFeatureGeotypeCV: " + sf.SamplingFeatureGeotypeCV + "\n" +
+    #    "SamplingFeatureGeometry: " + sf.FeatureGeometry.geom_wkb + "\n" +
+    #    "Elevation_m: " + str(sf.Elevation_m))
 except Exception as e:
     print "Unable to demo getSamplingFeatureByCode: ", e
 
@@ -127,27 +135,27 @@ except Exception as e:
 # Now get a particular Result using a ResultID
 print "\n------- Example of Retrieving Attributes of a Time Series Result -------"
 try:
-    tsResult = read.getTimeSeriesResultByResultId(19)
+    tsResult = read.getTimeSeriesResultByResultId(1)
     print (
         "The following are some of the attributes for the TimeSeriesResult retrieved using getTimeSeriesResultByResultID(): \n" +
-        "ResultTypeCV: " + tsResult.ResultTypeCV + "\n" +
+        "ResultTypeCV: " + tsResult.ResultObj.ResultTypeCV + "\n" +
         # Get the ProcessingLevel from the TimeSeriesResult's ProcessingLevel object
-        "ProcessingLevel: " + tsResult.ProcessingLevelObj.Definition + "\n" +
-        "SampledMedium: " + tsResult.SampledMediumCV + "\n" +
+        "ProcessingLevel: " + tsResult.ResultObj.ProcessingLevelObj.Definition + "\n" +
+        "SampledMedium: " + tsResult.ResultObj.SampledMediumCV + "\n" +
         # Get the variable information from the TimeSeriesResult's Variable object
-        "Variable: " + tsResult.VariableObj.VariableCode + ": " + tsResult.VariableObj.VariableNameCV + "\n"
+        "Variable: " + tsResult.ResultObj.VariableObj.VariableCode + ": " + tsResult.ResultObj.VariableObj.VariableNameCV + "\n"
                                                                                                         "AggregationStatistic: " + tsResult.AggregationStatisticCV + "\n" +
         "Elevation_m: " + str(sf.Elevation_m) + "\n" +
         # Get the site information by drilling down
-        "SamplingFeature: " + tsResult.FeatureActionObj.SamplingFeatureObj.SamplingFeatureCode + " - " +
-        tsResult.FeatureActionObj.SamplingFeatureObj.SamplingFeatureName)
+        "SamplingFeature: " + tsResult.ResultObj.FeatureActionObj.SamplingFeatureObj.SamplingFeatureCode + " - " +
+        tsResult.ResultObj.FeatureActionObj.SamplingFeatureObj.SamplingFeatureName)
 except Exception as e:
     print "Unable to demo Example of retrieving Attributes of a time Series Result: ", e
 
 # Get the values for a particular TimeSeriesResult
 print "\n-------- Example of Retrieving Time Series Result Values ---------"
 
-tsValues = read.getTimeSeriesResultValuesByResultId(19)  # Return type is a pandas dataframe
+tsValues = read.getTimeSeriesResultValuesByResultId(1)  # Return type is a pandas dataframe
 
 # Print a few Time Series Values to the console
 # tsValues.set_index('ValueDateTime', inplace=True)
@@ -162,9 +170,9 @@ try:
     fig = plt.figure()
     ax = fig.add_subplot(111)
     tsValues.plot(x='ValueDateTime', y='DataValue', kind='line',
-                  title=tsResult.VariableObj.VariableNameCV + " at " + tsResult.FeatureActionObj.SamplingFeatureObj.SamplingFeatureName,
+                  title=tsResult.ResultObj.VariableObj.VariableNameCV + " at " + tsResult.ResultObj.FeatureActionObj.SamplingFeatureObj.SamplingFeatureName,
                   ax=ax)
-    ax.set_ylabel(tsResult.VariableObj.VariableNameCV + " (" + tsResult.UnitObj.UnitsAbbreviation + ")")
+    ax.set_ylabel(tsResult.ResultObj.VariableObj.VariableNameCV + " (" + tsResult.ResultObj.UnitsObj.UnitsAbbreviation + ")")
     ax.set_xlabel("Date/Time")
     ax.xaxis.set_minor_locator(dates.MonthLocator())
     ax.xaxis.set_minor_formatter(dates.DateFormatter('%b'))
