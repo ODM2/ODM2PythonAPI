@@ -1024,7 +1024,7 @@ class Simulations(Base):
     TimeStepValue = Column('timestepvalue', Float(53), nullable=False)
     TimeStepUnitsID = Column('timestepunitsid', ForeignKey(Units.UnitsID), nullable=False)
     InputDataSetID = Column('inputdatasetid', ForeignKey(DataSets.DataSetID))
-    OutputDataSetID = Column('outputdatasetid', Integer)
+    #OutputDataSetID = Column('outputdatasetid', Integer) # What's this ?
     ModelID = Column('modelid', ForeignKey(Models.ModelID), nullable=False)
 
     Action = relationship(Actions)
