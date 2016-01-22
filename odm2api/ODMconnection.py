@@ -9,7 +9,7 @@ from .ODM1_1_1.services import ODM#, refreshDB
 import urllib
 import sys
 import os
-
+import pyodbc
 
 # LIBSPATIALITE_PATH = './libspatialite.so.5.1.0'
 
