@@ -14,6 +14,7 @@ Currently the easiest and most reliable way to install the ODM2 Python API (`odm
 1. Add conda to the PATH; on MacOSX and Linux, it's something like `export PATH=$HOME/miniconda/bin:$PATH`, but the exact path may vary.
 2. Go to the directory where `condaenvironment_1.yml` was downloaded.
 3. Create a new conda environment. This command will create an environment called 'odm2api_env1':    
+
   ```bash
   conda env create -f condaenvironment_1.yml
   ```
