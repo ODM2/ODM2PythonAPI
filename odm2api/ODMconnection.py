@@ -196,7 +196,11 @@ class dbconnection():
         else:
             if conn_dict['engine'] == 'mssql':
                 driver = "pyodbc"
-                self._connection_format = "%s+%s://%s:%s@%s/%s?driver=SQL+Server+Native+Client+10.0"
+                sources = pyodbc.dataSources()
+                driverName = sources['SQL Server']
+                driverName = driverName.strip().replace(' ', '+')
+                #self._connection_format = "%s+%s://%s:%s@%s/%s?driver=SQL+Server+Native+Client+10.0"
+                self._connection_format = "%s+%s://%s:%s@%s/%s?driver=" + driverName
 
             elif conn_dict['engine'] == 'mysql':
                 driver = "pymysql"

@@ -69,26 +69,18 @@ except Exception as e:
     print "Unable to demo getSamplingFeaturesByType", e
 
 
-
 # Now get the SamplingFeature object for a SamplingFeature code
 try:
     sf = read.getSamplingFeatureByCode('USU-LBR-Mendon')
+    print sf
     print "\n-------- Information about an individual SamplingFeature ---------"
     print "The following are some of the attributes of a SamplingFeature retrieved using getSamplingFeatureByCode(): \n"
     print "SamplingFeatureCode: " + sf.SamplingFeatureCode
     print "SamplingFeatureName: " + sf.SamplingFeatureName
     print "SamplingFeatureDescription: %s" % sf.SamplingFeatureDescription
     print "SamplingFeatureGeotypeCV: %s" % sf.SamplingFeatureGeotypeCV
-    print "SamplingFeatureGeometry: %s" % sf.FeatureGeometry.geom_wkb
+    print "SamplingFeatureGeometry: %s" % sf.FeatureGeometry
     print "Elevation_m: %s" % str(sf.Elevation_m)
-    #print (
-    #    "The following are some of the attributes of a SamplingFeature retrieved using getSamplingFeatureByCode(): \n" +
-    #    "SamplingFeatureCode: " + sf.SamplingFeatureCode + "\n" +
-    #    "SamplingFeatureName: " + sf.SamplingFeatureName + "\n" +
-    #    "SamplingFeatureDescription: " + sf.SamplingFeatureDescription + "\n" +
-    #    "SamplingFeatureGeotypeCV: " + sf.SamplingFeatureGeotypeCV + "\n" +
-    #    "SamplingFeatureGeometry: " + sf.FeatureGeometry.geom_wkb + "\n" +
-    #    "Elevation_m: " + str(sf.Elevation_m))
 except Exception as e:
     print "Unable to demo getSamplingFeatureByCode: ", e
 
