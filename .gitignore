@@ -1,8 +1,7 @@
 *.py[cod]
-
+*~
 
 #  C extensions
-*.ipynb
 *.so
 
 #  Packages

@@ -1,11 +1,10 @@
+__author__ = 'jmeline'
+
 from sqlalchemy import func
 import pandas as pd
 
-from api.ODM2.models import *
-from .. import serviceBase
-
-
-__author__ = 'jmeline'
+from odm2api.ODM2 import serviceBase
+from odm2api.ODM2.models import *
 
 
 class DetailedResult:
@@ -773,13 +772,14 @@ class ReadODM2( serviceBase   ):
             :type Timeseriesresultvalue:
         """
         try:
-            q = self._session.query(TimeSeriesResults).filter_by(ResultID=resultId).all()
-
+            q = self._session.query(TimeSeriesResultValues).filter_by(ResultID=resultId).all()
+            print type(q[0]), q[0]
             df = pd.DataFrame([dv.list_repr() for dv in q])
             df.columns = q[0].get_columns()
             return df
             # return self._session.query(Timeseriesresultvalue).filter_by(ResultID=resultId).all()
         except Exception as e:
+            print e
             return None
 
     def getTimeSeriesResultValuesByCode(self, timeSeriesCode):

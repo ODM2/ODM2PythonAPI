@@ -8,8 +8,8 @@ from ...base import serviceBase
 import pandas as pd
 
 
-import api.ODM1_1_1.models as ODM1
-import api.ODM2.LikeODM1.models as ODM2
+import odm2api.ODM1_1_1.models as ODM1
+import odm2api.ODM2.LikeODM1.models as ODM2
 
 #Set Default
 global ODM
@@ -23,11 +23,14 @@ class SeriesService(serviceBase):
     def refreshDB(self, ver):
         self._version= ver
         if ver == 1.1:
-            global ODM
+            #global ODM
             ODM = ODM1
         elif ver == 2.0:
-            global ODM
+            #global ODM
             ODM = ODM2
+        else:
+            #global ODM
+            ODM = ODM1
 
     def reset_session(self):
         self._session = self._session_factory.getSession()  # Reset the session in order to prevent memory leaks

@@ -1,11 +1,12 @@
-from api.ODM2.models import *
-#from src.api.ODM2.LikeODM1.model import Site
-
 __author__ = 'sreeder'
 
-from .. import serviceBase
 import datetime as dt
 import uuid
+
+#from src.api.ODM2.LikeODM1.model import Site
+from odm2api.ODM2.models import *
+from odm2api.ODM2 import serviceBase
+
 
 class CreateODM2( serviceBase):
     '''

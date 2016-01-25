@@ -1,9 +1,11 @@
-from .. import serviceBase
-from api.ODM2.models import *
+__author__ = 'jmeline'
 
 from datetime import datetime
 
-__author__ = 'jmeline'
+from odm2api.ODM2 import serviceBase
+from odm2api.ODM2.models import *
+
+
 # ################################################################################
 # Annotations
 # ################################################################################

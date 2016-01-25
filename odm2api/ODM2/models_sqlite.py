@@ -1,20 +1,23 @@
-from sqlalchemy import BigInteger, Column, Date, DateTime, Float, ForeignKey, Integer, String, Boolean, BLOB
+from sqlalchemy import BigInteger, Column, Date, DateTime, Float, ForeignKey, Integer, String, Boolean, Table
 from sqlalchemy.orm import relationship
 
+from sqlalchemy.dialects.sqlite import DATE
 
 # Should not be importing anything from a specific dialect
 # from sqlalchemy.dialects.mssql.base import BIT
 
-# from apiCustomType import Geometry
+from apiCustomType import Geometry
+'''
+from sqlalchemy.ext.declarative import declarative_base
 
+Base = declarative_base()
+metadata = Base.metadata
+'''
 
-from geoalchemy import GeometryDDL, GeometryColumn
-from geoalchemy.geometry import Geometry
-#geoalchemy.geometry.Geometry
 
 #from base import modelBase as Base
 
-from api.base import modelBase
+from odm2api.base import modelBase
 Base = modelBase.Base
 
 from sqlalchemy.dialects import postgresql, mysql, sqlite
@@ -31,7 +34,7 @@ BigIntegerType = BigIntegerType.with_variant(mysql.BIGINT(), 'mysql')
 
 class CVActionType(Base):
     __tablename__ = 'cv_actiontype'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     Term = Column('term', String(255), nullable=False)
     Name = Column('name', String(255), primary_key=True)
@@ -45,7 +48,7 @@ class CVActionType(Base):
 
 class CVAggregationStatistic(Base):
     __tablename__ = 'cv_aggregationstatistic'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     Term = Column('term', String(255), nullable=False)
     Name = Column('name', String(255), primary_key=True)
@@ -60,7 +63,7 @@ class CVAggregationStatistic(Base):
 
 class CVAnnotationType(Base):
     __tablename__ = 'cv_annotationtype'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     Term = Column('term', String(255), nullable=False)
     Name = Column('name', String(255), primary_key=True)
@@ -74,7 +77,7 @@ class CVAnnotationType(Base):
 
 class CVCensorCode(Base):
     __tablename__ = 'cv_censorcode'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     Term = Column('term', String(255), nullable=False)
     Name = Column('name', String(255), primary_key=True)
@@ -87,7 +90,7 @@ class CVCensorCode(Base):
 
 class CVDataQualityType(Base):
     __tablename__ = 'cv_dataqualitytype'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     Term = Column('term', String(255), nullable=False)
     Name = Column('name', String(255), primary_key=True)
@@ -100,7 +103,7 @@ class CVDataQualityType(Base):
 
 class CVDataSetType(Base):
     __tablename__ = 'cv_datasettypecv'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     Term = Column('term', String(255), nullable=False)
     Name = Column('name', String(255), primary_key=True)
@@ -114,7 +117,7 @@ class CVDataSetType(Base):
 
 class CVDeploymentType(Base):
     __tablename__ = 'cv_deploymenttype'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     Term = Column('term', String(255), nullable=False)
     Name = Column('name', String(255), primary_key=True)
@@ -128,7 +131,7 @@ class CVDeploymentType(Base):
 
 class CVDirectiveType(Base):
     __tablename__ = 'cv_directivetype'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     Term = Column('term', String(255), nullable=False)
     Name = Column('name', String(255), primary_key=True)
@@ -142,7 +145,7 @@ class CVDirectiveType(Base):
 
 class CVElevationDatum(Base):
     __tablename__ = 'cv_elevationdatum'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     Term = Column('term', String(255), nullable=False)
     Name = Column('name', String(255), primary_key=True)
@@ -156,7 +159,7 @@ class CVElevationDatum(Base):
 
 class CVEquipmentType(Base):
     __tablename__ = 'cv_equipmenttype'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     Term = Column('term', String(255), nullable=False)
     Name = Column('name', String(255), primary_key=True)
@@ -169,7 +172,7 @@ class CVEquipmentType(Base):
 
 class CVMediumType(Base):
     __tablename__ = 'cv_medium'
-    __table_args__ = {u'schema': 'odm2'}
+#    # __table_args__ = {u'schema': 'odm2'}
 
     Term = Column('term', String(255), nullable=False)
     Name = Column('name', String(255), primary_key=True)
@@ -177,11 +180,11 @@ class CVMediumType(Base):
     Category = Column('category', String(255))
     SourceVocabularyUri = Column('sourcevocabularyuri', String(255))
     def __repr__(self):
-        return "<CVMedium('%s', '%s', '%s', '%s')>" %(self.Term, self.Name, self.Definition, self.Category)
+        return "<CVMedium('%s', '%s', '%s', '%s')>" %(self.Term, self.name, self.Definition, self.Category)
 
 class CVMethodType(Base):
     __tablename__ = 'cv_methodtype'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     Term = Column('term', String(255), nullable=False)
     Name = Column('name', String(255), primary_key=True)
@@ -195,7 +198,7 @@ class CVMethodType(Base):
 
 class CVOrganizationType(Base):
     __tablename__ = 'cv_organizationtype'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     Term = Column('term', String(255), nullable=False)
     Name = Column('name', String(255), primary_key=True)
@@ -209,7 +212,7 @@ class CVOrganizationType(Base):
 
 class CVPropertyDataType(Base):
     __tablename__ = 'cv_propertydatatype'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     Term = Column('term', String(255), nullable=False)
     Name = Column('name', String(255), primary_key=True)
@@ -223,7 +226,7 @@ class CVPropertyDataType(Base):
 
 class CVQualityCode(Base):
     __tablename__ = 'cv_qualitycode'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     Term = Column('term', String(255), nullable=False)
     Name = Column('name', String(255), primary_key=True)
@@ -237,7 +240,7 @@ class CVQualityCode(Base):
 
 class CVResultType(Base):
     __tablename__ = 'cv_resulttype'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     Term = Column('term', String(255), nullable=False)
     Name = Column('name', String(255), primary_key=True)
@@ -251,7 +254,7 @@ class CVResultType(Base):
 
 class CVRelationshipType(Base):
     __tablename__ = 'cv_relationshiptype'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     Term = Column('term', String(255), nullable=False)
     Name = Column('name', String(255), primary_key=True)
@@ -266,7 +269,7 @@ class CVRelationshipType(Base):
 
 class CVSamplingFeatureGeoType(Base):
     __tablename__ = 'cv_samplingfeaturegeotype'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     Term = Column('term', String(255), nullable=False)
     Name = Column('name', String(255), primary_key=True)
@@ -280,7 +283,7 @@ class CVSamplingFeatureGeoType(Base):
 
 class CVSamplingFeatureType(Base):
     __tablename__ = 'cv_samplingfeaturetype'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     Term = Column('term', String(255), nullable=False)
     Name = Column('name', String(255), primary_key=True)
@@ -294,7 +297,7 @@ class CVSamplingFeatureType(Base):
 
 class CVSpatialOffsetType(Base):
     __tablename__ = 'cv_spatialoffsettype'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     Term = Column('term', String(255), nullable=False)
     Name = Column('name', String(255), primary_key=True)
@@ -308,7 +311,7 @@ class CVSpatialOffsetType(Base):
 
 class CVSpeciation(Base):
     __tablename__ = 'cv_speciation'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     Term = Column('term', String(255), nullable=False)
     Name = Column('name', String(255), primary_key=True)
@@ -322,7 +325,7 @@ class CVSpeciation(Base):
 
 class CVSpecimenType(Base):
     __tablename__ = 'cv_specimentype'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     Term = Column('term', String(255), nullable=False)
     Name = Column('name', String(255), primary_key=True)
@@ -336,7 +339,7 @@ class CVSpecimenType(Base):
 
 class CVSiteType(Base):
     __tablename__ = 'cv_sitetype'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     Term = Column('term', String(255), nullable=False)
     Name = Column('name', String(255), primary_key=True)
@@ -350,7 +353,7 @@ class CVSiteType(Base):
 
 class CVStatus(Base):
     __tablename__ = 'cv_status'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     Term = Column('term', String(255), nullable=False)
     Name = Column('name', String(255), primary_key=True)
@@ -364,7 +367,7 @@ class CVStatus(Base):
 
 class CVTaxonomicClassifierType(Base):
     __tablename__ = 'cv_taxonomicclassifiertype'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     Term = Column('term', String(255), nullable=False)
     Name = Column('name', String(255), primary_key=True)
@@ -378,7 +381,7 @@ class CVTaxonomicClassifierType(Base):
 
 class CVUnitsType(Base):
     __tablename__ = 'cv_unitstype'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     Term = Column('term', String(255), nullable=False)
     Name = Column('name', String(255), primary_key=True)
@@ -392,7 +395,7 @@ class CVUnitsType(Base):
 
 class CVVariableName(Base):
     __tablename__ = 'cv_variablename'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     Term = Column('term', String(255), nullable=False)
     Name = Column('name', String(255), primary_key=True)
@@ -406,7 +409,7 @@ class CVVariableName(Base):
 
 class CVVariableType(Base):
     __tablename__ = 'cv_variabletype'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     Term = Column('term', String(255), nullable=False)
     Name = Column('name', String(255), primary_key=True)
@@ -419,7 +422,7 @@ class CVVariableType(Base):
 
 class CVReferenceMaterialMedium(Base):
     __tablename__ = 'cv_referencematerialmedium'
-    __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     Term = Column('term', String(255), nullable=False)
     Name = Column('name', String(255), primary_key=True)
@@ -436,7 +439,7 @@ class CVReferenceMaterialMedium(Base):
 # ################################################################################
 class People(Base):
     __tablename__ = u'people'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     PersonID = Column('personid', Integer, primary_key=True, nullable=False)
     PersonFirstName = Column('personfirstname', String(255), nullable=False)
@@ -450,7 +453,7 @@ class People(Base):
 
 class Organizations(Base):
     __tablename__ = u'organizations'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     OrganizationID = Column('organizationid', Integer, primary_key=True, nullable=False)
     OrganizationTypeCV = Column('organizationtypecv', ForeignKey(CVOrganizationType.Name), nullable=False,
@@ -459,7 +462,7 @@ class Organizations(Base):
     OrganizationName = Column('organizationname', String(255), nullable=False)
     OrganizationDescription = Column('organizationdescription', String(500))
     OrganizationLink = Column('organizationlink', String(255))
-    ParentOrganizationID = Column('parentorganizationid', ForeignKey('odm2.organizations.organizationid'))
+    ParentOrganizationID = Column('parentorganizationid', ForeignKey('organizations.organizationid'))
 
     OrganizationObj = relationship(u'Organizations', remote_side=[OrganizationID])
 
@@ -472,7 +475,7 @@ class Organizations(Base):
 
 class Affiliations(Base):
     __tablename__ = 'affiliations'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     AffiliationID = Column('affiliationid', Integer, primary_key=True, nullable=False)
     PersonID = Column('personid', ForeignKey(People.PersonID), nullable=False)
@@ -480,6 +483,10 @@ class Affiliations(Base):
     IsPrimaryOrganizationContact = Column('isprimaryorganizationcontact', Boolean)
     AffiliationStartDate = Column('affiliationstartdate', Date, nullable=False)
     AffiliationEndDate = Column('affiliationenddate', Date)
+    #PrimaryPhone = Column('primaryphone', String(50, u'SQL_Latin1_General_CP1_CI_AS'))
+    #PrimaryEmail = Column('primaryemail', String(255, u'SQL_Latin1_General_CP1_CI_AS'), nullable=False)
+    #PrimaryAddress = Column('primaryaddress', String(255, u'SQL_Latin1_General_CP1_CI_AS'))
+    #PersonLink = Column('personlink', String(255, u'SQL_Latin1_General_CP1_CI_AS'))
     PrimaryPhone = Column('primaryphone', String(50))
     PrimaryEmail = Column('primaryemail', String(255), nullable=False)
     PrimaryAddress = Column('primaryaddress', String(255))
@@ -491,14 +498,19 @@ class Affiliations(Base):
 
 class Methods(Base):
     __tablename__ = 'methods'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     MethodID = Column('methodid', Integer, primary_key=True, nullable=False)
     MethodTypeCV = Column('methodtypecv', ForeignKey(CVMethodType.Name), nullable=False, index=True)
+    #MethodCode = Column('methodcode', String(50, u'SQL_Latin1_General_CP1_CI_AS'), nullable=False)
+    #MethodName = Column('methodname', String(255, u'SQL_Latin1_General_CP1_CI_AS'), nullable=False)
+    #MethodDescription = Column('methoddescription', String(500, u'SQL_Latin1_General_CP1_CI_AS'))
+    #MethodLink = Column('methodlink', String(255, u'SQL_Latin1_General_CP1_CI_AS'))
     MethodCode = Column('methodcode', String(50), nullable=False)
     MethodName = Column('methodname', String(255), nullable=False)
     MethodDescription = Column('methoddescription', String(500))
     MethodLink = Column('methodlink', String(255))
+
     OrganizationID = Column('organizationid', Integer, ForeignKey(Organizations.OrganizationID))
 
     OrganizationObj = relationship(Organizations)
@@ -511,7 +523,7 @@ class Methods(Base):
 
 class Actions(Base):
     __tablename__ = u'actions'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     ActionID = Column('actionid', Integer, primary_key=True, nullable=False)
     ActionTypeCV = Column('actiontypecv', ForeignKey(CVActionType.Name), nullable=False, index=True)
@@ -532,7 +544,7 @@ class Actions(Base):
 
 class ActionBy(Base):
     __tablename__ = u'actionby'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+#    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     ActionID = Column('actionid', Integer, ForeignKey(Actions.ActionID), nullable=False)
@@ -546,7 +558,7 @@ class ActionBy(Base):
 
 class SamplingFeatures(Base):
     __tablename__ = u'samplingfeatures'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     SamplingFeatureID = Column('samplingfeatureid', Integer, primary_key=True, nullable=False)
     SamplingFeatureUUID = Column('samplingfeatureuuid', String(36), nullable=False)
@@ -559,22 +571,17 @@ class SamplingFeatures(Base):
                                       index=True)
     Elevation_m = Column('elevation_m', Float(53))
     ElevationDatumCV = Column('elevationdatumcv', ForeignKey(CVElevationDatum.Name), index=True)
-    #FeatureGeometry = Column('featuregeometry', Geometry) # Geoalchemy 2
-    FeatureGeometry = GeometryColumn('featuregeometry', Geometry) #Geoalchemy 1, #wkb.loads(str(self.FeatureGeometry.geom_wkb)).wkt if self.FeatureGeometry is not None else None
-    # FeatureGeometry = Column('featuregeometry', BLOB)# custom geometry queries
-
+    #FeatureGeometry = Column('featuregeometry', Geometry)
 
     def __repr__(self):
-        from shapely import wkb
-        return "<SamplingFeatures('%s', '%s', '%s', '%s', '%s')>" % (
+        return "<SamplingFeatures('%s', '%s', '%s', '%s')>" % (
             self.SamplingFeatureCode, self.SamplingFeatureName, self.SamplingFeatureDescription,
-            self.Elevation_m, wkb.loads(str(self.FeatureGeometry.geom_wkb)).wkt if self.FeatureGeometry is not None else None)#self.FeatureGeometry)
+            self.Elevation_m)  # self.FeatureGeometry)
 
-GeometryDDL(SamplingFeatures.__table__) #Geoalchemy1
 
 class FeatureActions(Base):
     __tablename__ = u'featureactions'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     FeatureActionID = Column('featureactionid', Integer, primary_key=True, nullable=False)
     SamplingFeatureID = Column('samplingfeatureid', ForeignKey(SamplingFeatures.SamplingFeatureID),
@@ -590,7 +597,7 @@ class FeatureActions(Base):
 
 class DataSets(Base):
     __tablename__ = u'datasets'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     DataSetID = Column('datasetid', Integer, primary_key=True, nullable=False)
 
@@ -608,9 +615,12 @@ class DataSets(Base):
 
 class ProcessingLevels(Base):
     __tablename__ = u'processinglevels'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     ProcessingLevelID = Column('processinglevelid', Integer, primary_key=True, nullable=False)
+    #ProcessingLevelCode = Column('processinglevelcode', String(50, u'SQL_Latin1_General_CP1_CI_AS'), nullable=False)
+    #Definition = Column('definition', String(500, u'SQL_Latin1_General_CP1_CI_AS'))
+    #Explanation = Column('explanation', String(500, u'SQL_Latin1_General_CP1_CI_AS'))
     ProcessingLevelCode = Column('processinglevelcode', String(50), nullable=False)
     Definition = Column('definition', String(500))
     Explanation = Column('explanation', String(500))
@@ -622,7 +632,7 @@ class ProcessingLevels(Base):
 
 class RelatedActions(Base):
     __tablename__ = u'relatedactions'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     RelationID = Column('relationid', Integer, primary_key=True, nullable=False)
     ActionID = Column('actionid', ForeignKey(Actions.ActionID), nullable=False)
@@ -636,23 +646,30 @@ class RelatedActions(Base):
 
 class TaxonomicClassifiers(Base):
     __tablename__ = u'taxonomicclassifiers'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     TaxonomicClassifierID = Column('taxonomicclassifierid', Integer, primary_key=True, nullable=False)
-    TaxonomicClassifierTypeCV = Column('taxonomicclassifiertypecv', ForeignKey(CVTaxonomicClassifierType.Name),
+    TaxonomicClassifierTypeCV = Column('taxonomicclassifiertypcv', ForeignKey(CVTaxonomicClassifierType.Name),
                                        nullable=False, index=True)
-    TaxonomicClassifierName = Column('taxonomicclassifiername', String(255),
-                                     nullable=False)
+    #TaxonomicClassifierName = Column('taxonomicclassifiername', String(255, u'SQL_Latin1_General_CP1_CI_AS'),
+    #                                 nullable=False)
+    #TaxonomicClassifierCommonName = Column('taxonomicclassifiercommonname',
+    #                                       String(255, u'SQL_Latin1_General_CP1_CI_AS'))
+    #TaxonomicClassifierDescription = Column('taxonomicclassifierdescription',
+    #                                        String(500, u'SQL_Latin1_General_CP1_CI_AS'))
+    TaxonomicClassifierName = Column('taxonomicclassifiername', String(255),nullable=False)
     TaxonomicClassifierCommonName = Column('taxonomicclassifiercommonname',String(255))
     TaxonomicClassifierDescription = Column('taxonomicclassifierdescription',String(500))
-    ParentTaxonomicClassifierID = Column('parenttaxonomicclassifierid',ForeignKey('odm2.taxonomicclassifiers.taxonomicclassifierid'))
+
+    ParentTaxonomicClassifierID = Column('parenttaxonomicclassifierid',
+                                            ForeignKey('taxonomicclassifiers.taxonomicclassifierid'))
 
     parent = relationship(u'TaxonomicClassifiers', remote_side=[TaxonomicClassifierID])
 
 
 class Units(Base):
     __tablename__ = u'units'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     UnitsID = Column('unitsid', Integer, primary_key=True, nullable=False)
     UnitsTypeCV = Column('unitstypecv', ForeignKey(CVUnitsType.Name), nullable=False, index=True)
@@ -667,7 +684,7 @@ class Units(Base):
 
 class Variables(Base):
     __tablename__ = u'variables'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     VariableID = Column('variableid', Integer, primary_key=True, nullable=False)
     VariableTypeCV = Column('variabletypecv', ForeignKey(CVVariableType.Name), nullable=False, index=True)
@@ -684,7 +701,7 @@ class Variables(Base):
 '''
 class ResultTypeCV(Base):
     __tablename__ = u'ResultTypeCV'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     ResultTypeCV = Column(String(255), primary_key=True)
     ResultTypeCategory = Column(String(255), nullable=False)
@@ -700,7 +717,7 @@ class ResultTypeCV(Base):
 
 class Results(Base):
     __tablename__ = u'results'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     ResultID = Column('resultid', BigIntegerType, primary_key=True)
 
@@ -742,7 +759,7 @@ class Results(Base):
 # ################################################################################
 class EquipmentModels(Base):
     __tablename__ = u'equipmentmodels'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     ModelID = Column('modelid', Integer, primary_key=True, nullable=False)
     ModelManufacturerID = Column('modelmanufacturerid', ForeignKey(Organizations.OrganizationID), nullable=False)
@@ -758,7 +775,7 @@ class EquipmentModels(Base):
 
 class Equipment(Base):
     __tablename__ = u'equipment'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     EquipmentID = Column('equipmentid', Integer, primary_key=True, nullable=False)
     EquipmentCode = Column('equipmentcode', String(50), nullable=False)
@@ -773,7 +790,7 @@ class Equipment(Base):
     EquipmentPurchaseOrderNumber = Column('equipmentpurchaseordernumber', String(50))
     EquipmentPhotoFileLink = Column('equipmentphotofilelink', String(255))
     EquipmentDescription = Column('equipmentdescription', String(500))
-    ParentEquipmentID = Column('parentequipmentid', ForeignKey('odm2.equipment.equipmentid'))
+    ParentEquipmentID = Column('parentequipmentid', ForeignKey('equipment.equipmentid'))
 
     PersonObj = relationship(People)
     OrganizationObj = relationship(Organizations)
@@ -784,7 +801,7 @@ class Equipment(Base):
 
 class EquipmentActions(Base):
     __tablename__ = u'equipmentactions'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     EquipmentID = Column('equipmentid', ForeignKey(Equipment.EquipmentID), nullable=False)
@@ -795,7 +812,7 @@ class EquipmentActions(Base):
 
 class InstrumentOutputVariables(Base):
     __tablename__ = u'instrumentoutputvariables'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     InstrumentOutputVariableID = Column('instrumentoutputvariableid', Integer, primary_key=True, nullable=False)
     ModelID = Column('modelid', ForeignKey(EquipmentModels.ModelID), nullable=False)
@@ -816,7 +833,7 @@ class InstrumentOutputVariables(Base):
 # ################################################################################
 class Directives(Base):
     __tablename__ = u'directives'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     DirectiveID = Column('directiveid', Integer, primary_key=True, nullable=False)
     DirectiveTypeCV = Column('directivetypecv', ForeignKey(CVDirectiveType.Name), nullable=False, index=True)
@@ -825,7 +842,7 @@ class Directives(Base):
 
 class ActionDirectives(Base):
     __tablename__ = u'actiondirectives'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     ActionID = Column('actionid', ForeignKey(Actions.ActionID), nullable=False)
@@ -840,7 +857,7 @@ class ActionDirectives(Base):
 # ################################################################################
 class SpatialReferences(Base):
     __tablename__ = u'spatialreferences'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     SpatialReferenceID = Column('spatialreferenceid', Integer, primary_key=True, nullable=False)
     SRSCode = Column('srscode', String(50))
@@ -855,7 +872,7 @@ class SpatialReferences(Base):
 
 class Specimens(Base):
     __tablename__ = u'specimens'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     SamplingFeatureID = Column('samplingfeatureid', ForeignKey(SamplingFeatures.SamplingFeatureID),
                                primary_key=True)
@@ -868,7 +885,7 @@ class Specimens(Base):
 
 class SpatialOffsets(Base):
     __tablename__ = u'spatialoffsets'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+   # # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     SpatialOffsetID = Column('spatialoffsetid', Integer, primary_key=True, nullable=False)
     SpatialOffsetTypeCV = Column('spatialoffsettypecv', ForeignKey(CVSpatialOffsetType.Name), nullable=False,
@@ -887,7 +904,7 @@ class SpatialOffsets(Base):
 
 class Sites(Base):
     __tablename__ = u'sites'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     SamplingFeatureID = Column('samplingfeatureid', ForeignKey(SamplingFeatures.SamplingFeatureID),
                                primary_key=True)
@@ -908,7 +925,7 @@ class Sites(Base):
 
 class RelatedFeatures(Base):
     __tablename__ = u'relatedfeatures'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     RelationID = Column('relationid', Integer, primary_key=True, nullable=False)
     SamplingFeatureID = Column('samplingfeatureid', ForeignKey(SamplingFeatures.SamplingFeatureID),
@@ -927,7 +944,7 @@ class RelatedFeatures(Base):
 
 class SpecimenTaxonomicClassifiers(Base):
     __tablename__ = u'specimentaxonomicclassifiers'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     SamplingFeatureID = Column('samplingfeatureid', ForeignKey(Specimens.SamplingFeatureID), nullable=False)
@@ -944,7 +961,7 @@ class SpecimenTaxonomicClassifiers(Base):
 # ################################################################################
 class DeploymentActions(Base):
     __tablename__ = u'deploymentactions'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     DeploymentActionID = Column('deploymentactionid', Integer, primary_key=True, nullable=False)
     ActionID = Column('actionid', ForeignKey(Actions.ActionID), nullable=False)
@@ -960,7 +977,7 @@ class DeploymentActions(Base):
 
 class DataLoggerFiles(Base):
     __tablename__ = u'dataloggerfiles'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     DataLoggerFileID = Column('dataloggerfileid', Integer, primary_key=True, nullable=False)
     DeploymentActionID = Column('actionid', ForeignKey(DeploymentActions.DeploymentActionID), nullable=False)
@@ -972,7 +989,7 @@ class DataLoggerFiles(Base):
 
 class Photos(Base):
     __tablename__ = u'photos'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     PhotoID = Column('photoid', Integer, primary_key=True, nullable=False)
     ActionID = Column('actionid', ForeignKey(Actions.ActionID), nullable=False)
@@ -987,7 +1004,7 @@ class Photos(Base):
 # ################################################################################
 class Models(Base):
     __tablename__ = 'models'
-    __table_args__ = {u'schema': 'odm2'}  #__table_args__ ={u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  ## __table_args__ ={u'schema': Schema.getSchema()}
 
     ModelID = Column('modelid', Integer, primary_key=True, nullable=False)
     ModelCode = Column('modelcode', String(255), nullable=False)
@@ -997,7 +1014,7 @@ class Models(Base):
 
 class RelatedModels(Base):
     __tablename__ = 'relatedmodels'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     RelationID = Column('relationid', Integer, primary_key=True, nullable=False)
     ModelID = Column('modelid', ForeignKey(Models.ModelID), nullable=False)
@@ -1011,7 +1028,7 @@ class RelatedModels(Base):
 
 class Simulations(Base):
     __tablename__ = 'simulations'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     SimulationID = Column('simulationid', Integer, primary_key=True, nullable=False)
     ActionID = Column('actionid', ForeignKey(Actions.ActionID), nullable=False)
@@ -1036,7 +1053,7 @@ class Simulations(Base):
 # Part of the Provenance table, needed here to meet dependancies
 class Citations(Base):
     __tablename__ = u'citations'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     CitationID = Column('citationid', Integer, primary_key=True, nullable=False)
     Title = Column('title', String(255), nullable=False)
@@ -1055,7 +1072,7 @@ class Citations(Base):
 class Annotations(Base):
     __tablename__ = u'annotations'
 
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     AnnotationID = Column('annotationid', Integer, primary_key=True, nullable=False)
     AnnotationTypeCV = Column('annotationtypecv', ForeignKey(CVAnnotationType.Name), nullable=False, index=True)
@@ -1073,7 +1090,7 @@ class Annotations(Base):
 
 class ActionAnnotations(Base):
     __tablename__ = u'actionannotations'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     ActionID = Column('actionid', ForeignKey(Actions.ActionID), nullable=False)
@@ -1085,7 +1102,7 @@ class ActionAnnotations(Base):
 
 class MethodAnnotations(Base):
     __tablename__ = u'methodannotations'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     MethodID = Column('methodid', ForeignKey(Methods.MethodID), nullable=False)
@@ -1097,7 +1114,7 @@ class MethodAnnotations(Base):
 
 class ResultAnnotations(Base):
     __tablename__ = u'resultannotations'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     ResultID = Column('resultid', ForeignKey(Results.ResultID), nullable=False)
@@ -1111,7 +1128,7 @@ class ResultAnnotations(Base):
 
 class ResultValueAnnotations(Base):
     __tablename__ = u'resultvalueannotations'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     ValueID = Column('valueid', BigInteger, nullable=False)
@@ -1122,7 +1139,7 @@ class ResultValueAnnotations(Base):
 
 class SamplingFeatureAnnotations(Base):
     __tablename__ = u'samplingfeatureannotations'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     SamplingFeatureID = Column('samplingfeatureid', ForeignKey(SamplingFeatures.SamplingFeatureID),
@@ -1138,7 +1155,7 @@ class SamplingFeatureAnnotations(Base):
 # ################################################################################
 class DataSetsResults(Base):
     __tablename__ = u'datasetsresults'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     DataSetID = Column('datasetid', ForeignKey(DataSets.DataSetID), nullable=False)
@@ -1150,14 +1167,17 @@ class DataSetsResults(Base):
 
 class DataQuality(Base):
     __tablename__ = 'dataquality'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     DataQualityID = Column('dataqualityid', Integer, primary_key=True, nullable=False)
     DataQualityTypeCV = Column('dataqualitytypecv', ForeignKey(CVDataQualityType.Name), nullable=False,
                                index=True)
+    #DataQualityCode = Column('dataqualitycode', String(255, u'SQL_Latin1_General_CP1_CI_AS'), nullable=False)
     DataQualityCode = Column('dataqualitycode', String(255), nullable=False)
     DataQualityValue = Column('dataqualityvalue', Float(53))
     DataQualityValueUnitsID = Column('dataqualityvalueunitsid', ForeignKey(Units.UnitsID))
+    #DataQualityDescription = Column('dataqualitydescription', String(500, u'SQL_Latin1_General_CP1_CI_AS'))
+    #DataQualityLink = Column('dataqualitylink', String(255, u'SQL_Latin1_General_CP1_CI_AS'))
     DataQualityDescription = Column('dataqualitydescription', String(500))
     DataQualityLink = Column('dataqualitylink', String(255))
 
@@ -1166,35 +1186,30 @@ class DataQuality(Base):
 
 class ReferenceMaterials(Base):
     __tablename__ = 'referencematerials'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     ReferenceMaterialID = Column('referencematerialid', Integer, primary_key=True, nullable=False)
     ReferenceMaterialMediumCV = Column('referencematerialmediumcv', ForeignKey(CVReferenceMaterialMedium.Name), nullable=False, index=True)
     ReferenceMaterialOrganizationID = Column('referencematerialoranizationid',
                                              ForeignKey(Organizations.OrganizationID), nullable=False)
+    #ReferenceMaterialCode = Column('referencematerialcode', String(50, u'SQL_Latin1_General_CP1_CI_AS'), nullable=False)
+    #ReferenceMaterialLotCode = Column('referencemateriallotcode', String(255, u'SQL_Latin1_General_CP1_CI_AS'))
     ReferenceMaterialCode = Column('referencematerialcode', String(50), nullable=False)
     ReferenceMaterialLotCode = Column('referencemateriallotcode', String(255))
     ReferenceMaterialPurchaseDate = Column('referencematerialpurchasedate', DateTime)
     ReferenceMaterialExpirationDate = Column('referencematerialexpirationdate', DateTime)
+    #ReferenceMaterialCertificateLink = Column('referencematerialcertificatelink',
+    #                                          String(255, u'SQL_Latin1_General_CP1_CI_AS'))
     ReferenceMaterialCertificateLink = Column('referencematerialcertificatelink', String(255))
+
     SamplingFeatureID = Column('samplingfeatureid', ForeignKey(SamplingFeatures.SamplingFeatureID))
 
     OrganizationObj = relationship(Organizations)
     SamplingFeatureObj = relationship(SamplingFeatures)
 
-
-# ResultNormalizationValues = Table(
-#     u'resultnormalizationvalues', Base.metadata,
-#     Column(u'resultid', ForeignKey(Results.ResultID), primary_key=True),
-#     Column(u'normalizedbyreferencematerialvalueid', ForeignKey('odm2.referencematerialvalues.referencematerialvalueid'),
-#            nullable=False),
-#     schema='odm2'
-# )
-
-
 class ReferenceMaterialValue(Base):
     __tablename__ = u'referencematerialvalues'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     ReferenceMaterialValueID = Column('referencematerialvalueid', Integer, primary_key=True, nullable=False)
     ReferenceMaterialID = Column('referencematerialid', ForeignKey(ReferenceMaterials.ReferenceMaterialID),
@@ -1209,7 +1224,6 @@ class ReferenceMaterialValue(Base):
     ReferenceMaterialObj = relationship(ReferenceMaterials)
     UnitObj = relationship(Units)
     VariableObj = relationship(Variables)
-    #ResultsObj = relationship(Results, secondary=ResultNormalizationValues)
 
 class ResultNormalizationValues(Base):
     __tablename__ = 'resultnormalizationvalues'
@@ -1222,7 +1236,7 @@ class ResultNormalizationValues(Base):
 
 class ResultsDataQuality(Base):
     __tablename__ = 'resultsdataquality'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     ResultID = Column('resultid', ForeignKey(Results.ResultID), nullable=False)
@@ -1237,7 +1251,7 @@ class ResultsDataQuality(Base):
 # ################################################################################
 class ExtensionProperties(Base):
     __tablename__ = u'extensionproperties'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     PropertyID = Column('propertyid', Integer, primary_key=True, nullable=False)
     PropertyName = Column('propertyname', String(255), nullable=False)
@@ -1251,7 +1265,7 @@ class ExtensionProperties(Base):
 
 class ActionExtensionPropertyValues(Base):
     __tablename__ = u'actionextensionpropertyvalues'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    ## __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     ActionID = Column('actionid', ForeignKey(Actions.ActionID), nullable=False)
@@ -1264,7 +1278,7 @@ class ActionExtensionPropertyValues(Base):
 
 class CitationExtensionPropertyValues(Base):
     __tablename__ = u'citationextensionpropertyvalues'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     CitationID = Column('citationid', ForeignKey(Citations.CitationID), nullable=False)
@@ -1277,7 +1291,7 @@ class CitationExtensionPropertyValues(Base):
 
 class MethodExtensionPropertyValues(Base):
     __tablename__ = u'methodextensionpropertyvalues'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     MethodID = Column('methodid', ForeignKey(Methods.MethodID), nullable=False)
@@ -1290,7 +1304,7 @@ class MethodExtensionPropertyValues(Base):
 
 class ResultExtensionPropertyValues(Base):
     __tablename__ = u'resultextensionpropertyvalues'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     ResultID = Column('resultid', ForeignKey(Results.ResultID), nullable=False)
@@ -1303,7 +1317,7 @@ class ResultExtensionPropertyValues(Base):
 
 class SamplingFeatureExtensionPropertyValues(Base):
     __tablename__ = u'samplingfeatureextensionpropertyvalues'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     SamplingFeatureID = Column('samplingfeatureid', ForeignKey(SamplingFeatures.SamplingFeatureID),
@@ -1317,7 +1331,7 @@ class SamplingFeatureExtensionPropertyValues(Base):
 
 class VariableExtensionPropertyValues(Base):
     __tablename__ = u'variableextensionpropertyvalues'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     VariableID = Column('variableid', ForeignKey(Variables.VariableID), nullable=False)
@@ -1333,7 +1347,7 @@ class VariableExtensionPropertyValues(Base):
 # ################################################################################
 class ExternalIdentifierSystems(Base):
     __tablename__ = u'externalidentifiersystems'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     ExternalIdentifierSystemID = Column('externalidentifiersystemid', Integer, primary_key=True, nullable=False)
     ExternalIdentifierSystemName = Column('externalidentifiersystemname', String(255), nullable=False)
@@ -1353,7 +1367,7 @@ class ExternalIdentifierSystems(Base):
 
 class CitationExternalIdentifiers(Base):
     __tablename__ = u'citationexternalidentifiers'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     CitationID = Column('citationid', ForeignKey(Citations.CitationID), nullable=False)
@@ -1369,7 +1383,7 @@ class CitationExternalIdentifiers(Base):
 
 class MethodExternalIdentifiers(Base):
     __tablename__ = u'methodexternalidentifiers'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     MethodID = Column('methodid', ForeignKey(Methods.MethodID), nullable=False)
@@ -1386,7 +1400,7 @@ class MethodExternalIdentifiers(Base):
 
 class PersonExternalIdentifiers(Base):
     __tablename__ = u'personexternalidentifiers'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     PersonID = Column('personid', ForeignKey(People.PersonID), nullable=False)
@@ -1402,7 +1416,7 @@ class PersonExternalIdentifiers(Base):
 
 class ReferenceMaterialExternalIdentifiers(Base):
     __tablename__ = u'referencematerialexternalidentifiers'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     ReferenceMaterialID = Column(ForeignKey(ReferenceMaterials.ReferenceMaterialID), nullable=False)
@@ -1418,7 +1432,7 @@ class ReferenceMaterialExternalIdentifiers(Base):
 
 class SamplingFeatureExternalIdentifiers(Base):
     __tablename__ = u'samplingfeatureexternalidentifiers'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    ## __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     SamplingFeatureID = Column('samplingfeatureid', ForeignKey(SamplingFeatures.SamplingFeatureID),
@@ -1435,7 +1449,7 @@ class SamplingFeatureExternalIdentifiers(Base):
 
 class SpatialReferenceExternalIdentifiers(Base):
     __tablename__ = u'spatialreferenceexternaledentifiers'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     SpatialReferenceID = Column('spatialreferenceid', ForeignKey(SpatialReferences.SpatialReferenceID),
@@ -1452,7 +1466,7 @@ class SpatialReferenceExternalIdentifiers(Base):
 
 class TaxonomicClassifierExternalIdentifiers(Base):
     __tablename__ = u'taxonomicclassifierexternalidentifiers'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     TaxonomicClassifierID = Column('taxonomicclassifierid',
@@ -1469,7 +1483,7 @@ class TaxonomicClassifierExternalIdentifiers(Base):
 
 class VariableExternalIdentifiers(Base):
     __tablename__ = u'variableexternalidentifiers'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     VariableID = Column('variableid', ForeignKey(Variables.VariableID), nullable=False)
@@ -1489,7 +1503,7 @@ class VariableExternalIdentifiers(Base):
 
 class AuthorLists(Base):
     __tablename__ = u'authorlists'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     CitationID = Column('citationid', ForeignKey(Citations.CitationID), nullable=False)
@@ -1506,7 +1520,7 @@ class AuthorLists(Base):
 
 class DataSetCitations(Base):
     __tablename__ = u'datasetcitations'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     DataSetID = Column('datasetid', ForeignKey(DataSets.DataSetID), nullable=False)
@@ -1517,28 +1531,15 @@ class DataSetCitations(Base):
     CitationObj = relationship(Citations)
     DataSetObj = relationship(DataSets)
 
-
-# ResultDerivationEquations = Table(
-#     u'resultderivationequations', Base.metadata,
-#     Column(u'resultid', ForeignKey(Results.ResultID), primary_key=True),
-#     Column(u'derivationequationid', ForeignKey('odm2.derivationequations.derivationequationid'), nullable=False),
-#     schema='odm2'
-# )
-
-
 class DerivationEquations(Base):
     __tablename__ = u'derivationequations'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     DerivationEquationID = Column('derivationequationid', Integer, primary_key=True, nullable=False)
     DerivationEquation = Column('derivationequation', String(255), nullable=False)
 
-    #ResultsObj = relationship(Results, secondary=ResultDerivationEquations)
-
 class ResultDerivationEquations(Base):
     __tablename__ = u'resultderivationequations'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
-
     ResultID = Column(u'resultid', ForeignKey(Results.ResultID), primary_key=True)
     DerivationEquationID = Column(u'derivationequationid', ForeignKey(DerivationEquations.DerivationEquationID), nullable=False)
 
@@ -1547,7 +1548,7 @@ class ResultDerivationEquations(Base):
 
 class MethodCitations(Base):
     __tablename__ = u'methodcitations'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     MethodID = Column('methodid', ForeignKey(Methods.MethodID), nullable=False)
@@ -1561,7 +1562,7 @@ class MethodCitations(Base):
 # from odm2.Annotations.model import Annotation
 class RelatedAnnotations(Base):
     __tablename__ = u'relatedannotations'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     RelationID = Column('relationid', Integer, primary_key=True, nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
@@ -1576,7 +1577,7 @@ class RelatedAnnotations(Base):
 
 class RelatedCitations(Base):
     __tablename__ = u'relatedcitations'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     RelationID = Column('relationid', Integer, primary_key=True, nullable=False)
     CitationID = Column('citationid', ForeignKey(Citations.CitationID), nullable=False)
@@ -1591,7 +1592,7 @@ class RelatedCitations(Base):
 
 class RelatedDataSets(Base):
     __tablename__ = u'relateddatasets'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     RelationID = Column('relationid', Integer, primary_key=True, nullable=False)
     DataSetID = Column('datasetid', ForeignKey(DataSets.DataSetID), nullable=False)
@@ -1606,7 +1607,7 @@ class RelatedDataSets(Base):
 
 class RelatedResults(Base):
     __tablename__ = u'relatedresults'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     RelationID = Column('relationid', Integer, primary_key=True, nullable=False)
     ResultID = Column('resultid', ForeignKey(Results.ResultID), nullable=False)
@@ -1627,7 +1628,7 @@ class RelatedResults(Base):
 
 class PointCoverageResults(Base):
     __tablename__ = u'pointcoverageresults'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     ResultID = Column('resultid', ForeignKey(Results.ResultID), primary_key=True)
     ZLocation = Column('zlocation', Float(53))
@@ -1651,7 +1652,7 @@ class PointCoverageResults(Base):
 
 class ProfileResults(Base):
     __tablename__ = u'profileresults'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     ResultID = Column('resultid', ForeignKey(Results.ResultID), primary_key=True)
     XLocation = Column('xlocation', Float(53))
@@ -1676,7 +1677,7 @@ class ProfileResults(Base):
 
 class CategoricalResults(Base):
     __tablename__ = u'categoricalresults'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     ResultID = Column('resultid', ForeignKey(Results.ResultID), primary_key=True)
     XLocation = Column('xlocation', Float(53))
@@ -1694,7 +1695,7 @@ class CategoricalResults(Base):
 
 class TransectResults(Base):
     __tablename__ = u'transectresults'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     ResultID = Column('resultid', ForeignKey(Results.ResultID), primary_key=True)
     ZLocation = Column('zlocation', Float(53))
@@ -1716,7 +1717,7 @@ class TransectResults(Base):
 
 class SpectraResults(Base):
     __tablename__ = u'spectraresults'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     ResultID = Column('resultid', ForeignKey(Results.ResultID), primary_key=True)
     XLocation = Column('xlocation', Float(53))
@@ -1741,7 +1742,7 @@ class SpectraResults(Base):
 
 class TimeSeriesResults(Base):
     __tablename__ = u'timeseriesresults'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     ResultID = Column('resultid', ForeignKey(Results.ResultID), primary_key=True)
     XLocation = Column('xlocation', Float(53))
@@ -1774,7 +1775,7 @@ class TimeSeriesResults(Base):
 
 class SectionResults(Base):
     __tablename__ = u'sectionresults'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     ResultID = Column('resultid', ForeignKey(Results.ResultID), primary_key=True)
     YLocation = Column('ylocation', Float(53))
@@ -1799,7 +1800,7 @@ class SectionResults(Base):
 
 class TrajectoryResults(Base):
     __tablename__ = u'trajectoryresults'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     ResultID = Column('resultid', ForeignKey(Results.ResultID), primary_key=True)
     SpatialReferenceID = Column('spatialreferenceid', ForeignKey(SpatialReferences.SpatialReferenceID))
@@ -1819,7 +1820,7 @@ class TrajectoryResults(Base):
 
 class MeasurementResults(Base):
     __tablename__ = u'measurementresults'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     ResultID = Column('resultid', ForeignKey(Results.ResultID), primary_key=True)
     XLocation = Column('xlocation', Float(53))
@@ -1852,9 +1853,9 @@ class MeasurementResults(Base):
 
 class CategoricalResultValues(Base):
     __tablename__ = u'categoricalresultvalues'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
-    ValueID = Column('valueid', BigIntegerType, primary_key=True)
+    ValueID = Column('valueid', BigInteger, primary_key=True)
     ResultID = Column('resultid', ForeignKey(CategoricalResults.ResultID), nullable=False)
     DataValue = Column('datavalue', String(255), nullable=False)
     ValueDateTime = Column('valuedatetime', DateTime, nullable=False)
@@ -1865,9 +1866,9 @@ class CategoricalResultValues(Base):
 
 class MeasurementResultValues(Base):
     __tablename__ = u'measurementresultvalues'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
-    ValueID = Column('valueid', BigIntegerType, primary_key=True)
+    ValueID = Column('valueid', BigInteger, primary_key=True)
     ResultID = Column('resultid', ForeignKey(MeasurementResults.ResultID), nullable=False)
     DataValue = Column('datavalue', Float(53), nullable=False)
     ValueDateTime = Column('valuedatetime', DateTime, nullable=False)
@@ -1883,9 +1884,9 @@ class MeasurementResultValues(Base):
 
 class PointCoverageResultValues(Base):
     __tablename__ = u'pointcoverageresultvalues'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
-    ValueID = Column('valueid', BigIntegerType, primary_key=True)
+    ValueID = Column('valueid', BigInteger, primary_key=True)
     ResultID = Column('resultid', ForeignKey(PointCoverageResults.ResultID), nullable=False)
     DataValue = Column('datavalue', BigInteger, nullable=False)
     ValueDateTime = Column('valuedatetime', DateTime, nullable=False)
@@ -1904,9 +1905,9 @@ class PointCoverageResultValues(Base):
 
 class ProfileResultValues(Base):
     __tablename__ = u'profileresultvalues'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
-    ValueID = Column('valueid', BigIntegerType, primary_key=True)
+    ValueID = Column('valueid', BigInteger, primary_key=True)
     ResultID = Column('resultid', ForeignKey(ProfileResults.ResultID), nullable=False)
     DataValue = Column('datavalue', Float(53), nullable=False)
     ValueDateTime = Column('valuedatetime', DateTime, nullable=False)
@@ -1927,9 +1928,9 @@ class ProfileResultValues(Base):
 
 class SectionResultValues(Base):
     __tablename__ = u'sectionresultvalues'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
-    ValueID = Column('valueid', BigIntegerType, primary_key=True)
+    ValueID = Column('valueid', BigInteger, primary_key=True)
     ResultID = Column('resultid', ForeignKey(SectionResults.ResultID), nullable=False)
     DataValue = Column('datavalue', Float(53), nullable=False)
     ValueDateTime = Column('valuedatetime', BigInteger, nullable=False)
@@ -1956,9 +1957,9 @@ class SectionResultValues(Base):
 
 class SpectraResultValues(Base):
     __tablename__ = u'spectraresultvalues'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
-    ValueID = Column('valueid', BigIntegerType, primary_key=True)
+    ValueID = Column('valueid', BigInteger, primary_key=True)
     ResultID = Column('resultid', ForeignKey(SpectraResults.ResultID), nullable=False)
     DataValue = Column('datavalue', Float(53), nullable=False)
     ValueDateTime = Column('valuedatetime', DateTime, nullable=False)
@@ -1979,7 +1980,7 @@ class SpectraResultValues(Base):
 
 class TimeSeriesResultValues(Base):
     __tablename__ = u'timeseriesresultvalues'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
     ValueID = Column('valueid', BigIntegerType, primary_key=True)
     ResultID = Column('resultid', ForeignKey(TimeSeriesResults.ResultID), nullable=False)
@@ -2010,9 +2011,9 @@ class TimeSeriesResultValues(Base):
 
 class TrajectoryResultValues(Base):
     __tablename__ = u'trajectoryresultvalues'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
-    ValueID = Column('valueid', BigIntegerType, primary_key=True)
+    ValueID = Column('valueid', BigInteger, primary_key=True)
     ResultID = Column('resultid', ForeignKey(TrajectoryResults.ResultID), nullable=False)
     DataValue = Column('datavalue', Float(53), nullable=False)
     ValueDateTime = Column('valuedatetime', DateTime, nullable=False)
@@ -2042,9 +2043,9 @@ class TrajectoryResultValues(Base):
 
 class TransectResultValues(Base):
     __tablename__ = u'transectresultvalues'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+    # __table_args__ = {u'schema': 'odm2'}  # # __table_args__ = {u'schema': Schema.getSchema()}
 
-    ValueID = Column('valueid', BigIntegerType, primary_key=True)
+    ValueID = Column('valueid', BigInteger, primary_key=True)
     ResultID = Column('resultid', ForeignKey(TransectResults.ResultID), nullable=False)
     DataValue = Column('datavalue', Float(53), nullable=False)
     ValueDateTime = Column('valuedatetime', DateTime, nullable=False)
@@ -2066,32 +2067,12 @@ class TransectResultValues(Base):
     TransectResultObj = relationship(TransectResults)
 
 
+import inspect
+import sys
 
-
-def _changeSchema(schema):
-    import inspect
-    import sys
+def change_schema(schema):
     #get a list of all of the classes in the module
     clsmembers = inspect.getmembers(sys.modules[__name__], lambda member: inspect.isclass(member) and member.__module__ == __name__)
 
     for name, Tbl in clsmembers:
-        import sqlalchemy.ext.declarative.api as api
-        if isinstance(Tbl, api.DeclarativeMeta):
-            Tbl.__table__.schema = schema
-
-
-def _getSchema(engine):
-    from sqlalchemy.engine import reflection
-
-    insp=reflection.Inspector.from_engine(engine)
-
-    for name in insp.get_schema_names():
-        if 'odm2'== name.lower():
-            return name
-    else:
-        return insp.default_schema_name
-
-def setSchema(engine):
-    s = _getSchema(engine)
-    _changeSchema(s)
-
+        Tbl.__table__.schema = schema

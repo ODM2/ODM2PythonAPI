@@ -1,15 +1,12 @@
+pyodbc
+pymysql
 six
 sqlalchemy
 geoalchemy
-#Change line #242 in geoalchemy/base.py
-#from:
-#class SpatialComparator(ColumnProperty.ColumnComparator):
-#to :
-#class SpatialComparator(ColumnProperty.Comparator):
-
+#https://github.com/ODM2/geoalchemy/archive/v0.7.3.tar.gz
 shapely
-
-matplotlib
 dateutils
-
-sqlalchemy-migrate
+pandas
+#psycopg2  # Commented out because I could not pip install it.
+#matplotlib
+#sqlalchemy-migrate
