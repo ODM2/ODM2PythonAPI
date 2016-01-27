@@ -1,6 +1,7 @@
 import pytest
 import datetime
 from os.path import *
+from odm2api.ODM2 import models
 from odm2api.ODMconnection import dbconnection
 from odm2api.ODM2.services.createService import CreateODM2
 # run this test from the root directory using:
@@ -104,10 +105,50 @@ class TestCreateService:
         pass
 
     def test_createResult(self):
-        pass
+
+        # assert that there are no results
+        res = self.engine.execute('SELECT * FROM Results')
+        assert(len(res.fetchall()) == 0)
+
+        # create a result record
+        self.writer.createResult(featureactionid = 1,
+                                variableid = 1,
+                                unitid = 1,
+                                processinglevelid = 1,
+                                valuecount = 0,
+                                sampledmedium = 'unknown',
+                                resulttypecv = 'time series',
+                                taxonomicclass=None, resultdatetime=None, resultdatetimeutcoffset=None,
+                                validdatetime=None, validdatetimeutcoffset=None, statuscv=None)
+
+
+        # assert that there are results
+        res = self.engine.execute('SELECT * FROM Results')
+        assert(len(res.fetchall()) == 1)
 
     def test_createTimeSeriesResult(self):
-        pass
+
+        # assert that there are no time series results in the database
+        res = self.engine.execute('SELECT * FROM TimeSeriesResults').first()
+        assert(res is None)
+        
+        # create a result record if it doesnt exist (required to test foriegn key relationship)
+        result = self.engine.execute('SELECT * FROM Results').first()
+        if result is None:
+            # create a basic result record
+            self.writer.createResult(featureactionid = 1,variableid = 1,unitid = 1,processinglevelid = 1,
+                                    valuecount = 0,sampledmedium = 'unknown',resulttypecv = 'time series')
+            result = self.engine.execute('SELECT * FROM Results').first()
+            assert(result is not None)
+
+
+        # create most basic time series result record possible
+        tsr = self.writer.createTimeSeriesResult(result=result, aggregationstatistic='unknown')
+
+        # assert that this basic tsr exists in the datbase
+        res = self.engine.execute('SELECT * FROM TimeSeriesResults').first()
+        assert(res is not None)
+        
 
 
     def test_createTimeSeriesResultValues(self):
