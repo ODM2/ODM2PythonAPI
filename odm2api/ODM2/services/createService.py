@@ -270,11 +270,11 @@ class CreateODM2( serviceBase):
         ds = DataSets()
 
         # create the dataset
-        ds.DatasetTypeCV = dstype
-        ds.DatasetCode = dscode
-        ds.DatasetTitle = dstitle
-        ds.DatasetAbstract = dsabstract
-        ds.DatasetUUID = uuid.uuid4().hex
+        ds.DataSetTypeCV = dstype
+        ds.DataSetCode = dscode
+        ds.DataSetTitle = dstitle
+        ds.DataSetAbstract = dsabstract
+        ds.DataSetUUID = uuid.uuid4().hex
 
         self._session.add(ds)
         self._session.commit()
