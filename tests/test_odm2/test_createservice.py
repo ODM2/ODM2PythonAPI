@@ -40,15 +40,80 @@ class TestCreateService:
 
         globals['write'] = self.write
         globals['engine'] = self.engine
+        globals['db'] = db
         # return self.write, self.engine
 
     def setup(self):
 
         self.writer = globals['write']
         self.engine = globals['engine']
+        self.db = globals['db']
 
     def test_createVariable(self):
-        pass
+
+        # assert that there are no variables in the database
+        res = self.engine.execute('SELECT * from Variables')
+        assert(len(res.fetchall()) == 0)
+
+
+        # create a new variable
+        code = 'MyVar'
+        name = 'My Test Variable'
+        vType = 'Hydrology'
+        nodv = -9999
+        speciation="mg/L as PO4"
+        definition="This is a test variable"
+        self.writer.createVariable(code = code,name = name,vType = vType,nodv =nodv,speciation=None,definition=None)
+
+        # assert that this dataset has been successfully inserted
+        res = self.engine.execute('SELECT * from Variables WHERE VariableCode = "MyVar" ORDER BY VariableID DESC').first()
+        assert(res is not None)
+        assert(res[1] == vType )        # vType
+        assert(res[2] == code )         # code
+        assert(res[3] == name )         # name
+        assert(res[4] == None)          # definition
+        assert(res[5] == None)          # speciation
+        assert(res[6] == nodv )         # nodata
+
+        self.writer.createVariable(code = code, name = name, vType = vType, nodv =nodv, speciation=speciation,definition=None)
+
+        # assert that this dataset has been successfully inserted
+        res = self.engine.execute('SELECT * from Variables WHERE VariableCode = "MyVar" ORDER BY VariableID DESC').first()
+        assert(res is not None)
+        assert(res[1] == vType )        # vType
+        assert(res[2] == code )         # code
+        assert(res[3] == name )         # name
+        assert(res[4] == None)          # definition
+        assert(res[5] == speciation)    # speciation
+        assert(res[6] == nodv )         # nodata
+
+
+        self.writer.createVariable(code = code,name = name,vType = vType,nodv =nodv,speciation=None,definition=definition)
+
+        # assert that this dataset has been successfully inserted
+        res = self.engine.execute('SELECT * from Variables WHERE VariableCode = "MyVar" ORDER BY VariableID DESC').first()
+        assert(res is not None)
+        assert(res[1] == vType )        # vType
+        assert(res[2] == code )         # code
+        assert(res[3] == name )         # name
+        assert(res[4] == definition)    # definition
+        assert(res[5] == None)          # speciation
+        assert(res[6] == nodv )         # nodata
+
+
+        self.writer.createVariable(code = code,name = name,vType = vType,nodv =nodv,speciation=speciation,definition=definition)
+
+        # assert that this dataset has been successfully inserted
+        res = self.engine.execute('SELECT * from Variables WHERE VariableCode = "MyVar" ORDER BY VariableID DESC').first()
+        assert(res is not None)
+        assert(res[1] == vType )        # vType
+        assert(res[2] == code )         # code
+        assert(res[3] == name )         # name
+        assert(res[4] == definition)    # definition
+        assert(res[5] == speciation)    # speciation
+        assert(res[6] == nodv )         # nodata
+
+
 
     def test_createMethod(self):
         pass
