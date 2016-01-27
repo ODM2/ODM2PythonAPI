@@ -1,8 +1,8 @@
 import pytest
+import datetime
 from os.path import *
 from odm2api.ODMconnection import dbconnection
 from odm2api.ODM2.services.createService import CreateODM2
-
 # run this test from the root directory using:
 # python -m pytest tests/test_odm2/test_createservice.py
 
@@ -134,4 +134,29 @@ class TestCreateService:
     
     
     def test_createSimulation(self):
-        pass
+
+        # todo: insert should fail if unitID or actionID do not exist
+
+        # assert that there are no datasets in the database
+        res = self.engine.execute('SELECT * from Simulations')
+        assert(len(res.fetchall()) == 0)
+
+        # create a new simulation
+        st = datetime.datetime(2016,1,1)
+        et = datetime.datetime(2016,1,25)
+        dataset = self.writer.createSimulation( actionid = 1,
+                                                modelID=1,
+                                                simulationName= 'MySimulation',
+                                                simulationDescription = 'My simulation description',
+                                                simulationStartDateTime = st,
+                                                simulationStartOffset = 6,
+                                                simulationEndDateTime = et,
+                                                simulationEndOffset = 6,
+                                                timeStepValue = 1,
+                                                timeStepUnitID = 1,
+                                                inputDatasetID=None)
+
+        # assert that this record has been successfully inserted
+        res = self.engine.execute('SELECT * from Simulations')
+        assert(len(res.fetchall()) == 1)
+
