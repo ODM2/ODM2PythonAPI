@@ -1,6 +1,6 @@
 __author__ = 'jmeline'
 
-from sqlalchemy import func, exc
+from sqlalchemy import func
 import pandas as pd
 
 from odm2api.ODM2 import serviceBase
