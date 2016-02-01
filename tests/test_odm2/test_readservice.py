@@ -133,25 +133,19 @@ class TestReadService:
 
     def test_getRelatedModelsByID(self):
 
-        # get all models from the database
-        res = self.engine.execute('SELECT * FROM Models').fetchall()
-        m1 = rawSql2Alchemy(res[0], models.Models)
-        m2 = rawSql2Alchemy(res[1], models.Models)
-
-
-        # create a relationship between them
-        self.engine.execute('INSERT INTO RelatedModels Values(1, ?, "TestRelationship", ?)', (m1.ModelID), m2.ModelID)
-
-
-
         # get related models by id using the api
-        resapi = self.reader.getRelatedModelsByID(m1.ModelID)
+        resapi = self.reader.getRelatedModelsByID(2)
 
         assert resapi is not None
-        assert resapi[0].RelatedModelObj.ModelCode == 'swmm'
+        assert resapi[0].ModelObj.ModelCode == 'swat'
 
     def test_getRelatedModelsByCode(self):
-        pass
+
+        # get related models by id using the api
+        resapi = self.reader.getRelatedModelsByCode('swmm')
+
+        assert resapi is not None
+        assert resapi[0].RelatedModelObj.ModelCode == 'swat'
 
 
 # ################################################################################
