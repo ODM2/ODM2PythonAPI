@@ -933,7 +933,7 @@ class ReadODM2( serviceBase   ):
 
     def getSimulationByActionID(self, actionID):
         try:
-            return self._session.query(Simulation).filter_by(ActionID=actionID).first()
+            return self._session.query(Simulations).filter_by(ActionID=actionID).first()
         except:
             return None
 
