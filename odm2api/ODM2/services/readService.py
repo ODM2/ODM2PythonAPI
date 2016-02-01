@@ -914,7 +914,7 @@ class ReadODM2( serviceBase   ):
 
     def getModelByCode(self, modelcode):
         try:
-            return self._session.query(Model).filter(Model.ModelCode.ilike(modelcode)).first()
+            return self._session.query(Models).filter(Models.ModelCode.ilike(modelcode)).first()
         except:
             return None
 
