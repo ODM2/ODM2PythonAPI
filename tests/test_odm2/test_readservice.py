@@ -214,18 +214,21 @@ class TestReadService:
         res = self.engine.execute('SELECT * FROM Simulations').fetchone()
         simulation = rawSql2Alchemy(res, models.Simulations)
 
+        # get the results id associated with the simulation
+        res = self.engine.execute('SELECT * from Results as r '\
+                'inner join FeatureActions as fa on fa.FeatureActionID == r.FeatureActionID ' \
+                'inner join Actions as a on a.ActionID == fa.ActionID ' \
+                'inner join Simulations as s on s.ActionID == a.ActionID '\
+                'where s.SimulationID = 1').first()
+        assert len(res) > 0
+        res = rawSql2Alchemy(res, models.Results)
+        print res
+
         # get simulation by id using the api
         resapi = self.reader.getResultsBySimulationID(simulation.SimulationID)
         assert resapi is not None
         assert len(resapi) > 0
+        assert res.ResultID == resapi[0].ResultID
 
-        # test simulation id that doesnt exist
-        resapi = self.reader.getResultsBySimulationID(10)
-        assert resapi is not None
-        assert len(resapi) == 0
-
-        # test invalid argument
-        resapi = self.reader.getResultsBySimulationID(models.ActionBy)
-        assert resapi is None
 
 
