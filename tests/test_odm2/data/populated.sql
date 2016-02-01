@@ -320,7 +320,7 @@ CREATE TABLE Results (
 	ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 INSERT INTO "Results" VALUES(1,'1fed5778-4524-11e5-9cb8-7831c1d1cf54',1,'Time series coverage',1,199,NULL,0,'2015-08-17 15:08:36.145605',-7,NULL,NULL,'Unknown','Surface Water',9986);
-INSERT INTO "Results" VALUES(2,'ec03509a-9b85-4b6a-b315-5f6b4d0ad395',2,'Time series coverage',2,201,NULL,1,'2015-08-17',-6,NULL,NULL,NULL,'Surface Water',40);
+INSERT INTO "Results" VALUES(2,'ec03509a-9b85-4b6a-b315-5f6b4d0ad395',2,'Time series coverage',2,201,NULL,1,'2015-08-17 0:0:0.0',-6,NULL,NULL,NULL,'Surface Water',40);
 CREATE TABLE SamplingFeatures (
 	SamplingFeatureID INTEGER   NOT NULL PRIMARY KEY,
 	SamplingFeatureUUID VARCHAR(36)   NOT NULL,

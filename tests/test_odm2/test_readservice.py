@@ -212,10 +212,20 @@ class TestReadService:
 
         # get a simulation from the database
         res = self.engine.execute('SELECT * FROM Simulations').fetchone()
-        simID = res[0]
+        simulation = rawSql2Alchemy(res, models.Simulations)
 
         # get simulation by id using the api
-        resapi = self.reader.getResultsBySimulationID(simulationID=simID)
+        resapi = self.reader.getResultsBySimulationID(simulation.SimulationID)
         assert resapi is not None
+        assert len(resapi) > 0
+
+        # test simulation id that doesnt exist
+        resapi = self.reader.getResultsBySimulationID(10)
+        assert resapi is not None
+        assert len(resapi) == 0
+
+        # test invalid argument
+        resapi = self.reader.getResultsBySimulationID(models.ActionBy)
+        assert resapi is None
 
 

@@ -964,9 +964,10 @@ class ReadODM2( serviceBase   ):
 
     def getResultsBySimulationID(self, simulationID):
         try:
-            return self._session.query(Result).filter(Simulation.SimulationID == simulationID).all()
-        except:
-            return None
+            return self._session.query(Results).filter(Simulations.SimulationID == simulationID).all()
+        except Exception, e:
+            print e
+        return None
 
 # ################################################################################
 # ODM2
