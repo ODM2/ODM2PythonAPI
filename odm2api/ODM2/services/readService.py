@@ -921,7 +921,7 @@ class ReadODM2( serviceBase   ):
     def getAllSimulations(self):
 
         try:
-            return self._session.query(Simulation).all()
+            return self._session.query(Simulations).all()
         except:
             return None
 
