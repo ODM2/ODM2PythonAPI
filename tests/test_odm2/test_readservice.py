@@ -145,7 +145,17 @@ class TestReadService:
         resapi = self.reader.getRelatedModelsByCode('swmm')
 
         assert resapi is not None
-        assert resapi[0].RelatedModelObj.ModelCode == 'swat'
+        assert len(resapi) > 0
+        assert resapi[0].ModelObj.ModelCode == 'swat'
+
+        # test model code that doesn't exist
+        resapi = self.reader.getRelatedModelsByCode('None')
+        assert resapi is not None
+        assert len(resapi) == 0
+
+        # test invalid argument
+        resapi = self.reader.getRelatedModelsByCode(models.ActionBy)
+        assert resapi is None
 
 
 # ################################################################################

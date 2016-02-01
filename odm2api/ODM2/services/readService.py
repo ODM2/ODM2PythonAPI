@@ -1,6 +1,6 @@
 __author__ = 'jmeline'
 
-from sqlalchemy import func
+from sqlalchemy import func, exc
 import pandas as pd
 
 from odm2api.ODM2 import serviceBase
@@ -938,17 +938,29 @@ class ReadODM2( serviceBase   ):
             return None
 
     def getRelatedModelsByID(self, modelid):
+        """
+        queries the ODM2 for any models that have a relationship with the provided model id
+        :param modelid: id of the model to search
+        :return: all models related to the specified id
+        """
         try:
             return self._session.query(RelatedModels).filter_by(RelatedModelID=modelid).all()
-        except:
-            return None
+        except Exception, e:
+            print e
+        return None
 
     def getRelatedModelsByCode(self, modelcode):
+        """
+        queries the ODM2 for any models that have a relationship with the provided model id
+        :param modelcode: the code of the model to search
+        :return: all models related to the provided model code
+        """
         try:
-            return self._session.query(Relatedmodel).join(Relatedmodel.ModelID == Model.ModelID) \
-                .filter(Model.ModelCode == modelcode)
-        except:
-            return None
+            return self._session.query(RelatedModels).join(Models, RelatedModels.RelatedModelID == Models.ModelID) \
+                .filter(Models.ModelCode == modelcode).all()
+        except Exception, e:
+            print e
+        return None
 
     def getResultsBySimulationID(self, simulationID):
         try:
