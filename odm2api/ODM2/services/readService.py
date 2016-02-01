@@ -939,7 +939,7 @@ class ReadODM2( serviceBase   ):
 
     def getRelatedModelsByID(self, modelid):
         try:
-            return self._session.query(Relatedmodel).filter_by(RelatedModelID=modelid).all()
+            return self._session.query(RelatedModels).filter_by(ModelID=modelid).all()
         except:
             return None
 

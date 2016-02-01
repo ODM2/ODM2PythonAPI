@@ -4,14 +4,35 @@ from os.path import *
 from odm2api.ODM2 import models
 from odm2api.ODMconnection import dbconnection
 from odm2api.ODM2.services.readService import ReadODM2
+from sqlalchemy.orm import class_mapper
+import sqlalchemy
 
 # run this test from the root directory using:
 # python -m pytest tests/test_odm2/test_readservice.py
 
-
-
-
 globals = {}
+
+
+def rawSql2Alchemy(rawsqlresult, sqlalchemyClass):
+    """
+    converts the results of a raw sql select query into SqlAlchemy Model Object
+    :param rawsqlresult: array of values, sql select results
+    :param sqlalchemyModelObj: model object to convert into
+    :return: populated model object
+    """
+
+    map = {}
+    class_attributes = [prop.key for prop in class_mapper(sqlalchemyClass).iterate_properties
+                            if isinstance(prop, sqlalchemy.orm.ColumnProperty)]
+
+    for i in range(len(class_attributes)):
+        map[class_attributes[i]] = rawsqlresult[i]
+
+    modelObj = sqlalchemyClass()
+    modelObj.__dict__ = map
+    return modelObj
+
+
 
 class TestReadService:
 
@@ -81,8 +102,6 @@ class TestReadService:
 
         assert len(res) == len(resapi)
 
-
-
     def test_getModelByCode(self):
 
         # get a model from the database
@@ -114,14 +133,22 @@ class TestReadService:
 
     def test_getRelatedModelsByID(self):
 
-        # get one model from the database
-        res = self.engine.execute('SELECT * FROM Models').fetchone()
-        model_id = res[0]
+        # get all models from the database
+        res = self.engine.execute('SELECT * FROM Models').fetchall()
+        m1 = rawSql2Alchemy(res[0], models.Models)
+        m2 = rawSql2Alchemy(res[1], models.Models)
+
+
+        # create a relationship between them
+        self.engine.execute('INSERT INTO RelatedModels Values(1, ?, "TestRelationship", ?)', (m1.ModelID), m2.ModelID)
+
+
 
         # get related models by id using the api
-        resapi = self.reader.getRelatedModelsByID(model_id)
+        resapi = self.reader.getRelatedModelsByID(m1.ModelID)
 
-        assert False
+        assert resapi is not None
+        assert resapi[0].RelatedModelObj.ModelCode == 'swmm'
 
     def test_getRelatedModelsByCode(self):
         pass
