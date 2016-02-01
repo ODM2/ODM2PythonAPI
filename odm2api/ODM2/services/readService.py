@@ -908,7 +908,7 @@ class ReadODM2( serviceBase   ):
     def getAllModels(self):
 
         try:
-            return self._session.query(Model).all()
+            return self._session.query(Models).all()
         except:
             return None
 
@@ -927,7 +927,7 @@ class ReadODM2( serviceBase   ):
 
     def getSimulationByName(self, simulationName):
         try:
-            return self._session.query(Simulation).filter(Simulation.SimulationName.ilike(simulationName)).first()
+            return self._session.query(Simulations).filter(Simulations.SimulationName.ilike(simulationName)).first()
         except:
             return None
 

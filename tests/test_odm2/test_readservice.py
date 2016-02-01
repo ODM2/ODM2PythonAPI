@@ -113,7 +113,15 @@ class TestReadService:
     """
 
     def test_getRelatedModelsByID(self):
-        pass
+
+        # get one model from the database
+        res = self.engine.execute('SELECT * FROM Models').fetchone()
+        model_id = res[0]
+
+        # get related models by id using the api
+        resapi = self.reader.getRelatedModelsByID(model_id)
+
+        assert False
 
     def test_getRelatedModelsByCode(self):
         pass
