@@ -185,14 +185,13 @@ class dbconnection():
     #     return conn_string
 
     def __buildConnectionString(self, conn_dict):
-        driver = ""
-        print "****", conn_dict
+        # driver = ""
+        # print "****", conn_dict
         if conn_dict['engine'] == 'mssql' and sys.platform != 'win32':
             driver = "pyodbc"
             #'DRIVER={FreeTDS};DSN=%s;UID=%s;PWD=%s;' % (conn_dict['address'], conn_dict['user'], conn_dict['password'])
             quoted = urllib.quote_plus('DRIVER={FreeTDS};DSN=%s;UID=%s;PWD=%s;' % (conn_dict['address'], conn_dict['user'], conn_dict['password']))
             conn_string = 'mssql+pyodbc:///?odbc_connect={}'.format(quoted)
-
         else:
             if conn_dict['engine'] == 'mssql':
                 driver = "pyodbc"
@@ -201,8 +200,6 @@ class dbconnection():
                 if "sqlncli11.dll" in os.listdir("C:\\Windows\\System32"):
                     conn = "%s+%s://%s:%s@%s/%s?driver=SQL+Server+Native+Client+11.0"
                 self._connection_format = conn
-
-
             elif conn_dict['engine'] == 'mysql':
                 driver = "pymysql"
             elif conn_dict['engine'] == 'postgresql':
@@ -214,5 +211,5 @@ class dbconnection():
                 conn_dict['engine'], driver, conn_dict['user'], conn_dict['password'], conn_dict['address'],
                 conn_dict['db'])
 
-        print "******", conn_string
+        # print "******", conn_string
         return conn_string
