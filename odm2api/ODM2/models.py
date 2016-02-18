@@ -572,6 +572,7 @@ class SamplingFeatures(Base):
         :return geomshape:
         """
         _FeatureGeometry = self.FeatureGeometry
+        geomshape = None
         if _FeatureGeometry is not None:
             if is_hex(_FeatureGeometry.geom_wkb):
                 # to parse wkb hex string directly
