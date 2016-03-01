@@ -1,28 +1,31 @@
 from sqlalchemy import BigInteger, Column, Date, DateTime, Float, ForeignKey, Integer, String, Boolean, BLOB
 from sqlalchemy.orm import relationship
-
-
+from sqlalchemy.dialects import postgresql, mysql, sqlite
 # Should not be importing anything from a specific dialect
 # from sqlalchemy.dialects.mssql.base import BIT
 
-# from apiCustomType import Geometry
-
-
 from geoalchemy import GeometryDDL, GeometryColumn
 from geoalchemy.geometry import Geometry
-#geoalchemy.geometry.Geometry
-
-#from base import modelBase as Base
+from shapely import wkb, wkt
 
 from odm2api.base import modelBase
-Base = modelBase.Base
+# from apiCustomType import Geometry
 
-from sqlalchemy.dialects import postgresql, mysql, sqlite
+Base = modelBase.Base
 
 BigIntegerType = BigInteger()
 BigIntegerType = BigIntegerType.with_variant(sqlite.INTEGER(), 'sqlite')
 BigIntegerType = BigIntegerType.with_variant(postgresql.BIGINT(), 'postgresql')
 BigIntegerType = BigIntegerType.with_variant(mysql.BIGINT(), 'mysql')
+
+
+def is_hex(s):
+    try:
+        int(s, base=16)
+        return True
+    except ValueError:
+        return False
+
 
 ################################################################################
 # CV
@@ -559,24 +562,40 @@ class SamplingFeatures(Base):
                                       index=True)
     Elevation_m = Column('elevation_m', Float(53))
     ElevationDatumCV = Column('elevationdatumcv', ForeignKey(CVElevationDatum.Name), index=True)
-    #FeatureGeometry = Column('featuregeometry', Geometry) # Geoalchemy 2
-    FeatureGeometry = GeometryColumn('featuregeometry', Geometry) #Geoalchemy 1, #wkb.loads(str(self.FeatureGeometry.geom_wkb)).wkt if self.FeatureGeometry is not None else None
-    # FeatureGeometry = Column('featuregeometry', BLOB)# custom geometry queries
+    FeatureGeometry = Column('featuregeometry', Geometry)
+    # FeatureGeometry = Column('featuregeometry', BLOB)  # custom geometry queries
 
+    def shape(self):
+        """
+        Method name based on shapely shapely.geometry.shape() function.
+        Returns a shapely geometry object
+        :return geomshape:
+        """
+        _FeatureGeometry = self.FeatureGeometry
+        geomshape = None
+        if _FeatureGeometry is not None:
+            if is_hex(_FeatureGeometry.geom_wkb):
+                # to parse wkb hex string directly
+                geomshape = wkb.loads(_FeatureGeometry.geom_wkb, hex=True)
+                #  _FeatureGeometry = GeometryColumn('featuregeometry', Geometry)
+            else:
+                geomshape = wkt.loads(str(_FeatureGeometry.geom_wkb))
+
+        return geomshape
 
     def __repr__(self):
-        from shapely import wkb
-        geom = None
-        if hasattr(self.FeatureGeometry, 'geom_wkt'):
-            geom = wkb.loads(str(self.FeatureGeometry.geom_wkb)).wkt
+        geom = self.shape()
+        if geom is not None:
+            geomkt = geom.wkt
         else:
-            geom = self.FeatureGeometry
+            geomkt = None
 
         return "<SamplingFeatures('%s', '%s', '%s', '%s', '%s')>" % (
             self.SamplingFeatureCode, self.SamplingFeatureName, self.SamplingFeatureDescription,
-            self.Elevation_m, geom) 
+            self.Elevation_m, geomkt)
 
-GeometryDDL(SamplingFeatures.__table__) #Geoalchemy1
+GeometryDDL(SamplingFeatures.__table__)  # Geoalchemy1
+
 
 class FeatureActions(Base):
     __tablename__ = u'featureactions'
