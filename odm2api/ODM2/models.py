@@ -562,7 +562,8 @@ class SamplingFeatures(Base):
                                       index=True)
     Elevation_m = Column('elevation_m', Float(53))
     ElevationDatumCV = Column('elevationdatumcv', ForeignKey(CVElevationDatum.Name), index=True)
-    FeatureGeometry = Column('featuregeometry', Geometry)
+    FeatureGeometry = Column('featuregeometry',Geometry)# String(50))#
+    # FeatureGeometryWKT = Column('featuregeometrywkt', String(50))
     # FeatureGeometry = Column('featuregeometry', BLOB)  # custom geometry queries
 
     def shape(self):

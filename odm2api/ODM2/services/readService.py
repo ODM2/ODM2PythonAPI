@@ -55,110 +55,39 @@ class ReadODM2( serviceBase   ):
 # CV
 # ################################################################################
     
-    def getCVOrganizationTypes(self):
-        return self._session.query(CVOrganizationType).all()
 
-    def getCVSamplingFeatureTypes(self):
-        """Select all on Sampling Features
-
-        :return CVSamplingFeatureType Objects:
-            :type list:
-        """
-        return self._session.query(CVSamplingFeatureType).all()
-    
-    def getCVSiteTypes(self):
-        """Select all on Sampling Features
-
-        :return CVSiteType Objects:
-            :type list:
-        """
-        return self._session.query(CVSiteType).all()
-    
-    def getCVSpacialReferenceTypes(self):
-        """Select all on SpatialReferences
-
-        :return CVSpacialReferenceType Objects:
-            :type list:
-        """
-        return self._session.query(SpatialReferences).all()
-
-    def getCVSamplingFeatureGeoTypes(self):
-        """Select all on Sampling Features
-
-        :return CVSamplingFeatureGeoType Objects:
-            :type list:
-        """
-        return self._session.query(CVSamplingFeatureGeoType).all()
-
-    def getCVElevationDatums(self):
-        """Select all on CVElevationDatum
-
-        :return CVElevationDatum Objects:
-            :type list:
-        """
-        return self._session.query(CVElevationDatum).all()
-    
-    def getCVVariableTypes(self):
-        """Select all on CVVariableType
-
-        :return CVVariableType Objects:
-            :type list:
-        """
-        return self._session.query(CVVariableType).all()
-    
-    def getCVVariableNames(self):
-        """Select all on CVVariableName
-
-        :return CVVariableName Objects:
-            :type list:
-        """
-        return self._session.query(CVVariableName).all()
-    
-    def getCVSpeciations(self):
-        """Select all on CVSpeciation
-
-        :return CVSpeciation Objects:
-            :type list:
-        """
-        return self._session.query(CVSpeciation).all()
-    
-    def getCVUnitsTypes(self):
-        """Select all on CVUnitsType
-
-        :return CVUnitsType Objects:
-            :type list:
-        """
-        return self._session.query(CVUnitsType).all()
-
-    def getCVActionTypes(self):
-        """
-        Select all on CVActionType
-        """
-        return self._session.query(CVActionType).all()
-    
-    def getCVMethodTypes(self):
-        """
-        Select all on CVMethodType
-        """
-        return self._session.query(CVMethodType).all()
-    
-    def getCVMediumTypes(self):
-        """
-        Select all on CVMediumType
-        """
-        return self._session.query(CVMediumType).all()
-    
-    def getCVAggregationStatistics(self):
-        """
-        Select all on CVAggregationStatistic
-        """
-        return self._session.query(CVAggregationStatistic).all()
-    
-    def getCVStatus(self):
-        """
-        Select all on CVStatus
-        """
-        return self._session.query(CVStatus).all()
+    def getCVs(self, type):
+        # CV=
+        CV=None
+        if type == "Action Type": CV = CVActionType
+        elif type == "Aggregation Statistic":CV = CVAggregationStatistic
+        elif type == "Annotation Type":CV = CVAnnotationType
+        elif type == "Censor Code": CV = CVCensorCode
+        elif type == "Data Quality Type": CV = CVDataQualityType
+        elif type == "Dataset Type": CV = CVDataSetType
+        elif type == "Directive Type": CV = CVDirectiveType
+        elif type == "Elevation Datum": CV = CVElevationDatum
+        elif type == "Equipment Type": CV = CVEquipmentType
+        elif type == "Medium": CV = CVMediumType
+        elif type == "Method Type": CV = CVMethodType
+        elif type == "Organization Type": CV = CVOrganizationType
+        elif type == "Property Data Type": CV = CVPropertyDataType
+        elif type == "Quality Code": CV = CVQualityCode
+        elif type == "Relationship Type": CV = CVRelationshipType
+        elif type == "Result Type": CV = CVResultType
+        elif type == "Sampling Feature Geo-type": CV = CVSamplingFeatureGeoType
+        elif type == "Sampling Feature Type": CV = CVSamplingFeatureType
+        elif type == "Site Type": CV = CVSiteType
+        elif type == "Spatial Offset Type": CV = CVSpatialOffsetType
+        elif type == "Speciation": CV = CVSpeciation
+        elif type == "Specimen Type": CV = CVSpecimenType
+        elif type == "Status": CV = CVStatus
+        elif type == "Taxonomic Classifier Type": CV = CVTaxonomicClassifierType
+        elif type == "Units Type": CV = CVUnitsType
+        elif type == "Variable Name": CV = CVVariableName
+        elif type == "Variable Type": CV = CVVariableType
+        else: return None
+        return self._session.query(CV).all()
 
 # ################################################################################
 # Core
@@ -208,197 +137,63 @@ class ReadODM2( serviceBase   ):
     """
     Variable
     """
-
-    def getVariables(self):
-        """Select all on Variables
-
-        :return Variable Objects:
-            :type list:
-        """
-        return self._session.query(Variables).all()
-
-    def getVariableById(self, variableId):
-        """Select by variableId
-
-        :param variableId:
-            :type Integer:
-        :return Return matching Variable object filtered by variableId:
-            :type Variable:
-        """
+    def getVariables(self, id=None, code=None):
+        query = self._session.query(Variables)
+        if id:
+            query= query.filter_by(VariableID=id)
+        if code:
+            query = query.filter_by(VariableCode= code)
         try:
-            return self._session.query(Variables).filter_by(VariableID=variableId).first()
+            return query.all()
         except:
             return None
 
-    def getVariableByCode(self, variableCode):
-        """Select by variableCode
-
-        :param variableCode:
-            :type String:
-        :return Return matching Variable Object filtered by variableCode:
-            :type Variable:
-        """
-        try:
-            return self._session.query(Variables).filter_by(VariableCode=variableCode).first()
-        except:
-            return None
-
-    def getResultById(self, resultId):
-        """Select by variableId
-
-        :param variableId:
-            :type Integer:
-        :return Return matching Variable object filtered by variableId:
-            :type Variable:
-        """
-        try:
-            return self._session.query(Results).filter_by(ResultID=resultId).first()
-        except:
-            return None
     """
     Method
     """
 
-    def getMethods(self):
-        """Select all on Methods
+    def getMethods(self, id = None, code= None, type=None):
+        q= self._session.query(Methods)
+        if id: q= q.filter_by(MethodID = id)
+        if code: q= q.filter_by(MethodCode= str(code))
+        if type: q= q.filter_by(MethodTypeCV= type)
 
-        :return Method Objects:
-            :type list:
-        """
-        return self._session.query(Methods).all()
-
-    def getMethodById(self, methodId):
-        """Select by methodId
-
-        :param methodId:
-            :type Integer
-        :return Return matching Method Object filtered by methodId:
-            :type Method:
-        """
         try:
-            return self._session.query(Methods).filter_by(MethodID=methodId).first()
+            q.all()
         except:
             return None
-
-    def getMethodByCode(self, methodCode):
-        """Select by methodCode
-
-        :param methodCode:
-            :type String:
-        :return Return matching Method Object filtered by method Code:
-            :type Method:
-        """
-        try:
-            return self._session.query(Methods).filter_by(MethodCode=methodCode).first()
-        except:
-            return None
-    
-    def getMethodsByType(self, methodTypeCV):
-        return self._session.query(Methods).filter_by(MethodTypeCV=methodTypeCV).all()
 
     """
     ProcessingLevel
     """
+    def getProcessingLevels(self, id=None, code=None):
 
-    def getProcessingLevels(self):
-        """Select all on Processing Level
+        q= self._session.query(ProcessingLevels)
+        if id: q= q.filter_by(ProcessingLevelID=id)
+        if code: q= q.filter_by(ProcessingLevelCode=str(code))
 
-        :return ProcessingLevel Objects:
-            :type list:
-        """
-        return self._session.query(ProcessingLevels).all()
-
-    def getProcessingLevelById(self, processingId):
-        """Select by processingId
-
-        :param processingId:
-            :type Integer:
-        :return Return matching ProcessingLevel Object filtered by processingId:
-            :type Processinglevel:
-        """
         try:
-            return self._session.query(ProcessingLevels).filter_by(ProcessingLevelID=processingId).first()
+            return q.all()
         except:
             return None
 
-    def getProcessingLevelByCode(self, processingCode):
-        """Select by processingCode
-
-        :param processingCode:
-            :type String(50):
-        :return Return matching Processinglevel Object filtered by processingCode:
-            :type Processinglevel:
-        """
-        try:
-            return self._session.query(ProcessingLevels).filter_by(ProcessingLevelCode=str(processingCode)).first()
-        except Exception, e:
-            print e
-            return None
 
     """
     Sampling Feature
     """
-
-    def getSamplingFeatures(self):
-        """Select all on SamplingFeatures
-
-        :return SamplingFeature Objects:
-            :type list:
-        """
-
-        return self._session.query(SamplingFeatures).all()
-
-    def getSamplingFeatureById(self, samplingId):
-        """Select by samplingId
-
-        :param samplingId:
-            :type Integer:
-        :return Return matching SamplingFeature Object filtered by samplingId:
-            :type SamplingFeature:
-        """
+    def getSamplingFeatures(self, id=None, code=None, type=None, wkt=None):
+        q = self._session.query(SamplingFeatures)
+        if id: q = q.filter_by(SamplingFeatureID = id)
+        if code: q = q.filter_by(SamplingFeatureCode = code)
+        if type: q = q.filter_by(SamplingFeatureTypeCV = type)
+        if wkt: q= q.filter_by(FeatureGeometryWKT= wkt)
         try:
-            return self._session.query(SamplingFeatures).filter_by(SamplingFeatureID=samplingId).first()
-        except:
-            return None
-
-    def getSamplingFeatureByCode(self, samplingFeatureCode):
-        """Select by samplingFeatureCode
-
-        :param samplingFeatureCode:
-            :type String:
-        :return Return matching SamplingFeature Object filtered by samplingId
-            :type list:
-        """
-
-        try:
-            return self._session.query(SamplingFeatures).filter_by(SamplingFeatureCode=samplingFeatureCode).first()
-        except Exception as e:
-            return None
-
-    def getSamplingFeaturesByType(self, samplingFeatureTypeCV):
-        """Select by samplingFeatureTypeCV
-
-        :param samplingFeatureTypeCV:
-            :type String:
-        :return Return matching SamplingFeature Objects filtered by samplingFeatureTypeCV:
-            :type list:
-        """
-
-        try:
-            return self._session.query(SamplingFeatures).filter_by(SamplingFeatureTypeCV=samplingFeatureTypeCV).all()
+            return q.all()
         except Exception as e:
             print e
             return None
 
-    def getSamplingFeatureByGeometry(self, wkt_geometry):
 
-        try:
-            # ST_Equals(geometry, geometry)
-            return self._session.query(SamplingFeatures).filter(
-                func.ST_AsText(SamplingFeatures.FeatureGeometry) == func.ST_AsText(wkt_geometry)).first()
-        except Exception, e:
-            print e
-            return None
 
     def getGeometryTest(self, TestGeom):
         Geom = self._session.query(SamplingFeatures).first()
@@ -588,11 +383,35 @@ class ReadODM2( serviceBase   ):
     """
     Results
     """
+    def getResults(self, id=None, type=None):
+        """Select by variableId
 
-    def getResults(self):
+         :param id:
+             :type Integer:
+         :return Return matching Variable object filtered by variableId:
+             :type Variable:
+         """
+        R=Results
+        if type is not None:
+            if type== "categoryObservation": R = CategoricalResults
+            # elif "countObservation": R=
+            elif type=="measurement": R = MeasurementResults
+            elif type=="pointCoverage": R = PointCoverageResults
+            elif type=="profileCoverage": R = ProfileResults
+            elif type=="sectionCoverage": R = SectionResults
+            elif type=="spectraCoverage": R = SpectraResults
+            # elif "temporalObservation": R =
+            elif type=="timeSeriesCoverage": R=TimeSeriesResults
+            elif type=="trajectoryCoverage": R=TrajectoryResults
+            elif type=="transectCoverage": R=TransectResults
+            # elif "truthObservation": R=
 
+
+        query=self._session.query(R)
+        if id: query=query.filter_by(ResultID=id)
+        # if type: query=query.filter_by(ResultTypeCV=type)
         try:
-            return self._session.query(Results).all()
+            return query.all()
         except:
             return None
 
@@ -603,11 +422,10 @@ class ReadODM2( serviceBase   ):
         except:
             return None
 
-    def getResultByID(self, resultID):
-        try:
-            return self._session.query(Results).filter_by(ResultID=resultID).one()
-        except:
-            return None
+
+    def getResultValidDateTime(self, resultId):
+        q = self._session.query(Results.ValidDateTime).filter(Results.ResultID==int(resultId))
+        return q.first()
 
     def getResultAndGeomByID(self, resultID):
         try:
@@ -630,17 +448,15 @@ class ReadODM2( serviceBase   ):
         except:
             return None
 
-    def getResultValidDateTime(self, resultId):
-        q = self._session.query(Results.ValidDateTime).filter(Results.ResultID==int(resultId))
-        return q.first()
-
     """
     Datasets
     """
-
-    def getDataSets(self):
+    def getDataSets(self, code = None):
+        q= self._session.query(DataSets)
+        if code:
+            q = q.filter(DataSets.DataSetCode.ilike(code))
         try:
-            return self._session.query(DataSets).all()
+            return q.all()
         except:
             return None
 
@@ -716,35 +532,7 @@ class ReadODM2( serviceBase   ):
 # ################################################################################
 
 
-    """
-    TimeSeriesResults
-    """
 
-    def getTimeSeriesResults(self):
-        """Select all on TimeSeriesResults
-
-        :return TimeSeriesResults Objects:
-            :type list:
-        """
-        return self._session.query(TimeSeriesResults).all()
-
-    def getTimeSeriesResultByResultId(self, resultId):
-        """Select by resultID on ResultID
-
-        :param resultId:
-            :type Integer:
-        :return return matching Timeseriesresult Object filtered by resultId
-        """
-
-        try:
-            return self._session.query(TimeSeriesResults).filter_by(ResultID=resultId).one()
-        except:
-            return None
-
-    def getTimeSeriesResultbyCode(self, timeSeriesCode):
-        """Select by time
-        """
-        pass
 
     """
     TimeSeriesResultValues
@@ -869,7 +657,7 @@ class ReadODM2( serviceBase   ):
         :return DeploymentAction Objects:
             :type list:
         """
-        return self._session.query(DeploymentAction).all()
+        return self._session.query(DeploymentActions).all()
 
         # return self._session.query)
 
@@ -882,7 +670,7 @@ class ReadODM2( serviceBase   ):
             :type DeploymentAction:
         """
         try:
-            return self._session.query(DeploymentAction).filter_by(DeploymentActionID=deploymentId).one()
+            return self._session.query(DeploymentActions).filter_by(DeploymentActionID=deploymentId).one()
         except:
             return None
 
@@ -895,7 +683,7 @@ class ReadODM2( serviceBase   ):
             :type DeploymentAction:
         """
         try:
-            return self._session.query(Deploymentaction).filter_by(DeploymentActionCode=deploymentCode).one()
+            return self._session.query(DeploymentActions).filter_by(DeploymentActionCode=deploymentCode).one()
         except:
             return None
 
