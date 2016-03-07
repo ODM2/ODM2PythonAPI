@@ -23,8 +23,8 @@ from odm2api.ODM2.services.readService import *
 #createconnection (dbtype, servername, dbname, username, password)
 #session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')
 #session_factory = dbconnection.createConnection('connection type: sqlite|mysql|mssql|postgresql', '/your/path/to/db/goes/here', 2.0)
-# session_factory= dbconnection.createConnection('mssql', "(local)", "LBRODM2", "ODM", "odm")
-session_factory= dbconnection.createConnection('mssql', "arroyoodm2", "LBRODM2", "ODM", "odm")
+session_factory= dbconnection.createConnection('mssql', "(local)", "LBRODM2", "ODM", "odm")
+# session_factory= dbconnection.createConnection('mssql', "arroyoodm2", "LBRODM2", "ODM", "odm")
 
 
 
@@ -52,7 +52,7 @@ for x in allPeople:
 
 try:
     print "\n-------- Information about an Affiliation ---------"
-    allaff = read.getAllAffiliations()
+    allaff = read.getAffiliations()
     for x in allaff:
         print x.PersonObj.PersonFirstName + ": " + str(x.OrganizationID)
 except Exception as e:
@@ -60,7 +60,7 @@ except Exception as e:
 
 # Get all of the SamplingFeatures from the database that are Sites
 try:
-    siteFeatures = read.getSamplingFeaturesByType('Site')
+    siteFeatures = read.getSamplingFeatures(type='Site')
     numSites = len(siteFeatures)
 
     for x in siteFeatures:

@@ -61,7 +61,7 @@ class ReadODM2(serviceBase):
     def getCVs(self, type):
 
         CV = CVActionType
-        if type == "Action Type":
+        if type == "ActionType":
             CV = CVActionType
         elif type == "Aggregation Statistic":
             CV = CVAggregationStatistic
@@ -169,10 +169,8 @@ class ReadODM2(serviceBase):
 
     def getVariables(self, id=None, code=None):
         query = self._session.query(Variables)
-        if id:
-            query = query.filter_by(VariableID=id)
-        if code:
-            query = query.filter_by(VariableCode=code)
+        if id: query = query.filter_by(VariableID=id)
+        if code: query = query.filter_by(VariableCode=code)
         try:
             return query.all()
         except:
@@ -214,9 +212,10 @@ class ReadODM2(serviceBase):
 
     def getSamplingFeatures(self, id=None, code=None, type=None, wkt=None):
         q = self._session.query(SamplingFeatures)
+
+        if type: q = q.filter_by(SamplingFeatureTypeCV=type)
         if id: q = q.filter_by(SamplingFeatureID=id)
         if code: q = q.filter_by(SamplingFeatureCode=code)
-        if type: q = q.filter_by(SamplingFeatureTypeCV=type)
         if wkt: q = q.filter_by(FeatureGeometryWKT=wkt)
         try:
             return q.all()
@@ -236,145 +235,73 @@ class ReadODM2(serviceBase):
     Action
     """
 
-    def getActions(self):
-        """
-        Select all on Action
-        """
-        return self._session.query(Actions).all()
+    def getActions(self, id = None):
 
-    def getActionById(self, actionId):
-        """
-        Select by actionId
-        """
+        q= self._session.query(Actions)
+        if id: q= q.filter_by(ActionID=id)
         try:
-            return self._session.query(Actions).filter_by(ActionID=actionId).first()
+            return q.all()
         except:
             return None
+
 
     """
     Unit
     """
 
-    def getUnits(self):
-        """Select all on Unit
-
-        :return Unit Objects:
-            :type list:
-        """
-        return self._session.query(Units).all()
-
-    def getUnitById(self, unitId):
-        """Select by samplingId
-
-        :param unitId:
-            :type Integer:
-        :return Return matching Unit Object filtered by UnitId:
-            :type Unit:
-        """
+    def getUnits(self, id=None, name=None, type=None):
+        q = self._session.query(Units)
+        if id: q = q.filter_by(UnitsID=id)
+        if name: q = q.filter(Units.UnitsName.ilike(name))
+        if type: q = q.filter(Units.UnitsTypeCV.ilike(type))
         try:
-            return self._session.query(Units).filter_by(UnitsID=unitId).first()
+            return q.all()
         except:
             return None
 
-    def getUnitByName(self, unitName):
 
-        try:
-            return self._session.query(Units).filter(Units.UnitsName.ilike(unitName)).first()
-        except:
-            return None
-
-    def getUnitsByTypeCV(self, unitsTypeCV):
-        try:
-            return self._session.query(Units).filter(Units.UnitsTypeCV.ilike(unitsTypeCV)).all()
-        except:
-            return None
 
     """
     Organization
     """
 
-    def getOrganizations(self):
+    def getOrganizations(self, id =None, code =None):
         """Select all on Organization
 
         :return Organization Objects:
             :type list:
         """
-        return self._session.query(Organizations).all()
-
-    def getOrganizationById(self, orgId):
-        """Select by orgId
-
-        :param orgId:
-            :type Integer:
-        :return Return matching Unit Object filtered by orgId:
-            :type Organization:
-        """
+        q = self._session.query(Organizations)
+        if id: q = q.filter_by(OrganizationID=id)
+        if code:q = q.filter_by(OrganizationCode=code)
         try:
-            return self._session.query(Organizations).filter_by(OrganizationID=orgId).first()
+            return q.all()
         except:
             return None
 
-    def getOrganizationByCode(self, orgCode):
-        """Select by orgCode
 
-        :param orgCode:
-            :type String:
-        :return Return matching Organization Object filtered by orgCode
-            :type Organization:
-        """
-        try:
-            return self._session.query(Organizations).filter_by(OrganizationCode=orgCode).first()
-
-        except:
-            return None
 
     """
     Person
     """
 
-    def getPeople(self):
+    def getPeople(self, id =None, firstname=None, lastname=None):
         """Select all on Person
 
         :return Person Objects:
             :type list:
         """
-        return self._session.query(People).all()
-
-    def getPersonById(self, personId):
-        """Select by personId
-
-        :param personId:
-            :type Integer:
-        :return Return matching Person Object filtered by personId:
-            :type Person:
-        """
+        q = self._session.query(People)
+        if id: q = q.filter_by(PersonID=id)
+        if firstname: q = q.filter(People.PersonFirstName.ilike(firstname))
+        if lastname: q = q.filter(People.PersonLastName.ilike(lastname))
         try:
-            return self._session.query(People).filter_by(PersonID=personId).first()
-
+            return q.all()
         except:
             return None
 
-    def getPersonByName(self, personfirst, personlast):
-        """Select by person name, last name combination
 
-        :param personfirst: first name of person
-        :param personlast: last name of person
-        :return Return matching Person Object:
-            :type Person:
-        """
-        try:
-            return self._session.query(People).filter(People.PersonFirstName.ilike(personfirst)). \
-                filter(People.PersonLastName.ilike(personlast)).first()
-        except:
-            return None
-
-    def getAllAffiliations(self):
-        try:
-            return self._session.query(Affiliations).all()
-        except:
-            return None
-
-    def getAffiliationByPersonAndOrg(self, personfirst, personlast, orgcode):
+    def getAffiliations(self, personfirst=None, personlast=None, orgcode=None):
         """
         Select all affiliation of person
         :param personfirst: first name of person
@@ -382,28 +309,13 @@ class ReadODM2(serviceBase):
         :param orgcode: organization code (e.g. uwrl)
         :return: ODM2.Affiliation
         """
+        q=self._session.query(Affiliations)
 
+        if orgcode: q = q.filter(Organizations.OrganizationCode.ilike(orgcode))
+        if personfirst: q = q.filter(People.PersonFirstName.ilike(personfirst))
+        if personlast: q = q.filter(People.PersonLastName.ilike(personlast)).first()
         try:
-            return self._session.query(Affiliations).filter(Organizations.OrganizationCode.ilike(orgcode)) \
-                .filter(People.PersonFirstName.ilike(personfirst)) \
-                .filter(People.PersonLastName.ilike(personlast)).first()
-        except:
-            return None
-
-    def getAffiliations(self):
-        return self._session.query(Affiliations).all()
-
-    def getAffiliationsByPerson(self, personfirst, personlast):
-        """
-        Select all affiliation of person
-        :param personfirst: first name of person
-        :param personlast: last name of person
-        :return: [ODM2.Affiliation]
-        """
-
-        try:
-            return self._session.query(Affiliations).filter(People.PersonFirstName.ilike(personfirst)) \
-                .filter(People.PersonLastName.ilike(personlast)).all()
+            return q.all()
         except:
             return None
 
@@ -421,26 +333,16 @@ class ReadODM2(serviceBase):
          """
         R = Results
         if type is not None:
-            if type == "categoryObservation":
-                R = CategoricalResults
+            if type == "categorical": R = CategoricalResults
             # elif "countObservation": R=
-            elif type == "measurement":
-                R = MeasurementResults
-            elif type == "pointCoverage":
-                R = PointCoverageResults
-            elif type == "profileCoverage":
-                R = ProfileResults
-            elif type == "sectionCoverage":
-                R = SectionResults
-            elif type == "spectraCoverage":
-                R = SpectraResults
-            # elif "temporalObservation": R =
-            elif type == "timeSeriesCoverage":
-                R = TimeSeriesResults
-            elif type == "trajectoryCoverage":
-                R = TrajectoryResults
-            elif type == "transectCoverage":
-                R = TransectResults
+            elif type == "measurement": R = MeasurementResults
+            elif type == "pointCoverage":R = PointCoverageResults
+            elif type == "profile": R = ProfileResults
+            elif type == "section": R = SectionResults
+            elif type == "spectra": R = SpectraResults
+            elif type == "timeSeries": R = TimeSeriesResults
+            elif type == "trajectory": R = TrajectoryResults
+            elif type == "transect": R = TransectResults
                 # elif "truthObservation": R=
 
         query = self._session.query(R)
@@ -496,17 +398,10 @@ class ReadODM2(serviceBase):
         except:
             return None
 
-    def getDatasetByCode(self, dscode):
 
-        try:
-            return self._session.query(DataSets).filer(DataSets.DataSetCode.ilike(dscode)).first()
-        except:
-            return None
-
-
-            # ################################################################################
-            # Data Quality
-            # ################################################################################
+    # ################################################################################
+    # Data Quality
+    # ################################################################################
 
     def getAllDataQuality(self):
         """Select all on Data Quality
@@ -528,7 +423,8 @@ class ReadODM2(serviceBase):
     # Extension Properties
     # ################################################################################
 
-
+    def getExtensionProperties(self ):
+        pass
 
     # ################################################################################
     # External Identifiers
@@ -561,64 +457,44 @@ class ReadODM2(serviceBase):
     # ################################################################################
 
 
-
-
     """
-    TimeSeriesResultValues
+    ResultValues
     """
 
-    def getTimeSeriesResultValues(self):
+
+
+    def getResultValues(self, resultid= None, type=None, starttime=None, endtime=None):
         """Select all on TimeSeriesResults
 
         :return TimeSeriesResultsValue Objects:
             :type list:
         """
+        Result=TimeSeriesResults
 
-        q = self._session.query(TimeSeriesResults).all()
-        df = pd.DataFrame([dv.list_repr() for dv in q])
-        df.columns = q[0].get_columns()
-        return df
-        # return self._session.query(Timeseriesresultvalue).all()
+        if type == "categorical": Result = CategoricalResultValues
+        elif type == "measurement": Result = MeasurementResultValues
+        elif type == "pointCoverage": Result = PointCoverageResultValues
+        elif type == "profile": Result = ProfileResultValues
+        elif type == "section": Result = SectionResults
+        elif type == "spectra": Result = SpectraResultValues
+        elif type == "timeSeries": Result = TimeSeriesResultValues
+        elif type == "trajectory": Result = TrajectoryResultValues
+        elif type == "transect": Result = TransectResultValues
 
-    def getTimeSeriesResultValuesByResultId(self, resultId):
-        """Select by resultId
 
-        :param timeSeriesId:
-            :type Integer:
-        :return return matching Timeseriesresultvalue Object filtered by resultId:
-            :type Timeseriesresultvalue:
-        """
+
+        q = self._session.query(Result)
+        if resultid: q = q.filter_by(ResultID=resultid)
+        if starttime: q= q.filter(Result.ValueDateTime >= starttime)
+        if endtime: q=q.filter(Result.ValueDateTime <= endtime)
         try:
-            q = self._session.query(TimeSeriesResultValues).filter_by(ResultID=resultId).all()
-            print type(q[0]), q[0]
-            df = pd.DataFrame([dv.list_repr() for dv in q])
+            q=q.order_by(Result.ValueDateTime).all()
+            df = pd.DataFrame([dv.list_repr() for dv in q.all()])
             df.columns = q[0].get_columns()
             return df
-            # return self._session.query(Timeseriesresultvalue).filter_by(ResultID=resultId).all()
-        except Exception as e:
-            print e
-            return None
-
-    def getTimeSeriesResultValuesByCode(self, timeSeriesCode):
-        """
-
-        :param timeSeriesCode:
-        :return:
-        """
-        pass
-
-    def getTimeSeriesResultValuesByTime(self, resultid, starttime, endtime=None):
-
-        # set end = start if it is None
-        endtime = starttime if not endtime else endtime
-
-        try:
-            return self._session.query(TimeSeriesResultValues).filter_by(ResultID=resultid) \
-                .filter(TimeSeriesResultValues.ValueDateTime >= starttime) \
-                .filter(TimeSeriesResultValues.ValueDateTime <= endtime) \
-                .order_by(TimeSeriesResultValues.ValueDateTime).all()
         except:
             return None
+
 
 
             # ################################################################################
@@ -643,7 +519,7 @@ class ReadODM2(serviceBase):
         :param siteId:
             :type Integer:
         :return Return matching Site Object filtered by siteId:
-            :type Site:
+            :type Site: 
         """
         try:
             return self._session.query(Sites).filter_by(SamplingFeatureID=siteId).one()
