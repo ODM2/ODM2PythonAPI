@@ -26,103 +26,133 @@ class DetailedResult:
         self.variableNameCV = variable.VariableNameCV
         self.processingLevelDef = processingLevel.Definition
 
+
 class DetailedAffiliation:
     def __init__(self, affiliation, person, org):
         self.affiliationID = affiliation.AffiliationID
         self.name = person.PersonFirstName + \
                     " " + \
                     person.PersonLastName
-        self.organization = "(" + org.OrganizationCode + ") " +\
+        self.organization = "(" + org.OrganizationCode + ") " + \
                             org.OrganizationName
 
-    #def __repr__(self):
-    #    return str(self.name) + " " + str(self.organization)
+        # def __repr__(self):
+        #    return str(self.name) + " " + str(self.organization)
 
-class ReadODM2( serviceBase   ):
+
+class ReadODM2(serviceBase):
     '''
     def __init__(self, session):
         self._session = session
     '''
 
-# ################################################################################
-# Annotations
-# ################################################################################
+    # ################################################################################
+    # Annotations
+    # ################################################################################
 
 
 
 
-# ################################################################################
-# CV
-# ################################################################################
-    
+    # ################################################################################
+    # CV
+    # ################################################################################
+
 
     def getCVs(self, type):
-        # CV=
-        CV=None
-        if type == "Action Type": CV = CVActionType
-        elif type == "Aggregation Statistic":CV = CVAggregationStatistic
-        elif type == "Annotation Type":CV = CVAnnotationType
-        elif type == "Censor Code": CV = CVCensorCode
-        elif type == "Data Quality Type": CV = CVDataQualityType
-        elif type == "Dataset Type": CV = CVDataSetType
-        elif type == "Directive Type": CV = CVDirectiveType
-        elif type == "Elevation Datum": CV = CVElevationDatum
-        elif type == "Equipment Type": CV = CVEquipmentType
-        elif type == "Medium": CV = CVMediumType
-        elif type == "Method Type": CV = CVMethodType
-        elif type == "Organization Type": CV = CVOrganizationType
-        elif type == "Property Data Type": CV = CVPropertyDataType
-        elif type == "Quality Code": CV = CVQualityCode
-        elif type == "Relationship Type": CV = CVRelationshipType
-        elif type == "Result Type": CV = CVResultType
-        elif type == "Sampling Feature Geo-type": CV = CVSamplingFeatureGeoType
-        elif type == "Sampling Feature Type": CV = CVSamplingFeatureType
-        elif type == "Site Type": CV = CVSiteType
-        elif type == "Spatial Offset Type": CV = CVSpatialOffsetType
-        elif type == "Speciation": CV = CVSpeciation
-        elif type == "Specimen Type": CV = CVSpecimenType
-        elif type == "Status": CV = CVStatus
-        elif type == "Taxonomic Classifier Type": CV = CVTaxonomicClassifierType
-        elif type == "Units Type": CV = CVUnitsType
-        elif type == "Variable Name": CV = CVVariableName
-        elif type == "Variable Type": CV = CVVariableType
-        else: return None
+
+        CV = CVActionType
+        if type == "Action Type":
+            CV = CVActionType
+        elif type == "Aggregation Statistic":
+            CV = CVAggregationStatistic
+        elif type == "Annotation Type":
+            CV = CVAnnotationType
+        elif type == "Censor Code":
+            CV = CVCensorCode
+        elif type == "Data Quality Type":
+            CV = CVDataQualityType
+        elif type == "Dataset Type":
+            CV = CVDataSetType
+        elif type == "Directive Type":
+            CV = CVDirectiveType
+        elif type == "Elevation Datum":
+            CV = CVElevationDatum
+        elif type == "Equipment Type":
+            CV = CVEquipmentType
+        elif type == "Medium":
+            CV = CVMediumType
+        elif type == "Method Type":
+            CV = CVMethodType
+        elif type == "Organization Type":
+            CV = CVOrganizationType
+        elif type == "Property Data Type":
+            CV = CVPropertyDataType
+        elif type == "Quality Code":
+            CV = CVQualityCode
+        elif type == "Relationship Type":
+            CV = CVRelationshipType
+        elif type == "Result Type":
+            CV = CVResultType
+        elif type == "Sampling Feature Geo-type":
+            CV = CVSamplingFeatureGeoType
+        elif type == "Sampling Feature Type":
+            CV = CVSamplingFeatureType
+        elif type == "Site Type":
+            CV = CVSiteType
+        elif type == "Spatial Offset Type":
+            CV = CVSpatialOffsetType
+        elif type == "Speciation":
+            CV = CVSpeciation
+        elif type == "Specimen Type":
+            CV = CVSpecimenType
+        elif type == "Status":
+            CV = CVStatus
+        elif type == "Taxonomic Classifier Type":
+            CV = CVTaxonomicClassifierType
+        elif type == "Units Type":
+            CV = CVUnitsType
+        elif type == "Variable Name":
+            CV = CVVariableName
+        elif type == "Variable Type":
+            CV = CVVariableType
+        else:
+            return None
         return self._session.query(CV).all()
 
-# ################################################################################
-# Core
-# ################################################################################
-    
+    # ################################################################################
+    # Core
+    # ################################################################################
+
     def getDetailedAffiliationInfo(self):
-        q = self._session.query(Affiliations, People, Organizations)\
-            .filter(Affiliations.PersonID==People.PersonID)\
-            .filter(Affiliations.OrganizationID==Organizations.OrganizationID)
+        q = self._session.query(Affiliations, People, Organizations) \
+            .filter(Affiliations.PersonID == People.PersonID) \
+            .filter(Affiliations.OrganizationID == Organizations.OrganizationID)
         affiliationList = []
-        for a,p,o in q.all():
-            detailedAffiliation = DetailedAffiliation(a,p,o)
+        for a, p, o in q.all():
+            detailedAffiliation = DetailedAffiliation(a, p, o)
             affiliationList.append(detailedAffiliation)
         return affiliationList
 
     def getDetailedResultInfo(self, resultTypeCV, resultID=None):
         q = self._session.query(Results, SamplingFeatures, Methods, Variables,
-            ProcessingLevels, Units).filter(Results.VariableID==Variables.VariableID)\
-            .filter(Results.UnitsID==Units.UnitsID)\
-            .filter(Results.FeatureActionID==FeatureActions.FeatureActionID)\
-            .filter(FeatureActions.SamplingFeatureID==SamplingFeatures.SamplingFeatureID)\
-            .filter(FeatureActions.ActionID==Actions.ActionID)\
-            .filter(Actions.MethodID==Methods.MethodID)\
-            .filter(Results.ProcessingLevelID==ProcessingLevels.ProcessingLevelID)\
-            .filter(Results.ResultTypeCV==resultTypeCV)
+                                ProcessingLevels, Units).filter(Results.VariableID == Variables.VariableID) \
+            .filter(Results.UnitsID == Units.UnitsID) \
+            .filter(Results.FeatureActionID == FeatureActions.FeatureActionID) \
+            .filter(FeatureActions.SamplingFeatureID == SamplingFeatures.SamplingFeatureID) \
+            .filter(FeatureActions.ActionID == Actions.ActionID) \
+            .filter(Actions.MethodID == Methods.MethodID) \
+            .filter(Results.ProcessingLevelID == ProcessingLevels.ProcessingLevelID) \
+            .filter(Results.ResultTypeCV == resultTypeCV)
         resultList = []
         if resultID:
-            for r,s,m,v,p,u in q.filter_by(ResultID=resultID).all():
-                detailedResult = DetailedResult(\
-                    r,s,m,v,p,u)
+            for r, s, m, v, p, u in q.filter_by(ResultID=resultID).all():
+                detailedResult = DetailedResult( \
+                    r, s, m, v, p, u)
                 resultList.append(detailedResult)
         else:
-            for r,s,m,v,p,u in q.all():
-                detailedResult = DetailedResult(\
-                    r,s,m,v,p,u)
+            for r, s, m, v, p, u in q.all():
+                detailedResult = DetailedResult( \
+                    r, s, m, v, p, u)
                 resultList.append(detailedResult)
         return resultList
 
@@ -133,16 +163,16 @@ class ReadODM2( serviceBase   ):
     def getTaxonomicClassifiers(self):
         return self._session.query(TaxonomicClassifiers).all()
 
-
     """
     Variable
     """
+
     def getVariables(self, id=None, code=None):
         query = self._session.query(Variables)
         if id:
-            query= query.filter_by(VariableID=id)
+            query = query.filter_by(VariableID=id)
         if code:
-            query = query.filter_by(VariableCode= code)
+            query = query.filter_by(VariableCode=code)
         try:
             return query.all()
         except:
@@ -152,11 +182,11 @@ class ReadODM2( serviceBase   ):
     Method
     """
 
-    def getMethods(self, id = None, code= None, type=None):
-        q= self._session.query(Methods)
-        if id: q= q.filter_by(MethodID = id)
-        if code: q= q.filter_by(MethodCode= str(code))
-        if type: q= q.filter_by(MethodTypeCV= type)
+    def getMethods(self, id=None, code=None, type=None):
+        q = self._session.query(Methods)
+        if id: q = q.filter_by(MethodID=id)
+        if code: q = q.filter_by(MethodCode=str(code))
+        if type: q = q.filter_by(MethodTypeCV=type)
 
         try:
             q.all()
@@ -166,34 +196,33 @@ class ReadODM2( serviceBase   ):
     """
     ProcessingLevel
     """
+
     def getProcessingLevels(self, id=None, code=None):
 
-        q= self._session.query(ProcessingLevels)
-        if id: q= q.filter_by(ProcessingLevelID=id)
-        if code: q= q.filter_by(ProcessingLevelCode=str(code))
+        q = self._session.query(ProcessingLevels)
+        if id: q = q.filter_by(ProcessingLevelID=id)
+        if code: q = q.filter_by(ProcessingLevelCode=str(code))
 
         try:
             return q.all()
         except:
             return None
 
-
     """
     Sampling Feature
     """
+
     def getSamplingFeatures(self, id=None, code=None, type=None, wkt=None):
         q = self._session.query(SamplingFeatures)
-        if id: q = q.filter_by(SamplingFeatureID = id)
-        if code: q = q.filter_by(SamplingFeatureCode = code)
-        if type: q = q.filter_by(SamplingFeatureTypeCV = type)
-        if wkt: q= q.filter_by(FeatureGeometryWKT= wkt)
+        if id: q = q.filter_by(SamplingFeatureID=id)
+        if code: q = q.filter_by(SamplingFeatureCode=code)
+        if type: q = q.filter_by(SamplingFeatureTypeCV=type)
+        if wkt: q = q.filter_by(FeatureGeometryWKT=wkt)
         try:
             return q.all()
         except Exception as e:
             print e
             return None
-
-
 
     def getGeometryTest(self, TestGeom):
         Geom = self._session.query(SamplingFeatures).first()
@@ -221,8 +250,7 @@ class ReadODM2( serviceBase   ):
             return self._session.query(Actions).filter_by(ActionID=actionId).first()
         except:
             return None
-    
-    
+
     """
     Unit
     """
@@ -250,12 +278,11 @@ class ReadODM2( serviceBase   ):
 
     def getUnitByName(self, unitName):
 
-
         try:
             return self._session.query(Units).filter(Units.UnitsName.ilike(unitName)).first()
         except:
             return None
-    
+
     def getUnitsByTypeCV(self, unitsTypeCV):
         try:
             return self._session.query(Units).filter(Units.UnitsTypeCV.ilike(unitsTypeCV)).all()
@@ -362,7 +389,7 @@ class ReadODM2( serviceBase   ):
                 .filter(People.PersonLastName.ilike(personlast)).first()
         except:
             return None
-    
+
     def getAffiliations(self):
         return self._session.query(Affiliations).all()
 
@@ -383,6 +410,7 @@ class ReadODM2( serviceBase   ):
     """
     Results
     """
+
     def getResults(self, id=None, type=None):
         """Select by variableId
 
@@ -391,24 +419,32 @@ class ReadODM2( serviceBase   ):
          :return Return matching Variable object filtered by variableId:
              :type Variable:
          """
-        R=Results
+        R = Results
         if type is not None:
-            if type== "categoryObservation": R = CategoricalResults
+            if type == "categoryObservation":
+                R = CategoricalResults
             # elif "countObservation": R=
-            elif type=="measurement": R = MeasurementResults
-            elif type=="pointCoverage": R = PointCoverageResults
-            elif type=="profileCoverage": R = ProfileResults
-            elif type=="sectionCoverage": R = SectionResults
-            elif type=="spectraCoverage": R = SpectraResults
+            elif type == "measurement":
+                R = MeasurementResults
+            elif type == "pointCoverage":
+                R = PointCoverageResults
+            elif type == "profileCoverage":
+                R = ProfileResults
+            elif type == "sectionCoverage":
+                R = SectionResults
+            elif type == "spectraCoverage":
+                R = SpectraResults
             # elif "temporalObservation": R =
-            elif type=="timeSeriesCoverage": R=TimeSeriesResults
-            elif type=="trajectoryCoverage": R=TrajectoryResults
-            elif type=="transectCoverage": R=TransectResults
-            # elif "truthObservation": R=
+            elif type == "timeSeriesCoverage":
+                R = TimeSeriesResults
+            elif type == "trajectoryCoverage":
+                R = TrajectoryResults
+            elif type == "transectCoverage":
+                R = TransectResults
+                # elif "truthObservation": R=
 
-
-        query=self._session.query(R)
-        if id: query=query.filter_by(ResultID=id)
+        query = self._session.query(R)
+        if id: query = query.filter_by(ResultID=id)
         # if type: query=query.filter_by(ResultTypeCV=type)
         try:
             return query.all()
@@ -422,9 +458,8 @@ class ReadODM2( serviceBase   ):
         except:
             return None
 
-
     def getResultValidDateTime(self, resultId):
-        q = self._session.query(Results.ValidDateTime).filter(Results.ResultID==int(resultId))
+        q = self._session.query(Results.ValidDateTime).filter(Results.ResultID == int(resultId))
         return q.first()
 
     def getResultAndGeomByID(self, resultID):
@@ -451,8 +486,9 @@ class ReadODM2( serviceBase   ):
     """
     Datasets
     """
-    def getDataSets(self, code = None):
-        q= self._session.query(DataSets)
+
+    def getDataSets(self, code=None):
+        q = self._session.query(DataSets)
         if code:
             q = q.filter(DataSets.DataSetCode.ilike(code))
         try:
@@ -468,10 +504,9 @@ class ReadODM2( serviceBase   ):
             return None
 
 
-# ################################################################################
-# Data Quality
-# ################################################################################
-
+            # ################################################################################
+            # Data Quality
+            # ################################################################################
 
     def getAllDataQuality(self):
         """Select all on Data Quality
@@ -481,39 +516,37 @@ class ReadODM2( serviceBase   ):
         """
         return self._session.query(DataQuality).all()
 
-
-# ################################################################################
-# Equipment
-# ################################################################################
+    # ################################################################################
+    # Equipment
+    # ################################################################################
 
 
     def getAllEquipment(self):
         return self._session.query(Equipment).all()
 
-
-# ################################################################################
-# Extension Properties
-# ################################################################################
-
-
-
-# ################################################################################
-# External Identifiers
-# ################################################################################
+    # ################################################################################
+    # Extension Properties
+    # ################################################################################
 
 
 
-
-# ################################################################################
-# Lab Analyses
-# ################################################################################
+    # ################################################################################
+    # External Identifiers
+    # ################################################################################
 
 
 
 
-# ################################################################################
-# Provenance
-# ################################################################################
+    # ################################################################################
+    # Lab Analyses
+    # ################################################################################
+
+
+
+
+    # ################################################################################
+    # Provenance
+    # ################################################################################
 
 
     """
@@ -523,13 +556,9 @@ class ReadODM2( serviceBase   ):
     def getCitations(self):
         self._session.query(Citations).all()
 
-
-
-
-
-# ################################################################################
-# Results
-# ################################################################################
+    # ################################################################################
+    # Results
+    # ################################################################################
 
 
 
@@ -592,10 +621,9 @@ class ReadODM2( serviceBase   ):
             return None
 
 
-# ################################################################################
-# Annotations
-# ################################################################################
-
+            # ################################################################################
+            # Annotations
+            # ################################################################################
 
     """
     Site
@@ -622,7 +650,6 @@ class ReadODM2( serviceBase   ):
         except:
             return None
 
-
     def getSiteBySFCode(self, siteCode):
         """Select by siteCode
 
@@ -637,19 +664,15 @@ class ReadODM2( serviceBase   ):
 
     def getSpatialReferenceByCode(self, srsCode):
 
-
         try:
             return self._session.query(SpatialReferences).filter(SpatialReferences.SRSCode.ilike(srsCode)).first()
         except:
             return None
 
 
-# ################################################################################
-# Sensors
-# ################################################################################
-
-
-
+            # ################################################################################
+            # Sensors
+            # ################################################################################
 
     def getAllDeploymentAction(self):
         """Select all on DeploymentAction
@@ -688,10 +711,9 @@ class ReadODM2( serviceBase   ):
             return None
 
 
-# ################################################################################
-# Simulation
-# ################################################################################
-
+            # ################################################################################
+            # Simulation
+            # ################################################################################
 
     def getAllModels(self):
 
@@ -753,18 +775,19 @@ class ReadODM2( serviceBase   ):
     def getResultsBySimulationID(self, simulationID):
         try:
             return self._session.query(Results) \
-                    .join(FeatureActions) \
-                    .join(Actions) \
-                    .join(Simulations) \
-                    .filter(Simulations.SimulationID == simulationID).all()
+                .join(FeatureActions) \
+                .join(Actions) \
+                .join(Simulations) \
+                .filter(Simulations.SimulationID == simulationID).all()
         except Exception, e:
             print e
         return None
+
 
 # ################################################################################
 # ODM2
 # ################################################################################
 
 class readODM2(object):
-   def test(self):
+    def test(self):
         return None

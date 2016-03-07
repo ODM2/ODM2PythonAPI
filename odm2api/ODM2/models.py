@@ -575,6 +575,8 @@ class SamplingFeatures(Base):
         _FeatureGeometry = self.FeatureGeometry
         geomshape = None
         if _FeatureGeometry is not None:
+            print _FeatureGeometry
+            print _FeatureGeometry.geom_wkb
             if is_hex(_FeatureGeometry.geom_wkb):
                 # to parse wkb hex string directly
                 geomshape = wkb.loads(_FeatureGeometry.geom_wkb, hex=True)

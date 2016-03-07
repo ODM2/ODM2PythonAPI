@@ -23,7 +23,8 @@ from odm2api.ODM2.services.readService import *
 #createconnection (dbtype, servername, dbname, username, password)
 #session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')
 #session_factory = dbconnection.createConnection('connection type: sqlite|mysql|mssql|postgresql', '/your/path/to/db/goes/here', 2.0)
-session_factory= dbconnection.createConnection('mssql', "(local)", "LBRODM2", "ODM", "odm")
+# session_factory= dbconnection.createConnection('mssql', "(local)", "LBRODM2", "ODM", "odm")
+session_factory= dbconnection.createConnection('mssql', "arroyoodm2", "LBRODM2", "ODM", "odm")
 
 
 
@@ -70,7 +71,7 @@ except Exception as e:
 
 # Now get the SamplingFeature object for a SamplingFeature code
 try:
-    sf = read.getSamplingFeatureByCode('USU-LBR-Mendon')
+    sf = read.getSamplingFeatures(code='USU-LBR-Mendon')
     print sf
     print "\n-------- Information about an individual SamplingFeature ---------"
     print "The following are some of the attributes of a SamplingFeature retrieved using getSamplingFeatureByCode(): \n"
