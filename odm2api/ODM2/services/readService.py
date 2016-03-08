@@ -50,6 +50,32 @@ class ReadODM2(serviceBase):
     # Annotations
     # ################################################################################
 
+    def getAnnotations(self, type=None)
+
+        #TODO What keywords do I use for type
+        a = Annotations
+        if type =="action":
+            a=ActionAnnotations
+        elif type =="categoricalResultValue":
+            a=CategoricalResultAnnotations
+        elif type =="equipmentAnnotation":
+            a=EquipmentAnnotations
+        elif type =="measurementResultValue":
+        elif type =="method":
+        elif type =="pointCoverageResultValue":
+        elif type =="profileResultValue":
+        elif type =="result":
+        elif type =="samplingFeature":
+        elif type =="sectionResultValue":
+        elif type =="spectraResultValue":
+        elif type =="timeSeriesResultValue":
+        elif type =="trajectoryResultValue":
+        elif type =="transectResultValue":
+        try:
+            return self._session.query(a).all()
+        except:
+            return None
+
 
 
 
@@ -519,7 +545,7 @@ class ReadODM2(serviceBase):
         :param siteId:
             :type Integer:
         :return Return matching Site Object filtered by siteId:
-            :type Site: 
+            :type Site:
         """
         try:
             return self._session.query(Sites).filter_by(SamplingFeatureID=siteId).one()

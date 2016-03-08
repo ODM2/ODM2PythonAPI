@@ -1136,18 +1136,6 @@ class ResultAnnotations(Base):
     AnnotationObj = relationship(Annotations)
     ResultObj = relationship(Results)
 
-
-class ResultValueAnnotations(Base):
-    __tablename__ = u'resultvalueannotations'
-    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
-
-    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    ValueID = Column('valueid', BigInteger, nullable=False)
-    AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
-
-    AnnotationObj = relationship(Annotations)
-
-
 class SamplingFeatureAnnotations(Base):
     __tablename__ = u'samplingfeatureannotations'
     __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
@@ -1159,6 +1147,126 @@ class SamplingFeatureAnnotations(Base):
 
     AnnotationObj = relationship(Annotations)
     SamplingFeatureObj = relationship(SamplingFeatures)
+
+
+class CategoricalResultValueAnnotations(Base):
+    __tablename__ = u'categoricalresultvalueannotations'
+    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+
+    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
+    ValueID = Column('valueid', BigInteger, ForeignKey(CategoricalResultValues.ValueID)  ,nullable=False)
+    AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
+
+    AnnotationObj = relationship(Annotations)
+    ValueObj = relationship(CategoricalResultValues)
+
+
+class EquipmentAnnotations(Base):
+    __tablename__ = u'equipmentannotations'
+    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+
+    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
+    EquipmentID = Column('valueid', BigInteger, ForeignKey(Equipment.ValueID)  ,nullable=False)
+    AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
+
+    AnnotationObj = relationship(Annotations)
+    EquipmentObj = relationship(Equipment)
+
+
+class MeasurementResultValueAnnotations(Base):
+    __tablename__ = u'measurementresultvalueannotations'
+    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+
+    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
+    ValueID = Column('valueid', BigInteger, ForeignKey(MeasurementResultValues.ValueID)  ,nullable=False)
+    AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
+
+    AnnotationObj = relationship(Annotations)
+    ValueObj = relationship(MeasurementResultValues)
+
+
+class PointCoverageResultValueAnnotations(Base):
+    __tablename__ = u'pointcoverageresultvalueannotations'
+    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+
+    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
+    ValueID = Column('valueid', BigInteger, ForeignKey(PointCoverageResultValues.ValueID)  ,nullable=False)
+    AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
+
+    AnnotationObj = relationship(Annotations)
+    ValueObj = relationship(PointCoverageResultValues)
+
+
+class ProfileResultValueAnnotations(Base):
+    __tablename__ = u'profileresultvalueannotations'
+    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+
+    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
+    ValueID = Column('valueid', BigInteger, ForeignKey(ProfileResultValues.ValueID)  ,nullable=False)
+    AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
+
+    AnnotationObj = relationship(Annotations)
+    ValueObj = relationship(ProfileResultValues)
+
+
+class SectionResultValueAnnotations(Base):
+    __tablename__ = u'sectionResultValueAnnotations'
+    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+
+    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
+    ValueID = Column('valueid', BigInteger, ForeignKey(SectionResultValues.ValueID)  ,nullable=False)
+    AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
+
+    AnnotationObj = relationship(Annotations)
+    ValueObj = relationship(SectionResultValues)
+
+
+class SpectraResultValueAnnotations(Base):
+    __tablename__ = u'spectraresultvalueannotations'
+    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+
+    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
+    ValueID = Column('valueid', BigInteger, ForeignKey(SpectraResultValues.ValueID)  ,nullable=False)
+    AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
+
+    AnnotationObj = relationship(Annotations)
+    ValueObj = relationship(SpectraResultValues)
+
+
+class TimeSeriesResultValueAnnotations(Base):
+    __tablename__ = u'timeseriesresultvalueannotations'
+    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+
+    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
+    ValueID = Column('valueid', BigInteger, ForeignKey(TimeSeriesResultValues.ValueID)  ,nullable=False)
+    AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
+
+    AnnotationObj = relationship(Annotations)
+    ValueObj = relationship(TimeSeriesResultValues)
+
+
+class TrajectoryResultValueAnnotations(Base):
+    __tablename__ = u'trajectoryresultvalueannotations'
+    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+
+    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
+    ValueID = Column('valueid', BigInteger, ForeignKey(TrajectoryResultValues.ValueID)  ,nullable=False)
+    AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
+
+    AnnotationObj = relationship(Annotations)
+    ValueObj = relationship(TrajectoryResultValues)
+
+
+class TransectResultValueAnnotations(Base):
+    __tablename__ = u'transectresultvalueannotations'
+    __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
+
+    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
+    ValueID = Column('valueid', BigInteger, ForeignKey(TransectResultValues.ValueID)  ,nullable=False)
+    AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
+
+    AnnotationObj = relationship(Annotations)
+    ValueObj = relationship(TransectResultValues)
 
 
 # ################################################################################
