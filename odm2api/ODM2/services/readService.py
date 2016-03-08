@@ -50,100 +50,67 @@ class ReadODM2(serviceBase):
     # Annotations
     # ################################################################################
 
-    def getAnnotations(self, type=None)
+    def getAnnotations(self, type=None):
 
         #TODO What keywords do I use for type
         a = Annotations
-        if type =="action":
-            a=ActionAnnotations
-        elif type =="categoricalResultValue":
-            a=CategoricalResultAnnotations
-        elif type =="equipmentAnnotation":
-            a=EquipmentAnnotations
-        elif type =="measurementResultValue":
-        elif type =="method":
-        elif type =="pointCoverageResultValue":
-        elif type =="profileResultValue":
-        elif type =="result":
-        elif type =="samplingFeature":
-        elif type =="sectionResultValue":
-        elif type =="spectraResultValue":
-        elif type =="timeSeriesResultValue":
-        elif type =="trajectoryResultValue":
-        elif type =="transectResultValue":
+        if type =="action": a=ActionAnnotations
+        elif type =="categoricalResultValue": a=CategoricalResultValueAnnotations
+        elif type =="equipmentAnnotation": a=EquipmentAnnotations
+        elif type =="measurementResultValue": a=MeasurementResultValueAnnotations
+        elif type =="method": a=MethodAnnotations
+        elif type =="pointCoverageResultValue": a=PointCoverageResultValueAnnotations
+        elif type =="profileResultValue": a= ProfileResultValueAnnotations
+        elif type =="result": a = ResultAnnotations
+        elif type =="samplingFeature": a=SamplingFeatureAnnotations
+        elif type =="sectionResultValue": a=SectionResultValueAnnotations
+        elif type =="spectraResultValue": a=SpectraResultValueAnnotations
+        elif type =="timeSeriesResultValue": a=TimeSeriesResultValueAnnotations
+        elif type =="trajectoryResultValue": a= TrajectoryResultValueAnnotations
+        elif type =="transectResultValue": a= TransectResultValueAnnotations
         try:
             return self._session.query(a).all()
         except:
             return None
 
 
-
-
     # ################################################################################
     # CV
-    # ################################################################################
-
+    # ##############################################################################
 
     def getCVs(self, type):
 
         CV = CVActionType
-        if type == "ActionType":
-            CV = CVActionType
-        elif type == "Aggregation Statistic":
-            CV = CVAggregationStatistic
-        elif type == "Annotation Type":
-            CV = CVAnnotationType
-        elif type == "Censor Code":
-            CV = CVCensorCode
-        elif type == "Data Quality Type":
-            CV = CVDataQualityType
-        elif type == "Dataset Type":
-            CV = CVDataSetType
-        elif type == "Directive Type":
-            CV = CVDirectiveType
-        elif type == "Elevation Datum":
-            CV = CVElevationDatum
-        elif type == "Equipment Type":
-            CV = CVEquipmentType
-        elif type == "Medium":
-            CV = CVMediumType
-        elif type == "Method Type":
-            CV = CVMethodType
-        elif type == "Organization Type":
-            CV = CVOrganizationType
-        elif type == "Property Data Type":
-            CV = CVPropertyDataType
-        elif type == "Quality Code":
-            CV = CVQualityCode
-        elif type == "Relationship Type":
-            CV = CVRelationshipType
-        elif type == "Result Type":
-            CV = CVResultType
-        elif type == "Sampling Feature Geo-type":
-            CV = CVSamplingFeatureGeoType
-        elif type == "Sampling Feature Type":
-            CV = CVSamplingFeatureType
-        elif type == "Site Type":
-            CV = CVSiteType
-        elif type == "Spatial Offset Type":
-            CV = CVSpatialOffsetType
-        elif type == "Speciation":
-            CV = CVSpeciation
-        elif type == "Specimen Type":
-            CV = CVSpecimenType
-        elif type == "Status":
-            CV = CVStatus
-        elif type == "Taxonomic Classifier Type":
-            CV = CVTaxonomicClassifierType
-        elif type == "Units Type":
-            CV = CVUnitsType
-        elif type == "Variable Name":
-            CV = CVVariableName
-        elif type == "Variable Type":
-            CV = CVVariableType
-        else:
-            return None
+        if type == "ActionType": CV = CVActionType
+        elif type == "Aggregation Statistic": CV = CVAggregationStatistic
+        elif type == "Annotation Type": CV = CVAnnotationType
+        elif type == "Censor Code": CV = CVCensorCode
+        elif type == "Data Quality Type": CV = CVDataQualityType
+        elif type == "Dataset Type": CV = CVDataSetType
+        elif type == "Directive Type": CV = CVDirectiveType
+        elif type == "Elevation Datum": CV = CVElevationDatum
+        elif type == "Equipment Type": CV = CVEquipmentType
+        elif type == "Medium": CV = CVMediumType
+        elif type == "Method Type": CV = CVMethodType
+        elif type == "Organization Type": CV = CVOrganizationType
+        elif type == "Property Data Type": CV = CVPropertyDataType
+        elif type == "Quality Code": CV = CVQualityCode
+        elif type == "Relationship Type": CV = CVRelationshipType
+        elif type == "Result Type": CV = CVResultType
+        elif type == "Sampling Feature Geo-type": CV = CVSamplingFeatureGeoType
+        elif type == "Sampling Feature Type": CV = CVSamplingFeatureType
+        elif type == "Site Type": CV = CVSiteType
+        elif type == "Spatial Offset Type": CV = CVSpatialOffsetType
+        elif type == "Speciation": CV = CVSpeciation
+        elif type == "Specimen Type": CV = CVSpecimenType
+        elif type == "Status": CV = CVStatus
+        elif type == "Taxonomic Classifier Type": CV = CVTaxonomicClassifierType
+        elif type == "Units Type": CV = CVUnitsType
+        elif type == "Variable Name": CV = CVVariableName
+        elif type == "Variable Type": CV = CVVariableType
+        else: return None
         return self._session.query(CV).all()
+
 
     # ################################################################################
     # Core
@@ -429,21 +396,53 @@ class ReadODM2(serviceBase):
     # Data Quality
     # ################################################################################
 
-    def getAllDataQuality(self):
+    def getDataQuality(self):
         """Select all on Data Quality
 
         :return Dataquality Objects:
             :type list:
         """
         return self._session.query(DataQuality).all()
+    #TODO DataQuality Schema Queries
+    def getReferenceMaterials(self):
+        return self._session.query(ReferenceMaterials).all()
+    def getReferenceMaterialValues(self):
+        return self._session.query(ReferenceMaterialValues).all()
+    def getResultNormalizationValues(self):
+        return self._session.query(ResultNormalizationValues).all()
+    def getResultsDataQuality(self):
+        return self._session.query(ResultsDataQuality).all()
 
     # ################################################################################
     # Equipment
     # ################################################################################
 
-
-    def getAllEquipment(self):
+    #ToDo get list of Equipment queries from Juan
+    #TODO Equipment Schema Queries
+    def getEquipment(self):
         return self._session.query(Equipment).all()
+    def CalibrationActions(self):
+        return self._session.query(CalibrationActions).all()
+    def CalibrationReferenceEquipment(self):
+        return self._session.query(CalibrationReferenceEquipment).all()
+    def CalibrationStandards(self):
+        return self._session.query(CalibrationStandards).all()
+    def DataloggerFileColumns(self):
+        return self._session.query(DataloggerFileColumns).all()
+    def DataLoggerFiles(self):
+        return self._session.query(DataLoggerFiles).all()
+    def DataloggerProgramFiles(self):
+        return self._session.query(DataloggerProgramFiles).all()
+    def EquipmentModels(self):
+        return self._session.query(EquipmentModels).all()
+    def EquipmentUsed(self):
+        return self._session.query(EquipmentUsed).all()
+    def InstrumentOutputVariables(self):
+        return self._session.query(InstrumentOutputVariables).all()
+    def MaintenanceActions(self):
+        return self._session.query(MaintenanceActions).all()
+    def RelatedEquipment(self):
+        return self._session.query(RelatedEquipment).all()
 
     # ################################################################################
     # Extension Properties
