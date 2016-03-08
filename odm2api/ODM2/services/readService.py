@@ -428,11 +428,11 @@ class ReadODM2(serviceBase):
     def CalibrationStandards(self):
         return self._session.query(CalibrationStandards).all()
     def DataloggerFileColumns(self):
-        return self._session.query(DataloggerFileColumns).all()
+        return self._session.query(DataLoggerFileColumns).all()
     def DataLoggerFiles(self):
         return self._session.query(DataLoggerFiles).all()
     def DataloggerProgramFiles(self):
-        return self._session.query(DataloggerProgramFiles).all()
+        return self._session.query(DataLoggerProgramFiles).all()
     def EquipmentModels(self):
         return self._session.query(EquipmentModels).all()
     def EquipmentUsed(self):
@@ -448,20 +448,49 @@ class ReadODM2(serviceBase):
     # Extension Properties
     # ################################################################################
 
-    def getExtensionProperties(self ):
-        pass
+    def getExtensionProperties(self, type=None):
+        #Todo what values to use for extensionproperties type
+        e = ExtensionProperties
+        if type =="Action": e = ActionExtensionPropertyValues
+        elif type =="Citation": e= CitationExtensionPropertyValues
+        elif type =="Method": e= MethodExtensionPropertyValues
+        elif type =="Result":e=ResultExtensionPropertyValues
+        elif type =="SamplingFeature": e= SamplingFeatureExtensionPropertyValues
+        elif type =="Variable": e=VariableExtensionPropertyValues
+        try:
+            return self._session.query(e).all()
+        except:
+            return None
+
 
     # ################################################################################
     # External Identifiers
     # ################################################################################
-
-
+    def getExternalIdentifiers(self, type=None):
+        e = ExternalIdentifierSystems
+        if type =="Citation": e = CitationExternalIdentifiers
+        elif type =="Method": e = MethodExternalIdentifiers
+        elif type =="Person": e = PersonExternalIdentifiers
+        elif type =="ReferenceMaterial": e = ReferenceMaterialExternalIdentifiers
+        elif type =="SamplingFeature": e = SamplingFeatureExternalIdentifiers
+        elif type =="SpatialReference": e = SpatialReferenceExternalIdentifiers
+        elif type =="TaxonomicClassifier": e = TaxonomicClassifierExternalIdentifiers
+        elif type =="Variable": e = VariableExternalIdentifiers
+        try:
+            return self._session.query(e).all()
+        except:
+            return None
 
 
     # ################################################################################
     # Lab Analyses
     # ################################################################################
-
+    def getDirectives(self):
+        return self._session.query(Directives).all()
+    def getActionDirectives(self):
+        return self._session.query(ActionDirectives).all()
+    def getSpecimenBatchPositions(self):
+        return self._session.query(SpecimenBatchPositions).all()
 
 
 
@@ -470,12 +499,28 @@ class ReadODM2(serviceBase):
     # ################################################################################
 
 
-    """
-    Citation
-    """
 
+    #TODO functions for Provenance
+    def getAuthorLists(self):
+        self._session.query(AuthorLists).all()
     def getCitations(self):
         self._session.query(Citations).all()
+    def getDatasetCitations(self):
+        self._session.query(DataSetCitations).all()
+    def getDerivationEquations(self):
+        self._session.query(DerivationEquations).all()
+    def getMethodCitations(self):
+        self._session.query(MethodCitations).all()
+    def getRelatedAnnotations(self):
+        self._session.query(RelatedAnnotations).all()
+    def getRelatedCitations(self):
+        self._session.query(RelatedCitations).all()
+    def getRelatedDatasets(self):
+        self._session.query(RelatedDataSets).all()
+    def getRelatedResults(self):
+        self._session.query(RelatedResults).all()
+    def getResultDerivationEquations(self):
+        self._session.query(ResultDerivationEquations).all()
 
     # ################################################################################
     # Results
@@ -522,15 +567,15 @@ class ReadODM2(serviceBase):
 
 
 
-            # ################################################################################
-            # Annotations
-            # ################################################################################
+    # ################################################################################
+    # SamplingFeatures
+    # ################################################################################
 
     """
     Site
     """
-
-    def getAllSites(self):
+    #ToDo function for get sampling features
+    def getSites(self):
         """Select all on Sites
 
         :return Site Objects:
@@ -572,44 +617,10 @@ class ReadODM2(serviceBase):
 
 
             # ################################################################################
-            # Sensors
+            # Equipment
             # ################################################################################
 
-    def getAllDeploymentAction(self):
-        """Select all on DeploymentAction
 
-        :return DeploymentAction Objects:
-            :type list:
-        """
-        return self._session.query(DeploymentActions).all()
-
-        # return self._session.query)
-
-    def getDeploymentActionById(self, deploymentId):
-        """Select by deploymentId
-
-        :param deploymentId:
-            :type Integer:
-        :return Return Matching DeploymentAction Object filtered by deploymentId:
-            :type DeploymentAction:
-        """
-        try:
-            return self._session.query(DeploymentActions).filter_by(DeploymentActionID=deploymentId).one()
-        except:
-            return None
-
-    def getDeploymentActionByCode(self, deploymentCode):
-        """Select by deploymentCode
-
-        :param deploymentCode:
-            :type String:
-        :return Return matching DeploymentAction Object filtered by deploymentCode:
-            :type DeploymentAction:
-        """
-        try:
-            return self._session.query(DeploymentActions).filter_by(DeploymentActionCode=deploymentCode).one()
-        except:
-            return None
 
 
             # ################################################################################

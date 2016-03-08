@@ -990,6 +990,17 @@ class ActionDirectives(Base):
     ActionObj = relationship(Actions)
     DirectiveObj = relationship(Directives)
 
+class SpecimenBatchPositions(Base):
+    #todo fix misspelling
+    __tablename__ = u'specimenbatchpostions'
+    __table_args__ = {u'schema': 'odm2'}
+
+    FeatureActionID = Column('featureactionid', Integer, ForeignKey(FeatureActions.FeatureActionID), primary_key=True, nullable=False)
+    BatchPositionsNumber = Column('batchpositionnumber', Integer, nullable = False)
+    BatchPositionLabel =Column('batchpositionlabel', String(255))
+
+    FeatureActionObj = relationship(FeatureActions)
+
 
 # ################################################################################
 # Sampling Features
