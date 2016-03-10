@@ -98,7 +98,7 @@ class TestReadService:
         res = self.engine.execute('SELECT * FROM Models').fetchall()
 
         # get all simulations using the api
-        resapi = self.reader.getAllModels()
+        resapi = self.reader.getModels()
 
         assert len(res) == len(resapi)
 
@@ -110,7 +110,7 @@ class TestReadService:
 
 
         # get the model using the api
-        resapi = self.reader.getModelByCode(modelcode=modelCode)
+        resapi = self.reader.getModels(code=modelCode)
 
         assert resapi is not None
 

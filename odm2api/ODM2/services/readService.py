@@ -55,19 +55,19 @@ class ReadODM2(serviceBase):
         #TODO What keywords do I use for type
         a = Annotations
         if type =="action": a=ActionAnnotations
-        elif type =="categoricalResultValue": a=CategoricalResultValueAnnotations
-        elif type =="equipmentAnnotation": a=EquipmentAnnotations
-        elif type =="measurementResultValue": a=MeasurementResultValueAnnotations
+        elif type =="categoricalresultvalue": a=CategoricalResultValueAnnotations
+        elif type =="equipmentannotation": a=EquipmentAnnotations
+        elif type =="measurementresultvalue": a=MeasurementResultValueAnnotations
         elif type =="method": a=MethodAnnotations
-        elif type =="pointCoverageResultValue": a=PointCoverageResultValueAnnotations
-        elif type =="profileResultValue": a= ProfileResultValueAnnotations
+        elif type =="pointcoverageresultvalue": a=PointCoverageResultValueAnnotations
+        elif type =="profileresultvalue": a= ProfileResultValueAnnotations
         elif type =="result": a = ResultAnnotations
-        elif type =="samplingFeature": a=SamplingFeatureAnnotations
-        elif type =="sectionResultValue": a=SectionResultValueAnnotations
-        elif type =="spectraResultValue": a=SpectraResultValueAnnotations
-        elif type =="timeSeriesResultValue": a=TimeSeriesResultValueAnnotations
-        elif type =="trajectoryResultValue": a= TrajectoryResultValueAnnotations
-        elif type =="transectResultValue": a= TransectResultValueAnnotations
+        elif type =="samplingfeature": a=SamplingFeatureAnnotations
+        elif type =="sectionresultvalue": a=SectionResultValueAnnotations
+        elif type =="spectraresultvalue": a=SpectraResultValueAnnotations
+        elif type =="timeSeriesresultvalue": a=TimeSeriesResultValueAnnotations
+        elif type =="trajectoryresultvalue": a= TrajectoryResultValueAnnotations
+        elif type =="transectresultvalue": a= TransectResultValueAnnotations
         try:
             return self._session.query(a).all()
         except:
@@ -81,12 +81,12 @@ class ReadODM2(serviceBase):
     def getCVs(self, type):
 
         CV = CVActionType
-        if type == "ActionType": CV = CVActionType
-        elif type == "Aggregation Statistic": CV = CVAggregationStatistic
-        elif type == "Annotation Type": CV = CVAnnotationType
-        elif type == "Censor Code": CV = CVCensorCode
-        elif type == "Data Quality Type": CV = CVDataQualityType
-        elif type == "Dataset Type": CV = CVDataSetType
+        if type == "actiontype": CV = CVActionType
+        elif type == "aggregationstatistic": CV = CVAggregationStatistic
+        elif type == "annotationtype": CV = CVAnnotationType
+        elif type == "censorcode": CV = CVCensorCode
+        elif type == "dataqualitytype": CV = CVDataQualityType
+        elif type == "dataset type": CV = CVDataSetType
         elif type == "Directive Type": CV = CVDirectiveType
         elif type == "Elevation Datum": CV = CVElevationDatum
         elif type == "Equipment Type": CV = CVEquipmentType
@@ -228,10 +228,18 @@ class ReadODM2(serviceBase):
     Action
     """
 
-    def getActions(self, id = None):
+    def getActions(self, id = None, type=None, sfid=None):
 
         q= self._session.query(Actions)
         if id: q= q.filter_by(ActionID=id)
+        if type: q=q.filter_by(Actions.ActionTypeCV.ilike(type))
+        if sfid:
+            q=q.join(FeatureActions).filter(FeatureActions.SamplingFeatureID == sfid)
+            # return self._session.query(Results) \
+            #     .join(FeatureActions) \
+            #     .join(Actions) \
+            #     .join(Simulations) \
+            #     .filter(Simulations.SimulationID == simulationid).all()
         try:
             return q.all()
         except:
@@ -329,11 +337,11 @@ class ReadODM2(serviceBase):
             if type == "categorical": R = CategoricalResults
             # elif "countObservation": R=
             elif type == "measurement": R = MeasurementResults
-            elif type == "pointCoverage":R = PointCoverageResults
+            elif type == "pointcoverage":R = PointCoverageResults
             elif type == "profile": R = ProfileResults
             elif type == "section": R = SectionResults
             elif type == "spectra": R = SpectraResults
-            elif type == "timeSeries": R = TimeSeriesResults
+            elif type == "timeseries": R = TimeSeriesResults
             elif type == "trajectory": R = TrajectoryResults
             elif type == "transect": R = TransectResults
                 # elif "truthObservation": R=
@@ -419,8 +427,16 @@ class ReadODM2(serviceBase):
 
     #ToDo get list of Equipment queries from Juan
     #TODO Equipment Schema Queries
-    def getEquipment(self):
-        return self._session.query(Equipment).all()
+    def getEquipment(self, code=None, type = None , sfid=None, actionid=None):
+        e = self._session.query(Equipment)
+        if sfid: e= e.join(EquipmentUsed)\
+            .join(Actions)\
+            .join(FeatureActions)\
+            .filter(FeatureActions.SamplingFeatureID == sfid)
+        if actionid: e=e.join(EquipmentUsed).join(Actions)\
+            .filter(Actions.ActionID == actionid)
+        return e.all()
+
     def CalibrationActions(self):
         return self._session.query(CalibrationActions).all()
     def CalibrationReferenceEquipment(self):
@@ -437,12 +453,17 @@ class ReadODM2(serviceBase):
         return self._session.query(EquipmentModels).all()
     def EquipmentUsed(self):
         return self._session.query(EquipmentUsed).all()
-    def InstrumentOutputVariables(self):
-        return self._session.query(InstrumentOutputVariables).all()
+    def InstrumentOutputVariables(self, modelid=None, variableid=None):
+        i=self._session.query(InstrumentOutputVariables)
+        if modelid: i=i.filter_by(ModelID=modelid)
+        if variableid: i=i.filter_by(VariableID= variableid)
+        return i.all()
     def MaintenanceActions(self):
         return self._session.query(MaintenanceActions).all()
-    def RelatedEquipment(self):
-        return self._session.query(RelatedEquipment).all()
+    def RelatedEquipment(self, code=None):
+        r=self._session.query(RelatedEquipment)
+        if code: r=r.filter_by(EquipmentCode=code)
+        return r.all()
 
     # ################################################################################
     # Extension Properties
@@ -451,12 +472,12 @@ class ReadODM2(serviceBase):
     def getExtensionProperties(self, type=None):
         #Todo what values to use for extensionproperties type
         e = ExtensionProperties
-        if type =="Action": e = ActionExtensionPropertyValues
-        elif type =="Citation": e= CitationExtensionPropertyValues
-        elif type =="Method": e= MethodExtensionPropertyValues
-        elif type =="Result":e=ResultExtensionPropertyValues
-        elif type =="SamplingFeature": e= SamplingFeatureExtensionPropertyValues
-        elif type =="Variable": e=VariableExtensionPropertyValues
+        if type =="action": e = ActionExtensionPropertyValues
+        elif type =="citation": e= CitationExtensionPropertyValues
+        elif type =="method": e= MethodExtensionPropertyValues
+        elif type =="result":e=ResultExtensionPropertyValues
+        elif type =="samplingfeature": e= SamplingFeatureExtensionPropertyValues
+        elif type =="variable": e=VariableExtensionPropertyValues
         try:
             return self._session.query(e).all()
         except:
@@ -468,14 +489,14 @@ class ReadODM2(serviceBase):
     # ################################################################################
     def getExternalIdentifiers(self, type=None):
         e = ExternalIdentifierSystems
-        if type =="Citation": e = CitationExternalIdentifiers
-        elif type =="Method": e = MethodExternalIdentifiers
-        elif type =="Person": e = PersonExternalIdentifiers
-        elif type =="ReferenceMaterial": e = ReferenceMaterialExternalIdentifiers
-        elif type =="SamplingFeature": e = SamplingFeatureExternalIdentifiers
-        elif type =="SpatialReference": e = SpatialReferenceExternalIdentifiers
-        elif type =="TaxonomicClassifier": e = TaxonomicClassifierExternalIdentifiers
-        elif type =="Variable": e = VariableExternalIdentifiers
+        if type.lowercase =="citation": e = CitationExternalIdentifiers
+        elif type =="method": e = MethodExternalIdentifiers
+        elif type =="person": e = PersonExternalIdentifiers
+        elif type =="referencematerial": e = ReferenceMaterialExternalIdentifiers
+        elif type =="samplingfeature": e = SamplingFeatureExternalIdentifiers
+        elif type =="spatialreference": e = SpatialReferenceExternalIdentifiers
+        elif type =="taxonomicclassifier": e = TaxonomicClassifierExternalIdentifiers
+        elif type =="variable": e = VariableExternalIdentifiers
         try:
             return self._session.query(e).all()
         except:
@@ -485,6 +506,7 @@ class ReadODM2(serviceBase):
     # ################################################################################
     # Lab Analyses
     # ################################################################################
+    #TODO functions for Lab Analyses
     def getDirectives(self):
         return self._session.query(Directives).all()
     def getActionDirectives(self):
@@ -497,8 +519,6 @@ class ReadODM2(serviceBase):
     # ################################################################################
     # Provenance
     # ################################################################################
-
-
 
     #TODO functions for Provenance
     def getAuthorLists(self):
@@ -616,60 +636,59 @@ class ReadODM2(serviceBase):
             return None
 
 
-            # ################################################################################
-            # Equipment
-            # ################################################################################
+    # ################################################################################
+    # Equipment
+    # ################################################################################
 
 
 
 
-            # ################################################################################
-            # Simulation
-            # ################################################################################
+    # ################################################################################
+    # Simulation
+    # ################################################################################
 
-    def getAllModels(self):
-
+    def getSimulations(self, name=None, actionid=None):
+        s=self._session.query(Simulations)
+        if name: s = s.filter(Simulations.SimulationName.ilike(name))
+        if actionid: s= s.filter_by(ActionID=actionid)
         try:
-            return self._session.query(Models).all()
+            return s.all()
         except:
             return None
 
-    def getModelByCode(self, modelcode):
+    def getResultsBySimulationID(self, simulationid):
         try:
-            return self._session.query(Models).filter(Models.ModelCode.ilike(modelcode)).first()
-        except:
-            return None
-
-    def getAllSimulations(self):
-
-        try:
-            return self._session.query(Simulations).all()
-        except:
-            return None
-
-    def getSimulationByName(self, simulationName):
-        try:
-            return self._session.query(Simulations).filter(Simulations.SimulationName.ilike(simulationName)).first()
-        except:
-            return None
-
-    def getSimulationByActionID(self, actionID):
-        try:
-            return self._session.query(Simulations).filter_by(ActionID=actionID).first()
-        except:
-            return None
-
-    def getRelatedModelsByID(self, modelid):
-        """
-        queries the ODM2 for any models that have a relationship with the provided model id
-        :param modelid: id of the model to search
-        :return: all models related to the specified id
-        """
-        try:
-            return self._session.query(RelatedModels).filter_by(RelatedModelID=modelid).all()
+            return self._session.query(Results) \
+                .join(FeatureActions) \
+                .join(Actions) \
+                .join(Simulations) \
+                .filter(Simulations.SimulationID == simulationid).all()
         except Exception, e:
             print e
-        return None
+            return None
+
+    def getModels(self, code= None):
+        m= self._session.query(Models)
+        if code: m = m.filter(Models.ModelCode.ilike(code))
+        try:
+            return m.all()
+        except:
+            return None
+
+
+    def getRelatedModels(self, id = None, code = None):
+
+        m=self._session.query(RelatedModels)
+        if id: m= m.filter_by(RelatedModelID=id)
+        # if code: m= m.filter_by(RelatedModels.)
+
+        try:
+            return m.all()
+        except Exception, e:
+            print e
+            return None
+
+
 
     def getRelatedModelsByCode(self, modelcode):
         """
@@ -684,16 +703,7 @@ class ReadODM2(serviceBase):
             print e
         return None
 
-    def getResultsBySimulationID(self, simulationID):
-        try:
-            return self._session.query(Results) \
-                .join(FeatureActions) \
-                .join(Actions) \
-                .join(Simulations) \
-                .filter(Simulations.SimulationID == simulationID).all()
-        except Exception, e:
-            print e
-        return None
+
 
 
 # ################################################################################
