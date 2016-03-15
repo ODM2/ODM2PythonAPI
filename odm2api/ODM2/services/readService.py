@@ -161,6 +161,12 @@ class ReadODM2(serviceBase):
     """
 
     def getVariables(self, id=None, code=None):
+        """
+        getVariables()
+        * Pass nothing - returns full list of variable objects
+        * Pass a VariableID - returns a single variable object
+        * Pass a VariableCode - returns a single variable object
+        """
         query = self._session.query(Variables)
         if id: query = query.filter_by(VariableID=id)
         if code: query = query.filter_by(VariableCode=code)
@@ -204,6 +210,14 @@ class ReadODM2(serviceBase):
     """
 
     def getSamplingFeatures(self, id=None, code=None, type=None, wkt=None):
+        """
+        * Pass nothing - returns a list of all sampling feature objects with each object of type specific to that sampling feature
+        * Pass a SamplingFeatureID - returns a single sampling feature object
+        * Pass a SamplingFeatureCode - returns a single sampling feature object
+        * Pass a SamplingFeatureType - returns a list of sampling feature objects of the type passed in
+        * Pass a SamplingFeatureGeometry(TYPE????) - return a list of sampling feature objects
+        """
+
         q = self._session.query(SamplingFeatures)
 
         if type: q = q.filter_by(SamplingFeatureTypeCV=type)
@@ -216,23 +230,20 @@ class ReadODM2(serviceBase):
             print e
             return None
 
-    def getGeometryTest(self, TestGeom):
-        Geom = self._session.query(SamplingFeatures).first()
-        print "Queried Geometry: ", self._session.query(Geom.FeatureGeometry.ST_AsText()).first()
-        GeomText = self._session.query(
-            func.ST_Union(Geom.FeatureGeometry, func.ST_GeomFromText(TestGeom)).ST_AsText()).first()
-
-        print GeomText
 
     """
     Action
     """
 
     def getActions(self, id = None, type=None, sfid=None):
+        a=Actions
+        if type =="equipment": a=EquipmentActions
+        elif type =="calibration": a=CalibrationActions
+        elif type =="maintenance": a=MaintenanceActions
 
         q= self._session.query(Actions)
         if id: q= q.filter_by(ActionID=id)
-        if type: q=q.filter_by(Actions.ActionTypeCV.ilike(type))
+        # if type: q=q.filter_by(Actions.ActionTypeCV.ilike(type))
         if sfid:
             q=q.join(FeatureActions).filter(FeatureActions.SamplingFeatureID == sfid)
             # return self._session.query(Results) \
@@ -245,12 +256,30 @@ class ReadODM2(serviceBase):
         except:
             return None
 
+    def getRelatedActions(self, actionid=None):
+        #Todo getrelatedactions
+        """
+        getRelatedActions()
+        * Pass an ActionID - get a list of Action objects related to the input action along with the relatinship type
+
+        """
+
+        #q = self._session.query(Actions).filter_by
+        pass
 
     """
     Unit
     """
 
     def getUnits(self, id=None, name=None, type=None):
+        """
+        getUnits()
+    * Pass nothing - returns a list of all units objects
+    * Pass UnitsID - returns a single units object
+    * Pass UnitsName - returns a single units object
+        """
+
+
         q = self._session.query(Units)
         if id: q = q.filter_by(UnitsID=id)
         if name: q = q.filter(Units.UnitsName.ilike(name))
@@ -302,7 +331,7 @@ class ReadODM2(serviceBase):
             return None
 
 
-    def getAffiliations(self, personfirst=None, personlast=None, orgcode=None):
+    def getAffiliations(self, id,  personfirst=None, personlast=None, orgcode=None):
         """
         Select all affiliation of person
         :param personfirst: first name of person
@@ -311,7 +340,7 @@ class ReadODM2(serviceBase):
         :return: ODM2.Affiliation
         """
         q=self._session.query(Affiliations)
-
+        if id: q=q.filter(AffiliationID = id)
         if orgcode: q = q.filter(Organizations.OrganizationCode.ilike(orgcode))
         if personfirst: q = q.filter(People.PersonFirstName.ilike(personfirst))
         if personlast: q = q.filter(People.PersonLastName.ilike(personlast)).first()
@@ -324,7 +353,9 @@ class ReadODM2(serviceBase):
     Results
     """
 
-    def getResults(self, id=None, type=None):
+    def getResults(self, id=None, actionid = None, type=None):
+
+        #TODO what if user sends in both type and actionid vs just actionid
         """Select by variableId
 
          :param id:
@@ -347,44 +378,40 @@ class ReadODM2(serviceBase):
                 # elif "truthObservation": R=
 
         query = self._session.query(R)
+        if actionid: query = query.join(FeatureActions).filter_by(ActionID = actionid)
         if id: query = query.filter_by(ResultID=id)
+
         # if type: query=query.filter_by(ResultTypeCV=type)
         try:
             return query.all()
         except:
             return None
-
-    def getResultByActionID(self, actionID):
-
-        try:
-            return self._session.query(Results).join(FeatureActions).join(Actions).filter_by(ActionID=actionID).all()
-        except:
-            return None
-
-    def getResultValidDateTime(self, resultId):
-        q = self._session.query(Results.ValidDateTime).filter(Results.ResultID == int(resultId))
-        return q.first()
-
-    def getResultAndGeomByID(self, resultID):
-        try:
-            return self._session.query(Results, SamplingFeatures.FeatureGeometry.ST_AsText()). \
-                join(FeatureActions). \
-                join(SamplingFeatures). \
-                join(Results). \
-                filter_by(ResultID=resultID).one()
-        except:
-            return None
-
-    def getResultAndGeomByActionID(self, actionID):
-
-        try:
-            return self._session.query(Results, SamplingFeatures.FeatureGeometry.ST_AsText()). \
-                join(FeatureActions). \
-                join(SamplingFeatures). \
-                join(Actions). \
-                filter_by(ActionID=actionID).all()
-        except:
-            return None
+    #
+    #
+    # def getResultValidDateTime(self, resultId):
+    #     q = self._session.query(Results.ValidDateTime).filter(Results.ResultID == int(resultId))
+    #     return q.first()
+    #
+    # def getResultAndGeomByID(self, resultID):
+    #     try:
+    #         return self._session.query(Results, SamplingFeatures.FeatureGeometry.ST_AsText()). \
+    #             join(FeatureActions). \
+    #             join(SamplingFeatures). \
+    #             join(Results). \
+    #             filter_by(ResultID=resultID).one()
+    #     except:
+    #         return None
+    #
+    # def getResultAndGeomByActionID(self, actionID):
+    #
+    #     try:
+    #         return self._session.query(Results, SamplingFeatures.FeatureGeometry.ST_AsText()). \
+    #             join(FeatureActions). \
+    #             join(SamplingFeatures). \
+    #             join(Actions). \
+    #             filter_by(ActionID=actionID).all()
+    #     except:
+    #         return None
 
     """
     Datasets
@@ -437,8 +464,6 @@ class ReadODM2(serviceBase):
             .filter(Actions.ActionID == actionid)
         return e.all()
 
-    def CalibrationActions(self):
-        return self._session.query(CalibrationActions).all()
     def CalibrationReferenceEquipment(self):
         return self._session.query(CalibrationReferenceEquipment).all()
     def CalibrationStandards(self):
@@ -458,8 +483,8 @@ class ReadODM2(serviceBase):
         if modelid: i=i.filter_by(ModelID=modelid)
         if variableid: i=i.filter_by(VariableID= variableid)
         return i.all()
-    def MaintenanceActions(self):
-        return self._session.query(MaintenanceActions).all()
+
+
     def RelatedEquipment(self, code=None):
         r=self._session.query(RelatedEquipment)
         if code: r=r.filter_by(EquipmentCode=code)
@@ -523,14 +548,14 @@ class ReadODM2(serviceBase):
     #TODO functions for Provenance
     def getAuthorLists(self):
         self._session.query(AuthorLists).all()
-    def getCitations(self):
-        self._session.query(Citations).all()
+
     def getDatasetCitations(self):
         self._session.query(DataSetCitations).all()
     def getDerivationEquations(self):
         self._session.query(DerivationEquations).all()
     def getMethodCitations(self):
         self._session.query(MethodCitations).all()
+
     def getRelatedAnnotations(self):
         self._session.query(RelatedAnnotations).all()
     def getRelatedCitations(self):
@@ -554,8 +579,12 @@ class ReadODM2(serviceBase):
 
 
     def getResultValues(self, resultid= None, type=None, starttime=None, endtime=None):
-        """Select all on TimeSeriesResults
 
+        """Select all on TimeSeriesResults
+        getResultValues()
+        * Pass a ResultID - Returns a result values object of type that is specific to the result type
+        * Pass a ResultID and a date range - returns a result values object of type that is specific to the result type with values between the input date range
+        NOTE:  Another option here would be to put a flag on getResults that specifies whether values should be returned
         :return TimeSeriesResultsValue Objects:
             :type list:
         """
@@ -603,37 +632,37 @@ class ReadODM2(serviceBase):
         """
         return self._session.query(Sites).all()
 
-    def getSiteBySFId(self, siteId):
-        """Select by siteId
+    # def getSiteBySFId(self, siteId):
+    #     """Select by siteId
+    #
+    #     :param siteId:
+    #         :type Integer:
+    #     :return Return matching Site Object filtered by siteId:
+    #         :type Site:
+    #     """
+    #     try:
+    #         return self._session.query(Sites).filter_by(SamplingFeatureID=siteId).one()
+    #     except:
+    #         return None
+    #
+    # def getSiteBySFCode(self, siteCode):
+    #     """Select by siteCode
+    #
+    #     :param siteCode:
+    #         :type String:
+    #     :return Return matching Samplingfeature Object filtered by siteCode:
+    #         :type Samplingfeature:
+    #     """
+    #
+    #     sf = self._session.query(SamplingFeatures).filter_by(SamplingFeatureCode=siteCode).one()
+    #     return self._session.query(Sites).filter_by(SamplingFeatureID=sf.SamplingFeatureID).one()
 
-        :param siteId:
-            :type Integer:
-        :return Return matching Site Object filtered by siteId:
-            :type Site:
-        """
-        try:
-            return self._session.query(Sites).filter_by(SamplingFeatureID=siteId).one()
-        except:
-            return None
-
-    def getSiteBySFCode(self, siteCode):
-        """Select by siteCode
-
-        :param siteCode:
-            :type String:
-        :return Return matching Samplingfeature Object filtered by siteCode:
-            :type Samplingfeature:
-        """
-
-        sf = self._session.query(SamplingFeatures).filter_by(SamplingFeatureCode=siteCode).one()
-        return self._session.query(Sites).filter_by(SamplingFeatureID=sf.SamplingFeatureID).one()
-
-    def getSpatialReferenceByCode(self, srsCode):
-
-        try:
-            return self._session.query(SpatialReferences).filter(SpatialReferences.SRSCode.ilike(srsCode)).first()
-        except:
-            return None
+    # def getSpatialReferenceByCode(self, srsCode):
+    #
+    #     try:
+    #         return self._session.query(SpatialReferences).filter(SpatialReferences.SRSCode.ilike(srsCode)).first()
+    #     except:
+    #         return None
 
 
     # ################################################################################
@@ -648,6 +677,18 @@ class ReadODM2(serviceBase):
     # ################################################################################
 
     def getSimulations(self, name=None, actionid=None):
+        """
+        getSimulations()
+* Pass nothing - get a list of all model simuation objects
+* Pass a SimulationName - get a single simulation object
+* Pass an ActionID - get a single simulation object
+        :param name:
+        :type name:
+        :param actionid:
+        :type actionid:
+        :return:
+        :rtype:
+        """
         s=self._session.query(Simulations)
         if name: s = s.filter(Simulations.SimulationName.ilike(name))
         if actionid: s= s.filter_by(ActionID=actionid)
@@ -655,17 +696,17 @@ class ReadODM2(serviceBase):
             return s.all()
         except:
             return None
-
-    def getResultsBySimulationID(self, simulationid):
-        try:
-            return self._session.query(Results) \
-                .join(FeatureActions) \
-                .join(Actions) \
-                .join(Simulations) \
-                .filter(Simulations.SimulationID == simulationid).all()
-        except Exception, e:
-            print e
-            return None
+    #
+    # def getResultsBySimulationID(self, simulationid):
+    #     try:
+    #         return self._session.query(Results) \
+    #             .join(FeatureActions) \
+    #             .join(Actions) \
+    #             .join(Simulations) \
+    #             .filter(Simulations.SimulationID == simulationid).all()
+    #     except Exception, e:
+    #         print e
+    #         return None
 
     def getModels(self, code= None):
         m= self._session.query(Models)
@@ -677,10 +718,20 @@ class ReadODM2(serviceBase):
 
 
     def getRelatedModels(self, id = None, code = None):
-
-        m=self._session.query(RelatedModels)
-        if id: m= m.filter_by(RelatedModelID=id)
-        # if code: m= m.filter_by(RelatedModels.)
+        """
+        getRelatedModels()
+        * Pass a ModelID - get a list of model objects related to the model having ModelID
+        * Pass a ModelCode - get a list of model objects related to the model having ModeCode
+        :param id:
+        :type id:
+        :param code:
+        :type code:
+        :return:
+        :rtype:
+        """
+        m=self._session.query(Models).join(RelatedModels, Models.ModelID == RelatedModels.RelatedModelID)
+        if id: m= m.filter_by(ModelID=id)
+        if code: m= m.filter_by(ModelCode = code)
 
         try:
             return m.all()
@@ -688,20 +739,6 @@ class ReadODM2(serviceBase):
             print e
             return None
 
-
-
-    def getRelatedModelsByCode(self, modelcode):
-        """
-        queries the ODM2 for any models that have a relationship with the provided model id
-        :param modelcode: the code of the model to search
-        :return: all models related to the provided model code
-        """
-        try:
-            return self._session.query(RelatedModels).join(Models, RelatedModels.RelatedModelID == Models.ModelID) \
-                .filter(Models.ModelCode == modelcode).all()
-        except Exception, e:
-            print e
-        return None
 
 
 
