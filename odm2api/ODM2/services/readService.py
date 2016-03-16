@@ -452,7 +452,7 @@ class ReadODM2(serviceBase):
     # Equipment
     # ################################################################################
 
-    #ToDo get list of Equipment queries from Juan
+
     #TODO Equipment Schema Queries
     def getEquipment(self, code=None, type = None , sfid=None, actionid=None):
         e = self._session.query(Equipment)
@@ -592,11 +592,11 @@ class ReadODM2(serviceBase):
 
         if type == "categorical": Result = CategoricalResultValues
         elif type == "measurement": Result = MeasurementResultValues
-        elif type == "pointCoverage": Result = PointCoverageResultValues
+        elif type == "pointsoverage": Result = PointCoverageResultValues
         elif type == "profile": Result = ProfileResultValues
         elif type == "section": Result = SectionResults
         elif type == "spectra": Result = SpectraResultValues
-        elif type == "timeSeries": Result = TimeSeriesResultValues
+        elif type == "timeseries": Result = TimeSeriesResultValues
         elif type == "trajectory": Result = TrajectoryResultValues
         elif type == "transect": Result = TransectResultValues
 

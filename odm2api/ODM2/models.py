@@ -759,42 +759,22 @@ class Results(Base):
 # Equipment
 # ################################################################################
 
-class CalibrationActions(Base):
-    __tablename__ = u'calibrationactions'
+
+
+
+
+
+class DataLoggerProgramFiles(Base):
+    __tablename__ = u'dataloggerprogramfiles'
     __table_args__ = {u'schema': 'odm2'}
-    ActionID = Column('actionid', Integer, primary_key=True, ForeignKey(Actions.ActionID), nullable=False)
-    CalibrationCheckValue = Column('calibrationcheckvalue', Float(53))
-    InstrumentOutputVariableID = Column('instrumentoutputvariableid', Integer, nullable=False,
-                                        ForeignKey(InstrumentOutputVariables.InstrumentOutputVariableID))
-    CalibrationEquation = Column('calibrationequation', String(255))
+    ProgramID = Column('programid', Integer, primary_key=True, nullable=False)
+    AffiliationID = Column('affiliationid', Integer, ForeignKey(Affiliations.AffiliationID), nullable=False)
+    ProgramName = Column('programname', String(255), nullable=False)
+    ProgramDescription = Column('programdescription', String(500))
+    ProgramVersion = Column('programversion', String(50))
+    ProgramFileLink = Column('programfilelink', String(255))
 
-    ActionObj = relationship(Actions)
-    InstrumentOutputVariableObj = relationship(InstrumentOutputVariables)
-
-
-class CalibrationReferenceEquipment(Base):
-    __tablename__ = u'calibrationreferenceequipment'
-    __table_args__ = {u'schema': 'odm2'}
-
-    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    ActionID = Column('actionid', Integer, ForeignKey(Actions.ActionID), nullable=False)
-    EquipmentID = Column('equipmentid', Integer, ForeignKey(Equipment.EquipmentID), nullable=False)
-
-    ActionObj = relationship(Actions)
-    EquipmentObj = relationship(Equipment)
-
-
-class CalibrationStandards(Base):
-    __tablename__ = u'calibrationstandards'
-    __table_args__ = {u'schema': 'odm2'}
-
-    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    ActionID = Column('actionid', Integer, ForeignKey(Actions.ActionID), nullable=False)
-    ReferenceMaterialID = Column('referencematerialid', Integer, ForeignKey(ReferenceMaterials.ReferenceMaterialID),
-                                 nullable=False)
-
-    ActionObj = relationship(Actions)
-    ReferenceMaterialObj = relationship(ReferenceMaterials)
+    AffiliationObj = relationship(Affiliations)
 
 
 class DataLoggerFiles(Base):
@@ -808,6 +788,26 @@ class DataLoggerFiles(Base):
     DataLoggerOutputFileLink = Column('dataloggeroutputfilelink', String(255))
 
     ProgramObj = relationship(DataLoggerProgramFiles)
+
+
+
+
+class EquipmentModels(Base):
+    __tablename__ = u'equipmentmodels'
+    __table_args__ = {u'schema': 'odm2'}
+
+    ModelID = Column('modelid', Integer, primary_key=True, nullable=False)
+    ModelManufacturerID = Column('modelmanufacturerid', Integer,
+                                 ForeignKey(Organizations.OrganizationID), nullable=False)
+    ModelPartNumber = Column('modelpartnumber', String(50))
+    ModelName = Column('modelname', String(255), nullable=False)
+    ModelDescription = Column('modeldescription', String(500))
+    ModelSpecificationsFileLink = Column('modelspecificationsfilelink', String(255))
+    ModelLink = Column('modellink', String(255))
+    IsInstrument = Column('isinstrument', Boolean, nullable=False)
+
+    OrganizationObj = relationship(Organizations)
+
 
 
 class InstrumentOutputVariables(Base):
@@ -829,6 +829,7 @@ class InstrumentOutputVariables(Base):
     VariableObj = relationship(Variables)
 
 
+
 class DataLoggerFileColumns(Base):
     __tablename__ = u'dataloggerfilecolumns'
     __table_args__ = {u'schema': 'odm2'}
@@ -838,13 +839,13 @@ class DataLoggerFileColumns(Base):
     DataLoggerFileID = Column('dataloggerfileid', Integer,
                               ForeignKey(DataLoggerFiles.DataLoggerFileID), nullable=False)
     InstrumentOutputVariableID = Column('instrumentoutputvariableid', Integer,
-                                        ForeignKey(InstrumentOutputVariables.InstrumentOutputVariableID),
+                                        ForeignKey(InstrumentOutputVariables.VariableID),
                                         nullable=False)
     ColumnLabel = Column('columnlabel', String(50), nullable=False)
     ColumnDescription = Column('columndescription', String(500))
     MeasurementEquation = Column('measurmentequation', String(255))
-    ScanInterval = Column('scaninterval', Float(50), ForeignKey(Units.UnitsID))
-    ScanIntervalUnitsID = Column('scanintervalunitsid', Integer)
+    ScanInterval = Column('scaninterval', Float(50))
+    ScanIntervalUnitsID = Column('scanintervalunitsid', Integer, ForeignKey(Units.UnitsID))
     RecordingInterval = Column('recordinginterval', Float(50))
     RecordingIntervalUnitsID = Column('recordingintervalunitsid', Integer, ForeignKey(Units.UnitsID))
     AggregationStatisticCV = Column('aggregationstatisticcv', String(255), ForeignKey(CVAggregationStatistic.Name),
@@ -855,39 +856,6 @@ class DataLoggerFileColumns(Base):
     InstrumentOutputVariableObj = relationship(InstrumentOutputVariables)
     ScanIntervalUnitsObj = relationship(Units, primaryjoin='DataLoggerFileColumns.ScanIntervalUnitsID == Units.UnitsID')
     RecordingIntervalUnitsObj = relationship(Units, primaryjoin='DataLoggerFileColumns.RecordingIntervalUnitsID == Units.UnitsID')
-
-
-
-
-class DataLoggerProgramFiles(Base):
-    __tablename__ = u'dataloggerprogramfiles'
-    __table_args__ = {u'schema': 'odm2'}
-    ProgramID = Column('programid', Integer, primary_key=True, nullable=False)
-    AffiliationID = Column('affiliationid', Integer, ForeignKey(Affiliations.AffiliationID), nullable=False)
-    ProgramName = Column('programname', String(255), nullable=False)
-    ProgramDescription = Column('programdescription', String(500))
-    ProgramVersion = Column('programversion', String(50))
-    ProgramFileLink = Column('programfilelink', String(255))
-
-    AffiliationObj = relationship(Affiliations)
-
-
-class EquipmentModels(Base):
-    __tablename__ = u'equipmentmodels'
-    __table_args__ = {u'schema': 'odm2'}
-
-    ModelID = Column('modelid', Integer, primary_key=True, nullable=False)
-    ModelManufacturerID = Column('modelmanufacturerid', Integer,
-                                 ForeignKey(Organizations.OrganizationID), nullable=False)
-    ModelPartNumber = Column('modelpartnumber', String(50))
-    ModelName = Column('modelname', String(255), nullable=False)
-    ModelDescription = Column('modeldescription', String(500))
-    ModelSpecificationsFileLink = Column('modelspecificationsfilelink', String(255))
-    ModelLink = Column('modellink', String(255))
-    IsInstrument = Column('isinstrument', Boolean, nullable=False)
-
-    OrganizationObj = relationship(Organizations)
-
 
 class Equipment(Base):
     __tablename__ = u'equipment'
@@ -913,6 +881,16 @@ class Equipment(Base):
 
     # parent = relationship(u'Equipment', remote_side=[EquipmentID])
 
+class CalibrationReferenceEquipment(Base):
+    __tablename__ = u'calibrationreferenceequipment'
+    __table_args__ = {u'schema': 'odm2'}
+
+    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
+    ActionID = Column('actionid', Integer, ForeignKey(Actions.ActionID), nullable=False)
+    EquipmentID = Column('equipmentid', Integer, ForeignKey(Equipment.EquipmentID), nullable=False)
+
+    ActionObj = relationship(Actions)
+    EquipmentObj = relationship(Equipment)
 
 class EquipmentActions(Base):
     __tablename__ = u'equipmentactions'
@@ -962,10 +940,21 @@ class RelatedEquipment(Base):
     RelationshipEndDateTime = Column('relationshipenddatetime', DateTime)
     RelationshipEndDateTimeUTCOffset = Column('relationshipenddatetimeutcoffset', Integer)
 
-    EquipmentObj = relationship(Equipment, primaryjoin='RelatedEquipment.EquipmentID == Units.UnitsID')
-    RelatedEquipmentObj = relationship(Equipment, primaryjoin='RelatedEquipment.RelatedEquipmentID == Units.UnitsID')
+    EquipmentObj = relationship(Equipment, primaryjoin='RelatedEquipment.EquipmentID == Equipment.EquipmentID')
+    RelatedEquipmentObj = relationship(Equipment, primaryjoin='RelatedEquipment.RelatedEquipmentID == Equipment.EquipmentID')
 
 
+class CalibrationActions(Base):
+    __tablename__ = u'calibrationactions'
+    __table_args__ = {u'schema': 'odm2'}
+    ActionID = Column('actionid', Integer, ForeignKey(Actions.ActionID),primary_key=True,  nullable=False)
+    CalibrationCheckValue = Column('calibrationcheckvalue', Float(53))
+    InstrumentOutputVariableID = Column('instrumentoutputvariableid', Integer,
+                                        ForeignKey(InstrumentOutputVariables.VariableID), nullable=False)
+    CalibrationEquation = Column('calibrationequation', String(255))
+
+    ActionObj = relationship(Actions)
+    InstrumentOutputVariableObj = relationship(InstrumentOutputVariables)
 
 # ################################################################################
 # Lab Analyses
@@ -1211,7 +1200,7 @@ class EquipmentAnnotations(Base):
     __table_args__ = {u'schema': 'odm2'}
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    EquipmentID = Column('valueid', BigInteger, ForeignKey(Equipment.ValueID), nullable=False)
+    EquipmentID = Column('valueid', BigInteger, ForeignKey(Equipment.EquipmentID), nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
 
     AnnotationObj = relationship(Annotations)
@@ -1257,112 +1246,6 @@ class SamplingFeatureAnnotations(Base):
     SamplingFeatureObj = relationship(SamplingFeatures)
 
 
-class CategoricalResultValueAnnotations(Base):
-    __tablename__ = u'categoricalresultvalueannotations'
-    __table_args__ = {u'schema': 'odm2'}
-
-    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    ValueID = Column('valueid', BigInteger, ForeignKey(CategoricalResultValues.ValueID), nullable=False)
-    AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
-
-    AnnotationObj = relationship(Annotations)
-    ValueObj = relationship(CategoricalResultValues)
-
-
-class MeasurementResultValueAnnotations(Base):
-    __tablename__ = u'measurementresultvalueannotations'
-    __table_args__ = {u'schema': 'odm2'}
-
-    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    ValueID = Column('valueid', BigInteger, ForeignKey(MeasurementResultValues.ValueID), nullable=False)
-    AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
-
-    AnnotationObj = relationship(Annotations)
-    ValueObj = relationship(MeasurementResultValues)
-
-
-class PointCoverageResultValueAnnotations(Base):
-    __tablename__ = u'pointcoverageresultvalueannotations'
-    __table_args__ = {u'schema': 'odm2'}
-
-    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    ValueID = Column('valueid', BigInteger, ForeignKey(PointCoverageResultValues.ValueID), nullable=False)
-    AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
-
-    AnnotationObj = relationship(Annotations)
-    ValueObj = relationship(PointCoverageResultValues)
-
-
-class ProfileResultValueAnnotations(Base):
-    __tablename__ = u'profileresultvalueannotations'
-    __table_args__ = {u'schema': 'odm2'}
-
-    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    ValueID = Column('valueid', BigInteger, ForeignKey(ProfileResultValues.ValueID), nullable=False)
-    AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
-
-    AnnotationObj = relationship(Annotations)
-    ValueObj = relationship(ProfileResultValues)
-
-
-class SectionResultValueAnnotations(Base):
-    __tablename__ = u'sectionResultValueAnnotations'
-    __table_args__ = {u'schema': 'odm2'}
-
-    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    ValueID = Column('valueid', BigInteger, ForeignKey(SectionResultValues.ValueID), nullable=False)
-    AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
-
-    AnnotationObj = relationship(Annotations)
-    ValueObj = relationship(SectionResultValues)
-
-
-class SpectraResultValueAnnotations(Base):
-    __tablename__ = u'spectraresultvalueannotations'
-    __table_args__ = {u'schema': 'odm2'}
-
-    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    ValueID = Column('valueid', BigInteger, ForeignKey(SpectraResultValues.ValueID), nullable=False)
-    AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
-
-    AnnotationObj = relationship(Annotations)
-    ValueObj = relationship(SpectraResultValues)
-
-
-class TimeSeriesResultValueAnnotations(Base):
-    __tablename__ = u'timeseriesresultvalueannotations'
-    __table_args__ = {u'schema': 'odm2'}
-
-    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    ValueID = Column('valueid', BigInteger, ForeignKey(TimeSeriesResultValues.ValueID), nullable=False)
-    AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
-
-    AnnotationObj = relationship(Annotations)
-    ValueObj = relationship(TimeSeriesResultValues)
-
-
-class TrajectoryResultValueAnnotations(Base):
-    __tablename__ = u'trajectoryresultvalueannotations'
-    __table_args__ = {u'schema': 'odm2'}
-
-    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    ValueID = Column('valueid', BigInteger, ForeignKey(TrajectoryResultValues.ValueID), nullable=False)
-    AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
-
-    AnnotationObj = relationship(Annotations)
-    ValueObj = relationship(TrajectoryResultValues)
-
-
-class TransectResultValueAnnotations(Base):
-    __tablename__ = u'transectresultvalueannotations'
-    __table_args__ = {u'schema': 'odm2'}
-
-    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    ValueID = Column('valueid', BigInteger, ForeignKey(TransectResultValues.ValueID), nullable=False)
-    AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
-
-    AnnotationObj = relationship(Annotations)
-    ValueObj = relationship(TransectResultValues)
 
 
 # ################################################################################
@@ -1415,6 +1298,17 @@ class ReferenceMaterials(Base):
     OrganizationObj = relationship(Organizations)
     SamplingFeatureObj = relationship(SamplingFeatures)
 
+class CalibrationStandards(Base):
+    __tablename__ = u'calibrationstandards'
+    __table_args__ = {u'schema': 'odm2'}
+
+    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
+    ActionID = Column('actionid', Integer, ForeignKey(Actions.ActionID), nullable=False)
+    ReferenceMaterialID = Column('referencematerialid', Integer, ForeignKey(ReferenceMaterials.ReferenceMaterialID),
+                                 nullable=False)
+
+    ActionObj = relationship(Actions)
+    ReferenceMaterialObj = relationship(ReferenceMaterials)
 
 # ResultNormalizationValues = Table(
 # u'resultnormalizationvalues', Base.metadata,
@@ -2304,6 +2198,113 @@ class TransectResultValues(Base):
 
     TransectResultObj = relationship(TransectResults)
 
+
+class CategoricalResultValueAnnotations(Base):
+    __tablename__ = u'categoricalresultvalueannotations'
+    __table_args__ = {u'schema': 'odm2'}
+
+    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
+    ValueID = Column('valueid', BigInteger, ForeignKey(CategoricalResultValues.ValueID), nullable=False)
+    AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
+
+    AnnotationObj = relationship(Annotations)
+    ValueObj = relationship(CategoricalResultValues)
+
+
+class MeasurementResultValueAnnotations(Base):
+    __tablename__ = u'measurementresultvalueannotations'
+    __table_args__ = {u'schema': 'odm2'}
+
+    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
+    ValueID = Column('valueid', BigInteger, ForeignKey(MeasurementResultValues.ValueID), nullable=False)
+    AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
+
+    AnnotationObj = relationship(Annotations)
+    ValueObj = relationship(MeasurementResultValues)
+
+
+class PointCoverageResultValueAnnotations(Base):
+    __tablename__ = u'pointcoverageresultvalueannotations'
+    __table_args__ = {u'schema': 'odm2'}
+
+    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
+    ValueID = Column('valueid', BigInteger, ForeignKey(PointCoverageResultValues.ValueID), nullable=False)
+    AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
+
+    AnnotationObj = relationship(Annotations)
+    ValueObj = relationship(PointCoverageResultValues)
+
+
+class ProfileResultValueAnnotations(Base):
+    __tablename__ = u'profileresultvalueannotations'
+    __table_args__ = {u'schema': 'odm2'}
+
+    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
+    ValueID = Column('valueid', BigInteger, ForeignKey(ProfileResultValues.ValueID), nullable=False)
+    AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
+
+    AnnotationObj = relationship(Annotations)
+    ValueObj = relationship(ProfileResultValues)
+
+
+class SectionResultValueAnnotations(Base):
+    __tablename__ = u'sectionResultValueAnnotations'
+    __table_args__ = {u'schema': 'odm2'}
+
+    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
+    ValueID = Column('valueid', BigInteger, ForeignKey(SectionResultValues.ValueID), nullable=False)
+    AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
+
+    AnnotationObj = relationship(Annotations)
+    ValueObj = relationship(SectionResultValues)
+
+
+class SpectraResultValueAnnotations(Base):
+    __tablename__ = u'spectraresultvalueannotations'
+    __table_args__ = {u'schema': 'odm2'}
+
+    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
+    ValueID = Column('valueid', BigInteger, ForeignKey(SpectraResultValues.ValueID), nullable=False)
+    AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
+
+    AnnotationObj = relationship(Annotations)
+    ValueObj = relationship(SpectraResultValues)
+
+
+class TimeSeriesResultValueAnnotations(Base):
+    __tablename__ = u'timeseriesresultvalueannotations'
+    __table_args__ = {u'schema': 'odm2'}
+
+    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
+    ValueID = Column('valueid', BigInteger, ForeignKey(TimeSeriesResultValues.ValueID), nullable=False)
+    AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
+
+    AnnotationObj = relationship(Annotations)
+    ValueObj = relationship(TimeSeriesResultValues)
+
+
+class TrajectoryResultValueAnnotations(Base):
+    __tablename__ = u'trajectoryresultvalueannotations'
+    __table_args__ = {u'schema': 'odm2'}
+
+    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
+    ValueID = Column('valueid', BigInteger, ForeignKey(TrajectoryResultValues.ValueID), nullable=False)
+    AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
+
+    AnnotationObj = relationship(Annotations)
+    ValueObj = relationship(TrajectoryResultValues)
+
+
+class TransectResultValueAnnotations(Base):
+    __tablename__ = u'transectresultvalueannotations'
+    __table_args__ = {u'schema': 'odm2'}
+
+    BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
+    ValueID = Column('valueid', BigInteger, ForeignKey(TransectResultValues.ValueID), nullable=False)
+    AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
+
+    AnnotationObj = relationship(Annotations)
+    ValueObj = relationship(TransectResultValues)
 
 def _changeSchema(schema):
     import inspect

@@ -23,8 +23,8 @@ from odm2api.ODM2.services.readService import *
 #createconnection (dbtype, servername, dbname, username, password)
 #session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')
 #session_factory = dbconnection.createConnection('connection type: sqlite|mysql|mssql|postgresql', '/your/path/to/db/goes/here', 2.0)
-session_factory= dbconnection.createConnection('mssql', "(local)", "LBRODM2", "ODM", "odm")
-# session_factory= dbconnection.createConnection('mssql', "arroyoodm2", "LBRODM2", "ODM", "odm")
+# session_factory= dbconnection.createConnection('mssql', "(local)", "LBRODM2", "ODM", "odm")
+session_factory= dbconnection.createConnection('mssql', "arroyoodm2", "LBRODM2", "ODM", "odm")
 
 
 
@@ -148,6 +148,7 @@ except Exception as e:
 print "\n-------- Example of Retrieving Time Series Result Values ---------"
 
 tsValues = read.getTimeSeriesResultValuesByResultId(1)  # Return type is a pandas dataframe
+tsValues = read.getResultValues(type = 'timeseries', id = 1)
 
 # Print a few Time Series Values to the console
 # tsValues.set_index('ValueDateTime', inplace=True)
