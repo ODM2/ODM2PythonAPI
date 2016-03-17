@@ -230,6 +230,16 @@ class ReadODM2(serviceBase):
             print e
             return None
 
+    def getRelatedSamplingFeatures(self, id):
+        """
+
+        getRelatedSamplingFeatures()
+        * Pass a SamplingFeatureID - get a list of sampling feature objects related to the input sampling feature along with the relationship type
+        """
+
+        sf= self._session.query(SamplingFeatures).select_from(RelatedFeatures).join(RelatedFeatures.RelatedFeatureObj)
+        if id: sf= sf.filter(RelatedFeatures.RelatedFeatureID == id)
+        return sf.all()
 
     """
     Action
@@ -257,15 +267,16 @@ class ReadODM2(serviceBase):
             return None
 
     def getRelatedActions(self, actionid=None):
-        #Todo getrelatedactions
+
         """
         getRelatedActions()
         * Pass an ActionID - get a list of Action objects related to the input action along with the relatinship type
 
         """
+        q= self._session.query(Actions).select_from(RelatedActions).join(RelatedActions.RelatedActionObj)
+        if actionid: q= q.filter(RelatedActions.ActionID ==actionid)
 
-        #q = self._session.query(Actions).filter_by
-        pass
+        return q.all()
 
     """
     Unit
@@ -557,6 +568,7 @@ class ReadODM2(serviceBase):
         self._session.query(MethodCitations).all()
 
     def getRelatedAnnotations(self):
+        #q= read._session.query(Actions).select_from(RelatedActions).join(RelatedActions.RelatedActionObj)
         self._session.query(RelatedAnnotations).all()
     def getRelatedCitations(self):
         self._session.query(RelatedCitations).all()
@@ -599,7 +611,6 @@ class ReadODM2(serviceBase):
         elif type == "timeseries": Result = TimeSeriesResultValues
         elif type == "trajectory": Result = TrajectoryResultValues
         elif type == "transect": Result = TransectResultValues
-
 
 
         q = self._session.query(Result)
@@ -729,9 +740,11 @@ class ReadODM2(serviceBase):
         :return:
         :rtype:
         """
-        m=self._session.query(Models).join(RelatedModels, Models.ModelID == RelatedModels.RelatedModelID)
-        if id: m= m.filter_by(ModelID=id)
-        if code: m= m.filter_by(ModelCode = code)
+
+
+        m=self._session.query(Models).select_from(RelatedModels).join(RelatedModels.RelatedModelObj)
+        if id: m= m.filter(RelatedModels.ModelID==id)
+        if code: m= m.filter(RelatedModels.ModelCode == code)
 
         try:
             return m.all()
