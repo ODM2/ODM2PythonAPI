@@ -34,8 +34,8 @@ ODM2 API Get Functions
 
 **getPeople()**
 * Pass nothing - returns a list of all people objects
-* Pass PeopleID - returns a single people object
-* Pass Person Name (which name to pass???) - returns a single people object
+* Pass PersonID - returns a single people object
+* Pass PersonName - returns a single people object
 
 **getProcessingLevels()**
 * Pass nothing - returns a full list of processing level objects
@@ -88,21 +88,39 @@ NOTE:  Another option here would be to put a flag on getResults that specifies w
 ODM2 API Create Functions
 ---
 **createVariable()**
+
 **createMethod()**
+
 **createProcessingLevel()**
+
 **createSamplingFeature()**
+
 **createUnit()**
+
 **createOrganization()**
+
 **createPerson()**
+
 **createAffiliation()**
+
 **createDataset()**
+
 **createDatasetResults()**
+
 **createAction()**
+
 **createRelatedAction()**
+
 **createResult()**
+
 **createResultValues()** 
+
 **createSamplingFeature()**
+
 **createSpatialReference()**
+
 **createModel()**
+
 **createRelatedModel()**
+
 **createSimulation()**
