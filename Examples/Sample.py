@@ -23,8 +23,8 @@ from odm2api.ODM2.services.readService import *
 #createconnection (dbtype, servername, dbname, username, password)
 #session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')
 #session_factory = dbconnection.createConnection('connection type: sqlite|mysql|mssql|postgresql', '/your/path/to/db/goes/here', 2.0)
-session_factory = dbconnection.createConnection('sqlite', '/Users/denversmith/Downloads/ODM2.sqlite', 2.0)
-# session_factory= dbconnection.createConnection('mssql')
+# session_factory= dbconnection.createConnection('mssql', "(local)", "LBRODM2", "ODM", "odm")
+session_factory= dbconnection.createConnection('mssql', "arroyoodm2", "LBRODM2", "ODM", "odm")
 
 
 
@@ -52,7 +52,7 @@ for x in allPeople:
 
 try:
     print "\n-------- Information about an Affiliation ---------"
-    allaff = read.getAllAffiliations()
+    allaff = read.getAffiliations()
     for x in allaff:
         print x.PersonObj.PersonFirstName + ": " + str(x.OrganizationID)
 except Exception as e:
@@ -60,7 +60,7 @@ except Exception as e:
 
 # Get all of the SamplingFeatures from the database that are Sites
 try:
-    siteFeatures = read.getSamplingFeaturesByType('Site')
+    siteFeatures = read.getSamplingFeatures(type='Site')
     numSites = len(siteFeatures)
 
     for x in siteFeatures:
@@ -71,7 +71,7 @@ except Exception as e:
 
 # Now get the SamplingFeature object for a SamplingFeature code
 try:
-    sf = read.getSamplingFeatureByCode('USU-LBR-Mendon')
+    sf = read.getSamplingFeatures(code='USU-LBR-Mendon')
     print sf
     print "\n-------- Information about an individual SamplingFeature ---------"
     print "The following are some of the attributes of a SamplingFeature retrieved using getSamplingFeatureByCode(): \n"
@@ -148,6 +148,7 @@ except Exception as e:
 print "\n-------- Example of Retrieving Time Series Result Values ---------"
 
 tsValues = read.getTimeSeriesResultValuesByResultId(1)  # Return type is a pandas dataframe
+tsValues = read.getResultValues(type = 'timeseries', id = 1)
 
 # Print a few Time Series Values to the console
 # tsValues.set_index('ValueDateTime', inplace=True)
