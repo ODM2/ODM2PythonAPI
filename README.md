@@ -24,8 +24,10 @@ Currently the easiest and most reliable way to install the ODM2 Python API (`odm
   activate odm2api_env1  # On Windows
   source activate odm2api_env1  # On MacOSX or Linux
   ```
+
 5. Install the `odm2api` package into the environment:  
 
   ```bash
   pip install --process-dependency-links git+https://github.com/ODM2/ODM2PythonAPI.git
   ```
+

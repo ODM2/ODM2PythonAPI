@@ -1,8 +1,9 @@
 pyodbc
-pymysql
+#pymysql
 six
 sqlalchemy
-geoalchemy
+geoalchemy>=0.7.3
+-e git+https://github.com/ODM2/geoalchemy.git@odm2
 #https://github.com/ODM2/geoalchemy/archive/v0.7.3.tar.gz
 shapely
 dateutils
