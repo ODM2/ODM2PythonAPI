@@ -3,83 +3,100 @@ __author__ = 'sreeder'
 import datetime as dt
 import uuid
 
-#from src.api.ODM2.LikeODM1.model import Site
+# from src.api.ODM2.LikeODM1.model import Site
 from odm2api.ODM2.models import *
 from odm2api.ODM2 import serviceBase
 
 
-class CreateODM2( serviceBase):
+class CreateODM2(serviceBase):
     '''
     def __init__(self, session):
         self._session = session
     '''
-# ################################################################################
-# Annotations
-# ################################################################################
+    # ################################################################################
+    # Annotations
+    # ################################################################################
 
     def createVariable(self, var):
         self._session.add(var)
         self._session.commit()
-    def createMethod(self, method ):
+
+    def createMethod(self, method):
         self._session.add(method)
         self._session.commit()
+
     def createProcessingLevel(self, proclevel):
         self._session.add(proclevel)
         self._session.commit()
-    def createSamplingFeature(self , samplingfeature):
+
+    def createSamplingFeature(self, samplingfeature):
         self._session.add(samplingfeature)
         self._session.commit()
-    def  createUnit(self, unit ):
+
+    def createUnit(self, unit):
         self._session.add(unit)
         self._session.commit()
-    def  createOrganization(self, org ):
+
+    def createOrganization(self, org):
         self._session.add(org)
         self._session.commit()
-    def  createPerson(self, person ):
+
+    def createPerson(self, person):
         self._session.add(person)
         self._session.commit()
-    def  createAffiliation(self, affiliation ):
+
+    def createAffiliation(self, affiliation):
         self._session.add(affiliation)
         self._session.commit()
-    def  createDataset(self, dataset ):
+
+    def createDataset(self, dataset):
         self._session.add(dataset)
         self._session.commit()
-    def  createDatasetResults(self, datasetresult ):
+
+    def createDatasetResults(self, datasetresult):
         self._session.add(datasetresult)
         self._session.commit()
-    def  createAction(self, action, actionby):
+
+    def createAction(self, action, actionby):
         self._session.add(action)
         self._session.add(actionby)
         self._session.commit()
-    def  createRelatedAction(self, relatedaction ):
+
+    def createRelatedAction(self, relatedaction):
         self._session.add(relatedaction)
         self._session.commit()
-    def  createResult(self, result ):
+
+    def createResult(self, result):
         self._session.add(result)
         self._session.commit()
-    def  createResultValues(self, values ):
+
+    def createResultValues(self, values):
         self._session.add(values)
         self._session.commit()
 
-    def  createSpatialReference(self , spatialref):
+    def createSpatialReference(self, spatialref):
         self._session.add(spatialref)
         self._session.commit()
-    def  createModel(self, model ):
+
+    def createModel(self, model):
         self._session.add(model)
         self._session.commit()
-    def  createRelatedModel(self, relatedmodel ):
+
+    def createRelatedModel(self, relatedmodel):
         self._session.add(relatedmodel)
         self._session.commit()
-    def  createSimulation(self , simulation):
+
+    def createSimulation(self, simulation):
         self._session.add(simulation)
         self._session.commit()
+
     def createTimeSeriesResultValues(self, datavalues):
         try:
 
             datavalues.to_sql(name="TimeSeriesResultValues",
                               schema=TimeSeriesResultValues.__table_args__['schema'],
                               if_exists='append',
-                              chunksize= 1000,
+                              chunksize=1000,
                               con=self._session_factory.engine,
                               index=False)
             self._session.commit()
@@ -88,9 +105,6 @@ class CreateODM2( serviceBase):
         except Exception, e:
             print e
             return None
-
-
-
 
 # ################################################################################
 # CV
