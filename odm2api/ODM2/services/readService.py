@@ -258,15 +258,11 @@ class ReadODM2(serviceBase):
         * Pass a SamplingFeatureGeometry(TYPE????) - return a list of sampling feature objects
         """
 
-        s = SamplingFeatures
-        if type.lower() == 'site':
-            s = Sites
-        elif type.lower() == 'specimen':
-            s = Specimens
 
-        q = self._session.query(s)
 
-        # if type: q = q.filter_by(SamplingFeatureTypeCV=type)
+        q = self._session.query(SamplingFeatures)
+
+        if type: q = q.filter_by(SamplingFeatureTypeCV=type)
         if id: q = q.filter_by(SamplingFeatureID=id)
         if code: q = q.filter_by(SamplingFeatureCode=code)
         if wkt: q = q.filter_by(FeatureGeometryWKT=wkt)
@@ -417,28 +413,10 @@ class ReadODM2(serviceBase):
          :return Return matching Variable object filtered by variableId:
              :type Variable:
          """
-        R = Results
-        if type is not None:
-            if type == "categorical":
-                R = CategoricalResults
-            elif type == "measurement":
-                R = MeasurementResults
-            elif type == "pointcoverage":
-                R = PointCoverageResults
-            elif type == "profile":
-                R = ProfileResults
-            elif type == "section":
-                R = SectionResults
-            elif type == "spectra":
-                R = SpectraResults
-            elif type == "timeseries":
-                R = TimeSeriesResults
-            elif type == "trajectory":
-                R = TrajectoryResults
-            elif type == "transect":
-                R = TransectResults
 
-        query = self._session.query(R)
+
+        query = self._session.query(Results)
+        if type: query = query.filter_by(ResultTypeCV=type)
         if actionid: query = query.join(FeatureActions).filter_by(ActionID=actionid)
         if id: query = query.filter_by(ResultID=id)
 

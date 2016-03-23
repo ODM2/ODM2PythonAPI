@@ -570,6 +570,11 @@ class SamplingFeatures(Base):
     FeatureGeometry = Column('featuregeometry', Geometry)  # String(50))#
     # FeatureGeometryWKT = Column('featuregeometrywkt', String(50))
     # FeatureGeometry = Column('featuregeometry', BLOB)  # custom geometry queries
+    __mapper_args__ = {
+        'polymorphic_identity':'samplingfeatures',
+        'polymorphic_on': SamplingFeatureTypeCV,
+        'with_polymorphic':'*'
+    }
 
     def shape(self):
         """
@@ -749,6 +754,12 @@ class Results(Base):
     TaxonomicClassifierObj = relationship(TaxonomicClassifiers)
     UnitsObj = relationship(Units)
     VariableObj = relationship(Variables)
+
+    __mapper_args__ = {
+        'polymorphic_on':ResultTypeCV,
+        'polymorphic_identity':'results',
+        'with_polymorphic':'*'
+    }
 
     def __repr__(self):
         return "<Results('%s', '%s', '%s', '%s', '%s')>" % (
@@ -1020,6 +1031,9 @@ class Specimens(SamplingFeatures):
     IsFieldSpecimen = Column('isfieldspecimen', Boolean, nullable=False)
 
     # SamplingFeatureObj = relationship(SamplingFeatures)
+    __mapper_args__ = {
+        'polymorphic_identity':'Specimen',
+    }
 
 
 class SpatialOffsets(Base):
@@ -1056,10 +1070,13 @@ class Sites(SamplingFeatures):
     SpatialReferenceObj = relationship(SpatialReferences)
     # SamplingFeatureObj = relationship(SamplingFeatures)
 
+    __mapper_args__ = {
+        'polymorphic_identity':'Site',
+    }
     def __repr__(self):
         return "<Sites('%s', '%s', '%s', '%s', '%s', '%s', '%s')>" \
                % (self.SamplingFeatureID, self.SpatialReferenceID, self.SiteTypeCV, self.Latitude, self.Longitude,
-                  self.SpatialReferenceObj, self.SamplingFeatureObj)
+                  self.SpatialReferenceObj, self.SamplingFeatureCode)
 
 
 class RelatedFeatures(Base):
@@ -1780,6 +1797,8 @@ class PointCoverageResults(Results):
     SpatialReferenceObj = relationship(SpatialReferences)
     ZUnitObj = relationship(Units, primaryjoin='PointCoverageResults.ZLocationUnitsID == Units.UnitsID')
     # ResultObj = relationship(Results, primaryjoin='PointCoverageResults.ResultID == Results.ResultID')
+    __mapper_args__ = {'polymorphic_identity':'Point coverage'}
+
 
 
 class ProfileResults(Results):
@@ -1805,6 +1824,7 @@ class ProfileResults(Results):
     XUnitObj = relationship(Units, primaryjoin='ProfileResults.XLocationUnitsID == Units.UnitsID')
     YUnitObj = relationship(Units, primaryjoin='ProfileResults.YLocationUnitsID == Units.UnitsID')
     # ResultObj = relationship(Results, primaryjoin='ProfileResults.ResultID == Results.ResultID')
+    __mapper_args__ = {'polymorphic_identity':'Profile Coverage'}
 
 
 class CategoricalResults(Results):
@@ -1823,6 +1843,7 @@ class CategoricalResults(Results):
 
     SpatialReferenceObj = relationship(SpatialReferences)
     # ResultObj = relationship(Results, primaryjoin='CategoricalResults.ResultID == Results.ResultID')
+    __mapper_args__ = {'polymorphic_identity':'Category coverage'}
 
 
 class TransectResults(Results):
@@ -1845,6 +1866,7 @@ class TransectResults(Results):
     SpatialReferenceObj = relationship(SpatialReferences)
     ZUnitObj = relationship(Units, primaryjoin='TransectResults.ZLocationUnitsID == Units.UnitsID')
     # ResultObj = relationship(Results, primaryjoin='TransectResults.ResultID == Results.ResultID')
+    __mapper_args__ = {'polymorphic_identity':'Transect Coverage'}
 
 
 class SpectraResults(Results):
@@ -1870,6 +1892,7 @@ class SpectraResults(Results):
     YUnitObj = relationship(Units, primaryjoin='SpectraResults.YLocationUnitsID == Units.UnitsID')
     ZUnitObj = relationship(Units, primaryjoin='SpectraResults.ZLocationUnitsID == Units.UnitsID')
     # ResultObj = relationship(Results, primaryjoin='SpectraResults.ResultID == Results.ResultID')
+    __mapper_args__ = {'polymorphic_identity':'Spectra coverage'}
 
 
 class TimeSeriesResults(Results):
@@ -1897,11 +1920,12 @@ class TimeSeriesResults(Results):
     YLocationUnitsObj = relationship(Units, primaryjoin='TimeSeriesResults.YLocationUnitsID == Units.UnitsID')
     ZLocationUnitsObj = relationship(Units, primaryjoin='TimeSeriesResults.ZLocationUnitsID == Units.UnitsID')
     # ResultObj = relationship(Results, primaryjoin='TimeSeriesResults.ResultID == Results.ResultID')
+    __mapper_args__ = {'polymorphic_identity':'Time series coverage'}
 
     def __repr__(self):
         return "<TimeSeriesResults('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')>" % \
                (self.ResultID, self.XLocation, self.YLocation, self.XLocation,
-                self.ResultObj, self.XLocationUnitsObj, self.SpatialReferenceObj,
+                self.ResultTypeCV, self.XLocationUnitsObj, self.SpatialReferenceObj,
                 self.IntendedTimeSpacing, self.AggregationStatisticCV)
 
 
@@ -1914,7 +1938,7 @@ class SectionResults(Results):
     YLocationUnitsID = Column('ylocationunitsid', ForeignKey(Units.UnitsID))
     SpatialReferenceID = Column('spatialreferenceid', ForeignKey(SpatialReferences.SpatialReferenceID))
     IntendedXSpacing = Column('intendedxspacing', Float(53))
-    IntendedXSpacingUnitsID = Column('intendedxpacingunitsid', ForeignKey(Units.UnitsID))
+    IntendedXSpacingUnitsID = Column('intendedxspacingunitsid', ForeignKey(Units.UnitsID))
     IntendedZSpacing = Column('intendedzspacing', Float(53))
     IntendedZSpacingUnitsID = Column('intendedzspacingunitsid', ForeignKey(Units.UnitsID))
     IntendedTimeSpacing = Column('intendedtimespacing', Float(53))
@@ -1928,6 +1952,7 @@ class SectionResults(Results):
     SpatialReferenceObj = relationship(SpatialReferences)
     YUnitObj = relationship(Units, primaryjoin='SectionResults.YLocationUnitsID == Units.UnitsID')
     # ResultObj = relationship(Results, primaryjoin='SectionResults.ResultID == Results.ResultID')
+    __mapper_args__ = {'polymorphic_identity':'Section coverage'}
 
 
 class TrajectoryResults(Results):
@@ -1948,6 +1973,7 @@ class TrajectoryResults(Results):
                                      primaryjoin='TrajectoryResults.IntendedTrajectorySpacingUnitsID == Units.UnitsID')
     SpatialReferenceObj = relationship(SpatialReferences)
     # ResultObj = relationship(Results, primaryjoin='TrajectoryResults.ResultID == Results.ResultID')
+    __mapper_args__ = {'polymorphic_identity':'Trajectory coverage'}
 
 
 class MeasurementResults(Results):
@@ -1976,6 +2002,7 @@ class MeasurementResults(Results):
     YLocationUnitsObj = relationship(Units, primaryjoin='MeasurementResults.YLocationUnitsID == Units.UnitsID')
     ZLocationUnitsObj = relationship(Units, primaryjoin='MeasurementResults.ZLocationUnitsID == Units.UnitsID')
     # ResultObj = relationship(Results, primaryjoin='MeasurementResults.ResultID == Results.ResultID')
+    __mapper_args__ = {'polymorphic_identity':'Measurement'}
 
     def __repr__(self):
         return "<MeasResults('%s', '%s', '%s', '%s', '%s', '%s', '%s',  '%s')>" % \
