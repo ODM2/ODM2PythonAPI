@@ -30,421 +30,136 @@ def is_hex(s):
 ################################################################################
 # CV
 ################################################################################
+class CV (object):
+    __table_args__ = {u'schema': 'odm2'}
 
+    Term = Column('term', String(255), nullable=False)
+    Name = Column('name', String(255), primary_key=True)
+    Definition = Column('definition', String(1000))
+    Category = Column('category', String(255))
+    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
 
-class CVActionType(Base):
+    def __repr__(self):
+        return "<CVActionType('%s', '%s', '%s', '%s')>" % (self.Term, self.Name, self.Definition, self.Category)
+
+class CVActionType(Base, CV):
     __tablename__ = 'cv_actiontype'
-    __table_args__ = {u'schema': 'odm2'}
-
-    Term = Column('term', String(255), nullable=False)
-    Name = Column('name', String(255), primary_key=True)
-    Definition = Column('definition', String(1000))
-    Category = Column('category', String(255))
-    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-
-    def __repr__(self):
-        return "<CVActionType('%s', '%s', '%s', '%s')>" % (self.Term, self.Name, self.Definition, self.Category)
 
 
-class CVAggregationStatistic(Base):
+class CVAggregationStatistic(Base, CV):
     __tablename__ = 'cv_aggregationstatistic'
-    __table_args__ = {u'schema': 'odm2'}
-
-    Term = Column('term', String(255), nullable=False)
-    Name = Column('name', String(255), primary_key=True)
-    Definition = Column('definition', String(1000))
-    Category = Column('category', String(255))
-    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-
-    def __repr__(self):
-        return "<CVAggregationStatisticsType('%s', '%s', '%s', '%s')>" % (
-            self.Term, self.Name, self.Definition, self.Category)
 
 
-class CVAnnotationType(Base):
+class CVAnnotationType(Base, CV):
     __tablename__ = 'cv_annotationtype'
-    __table_args__ = {u'schema': 'odm2'}
-
-    Term = Column('term', String(255), nullable=False)
-    Name = Column('name', String(255), primary_key=True)
-    Definition = Column('definition', String(1000))
-    Category = Column('category', String(255))
-    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-
-    def __repr__(self):
-        return "<CVAnnotationType('%s', '%s', '%s', '%s')>" % (self.Term, self.Name, self.Definition, self.Category)
 
 
-class CVCensorCode(Base):
+class CVCensorCode(Base, CV):
     __tablename__ = 'cv_censorcode'
-    __table_args__ = {u'schema': 'odm2'}
-
-    Term = Column('term', String(255), nullable=False)
-    Name = Column('name', String(255), primary_key=True)
-    Definition = Column('definition', String(1000))
-    Category = Column('category', String(255))
-    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-
-    def __repr__(self):
-        return "<CVActionType('%s', '%s', '%s', '%s')>" % (self.Term, self.Name, self.Definition, self.Category)
 
 
-class CVDataQualityType(Base):
+class CVDataQualityType(Base, CV):
     __tablename__ = 'cv_dataqualitytype'
-    __table_args__ = {u'schema': 'odm2'}
-
-    Term = Column('term', String(255), nullable=False)
-    Name = Column('name', String(255), primary_key=True)
-    Definition = Column('definition', String(1000))
-    Category = Column('category', String(255))
-    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-
-    def __repr__(self):
-        return "<CVDataQualityType('%s', '%s', '%s', '%s')>" % (self.Term, self.Name, self.Definition, self.Category)
 
 
-class CVDataSetType(Base):
+class CVDataSetType(Base, CV):
     __tablename__ = 'cv_datasettypecv'
-    __table_args__ = {u'schema': 'odm2'}
-
-    Term = Column('term', String(255), nullable=False)
-    Name = Column('name', String(255), primary_key=True)
-    Definition = Column('definition', String(1000))
-    Category = Column('category', String(255))
-    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-
-    def __repr__(self):
-        return "<CV('%s', '%s', '%s', '%s')>" % (self.Term, self.Name, self.Definition, self.Category)
 
 
-class CVDeploymentType(Base):
+class CVDeploymentType(Base, CV):
     __tablename__ = 'cv_deploymenttype'
-    __table_args__ = {u'schema': 'odm2'}
-
-    Term = Column('term', String(255), nullable=False)
-    Name = Column('name', String(255), primary_key=True)
-    Definition = Column('definition', String(1000))
-    Category = Column('category', String(255))
-    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-
-    def __repr__(self):
-        return "<CV('%s', '%s', '%s', '%s')>" % (self.Term, self.Name, self.Definition, self.Category)
 
 
-class CVDirectiveType(Base):
+class CVDirectiveType(Base, CV):
     __tablename__ = 'cv_directivetype'
-    __table_args__ = {u'schema': 'odm2'}
-
-    Term = Column('term', String(255), nullable=False)
-    Name = Column('name', String(255), primary_key=True)
-    Definition = Column('definition', String(1000))
-    Category = Column('category', String(255))
-    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-
-    def __repr__(self):
-        return "<CV('%s', '%s', '%s', '%s')>" % (self.Term, self.Name, self.Definition, self.Category)
 
 
-class CVElevationDatum(Base):
+class CVElevationDatum(Base, CV):
     __tablename__ = 'cv_elevationdatum'
-    __table_args__ = {u'schema': 'odm2'}
-
-    Term = Column('term', String(255), nullable=False)
-    Name = Column('name', String(255), primary_key=True)
-    Definition = Column('definition', String(1000))
-    Category = Column('category', String(255))
-    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-
-    def __repr__(self):
-        return "<CV('%s', '%s', '%s', '%s')>" % (self.Term, self.Name, self.Definition, self.Category)
 
 
-class CVEquipmentType(Base):
+class CVEquipmentType(Base, CV):
     __tablename__ = 'cv_equipmenttype'
-    __table_args__ = {u'schema': 'odm2'}
 
-    Term = Column('term', String(255), nullable=False)
-    Name = Column('name', String(255), primary_key=True)
-    Definition = Column('definition', String(1000))
-    Category = Column('category', String(255))
-    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-
-    def __repr__(self):
-        return "<CV('%s', '%s', '%s', '%s')>" % (self.Term, self.Name, self.Definition, self.Category)
-
-
-class CVMediumType(Base):
+class CVMediumType(Base, CV):
     __tablename__ = 'cv_medium'
-    __table_args__ = {u'schema': 'odm2'}
-
-    Term = Column('term', String(255), nullable=False)
-    Name = Column('name', String(255), primary_key=True)
-    Definition = Column('definition', String(1000))
-    Category = Column('category', String(255))
-    SourceVocabularyUri = Column('sourcevocabularyuri', String(255))
-
-    def __repr__(self):
-        return "<CVMedium('%s', '%s', '%s', '%s')>" % (self.Term, self.Name, self.Definition, self.Category)
 
 
-class CVMethodType(Base):
+class CVMethodType(Base, CV):
     __tablename__ = 'cv_methodtype'
-    __table_args__ = {u'schema': 'odm2'}
-
-    Term = Column('term', String(255), nullable=False)
-    Name = Column('name', String(255), primary_key=True)
-    Definition = Column('definition', String(1000))
-    Category = Column('category', String(255))
-    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-
-    def __repr__(self):
-        return "<CV('%s', '%s', '%s', '%s')>" % (self.Term, self.Name, self.Definition, self.Category)
 
 
-class CVOrganizationType(Base):
+class CVOrganizationType(Base, CV):
     __tablename__ = 'cv_organizationtype'
-    __table_args__ = {u'schema': 'odm2'}
-
-    Term = Column('term', String(255), nullable=False)
-    Name = Column('name', String(255), primary_key=True)
-    Definition = Column('definition', String(1000))
-    Category = Column('category', String(255))
-    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-
-    def __repr__(self):
-        return "<CV('%s', '%s', '%s', '%s')>" % (self.Term, self.Name, self.Definition, self.Category)
 
 
-class CVPropertyDataType(Base):
+class CVPropertyDataType(Base, CV):
     __tablename__ = 'cv_propertydatatype'
-    __table_args__ = {u'schema': 'odm2'}
-
-    Term = Column('term', String(255), nullable=False)
-    Name = Column('name', String(255), primary_key=True)
-    Definition = Column('definition', String(1000))
-    Category = Column('category', String(255))
-    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-
-    def __repr__(self):
-        return "<CV('%s', '%s', '%s', '%s')>" % (self.Term, self.Name, self.Definition, self.Category)
 
 
-class CVQualityCode(Base):
+class CVQualityCode(Base, CV):
     __tablename__ = 'cv_qualitycode'
-    __table_args__ = {u'schema': 'odm2'}
 
-    Term = Column('term', String(255), nullable=False)
-    Name = Column('name', String(255), primary_key=True)
-    Definition = Column('definition', String(1000))
-    Category = Column('category', String(255))
-    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-
-    def __repr__(self):
-        return "<CV('%s', '%s', '%s', '%s')>" % (self.Term, self.Name, self.Definition, self.Category)
-
-
-class CVResultType(Base):
+class CVResultType(Base, CV):
     __tablename__ = 'cv_resulttype'
-    __table_args__ = {u'schema': 'odm2'}
-
-    Term = Column('term', String(255), nullable=False)
-    Name = Column('name', String(255), primary_key=True)
-    Definition = Column('definition', String(1000))
-    Category = Column('category', String(255))
-    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-
-    def __repr__(self):
-        return "<CV('%s', '%s', '%s', '%s')>" % (self.Term, self.Name, self.Definition, self.Category)
 
 
-class CVRelationshipType(Base):
+class CVRelationshipType(Base, CV):
     __tablename__ = 'cv_relationshiptype'
-    __table_args__ = {u'schema': 'odm2'}
-
-    Term = Column('term', String(255), nullable=False)
-    Name = Column('name', String(255), primary_key=True)
-    Definition = Column('definition', String(1000))
-    Category = Column('category', String(255))
-    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-
-    def __repr__(self):
-        return "<CV('%s', '%s', '%s', '%s')>" % (self.Term, self.Name, self.Definition, self.Category)
 
 
-class CVSamplingFeatureGeoType(Base):
+class CVSamplingFeatureGeoType(Base, CV):
     __tablename__ = 'cv_samplingfeaturegeotype'
-    __table_args__ = {u'schema': 'odm2'}
-
-    Term = Column('term', String(255), nullable=False)
-    Name = Column('name', String(255), primary_key=True)
-    Definition = Column('definition', String(1000))
-    Category = Column('category', String(255))
-    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-
-    def __repr__(self):
-        return "<CV('%s', '%s', '%s', '%s')>" % (self.Term, self.Name, self.Definition, self.Category)
 
 
-class CVSamplingFeatureType(Base):
+class CVSamplingFeatureType(Base, CV):
     __tablename__ = 'cv_samplingfeaturetype'
-    __table_args__ = {u'schema': 'odm2'}
-
-    Term = Column('term', String(255), nullable=False)
-    Name = Column('name', String(255), primary_key=True)
-    Definition = Column('definition', String(1000))
-    Category = Column('category', String(255))
-    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-
-    def __repr__(self):
-        return "<CV('%s', '%s', '%s', '%s')>" % (self.Term, self.Name, self.Definition, self.Category)
 
 
-class CVSpatialOffsetType(Base):
+class CVSpatialOffsetType(Base, CV):
     __tablename__ = 'cv_spatialoffsettype'
-    __table_args__ = {u'schema': 'odm2'}
 
-    Term = Column('term', String(255), nullable=False)
-    Name = Column('name', String(255), primary_key=True)
-    Definition = Column('definition', String(1000))
-    Category = Column('category', String(255))
-    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-
-    def __repr__(self):
-        return "<CV('%s', '%s', '%s', '%s')>" % (self.Term, self.Name, self.Definition, self.Category)
-
-
-class CVSpeciation(Base):
+class CVSpeciation(Base, CV):
     __tablename__ = 'cv_speciation'
-    __table_args__ = {u'schema': 'odm2'}
-
-    Term = Column('term', String(255), nullable=False)
-    Name = Column('name', String(255), primary_key=True)
-    Definition = Column('definition', String(1000))
-    Category = Column('category', String(255))
-    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-
-    def __repr__(self):
-        return "<CV('%s', '%s', '%s', '%s')>" % (self.Term, self.Name, self.Definition, self.Category)
 
 
-class CVSpecimenType(Base):
+class CVSpecimenType(Base, CV):
     __tablename__ = 'cv_specimentype'
-    __table_args__ = {u'schema': 'odm2'}
-
-    Term = Column('term', String(255), nullable=False)
-    Name = Column('name', String(255), primary_key=True)
-    Definition = Column('definition', String(1000))
-    Category = Column('category', String(255))
-    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-
-    def __repr__(self):
-        return "<CV('%s', '%s', '%s', '%s')>" % (self.Term, self.Name, self.Definition, self.Category)
 
 
-class CVSiteType(Base):
+class CVSiteType(Base, CV):
     __tablename__ = 'cv_sitetype'
-    __table_args__ = {u'schema': 'odm2'}
-
-    Term = Column('term', String(255), nullable=False)
-    Name = Column('name', String(255), primary_key=True)
-    Definition = Column('definition', String(1000))
-    Category = Column('category', String(255))
-    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-
-    def __repr__(self):
-        return "<CV('%s', '%s', '%s', '%s')>" % (self.Term, self.Name, self.Definition, self.Category)
 
 
-class CVStatus(Base):
+class CVStatus(Base, CV):
     __tablename__ = 'cv_status'
-    __table_args__ = {u'schema': 'odm2'}
-
-    Term = Column('term', String(255), nullable=False)
-    Name = Column('name', String(255), primary_key=True)
-    Definition = Column('definition', String(1000))
-    Category = Column('category', String(255))
-    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-
-    def __repr__(self):
-        return "<CV('%s', '%s', '%s', '%s')>" % (self.Term, self.Name, self.Definition, self.Category)
 
 
-class CVTaxonomicClassifierType(Base):
+class CVTaxonomicClassifierType(Base, CV):
     __tablename__ = 'cv_taxonomicclassifiertype'
-    __table_args__ = {u'schema': 'odm2'}
-
-    Term = Column('term', String(255), nullable=False)
-    Name = Column('name', String(255), primary_key=True)
-    Definition = Column('definition', String(1000))
-    Category = Column('category', String(255))
-    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-
-    def __repr__(self):
-        return "<CV('%s', '%s', '%s', '%s')>" % (self.Term, self.Name, self.Definition, self.Category)
 
 
-class CVUnitsType(Base):
+class CVUnitsType(Base, CV):
     __tablename__ = 'cv_unitstype'
-    __table_args__ = {u'schema': 'odm2'}
-
-    Term = Column('term', String(255), nullable=False)
-    Name = Column('name', String(255), primary_key=True)
-    Definition = Column('definition', String(1000))
-    Category = Column('category', String(255))
-    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-
-    def __repr__(self):
-        return "<CV('%s', '%s', '%s', '%s')>" % (self.Term, self.Name, self.Definition, self.Category)
 
 
-class CVVariableName(Base):
+class CVVariableName(Base, CV):
     __tablename__ = 'cv_variablename'
-    __table_args__ = {u'schema': 'odm2'}
-
-    Term = Column('term', String(255), nullable=False)
-    Name = Column('name', String(255), primary_key=True)
-    Definition = Column('definition', String(1000))
-    Category = Column('category', String(255))
-    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-
-    def __repr__(self):
-        return "<CV('%s', '%s', '%s', '%s')>" % (self.Term, self.Name, self.Definition, self.Category)
 
 
-class CVVariableType(Base):
+class CVVariableType(Base, CV):
     __tablename__ = 'cv_variabletype'
-    __table_args__ = {u'schema': 'odm2'}
-
-    Term = Column('term', String(255), nullable=False)
-    Name = Column('name', String(255), primary_key=True)
-    Definition = Column('definition', String(1000))
-    Category = Column('category', String(255))
-    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-
-    def __repr__(self):
-        return "<CV('%s', '%s', '%s', '%s')>" % (self.Term, self.Name, self.Definition, self.Category)
 
 
-class CVReferenceMaterialMedium(Base):
+class CVReferenceMaterialMedium(Base, CV):
     __tablename__ = 'cv_referencematerialmedium'
-    __table_args__ = {u'schema': 'odm2'}  # 
-
-    Term = Column('term', String(255), nullable=False)
-    Name = Column('name', String(255), primary_key=True)
-    Definition = Column('definition', String(1000))
-    Category = Column('category', String(255))
-    SourceVocabularyURI = Column('sourcevocabularyuri', String(255))
-
-    def __repr__(self):
-        return "<CV('%s', '%s', '%s', '%s')>" % (self.Term, self.Name, self.Definition, self.Category)
 
 
 # ################################################################################
 # Core
 # ################################################################################
 class People(Base):
-    __tablename__ = u'people'
-    __table_args__ = {u'schema': 'odm2'}
+
 
     PersonID = Column('personid', Integer, primary_key=True, nullable=False)
     PersonFirstName = Column('personfirstname', String(255), nullable=False)
@@ -457,8 +172,7 @@ class People(Base):
 
 
 class Organizations(Base):
-    __tablename__ = u'organizations'
-    __table_args__ = {u'schema': 'odm2'}
+
 
     OrganizationID = Column('organizationid', Integer, primary_key=True, nullable=False)
     OrganizationTypeCV = Column('organizationtypecv', ForeignKey(CVOrganizationType.Name), nullable=False,
@@ -479,8 +193,7 @@ class Organizations(Base):
 
 
 class Affiliations(Base):
-    __tablename__ = 'affiliations'
-    __table_args__ = {u'schema': 'odm2'}
+
 
     AffiliationID = Column('affiliationid', Integer, primary_key=True, nullable=False)
     PersonID = Column('personid', ForeignKey(People.PersonID), nullable=False)
@@ -498,8 +211,7 @@ class Affiliations(Base):
 
 
 class Methods(Base):
-    __tablename__ = 'methods'
-    __table_args__ = {u'schema': 'odm2'}
+
 
     MethodID = Column('methodid', Integer, primary_key=True, nullable=False)
     MethodTypeCV = Column('methodtypecv', ForeignKey(CVMethodType.Name), nullable=False, index=True)
@@ -518,8 +230,7 @@ class Methods(Base):
 
 
 class Actions(Base):
-    __tablename__ = u'actions'
-    __table_args__ = {u'schema': 'odm2'}
+
 
     ActionID = Column('actionid', Integer, primary_key=True, nullable=False)
     ActionTypeCV = Column('actiontypecv', ForeignKey(CVActionType.Name), nullable=False, index=True)
@@ -539,8 +250,7 @@ class Actions(Base):
 
 
 class ActionBy(Base):
-    __tablename__ = u'actionby'
-    __table_args__ = {u'schema': 'odm2'}
+
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     ActionID = Column('actionid', Integer, ForeignKey(Actions.ActionID), nullable=False)
@@ -553,8 +263,7 @@ class ActionBy(Base):
 
 
 class SamplingFeatures(Base):
-    __tablename__ = u'samplingfeatures'
-    __table_args__ = {u'schema': 'odm2'}
+
 
     SamplingFeatureID = Column('samplingfeatureid', Integer, primary_key=True, nullable=False)
     SamplingFeatureUUID = Column('samplingfeatureuuid', String(36), nullable=False)
@@ -568,7 +277,7 @@ class SamplingFeatures(Base):
     Elevation_m = Column('elevation_m', Float(53))
     ElevationDatumCV = Column('elevationdatumcv', ForeignKey(CVElevationDatum.Name), index=True)
     FeatureGeometry = Column('featuregeometry', Geometry)  # String(50))#
-    # FeatureGeometryWKT = Column('featuregeometrywkt', String(50))
+    FeatureGeometryWKT = Column('featuregeometrywkt', String(50))
     # FeatureGeometry = Column('featuregeometry', BLOB)  # custom geometry queries
     __mapper_args__ = {
         'polymorphic_identity':'samplingfeatures',

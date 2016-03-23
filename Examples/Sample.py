@@ -21,10 +21,10 @@ from odm2api.ODM2.services.readService import *
 
 #connect to database
 #createconnection (dbtype, servername, dbname, username, password)
-#session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')
-#session_factory = dbconnection.createConnection('connection type: sqlite|mysql|mssql|postgresql', '/your/path/to/db/goes/here', 2.0)
-# session_factory= dbconnection.createConnection('mssql', "(local)", "LBRODM2", "ODM", "odm")
-session_factory= dbconnection.createConnection('mssql', "arroyoodm2", "LBRODM2", "ODM", "odm")
+# session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')#mysql
+#session_factory = dbconnection.createConnection('connection type: sqlite|mysql|mssql|postgresql', '/your/path/to/db/goes/here', 2.0)#sqlite
+# session_factory= dbconnection.createConnection('mssql', "(local)", "LBRODM2", "ODM", "odm")#win MSSQL
+session_factory= dbconnection.createConnection('mssql', "arroyoodm2", "", "ODM", "odm")#mac/linux MSSQL
 
 
 
@@ -64,14 +64,14 @@ try:
     numSites = len(siteFeatures)
 
     for x in siteFeatures:
-        print x.SamplingFeatureCode + ": " + x.SamplingFeatureName
+        print x.SamplingFeatureCode + ": " + x.SamplingFeatureName + ", " + x.SamplingFeatureTypeCV
 except Exception as e:
     print "Unable to demo getSamplingFeaturesByType", e
 
 
 # Now get the SamplingFeature object for a SamplingFeature code
 try:
-    sf = read.getSamplingFeatures(code='USU-LBR-Mendon')
+    sf = read.getSamplingFeatures(code='USU-LBR-Mendon')[0]
     print sf
     print "\n-------- Information about an individual SamplingFeature ---------"
     print "The following are some of the attributes of a SamplingFeature retrieved using getSamplingFeature(code = x): \n"
@@ -79,7 +79,7 @@ try:
     print "SamplingFeatureName: " + sf.SamplingFeatureName
     print "SamplingFeatureDescription: %s" % sf.SamplingFeatureDescription
     print "SamplingFeatureGeotypeCV: %s" % sf.SamplingFeatureGeotypeCV
-    print "SamplingFeatureGeometry: %s" % sf.FeatureGeometry
+    print "SamplingFeatureGeometry: %s" % sf.FeatureGeometryWKT
     print "Elevation_m: %s" % str(sf.Elevation_m)
 except Exception as e:
     print "Unable to demo getSamplingFeatureByCode: ", e
