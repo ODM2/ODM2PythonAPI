@@ -74,7 +74,7 @@ try:
     sf = read.getSamplingFeatures(code='USU-LBR-Mendon')
     print sf
     print "\n-------- Information about an individual SamplingFeature ---------"
-    print "The following are some of the attributes of a SamplingFeature retrieved using getSamplingFeatureByCode(): \n"
+    print "The following are some of the attributes of a SamplingFeature retrieved using getSamplingFeature(code = x): \n"
     print "SamplingFeatureCode: " + sf.SamplingFeatureCode
     print "SamplingFeatureName: " + sf.SamplingFeatureName
     print "SamplingFeatureDescription: %s" % sf.SamplingFeatureDescription
@@ -127,7 +127,7 @@ except Exception as e:
 # Now get a particular Result using a ResultID
 print "\n------- Example of Retrieving Attributes of a Time Series Result -------"
 try:
-    tsResult = read.getTimeSeriesResultByResultId(1)
+    tsResult = read.getResults(id = 1)
     print (
         "The following are some of the attributes for the TimeSeriesResult retrieved using getTimeSeriesResultByResultID(): \n" +
         "ResultTypeCV: " + tsResult.ResultObj.ResultTypeCV + "\n" +
@@ -147,8 +147,7 @@ except Exception as e:
 # Get the values for a particular TimeSeriesResult
 print "\n-------- Example of Retrieving Time Series Result Values ---------"
 
-tsValues = read.getTimeSeriesResultValuesByResultId(1)  # Return type is a pandas dataframe
-tsValues = read.getResultValues(type = 'timeseries', id = 1)
+tsValues = read.getResultValues(resultid = 1)  # Return type is a pandas datafram
 
 # Print a few Time Series Values to the console
 # tsValues.set_index('ValueDateTime', inplace=True)

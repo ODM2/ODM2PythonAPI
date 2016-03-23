@@ -1009,7 +1009,7 @@ class SpatialReferences(Base):
                % (self.SpatialReferenceID, self.SRSCode, self.SRSName, self.SRSDescription, self.SRSLink)
 
 
-class Specimens(Base):
+class Specimens(SamplingFeatures):
     __tablename__ = u'specimens'
     __table_args__ = {u'schema': 'odm2'}
 
@@ -1019,7 +1019,7 @@ class Specimens(Base):
     SpecimenMediumCV = Column('specimenmediumcv', ForeignKey(CVMediumType.Name), nullable=False, index=True)
     IsFieldSpecimen = Column('isfieldspecimen', Boolean, nullable=False)
 
-    SamplingFeatureObj = relationship(SamplingFeatures)
+    # SamplingFeatureObj = relationship(SamplingFeatures)
 
 
 class SpatialOffsets(Base):
@@ -1041,7 +1041,7 @@ class SpatialOffsets(Base):
     Offset3UnitObj = relationship(Units, primaryjoin='SpatialOffsets.Offset3UnitID == Units.UnitsID')
 
 
-class Sites(Base):
+class Sites(SamplingFeatures):
     __tablename__ = u'sites'
     __table_args__ = {u'schema': 'odm2'}
 
@@ -1054,7 +1054,7 @@ class Sites(Base):
     Longitude = Column('longitude', Float(53), nullable=False)
 
     SpatialReferenceObj = relationship(SpatialReferences)
-    SamplingFeatureObj = relationship(SamplingFeatures)
+    # SamplingFeatureObj = relationship(SamplingFeatures)
 
     def __repr__(self):
         return "<Sites('%s', '%s', '%s', '%s', '%s', '%s', '%s')>" \
@@ -1758,7 +1758,7 @@ class RelatedResults(Base):
 # ################################################################################
 
 
-class PointCoverageResults(Base):
+class PointCoverageResults(Results):
     __tablename__ = u'pointcoverageresults'
     __table_args__ = {u'schema': 'odm2'}
 
@@ -1779,10 +1779,10 @@ class PointCoverageResults(Base):
     YUnitObj = relationship(Units, primaryjoin='PointCoverageResults.IntendedYSpacingUnitsID == Units.UnitsID')
     SpatialReferenceObj = relationship(SpatialReferences)
     ZUnitObj = relationship(Units, primaryjoin='PointCoverageResults.ZLocationUnitsID == Units.UnitsID')
-    ResultObj = relationship(Results, primaryjoin='PointCoverageResults.ResultID == Results.ResultID')
+    # ResultObj = relationship(Results, primaryjoin='PointCoverageResults.ResultID == Results.ResultID')
 
 
-class ProfileResults(Base):
+class ProfileResults(Results):
     __tablename__ = u'profileresults'
     __table_args__ = {u'schema': 'odm2'}
 
@@ -1804,10 +1804,10 @@ class ProfileResults(Base):
     SpatialReferenceObj = relationship(SpatialReferences)
     XUnitObj = relationship(Units, primaryjoin='ProfileResults.XLocationUnitsID == Units.UnitsID')
     YUnitObj = relationship(Units, primaryjoin='ProfileResults.YLocationUnitsID == Units.UnitsID')
-    ResultObj = relationship(Results, primaryjoin='ProfileResults.ResultID == Results.ResultID')
+    # ResultObj = relationship(Results, primaryjoin='ProfileResults.ResultID == Results.ResultID')
 
 
-class CategoricalResults(Base):
+class CategoricalResults(Results):
     __tablename__ = u'categoricalresults'
     __table_args__ = {u'schema': 'odm2'}
 
@@ -1822,10 +1822,10 @@ class CategoricalResults(Base):
     QualityCodeCV = Column('qualitycodecv', ForeignKey(CVQualityCode.Name), nullable=False, index=True)
 
     SpatialReferenceObj = relationship(SpatialReferences)
-    ResultObj = relationship(Results, primaryjoin='CategoricalResults.ResultID == Results.ResultID')
+    # ResultObj = relationship(Results, primaryjoin='CategoricalResults.ResultID == Results.ResultID')
 
 
-class TransectResults(Base):
+class TransectResults(Results):
     __tablename__ = u'transectresults'
     __table_args__ = {u'schema': 'odm2'}
 
@@ -1844,10 +1844,10 @@ class TransectResults(Base):
     TransectUnitObj = relationship(Units, primaryjoin='TransectResults.IntendedTransectSpacingUnitsID == Units.UnitsID')
     SpatialReferenceObj = relationship(SpatialReferences)
     ZUnitObj = relationship(Units, primaryjoin='TransectResults.ZLocationUnitsID == Units.UnitsID')
-    ResultObj = relationship(Results, primaryjoin='TransectResults.ResultID == Results.ResultID')
+    # ResultObj = relationship(Results, primaryjoin='TransectResults.ResultID == Results.ResultID')
 
 
-class SpectraResults(Base):
+class SpectraResults(Results):
     __tablename__ = u'spectraresults'
     __table_args__ = {u'schema': 'odm2'}
 
@@ -1869,10 +1869,10 @@ class SpectraResults(Base):
     XUnitObj = relationship(Units, primaryjoin='SpectraResults.XLocationUnitsID == Units.UnitsID')
     YUnitObj = relationship(Units, primaryjoin='SpectraResults.YLocationUnitsID == Units.UnitsID')
     ZUnitObj = relationship(Units, primaryjoin='SpectraResults.ZLocationUnitsID == Units.UnitsID')
-    ResultObj = relationship(Results, primaryjoin='SpectraResults.ResultID == Results.ResultID')
+    # ResultObj = relationship(Results, primaryjoin='SpectraResults.ResultID == Results.ResultID')
 
 
-class TimeSeriesResults(Base):
+class TimeSeriesResults(Results):
     __tablename__ = u'timeseriesresults'
     __table_args__ = {u'schema': 'odm2'}
 
@@ -1889,14 +1889,14 @@ class TimeSeriesResults(Base):
     AggregationStatisticCV = Column('aggregationstatisticcv', ForeignKey(CVAggregationStatistic.Name),
                                     nullable=False, index=True)
 
-    ResultObj = relationship(Results)
+    # ResultObj = relationship(Results)
     IntendedTimeSpacingUnitsObj = relationship(Units,
                                                primaryjoin='TimeSeriesResults.IntendedTimeSpacingUnitsID == Units.UnitsID')
     SpatialReferenceObj = relationship(SpatialReferences)
     XLocationUnitsObj = relationship(Units, primaryjoin='TimeSeriesResults.XLocationUnitsID == Units.UnitsID')
     YLocationUnitsObj = relationship(Units, primaryjoin='TimeSeriesResults.YLocationUnitsID == Units.UnitsID')
     ZLocationUnitsObj = relationship(Units, primaryjoin='TimeSeriesResults.ZLocationUnitsID == Units.UnitsID')
-    ResultObj = relationship(Results, primaryjoin='TimeSeriesResults.ResultID == Results.ResultID')
+    # ResultObj = relationship(Results, primaryjoin='TimeSeriesResults.ResultID == Results.ResultID')
 
     def __repr__(self):
         return "<TimeSeriesResults('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')>" % \
@@ -1905,7 +1905,7 @@ class TimeSeriesResults(Base):
                 self.IntendedTimeSpacing, self.AggregationStatisticCV)
 
 
-class SectionResults(Base):
+class SectionResults(Results):
     __tablename__ = u'sectionresults'
     __table_args__ = {u'schema': 'odm2'}
 
@@ -1927,10 +1927,10 @@ class SectionResults(Base):
     ZUnitObj = relationship(Units, primaryjoin='SectionResults.IntendedZSpacingUnitsID == Units.UnitsID')
     SpatialReferenceObj = relationship(SpatialReferences)
     YUnitObj = relationship(Units, primaryjoin='SectionResults.YLocationUnitsID == Units.UnitsID')
-    ResultObj = relationship(Results, primaryjoin='SectionResults.ResultID == Results.ResultID')
+    # ResultObj = relationship(Results, primaryjoin='SectionResults.ResultID == Results.ResultID')
 
 
-class TrajectoryResults(Base):
+class TrajectoryResults(Results):
     __tablename__ = u'trajectoryresults'
     __table_args__ = {u'schema': 'odm2'}
 
@@ -1947,10 +1947,10 @@ class TrajectoryResults(Base):
     TrajectoryUnitObj = relationship(Units,
                                      primaryjoin='TrajectoryResults.IntendedTrajectorySpacingUnitsID == Units.UnitsID')
     SpatialReferenceObj = relationship(SpatialReferences)
-    ResultObj = relationship(Results, primaryjoin='TrajectoryResults.ResultID == Results.ResultID')
+    # ResultObj = relationship(Results, primaryjoin='TrajectoryResults.ResultID == Results.ResultID')
 
 
-class MeasurementResults(Base):
+class MeasurementResults(Results):
     __tablename__ = u'measurementresults'
     __table_args__ = {u'schema': 'odm2'}
 
@@ -1975,12 +1975,12 @@ class MeasurementResults(Base):
     XLocationUnitsObj = relationship(Units, primaryjoin='MeasurementResults.XLocationUnitsID == Units.UnitsID')
     YLocationUnitsObj = relationship(Units, primaryjoin='MeasurementResults.YLocationUnitsID == Units.UnitsID')
     ZLocationUnitsObj = relationship(Units, primaryjoin='MeasurementResults.ZLocationUnitsID == Units.UnitsID')
-    ResultObj = relationship(Results, primaryjoin='MeasurementResults.ResultID == Results.ResultID')
+    # ResultObj = relationship(Results, primaryjoin='MeasurementResults.ResultID == Results.ResultID')
 
     def __repr__(self):
         return "<MeasResults('%s', '%s', '%s', '%s', '%s', '%s', '%s',  '%s')>" % \
                (self.ResultID, self.XLocation, self.YLocation, self.XLocation,
-                self.ResultObj, self.XLocationUnitsObj, self.SpatialReferenceObj,
+                self.ResultTypeCV, self.XLocationUnitsObj, self.SpatialReferenceObj,
                 self.AggregationStatisticCV)
 
 

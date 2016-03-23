@@ -52,27 +52,40 @@ class ReadODM2(serviceBase):
 
     def getAnnotations(self, type=None):
 
-        #TODO What keywords do I use for type
+        # TODO What keywords do I use for type
         a = Annotations
-        if type =="action": a=ActionAnnotations
-        elif type =="categoricalresultvalue": a=CategoricalResultValueAnnotations
-        elif type =="equipmentannotation": a=EquipmentAnnotations
-        elif type =="measurementresultvalue": a=MeasurementResultValueAnnotations
-        elif type =="method": a=MethodAnnotations
-        elif type =="pointcoverageresultvalue": a=PointCoverageResultValueAnnotations
-        elif type =="profileresultvalue": a= ProfileResultValueAnnotations
-        elif type =="result": a = ResultAnnotations
-        elif type =="samplingfeature": a=SamplingFeatureAnnotations
-        elif type =="sectionresultvalue": a=SectionResultValueAnnotations
-        elif type =="spectraresultvalue": a=SpectraResultValueAnnotations
-        elif type =="timeSeriesresultvalue": a=TimeSeriesResultValueAnnotations
-        elif type =="trajectoryresultvalue": a= TrajectoryResultValueAnnotations
-        elif type =="transectresultvalue": a= TransectResultValueAnnotations
+        if type == "action":
+            a = ActionAnnotations
+        elif type == "categoricalresultvalue":
+            a = CategoricalResultValueAnnotations
+        elif type == "equipmentannotation":
+            a = EquipmentAnnotations
+        elif type == "measurementresultvalue":
+            a = MeasurementResultValueAnnotations
+        elif type == "method":
+            a = MethodAnnotations
+        elif type == "pointcoverageresultvalue":
+            a = PointCoverageResultValueAnnotations
+        elif type == "profileresultvalue":
+            a = ProfileResultValueAnnotations
+        elif type == "result":
+            a = ResultAnnotations
+        elif type == "samplingfeature":
+            a = SamplingFeatureAnnotations
+        elif type == "sectionresultvalue":
+            a = SectionResultValueAnnotations
+        elif type == "spectraresultvalue":
+            a = SpectraResultValueAnnotations
+        elif type == "timeSeriesresultvalue":
+            a = TimeSeriesResultValueAnnotations
+        elif type == "trajectoryresultvalue":
+            a = TrajectoryResultValueAnnotations
+        elif type == "transectresultvalue":
+            a = TransectResultValueAnnotations
         try:
             return self._session.query(a).all()
         except:
             return None
-
 
     # ################################################################################
     # CV
@@ -81,36 +94,63 @@ class ReadODM2(serviceBase):
     def getCVs(self, type):
 
         CV = CVActionType
-        if type == "actiontype": CV = CVActionType
-        elif type == "aggregationstatistic": CV = CVAggregationStatistic
-        elif type == "annotationtype": CV = CVAnnotationType
-        elif type == "censorcode": CV = CVCensorCode
-        elif type == "dataqualitytype": CV = CVDataQualityType
-        elif type == "dataset type": CV = CVDataSetType
-        elif type == "Directive Type": CV = CVDirectiveType
-        elif type == "Elevation Datum": CV = CVElevationDatum
-        elif type == "Equipment Type": CV = CVEquipmentType
-        elif type == "Medium": CV = CVMediumType
-        elif type == "Method Type": CV = CVMethodType
-        elif type == "Organization Type": CV = CVOrganizationType
-        elif type == "Property Data Type": CV = CVPropertyDataType
-        elif type == "Quality Code": CV = CVQualityCode
-        elif type == "Relationship Type": CV = CVRelationshipType
-        elif type == "Result Type": CV = CVResultType
-        elif type == "Sampling Feature Geo-type": CV = CVSamplingFeatureGeoType
-        elif type == "Sampling Feature Type": CV = CVSamplingFeatureType
-        elif type == "Site Type": CV = CVSiteType
-        elif type == "Spatial Offset Type": CV = CVSpatialOffsetType
-        elif type == "Speciation": CV = CVSpeciation
-        elif type == "Specimen Type": CV = CVSpecimenType
-        elif type == "Status": CV = CVStatus
-        elif type == "Taxonomic Classifier Type": CV = CVTaxonomicClassifierType
-        elif type == "Units Type": CV = CVUnitsType
-        elif type == "Variable Name": CV = CVVariableName
-        elif type == "Variable Type": CV = CVVariableType
-        else: return None
+        if type == "actiontype":
+            CV = CVActionType
+        elif type == "aggregationstatistic":
+            CV = CVAggregationStatistic
+        elif type == "annotationtype":
+            CV = CVAnnotationType
+        elif type == "censorcode":
+            CV = CVCensorCode
+        elif type == "dataqualitytype":
+            CV = CVDataQualityType
+        elif type == "dataset type":
+            CV = CVDataSetType
+        elif type == "Directive Type":
+            CV = CVDirectiveType
+        elif type == "Elevation Datum":
+            CV = CVElevationDatum
+        elif type == "Equipment Type":
+            CV = CVEquipmentType
+        elif type == "Medium":
+            CV = CVMediumType
+        elif type == "Method Type":
+            CV = CVMethodType
+        elif type == "Organization Type":
+            CV = CVOrganizationType
+        elif type == "Property Data Type":
+            CV = CVPropertyDataType
+        elif type == "Quality Code":
+            CV = CVQualityCode
+        elif type == "Relationship Type":
+            CV = CVRelationshipType
+        elif type == "Result Type":
+            CV = CVResultType
+        elif type == "Sampling Feature Geo-type":
+            CV = CVSamplingFeatureGeoType
+        elif type == "Sampling Feature Type":
+            CV = CVSamplingFeatureType
+        elif type == "Site Type":
+            CV = CVSiteType
+        elif type == "Spatial Offset Type":
+            CV = CVSpatialOffsetType
+        elif type == "Speciation":
+            CV = CVSpeciation
+        elif type == "Specimen Type":
+            CV = CVSpecimenType
+        elif type == "Status":
+            CV = CVStatus
+        elif type == "Taxonomic Classifier Type":
+            CV = CVTaxonomicClassifierType
+        elif type == "Units Type":
+            CV = CVUnitsType
+        elif type == "Variable Name":
+            CV = CVVariableName
+        elif type == "Variable Type":
+            CV = CVVariableType
+        else:
+            return None
         return self._session.query(CV).all()
-
 
     # ################################################################################
     # Core
@@ -209,7 +249,7 @@ class ReadODM2(serviceBase):
     Sampling Feature
     """
 
-    def getSamplingFeatures(self, id=None, code=None, type=None, wkt=None):
+    def getSamplingFeatures(self, id=None, code=None, uuid=None, type=None, wkt=None):
         """
         * Pass nothing - returns a list of all sampling feature objects with each object of type specific to that sampling feature
         * Pass a SamplingFeatureID - returns a single sampling feature object
@@ -218,9 +258,15 @@ class ReadODM2(serviceBase):
         * Pass a SamplingFeatureGeometry(TYPE????) - return a list of sampling feature objects
         """
 
-        q = self._session.query(SamplingFeatures)
+        s = SamplingFeatures
+        if type.lower() == 'site':
+            s = Sites
+        elif type.lower() == 'specimen':
+            s = Specimens
 
-        if type: q = q.filter_by(SamplingFeatureTypeCV=type)
+        q = self._session.query(s)
+
+        # if type: q = q.filter_by(SamplingFeatureTypeCV=type)
         if id: q = q.filter_by(SamplingFeatureID=id)
         if code: q = q.filter_by(SamplingFeatureCode=code)
         if wkt: q = q.filter_by(FeatureGeometryWKT=wkt)
@@ -237,25 +283,28 @@ class ReadODM2(serviceBase):
         * Pass a SamplingFeatureID - get a list of sampling feature objects related to the input sampling feature along with the relationship type
         """
 
-        sf= self._session.query(SamplingFeatures).select_from(RelatedFeatures).join(RelatedFeatures.RelatedFeatureObj)
-        if id: sf= sf.filter(RelatedFeatures.RelatedFeatureID == id)
+        sf = self._session.query(SamplingFeatures).select_from(RelatedFeatures).join(RelatedFeatures.RelatedFeatureObj)
+        if id: sf = sf.filter(RelatedFeatures.RelatedFeatureID == id)
         return sf.all()
 
     """
     Action
     """
 
-    def getActions(self, id = None, type=None, sfid=None):
-        a=Actions
-        if type =="equipment": a=EquipmentActions
-        elif type =="calibration": a=CalibrationActions
-        elif type =="maintenance": a=MaintenanceActions
+    def getActions(self, id=None, type=None, sfid=None):
+        a = Actions
+        if type == "equipment":
+            a = EquipmentActions
+        elif type == "calibration":
+            a = CalibrationActions
+        elif type == "maintenance":
+            a = MaintenanceActions
 
-        q= self._session.query(Actions)
-        if id: q= q.filter_by(ActionID=id)
+        q = self._session.query(Actions)
+        if id: q = q.filter_by(ActionID=id)
         # if type: q=q.filter_by(Actions.ActionTypeCV.ilike(type))
         if sfid:
-            q=q.join(FeatureActions).filter(FeatureActions.SamplingFeatureID == sfid)
+            q = q.join(FeatureActions).filter(FeatureActions.SamplingFeatureID == sfid)
             # return self._session.query(Results) \
             #     .join(FeatureActions) \
             #     .join(Actions) \
@@ -273,8 +322,8 @@ class ReadODM2(serviceBase):
         * Pass an ActionID - get a list of Action objects related to the input action along with the relatinship type
 
         """
-        q= self._session.query(Actions).select_from(RelatedActions).join(RelatedActions.RelatedActionObj)
-        if actionid: q= q.filter(RelatedActions.ActionID ==actionid)
+        q = self._session.query(Actions).select_from(RelatedActions).join(RelatedActions.RelatedActionObj)
+        if actionid: q = q.filter(RelatedActions.ActionID == actionid)
 
         return q.all()
 
@@ -290,7 +339,6 @@ class ReadODM2(serviceBase):
     * Pass UnitsName - returns a single units object
         """
 
-
         q = self._session.query(Units)
         if id: q = q.filter_by(UnitsID=id)
         if name: q = q.filter(Units.UnitsName.ilike(name))
@@ -300,13 +348,11 @@ class ReadODM2(serviceBase):
         except:
             return None
 
-
-
     """
     Organization
     """
 
-    def getOrganizations(self, id =None, code =None):
+    def getOrganizations(self, id=None, code=None):
         """Select all on Organization
 
         :return Organization Objects:
@@ -314,19 +360,17 @@ class ReadODM2(serviceBase):
         """
         q = self._session.query(Organizations)
         if id: q = q.filter_by(OrganizationID=id)
-        if code:q = q.filter_by(OrganizationCode=code)
+        if code: q = q.filter_by(OrganizationCode=code)
         try:
             return q.all()
         except:
             return None
 
-
-
     """
     Person
     """
 
-    def getPeople(self, id =None, firstname=None, lastname=None):
+    def getPeople(self, id=None, firstname=None, lastname=None):
         """Select all on Person
 
         :return Person Objects:
@@ -341,8 +385,7 @@ class ReadODM2(serviceBase):
         except:
             return None
 
-
-    def getAffiliations(self, id,  personfirst=None, personlast=None, orgcode=None):
+    def getAffiliations(self, id, personfirst=None, personlast=None, orgcode=None):
         """
         Select all affiliation of person
         :param personfirst: first name of person
@@ -350,8 +393,8 @@ class ReadODM2(serviceBase):
         :param orgcode: organization code (e.g. uwrl)
         :return: ODM2.Affiliation
         """
-        q=self._session.query(Affiliations)
-        if id: q=q.filter(AffiliationID = id)
+        q = self._session.query(Affiliations)
+        if id: q = q.filter(AffiliationID=id)
         if orgcode: q = q.filter(Organizations.OrganizationCode.ilike(orgcode))
         if personfirst: q = q.filter(People.PersonFirstName.ilike(personfirst))
         if personlast: q = q.filter(People.PersonLastName.ilike(personlast)).first()
@@ -364,9 +407,9 @@ class ReadODM2(serviceBase):
     Results
     """
 
-    def getResults(self, id=None, actionid = None, type=None):
+    def getResults(self, id=None, actionid=None, type=None):
 
-        #TODO what if user sends in both type and actionid vs just actionid
+        # TODO what if user sends in both type and actionid vs just actionid
         """Select by variableId
 
          :param id:
@@ -376,20 +419,27 @@ class ReadODM2(serviceBase):
          """
         R = Results
         if type is not None:
-            if type == "categorical": R = CategoricalResults
-            # elif "countObservation": R=
-            elif type == "measurement": R = MeasurementResults
-            elif type == "pointcoverage":R = PointCoverageResults
-            elif type == "profile": R = ProfileResults
-            elif type == "section": R = SectionResults
-            elif type == "spectra": R = SpectraResults
-            elif type == "timeseries": R = TimeSeriesResults
-            elif type == "trajectory": R = TrajectoryResults
-            elif type == "transect": R = TransectResults
-                # elif "truthObservation": R=
+            if type == "categorical":
+                R = CategoricalResults
+            elif type == "measurement":
+                R = MeasurementResults
+            elif type == "pointcoverage":
+                R = PointCoverageResults
+            elif type == "profile":
+                R = ProfileResults
+            elif type == "section":
+                R = SectionResults
+            elif type == "spectra":
+                R = SpectraResults
+            elif type == "timeseries":
+                R = TimeSeriesResults
+            elif type == "trajectory":
+                R = TrajectoryResults
+            elif type == "transect":
+                R = TransectResults
 
         query = self._session.query(R)
-        if actionid: query = query.join(FeatureActions).filter_by(ActionID = actionid)
+        if actionid: query = query.join(FeatureActions).filter_by(ActionID=actionid)
         if id: query = query.filter_by(ResultID=id)
 
         # if type: query=query.filter_by(ResultTypeCV=type)
@@ -397,6 +447,7 @@ class ReadODM2(serviceBase):
             return query.all()
         except:
             return None
+
     #
     #
     # def getResultValidDateTime(self, resultId):
@@ -437,7 +488,6 @@ class ReadODM2(serviceBase):
         except:
             return None
 
-
     # ################################################################################
     # Data Quality
     # ################################################################################
@@ -449,13 +499,17 @@ class ReadODM2(serviceBase):
             :type list:
         """
         return self._session.query(DataQuality).all()
-    #TODO DataQuality Schema Queries
+
+    # TODO DataQuality Schema Queries
     def getReferenceMaterials(self):
         return self._session.query(ReferenceMaterials).all()
+
     def getReferenceMaterialValues(self):
         return self._session.query(ReferenceMaterialValues).all()
+
     def getResultNormalizationValues(self):
         return self._session.query(ResultNormalizationValues).all()
+
     def getResultsDataQuality(self):
         return self._session.query(ResultsDataQuality).all()
 
@@ -464,41 +518,47 @@ class ReadODM2(serviceBase):
     # ################################################################################
 
 
-    #TODO Equipment Schema Queries
-    def getEquipment(self, code=None, type = None , sfid=None, actionid=None):
+    # TODO Equipment Schema Queries
+    def getEquipment(self, code=None, type=None, sfid=None, actionid=None):
         e = self._session.query(Equipment)
-        if sfid: e= e.join(EquipmentUsed)\
-            .join(Actions)\
-            .join(FeatureActions)\
+        if sfid: e = e.join(EquipmentUsed) \
+            .join(Actions) \
+            .join(FeatureActions) \
             .filter(FeatureActions.SamplingFeatureID == sfid)
-        if actionid: e=e.join(EquipmentUsed).join(Actions)\
+        if actionid: e = e.join(EquipmentUsed).join(Actions) \
             .filter(Actions.ActionID == actionid)
         return e.all()
 
     def CalibrationReferenceEquipment(self):
         return self._session.query(CalibrationReferenceEquipment).all()
+
     def CalibrationStandards(self):
         return self._session.query(CalibrationStandards).all()
+
     def DataloggerFileColumns(self):
         return self._session.query(DataLoggerFileColumns).all()
+
     def DataLoggerFiles(self):
         return self._session.query(DataLoggerFiles).all()
+
     def DataloggerProgramFiles(self):
         return self._session.query(DataLoggerProgramFiles).all()
+
     def EquipmentModels(self):
         return self._session.query(EquipmentModels).all()
+
     def EquipmentUsed(self):
         return self._session.query(EquipmentUsed).all()
+
     def InstrumentOutputVariables(self, modelid=None, variableid=None):
-        i=self._session.query(InstrumentOutputVariables)
-        if modelid: i=i.filter_by(ModelID=modelid)
-        if variableid: i=i.filter_by(VariableID= variableid)
+        i = self._session.query(InstrumentOutputVariables)
+        if modelid: i = i.filter_by(ModelID=modelid)
+        if variableid: i = i.filter_by(VariableID=variableid)
         return i.all()
 
-
     def RelatedEquipment(self, code=None):
-        r=self._session.query(RelatedEquipment)
-        if code: r=r.filter_by(EquipmentCode=code)
+        r = self._session.query(RelatedEquipment)
+        if code: r = r.filter_by(EquipmentCode=code)
         return r.all()
 
     # ################################################################################
@@ -506,76 +566,94 @@ class ReadODM2(serviceBase):
     # ################################################################################
 
     def getExtensionProperties(self, type=None):
-        #Todo what values to use for extensionproperties type
+        # Todo what values to use for extensionproperties type
         e = ExtensionProperties
-        if type =="action": e = ActionExtensionPropertyValues
-        elif type =="citation": e= CitationExtensionPropertyValues
-        elif type =="method": e= MethodExtensionPropertyValues
-        elif type =="result":e=ResultExtensionPropertyValues
-        elif type =="samplingfeature": e= SamplingFeatureExtensionPropertyValues
-        elif type =="variable": e=VariableExtensionPropertyValues
+        if type == "action":
+            e = ActionExtensionPropertyValues
+        elif type == "citation":
+            e = CitationExtensionPropertyValues
+        elif type == "method":
+            e = MethodExtensionPropertyValues
+        elif type == "result":
+            e = ResultExtensionPropertyValues
+        elif type == "samplingfeature":
+            e = SamplingFeatureExtensionPropertyValues
+        elif type == "variable":
+            e = VariableExtensionPropertyValues
         try:
             return self._session.query(e).all()
         except:
             return None
-
 
     # ################################################################################
     # External Identifiers
     # ################################################################################
     def getExternalIdentifiers(self, type=None):
         e = ExternalIdentifierSystems
-        if type.lowercase =="citation": e = CitationExternalIdentifiers
-        elif type =="method": e = MethodExternalIdentifiers
-        elif type =="person": e = PersonExternalIdentifiers
-        elif type =="referencematerial": e = ReferenceMaterialExternalIdentifiers
-        elif type =="samplingfeature": e = SamplingFeatureExternalIdentifiers
-        elif type =="spatialreference": e = SpatialReferenceExternalIdentifiers
-        elif type =="taxonomicclassifier": e = TaxonomicClassifierExternalIdentifiers
-        elif type =="variable": e = VariableExternalIdentifiers
+        if type.lowercase == "citation":
+            e = CitationExternalIdentifiers
+        elif type == "method":
+            e = MethodExternalIdentifiers
+        elif type == "person":
+            e = PersonExternalIdentifiers
+        elif type == "referencematerial":
+            e = ReferenceMaterialExternalIdentifiers
+        elif type == "samplingfeature":
+            e = SamplingFeatureExternalIdentifiers
+        elif type == "spatialreference":
+            e = SpatialReferenceExternalIdentifiers
+        elif type == "taxonomicclassifier":
+            e = TaxonomicClassifierExternalIdentifiers
+        elif type == "variable":
+            e = VariableExternalIdentifiers
         try:
             return self._session.query(e).all()
         except:
             return None
 
-
     # ################################################################################
     # Lab Analyses
     # ################################################################################
-    #TODO functions for Lab Analyses
+    # TODO functions for Lab Analyses
     def getDirectives(self):
         return self._session.query(Directives).all()
+
     def getActionDirectives(self):
         return self._session.query(ActionDirectives).all()
+
     def getSpecimenBatchPositions(self):
         return self._session.query(SpecimenBatchPositions).all()
-
-
 
     # ################################################################################
     # Provenance
     # ################################################################################
 
-    #TODO functions for Provenance
+    # TODO functions for Provenance
     def getAuthorLists(self):
         self._session.query(AuthorLists).all()
 
     def getDatasetCitations(self):
         self._session.query(DataSetCitations).all()
+
     def getDerivationEquations(self):
         self._session.query(DerivationEquations).all()
+
     def getMethodCitations(self):
         self._session.query(MethodCitations).all()
 
     def getRelatedAnnotations(self):
-        #q= read._session.query(Actions).select_from(RelatedActions).join(RelatedActions.RelatedActionObj)
+        # q= read._session.query(Actions).select_from(RelatedActions).join(RelatedActions.RelatedActionObj)
         self._session.query(RelatedAnnotations).all()
+
     def getRelatedCitations(self):
         self._session.query(RelatedCitations).all()
+
     def getRelatedDatasets(self):
         self._session.query(RelatedDataSets).all()
+
     def getRelatedResults(self):
         self._session.query(RelatedResults).all()
+
     def getResultDerivationEquations(self):
         self._session.query(ResultDerivationEquations).all()
 
@@ -588,9 +666,7 @@ class ReadODM2(serviceBase):
     ResultValues
     """
 
-
-
-    def getResultValues(self, resultid= None, type=None, starttime=None, endtime=None):
+    def getResultValues(self, resultid=None, starttime=None, endtime=None):
 
         """Select all on TimeSeriesResults
         getResultValues()
@@ -599,33 +675,41 @@ class ReadODM2(serviceBase):
         NOTE:  Another option here would be to put a flag on getResults that specifies whether values should be returned
         :return TimeSeriesResultsValue Objects:
             :type list:
+
+
         """
-        Result=TimeSeriesResults
+        type = self._session.query(Results).filter_by(ResultID=resultid).first().ResultTypeCV
+        Result = TimeSeriesResults
 
-        if type == "categorical": Result = CategoricalResultValues
-        elif type == "measurement": Result = MeasurementResultValues
-        elif type == "pointsoverage": Result = PointCoverageResultValues
-        elif type == "profile": Result = ProfileResultValues
-        elif type == "section": Result = SectionResults
-        elif type == "spectra": Result = SpectraResultValues
-        elif type == "timeseries": Result = TimeSeriesResultValues
-        elif type == "trajectory": Result = TrajectoryResultValues
-        elif type == "transect": Result = TransectResultValues
+        if "categorical" in type.lower():
+            Result = CategoricalResultValues
+        elif "measurement" in type.lower():
+            Result = MeasurementResultValues
+        elif "coverage" in type.lower():
+            Result = PointCoverageResultValues
+        elif "profile" in type.lower():
+            Result = ProfileResultValues
+        elif "section" in type.lower():
+            Result = SectionResults
+        elif "spectra" in type.lower():
+            Result = SpectraResultValues
+        elif "time" in type.lower():
+            Result = TimeSeriesResultValues
+        elif "trajectory" in type.lower():
+            Result = TrajectoryResultValues
+        elif "transect" in type.lower():
+            Result = TransectResultValues
 
-
-        q = self._session.query(Result)
-        if resultid: q = q.filter_by(ResultID=resultid)
-        if starttime: q= q.filter(Result.ValueDateTime >= starttime)
-        if endtime: q=q.filter(Result.ValueDateTime <= endtime)
+        q = self._session.query(Result).filter_by(ResultID=id)
+        if starttime: q = q.filter(Result.ValueDateTime >= starttime)
+        if endtime: q = q.filter(Result.ValueDateTime <= endtime)
         try:
-            q=q.order_by(Result.ValueDateTime).all()
+            q = q.order_by(Result.ValueDateTime).all()
             df = pd.DataFrame([dv.list_repr() for dv in q.all()])
             df.columns = q[0].get_columns()
             return df
         except:
             return None
-
-
 
     # ################################################################################
     # SamplingFeatures
@@ -634,7 +718,7 @@ class ReadODM2(serviceBase):
     """
     Site
     """
-    #ToDo function for get sampling features
+    # ToDo function for get sampling features
     def getSites(self):
         """Select all on Sites
 
@@ -700,13 +784,14 @@ class ReadODM2(serviceBase):
         :return:
         :rtype:
         """
-        s=self._session.query(Simulations)
+        s = self._session.query(Simulations)
         if name: s = s.filter(Simulations.SimulationName.ilike(name))
-        if actionid: s= s.filter_by(ActionID=actionid)
+        if actionid: s = s.filter_by(ActionID=actionid)
         try:
             return s.all()
         except:
             return None
+
     #
     # def getResultsBySimulationID(self, simulationid):
     #     try:
@@ -719,16 +804,15 @@ class ReadODM2(serviceBase):
     #         print e
     #         return None
 
-    def getModels(self, code= None):
-        m= self._session.query(Models)
+    def getModels(self, code=None):
+        m = self._session.query(Models)
         if code: m = m.filter(Models.ModelCode.ilike(code))
         try:
             return m.all()
         except:
             return None
 
-
-    def getRelatedModels(self, id = None, code = None):
+    def getRelatedModels(self, id=None, code=None):
         """
         getRelatedModels()
         * Pass a ModelID - get a list of model objects related to the model having ModelID
@@ -741,19 +825,15 @@ class ReadODM2(serviceBase):
         :rtype:
         """
 
-
-        m=self._session.query(Models).select_from(RelatedModels).join(RelatedModels.RelatedModelObj)
-        if id: m= m.filter(RelatedModels.ModelID==id)
-        if code: m= m.filter(RelatedModels.ModelCode == code)
+        m = self._session.query(Models).select_from(RelatedModels).join(RelatedModels.RelatedModelObj)
+        if id: m = m.filter(RelatedModels.ModelID == id)
+        if code: m = m.filter(RelatedModels.ModelCode == code)
 
         try:
             return m.all()
         except Exception, e:
             print e
             return None
-
-
-
 
 
 # ################################################################################
