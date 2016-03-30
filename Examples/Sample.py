@@ -64,7 +64,7 @@ try:
     numSites = len(siteFeatures)
 
     for x in siteFeatures:
-        print x.SamplingFeatureCode + ": " + x.SamplingFeatureName + ", " + x.SamplingFeatureTypeCV
+        print x.SamplingFeatureCode + ": " + str(x.SamplingFeatureName) + ", " + x.SamplingFeatureTypeCV
 except Exception as e:
     print "Unable to demo getSamplingFeaturesByType", e
 
@@ -127,20 +127,20 @@ except Exception as e:
 # Now get a particular Result using a ResultID
 print "\n------- Example of Retrieving Attributes of a Time Series Result -------"
 try:
-    tsResult = read.getResults(id = 1)
+    tsResult = read.getResults(id = 1)[0]
     print (
         "The following are some of the attributes for the TimeSeriesResult retrieved using getTimeSeriesResultByResultID(): \n" +
-        "ResultTypeCV: " + tsResult.ResultObj.ResultTypeCV + "\n" +
+        "ResultTypeCV: " + tsResult.ResultTypeCV + "\n" +
         # Get the ProcessingLevel from the TimeSeriesResult's ProcessingLevel object
-        "ProcessingLevel: " + tsResult.ResultObj.ProcessingLevelObj.Definition + "\n" +
-        "SampledMedium: " + tsResult.ResultObj.SampledMediumCV + "\n" +
+        "ProcessingLevel: " + tsResult.ProcessingLevelObj.Definition + "\n" +
+        "SampledMedium: " + tsResult.SampledMediumCV + "\n" +
         # Get the variable information from the TimeSeriesResult's Variable object
-        "Variable: " + tsResult.ResultObj.VariableObj.VariableCode + ": " + tsResult.ResultObj.VariableObj.VariableNameCV + "\n"
+        "Variable: " + tsResult.VariableObj.VariableCode + ": " + tsResult.VariableObj.VariableNameCV + "\n"
                                                                                                         "AggregationStatistic: " + tsResult.AggregationStatisticCV + "\n" +
         "Elevation_m: " + str(sf.Elevation_m) + "\n" +
         # Get the site information by drilling down
-        "SamplingFeature: " + tsResult.ResultObj.FeatureActionObj.SamplingFeatureObj.SamplingFeatureCode + " - " +
-        tsResult.ResultObj.FeatureActionObj.SamplingFeatureObj.SamplingFeatureName)
+        "SamplingFeature: " + tsResult.FeatureActionObj.SamplingFeatureObj.SamplingFeatureCode + " - " +
+        tsResult.FeatureActionObj.SamplingFeatureObj.SamplingFeatureName)
 except Exception as e:
     print "Unable to demo Example of retrieving Attributes of a time Series Result: ", e
 
