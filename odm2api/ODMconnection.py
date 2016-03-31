@@ -9,7 +9,7 @@ from .ODM1_1_1.services import ODM#, refreshDB
 import urllib
 import sys
 import os
-import pyodbc
+
 
 # LIBSPATIALITE_PATH = './libspatialite.so.5.1.0'
 
@@ -48,6 +48,7 @@ class SessionFactory():
             self.test_engine = self.engine
 
         elif 'mssql' in connection_string:
+              import pyodbc
               self.engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600)
               self.test_engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600, connect_args={'timeout': 1})
         elif 'postgresql' in connection_string or 'mysql' in connection_string:
