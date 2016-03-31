@@ -8,9 +8,9 @@ from sqlalchemy.engine import reflection
 dbs = [
  #   ['mysql', 'localhost', 'odm2', 'ODM', 'odm'],
 
-    ["mssql", "localhost",'odm2_lbr', 'odm', 'odm'],
+     ["mssql",   "localhost",                        'odm2_lbr', 'odm', 'odm'],
 #    ["sqlite", "./spatialite/odm2_test.sqlite",None, None,None]
-    ["sqlite", "./tests/spatialite/odm2_test.sqlite",None, None,None]
+    ["sqlite", "./tests/spatialite/odm2_test.sqlite", None,      None,   None]
 ]
 class Connection:
     def __init__(self, request):
