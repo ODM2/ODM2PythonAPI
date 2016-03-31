@@ -8,7 +8,8 @@ from sqlalchemy.engine import reflection
 dbs = [
  #   ['mysql', 'localhost', 'odm2', 'ODM', 'odm'],
 
-     ["mssql",   "localhost",                        'odm2_lbr', 'odm', 'odm'],
+     ["mssql",   "nrb8xkgxaj.database.windows.net"   ,  'odm2', 'web@nrb8xkgxaj', '1Forgetit!'],
+    #["mssql",   "localhost",                        'odm2_lbr', 'odm', 'odm'],
 #    ["sqlite", "./spatialite/odm2_test.sqlite",None, None,None]
     ["sqlite", "./tests/spatialite/odm2_test.sqlite", None,      None,   None]
 ]
@@ -16,6 +17,7 @@ class Connection:
     def __init__(self, request):
         #session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')
         db = request.param
+        print ("dbtype", db[0])
         session_factory = dbconnection.createConnection(db[0],db[1],db[2],db[3],db[4])
         insp = reflection.Inspector.from_engine(session_factory.engine)
         tables = insp.get_table_names()
