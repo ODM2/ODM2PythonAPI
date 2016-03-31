@@ -16,6 +16,7 @@ install:
   - sudo apt-add-repository -y ppa:ubuntugis/ppa
   - sudo apt-get update -qq
   #
+  - pip install git+https://github.com/ODM2/geoalchemy.git@odm2#egg=geoalchemy-0.7.3
   - pip install .
   - pip install -r requirements_tests.txt
     # pysqlite
