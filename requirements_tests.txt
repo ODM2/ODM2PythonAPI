@@ -1,21 +1,10 @@
-six
-sqlalchemy
--e git+https://github.com/ODM2/geoalchemy.git@odm2#egg=geoalchemy-0.7.3
-#Change line #242 in geoalchemy/base.py
-#from:
-#class SpatialComparator(ColumnProperty.ColumnComparator):
-#to :
-#class SpatialComparator(ColumnProperty.Comparator):
-
-shapely
-
-#matplotlib
-dateutils
-pandas
-
+-r requirements.txt
+pytest
+pytest-cov
+mock
 #db support
 pymysql
 pysqlite
 pyspatialite
 
-#sqlalchemy-migrate
+

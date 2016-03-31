@@ -16,16 +16,17 @@ install:
   - sudo apt-add-repository -y ppa:ubuntugis/ppa
   - sudo apt-get update -qq
   - sudo apt-get install unixodbc-dev
-  #
-  - pip install git+https://github.com/ODM2/geoalchemy.git@odm2#egg=geoalchemy-0.7.3
-  - pip install .
-  - pip install -r requirements_tests.txt
-    # pysqlite
-  - pip install pysqlite
-
   # Spatialiate
   - sudo apt-get install -y libproj-dev libgeos-dev libspatialite-dev
   - sudo ln -s /usr/lib/x86_64-linux-gnu/libspatialite.so /usr/lib/libspatialite.so
+    #
+  - pip install git+https://github.com/ODM2/geoalchemy.git@odm2#egg=geoalchemy-0.7.3
+  - pip install .
+  - pip install -r requirements_tests.txt  --allow-external pyodbc --allow-unverified pyodbc
+    # pysqlite
+  - pip install pysqlite
+
+
 
 # command to run tests
 script:
