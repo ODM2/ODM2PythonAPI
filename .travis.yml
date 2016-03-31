@@ -15,6 +15,7 @@ install:
   - sudo apt-add-repository -y ppa:git-core/ppa
   - sudo apt-add-repository -y ppa:ubuntugis/ppa
   - sudo apt-get update -qq
+  - sudo apt-get install unixodbc-dev
   #
   - pip install git+https://github.com/ODM2/geoalchemy.git@odm2#egg=geoalchemy-0.7.3
   - pip install .
