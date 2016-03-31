@@ -10,8 +10,21 @@ python:
 #  - "nightly" # currently points to 3.6-dev
 # command to install dependencies
 install:
- #- pip install .
- - pip install -r requirements_tests.txt
+  # patterned after: https://github.com/ptrv/gpx2spatialite/blob/master/.travis.yml
+  - sudo apt-get install -y python-software-properties
+  - sudo apt-add-repository -y ppa:git-core/ppa
+  - sudo apt-add-repository -y ppa:ubuntugis/ppa
+  - sudo apt-get update -qq
+  #
+  - pip install .
+  - pip install -r requirements_tests.txt
+    # pysqlite
+  - pip install pysqlite
+
+  # Spatialiate
+  - sudo apt-get install -y libproj-dev libgeos-dev libspatialite-dev
+  - sudo ln -s /usr/lib/x86_64-linux-gnu/libspatialite.so /usr/lib/libspatialite.so
+
 # command to run tests
 script:
 # just the connection part
