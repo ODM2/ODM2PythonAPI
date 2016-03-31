@@ -1,6 +1,6 @@
 sourcesix
 sqlalchemy
--e git+https://github.com/ODM2/geoalchemy.git@odm2
+-e git+https://github.com/ODM2/geoalchemy.git@odm2#egg=geoalchemy-0.7.3
 #Change line #242 in geoalchemy/base.py
 #from:
 #class SpatialComparator(ColumnProperty.ColumnComparator):
