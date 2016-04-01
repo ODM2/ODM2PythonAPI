@@ -17,7 +17,7 @@ install:
   - sudo apt-get update -qq
   - sudo apt-get install unixodbc  unixodbc-dev tdsodbc
   - sudo apt-get install freetds-dev freetds-bin
-  - sudo apt-get install libc6 llibkrb5-3 krb5-libs e2fsprogs glibc # mssql driver
+  - sudo apt-get install libc6  e2fsprogs  # mssql driver
   # Spatialiate
   - sudo apt-get install -y libproj-dev libgeos-dev libspatialite-dev
   - sudo ln -s /usr/lib/x86_64-linux-gnu/libspatialite.so /usr/lib/libspatialite.so
