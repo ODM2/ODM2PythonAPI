@@ -9,9 +9,8 @@ dbs_readonly = [
  #   ['mysql', 'localhost', 'odm2', 'ODM', 'odm'],
 
      ["mssql",   "nrb8xkgxaj.database.windows.net"   ,  'odm2', 'web@nrb8xkgxaj', '1Forgetit!'],
-    #["mssql",   "localhost",                        'odm2_lbr', 'odm', 'odm'],
-    ["sqlite", "./tests/spatialite/odm2_test.sqlite", None, None, None],
-#    ["sqlite", "./spatialite/odm2_test.sqlite",None, None,None]
+    ["mssql",   "localhost",                        'odm2', 'odm', 'odm'],
+ #   ["sqlite", "./tests/spatialite/odm2_test.sqlite", None, None, None],
     ["sqlite", "./tests/spatialite/wof2odm/ODM2.sqlite", None,      None,   None]
 ]
 dbs_test = [
@@ -23,10 +22,14 @@ class Connection:
         #session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')
         db = request.param
         print ("dbtype", db[0], db[1] )
-        session_factory = dbconnection.createConnection(db[0],db[1],db[2],db[3],db[4])
+        session_factory = dbconnection.createConnection(db[0],db[1],db[2],db[3],db[4], echo=True)
+        assert session_factory is not None, ("failed to create a session for ", db[0], db[1])
+        assert session_factory.engine is not None, ("failed: session has no engine ", db[0], db[1])
+
         insp = reflection.Inspector.from_engine(session_factory.engine)
         tables = insp.get_table_names()
         self.session = session_factory.getSession()
+        # self.session = session_factory.test_Session()
 
 
 #

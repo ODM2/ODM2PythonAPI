@@ -1,7 +1,8 @@
-from odmtools.odmdata import *
-from odmtools.odmservices import SeriesService, EditService
+from odm2api.ODM1_1_1.models import *
+from odm2api.ODM1_1_1.services  import SeriesService, EditService
 
-from tests import test_util
+from tests import test_util1_1_1 as test_util
+
 
 
 class TestSeriesService:

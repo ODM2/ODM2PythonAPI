@@ -75,18 +75,18 @@ class dbconnection():
         self._connection_format = "%s+%s://%s:%s@%s/%s"
 
     @classmethod
-    def createConnection(self, engine, address, db=None, user=None, password=None, dbtype = 2.0):
+    def createConnection(self, engine, address, db=None, user=None, password=None, dbtype = 2.0, echo=False):
 
         if engine == 'sqlite':
             connection_string = engine +':///'+address
-            s = SessionFactory(connection_string, echo = False, version= dbtype)
+            s = SessionFactory(connection_string, echo = echo, version= dbtype)
             setSchema(s.engine)
             return s
 
         else:
             connection_string = dbconnection.buildConnDict(dbconnection(), engine, address, db, user, password)
             if self.isValidConnection(connection_string, dbtype):
-                s= SessionFactory(connection_string, echo = False, version= dbtype)
+                s= SessionFactory(connection_string, echo = echo, version= dbtype)
                 setSchema(s.engine)
                 return s
             else :
@@ -111,8 +111,8 @@ class dbconnection():
                 return False
 
     @classmethod
-    def testEngine(self, connection_string):
-        s = SessionFactory(connection_string, echo=False)
+    def testEngine(self, connection_string, echo = False ):
+        s = SessionFactory(connection_string, echo=echo)
         try:
             setSchema(s.test_engine)
             s.test_Session().query(Variable2.VariableCode).limit(1).first()
@@ -123,8 +123,8 @@ class dbconnection():
         return True
 
     @classmethod
-    def testEngine1_1(self, connection_string):
-        s = SessionFactory(connection_string, echo=False)
+    def testEngine1_1(self, connection_string, echo = False ):
+        s = SessionFactory(connection_string, echo=echo)
         try:
             # s.ms_test_Session().query(Variable1).limit(1).first()
             s.test_Session().query(ODM.Variable.code).limit(1).first()

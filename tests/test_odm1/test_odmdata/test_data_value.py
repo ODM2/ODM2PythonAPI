@@ -1,7 +1,7 @@
-from odmtools.odmdata import *
+from odm2api.ODM1_1_1.models  import *
 
 
-from tests import test_util
+from tests import test_util1_1_1 as test_util
 
 
 class TestDataValue:

@@ -1,6 +1,9 @@
-from odmtools.odmdata import SessionFactory, Series
-from odmtools.odmservices import SeriesService
-from tests import test_util
+from odmtools.odmdata import SessionFactory
+
+from odm2api.ODM1_1_1.models import Series
+from odm2api.ODM1_1_1.services import SeriesService
+
+from tests import test_util1_1_1 as test_util
 
 __author__ = 'jmeline'
 

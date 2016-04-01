@@ -1,9 +1,9 @@
 import pytest
 import sqlalchemy.orm.exc
-from odmtools.odmdata import Qualifier
-from odmtools.odmservices import CVService
+from odm2api.ODM1_1_1.models import Qualifier
+from odm2api.ODM1_1_1.services import CVService
 
-from tests import test_util
+from tests import test_util1_1_1 as test_util
 
 
 session = None

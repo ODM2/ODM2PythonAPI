@@ -1,7 +1,7 @@
 import os.path
-from odmtools.odmservices import SeriesService, ExportService
+from odm2api.ODM1_1_1.services  import SeriesService, ExportService
 
-from tests import test_util
+from tests import test_util1_1_1 as test_util
 
 
 class TestExportService:
