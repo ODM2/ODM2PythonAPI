@@ -13,7 +13,7 @@ import pytest
 #         self.session = session_factory.getSession()
 
 # assumes that pytest is being run from ODM2PythonAPI directory
-dbs = testConnection.dbs
+dbs = testConnection.dbs_readonly
 # dbs = [
 #  #   ['mysql', 'localhost', 'odm2', 'ODM', 'odm'],
 #  #      ["sqlite", "./tests/spatialite/odm2_test.sqlite",None, None]

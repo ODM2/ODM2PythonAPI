@@ -5,19 +5,24 @@ import pytest
 from sqlalchemy.engine import reflection
 
 # assumes that pytest is being run from ODM2PythonAPI director
-dbs = [
+dbs_readonly = [
  #   ['mysql', 'localhost', 'odm2', 'ODM', 'odm'],
 
      ["mssql",   "nrb8xkgxaj.database.windows.net"   ,  'odm2', 'web@nrb8xkgxaj', '1Forgetit!'],
     #["mssql",   "localhost",                        'odm2_lbr', 'odm', 'odm'],
+    ["sqlite", "./tests/spatialite/odm2_test.sqlite", None, None, None],
 #    ["sqlite", "./spatialite/odm2_test.sqlite",None, None,None]
-    ["sqlite", "./tests/spatialite/odm2_test.sqlite", None,      None,   None]
+    ["sqlite", "./tests/spatialite/wof2odm/ODM2.sqlite", None,      None,   None]
+]
+dbs_test = [
+    ["sqlite", "./tests/spatialite/odm2_test.sqlite", None, None, None]
+
 ]
 class Connection:
     def __init__(self, request):
         #session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')
         db = request.param
-        print ("dbtype", db[0])
+        print ("dbtype", db[0], db[1] )
         session_factory = dbconnection.createConnection(db[0],db[1],db[2],db[3],db[4])
         insp = reflection.Inspector.from_engine(session_factory.engine)
         tables = insp.get_table_names()
@@ -26,7 +31,7 @@ class Connection:
 
 #
 #              params=["sqlite+pysqlite:///../../ODM2PythonAPI/tests/spatialite/odm2_test.sqlite", "mail.python.org"])
-@pytest.fixture(scope="session", params = dbs)
+@pytest.fixture(scope="session", params = dbs_readonly)
 def setup(request):
     return Connection(request)
 
