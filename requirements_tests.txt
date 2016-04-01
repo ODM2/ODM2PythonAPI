@@ -6,6 +6,7 @@ mock
 pymysql
 pysqlite
 pymssql
+psycopg2
 #pyspatialite
 
 
