@@ -39,7 +39,7 @@ install:
   - pip install -r requirements_tests.txt  --allow-external pyodbc --allow-unverified pyodbc
     # pysqlite
   - pip install pysqlite
-  - mysql -uroot  odm2 < D./tests/usecasesql/littlebearriver/sampledatabases/odm2_mysql/LBR_MySQL_SmallExample.sql
+  - mysql -uroot  odm2 < ./tests/usecasesql/littlebearriver/sampledatabases/odm2_mysql/LBR_MySQL_SmallExample.sql
   - psql -U postgres -d odm2 -a -f ./tests/usecasesql/marchantariats/marchantariats.sql
 
 
