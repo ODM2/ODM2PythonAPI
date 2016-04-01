@@ -9,6 +9,18 @@ python:
 #  - "3.5-dev" # 3.5 development branch
 #  - "nightly" # currently points to 3.6-dev
 # command to install dependencies
+services:
+  - mysql
+  - postgresql
+before_install:
+  - mysql -e "create database IF NOT EXISTS odm2;" -uroot
+  - mysql -e "create database IF NOT EXISTS odm2test;" -uroot
+  - psql -U postgres -c "create extension postgis"
+  - psql -c 'DROP DATABASE IF EXISTS odm2test;' -U postgres;
+  - psql -c 'create database odm2test;' -U postgres;
+#  - psql -U postgres -d odm2test -a -f ./tests/schemas/postgresql/ODM2_for_PostgreSQL.sql
+  - psql -c 'DROP DATABASE IF EXISTS odm2;' -U postgres;
+  - psql -c 'create database odm2;' -U postgres;
 install:
   # patterned after: https://github.com/ptrv/gpx2spatialite/blob/master/.travis.yml
   - sudo apt-get install -y python-software-properties
@@ -27,6 +39,8 @@ install:
   - pip install -r requirements_tests.txt  --allow-external pyodbc --allow-unverified pyodbc
     # pysqlite
   - pip install pysqlite
+  - mysql -uroot  odm2 < D./tests/usecasesql/littlebearriver/sampledatabases/odm2_mysql/LBR_MySQL_SmallExample.sql
+  - psql -U postgres -d odm2 -a -f ./tests/usecasesql/marchantariats/marchantariats.sql
 
 
 
