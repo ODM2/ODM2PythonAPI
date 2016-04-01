@@ -44,7 +44,7 @@ install: # now just our code
     # pysqlite
   - pip install pysqlite
   - ls -l  ./tests/usecasesql/littlebearriver/sampledatabases/odm2_mysql/LBR_MySQL_SmallExample.sql ./tests/usecasesql/marchantariats/marchantariats.sql
-#  - mysql -uroot  odm2 < ./tests/usecasesql/littlebearriver/sampledatabases/odm2_mysql/LBR_MySQL_SmallExample.sql
+  - mysql -uroot  odm2 < ./tests/usecasesql/littlebearriver/sampledatabases/odm2_mysql/LBR_MySQL_SmallExample.sql
   - psql -U postgres  -a -f ./tests/usecasesql/marchantariats/marchantariats.sql
 
 
