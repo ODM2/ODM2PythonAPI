@@ -32,15 +32,16 @@ before_install:
   # Spatialiate
   - sudo apt-get install -y libproj-dev libgeos-dev libspatialite-dev
   - sudo ln -s /usr/lib/x86_64-linux-gnu/libspatialite.so /usr/lib/libspatialite.so
+  - pip install pandas
 install: # now just our code
   - pip install git+https://github.com/ODM2/geoalchemy.git@odm2#egg=geoalchemy-0.7.3
   - pip install .
   - pip install -r requirements_tests.txt  --allow-external pyodbc --allow-unverified pyodbc
     # pysqlite
   - pip install pysqlite
-  - pwd 
-  - mysql -uroot  odm2 < ./ODM2PythonAPI/tests/usecasesql/littlebearriver/sampledatabases/odm2_mysql/LBR_MySQL_SmallExample.sql
-  - psql -U postgres -d odm2 -a -f ./ODM2PythonAPI/tests/usecasesql/marchantariats/marchantariats.sql
+  - ls -l  ./tests/usecasesql/littlebearriver/sampledatabases/odm2_mysql/LBR_MySQL_SmallExample.sql ./tests/usecasesql/marchantariats/marchantariats.sql
+  - mysql -uroot  odm2 < ./tests/usecasesql/littlebearriver/sampledatabases/odm2_mysql/LBR_MySQL_SmallExample.sql
+  - psql -U postgres -d odm2 -a -f ./tests/usecasesql/marchantariats/marchantariats.sql
 
 
 
