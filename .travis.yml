@@ -32,7 +32,8 @@ before_install:
   # Spatialiate
   - sudo apt-get install -y libproj-dev libgeos-dev libspatialite-dev
   - sudo ln -s /usr/lib/x86_64-linux-gnu/libspatialite.so /usr/lib/libspatialite.so
-  - pip install pandas
+#  - pip install pandas
+  - sudo apt-get install python-scipy python-matplotlib python-pandas python-sympy python-nose
 install: # now just our code
   - pip install git+https://github.com/ODM2/geoalchemy.git@odm2#egg=geoalchemy-0.7.3
   - pip install .
