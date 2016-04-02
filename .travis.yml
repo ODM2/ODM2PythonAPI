@@ -15,7 +15,7 @@ services:
 addons:
   mariadb: '10.1'
 before_install:
-  - mysql -e "CREATE USER 'ODM'@'localhost' IDENTIFIED BY 'odm';RANT ALL PRIVILEGES ON * . * TO 'ODM'@'localhost';" -uroot
+  - mysql -e "CREATE USER 'ODM'@'localhost' IDENTIFIED BY 'odm';GRANT ALL PRIVILEGES ON * . * TO 'ODM'@'localhost';" -uroot
   - mysql -e "create database IF NOT EXISTS odm2;" -uroot
   - mysql -e "create database IF NOT EXISTS odm2test;" -uroot
   - psql -U postgres -c "create extension postgis"
