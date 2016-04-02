@@ -57,7 +57,6 @@ install: # now just our code
 # add -a to psql to see full log, -q is quiet
   - psql -U postgres -q  -f ./tests/usecasesql/marchantariats/marchantariats.sql
 #  - netstat output | grep mysql
-  - cat /etc/my.cnf
   - mysql --user root -e   "SELECT User, Host FROM mysql.user;"
 
 # don't forget to open up the azure mssql server to these addreses
