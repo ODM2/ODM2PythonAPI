@@ -46,6 +46,7 @@ before_install:
   - export PYMSSQL_BUILD_WITH_BUNDLED_FREETDS=1;pip install pymssql
 install: # now just our code
   - odbcinst -j
+  - cat /etc/odbcinst.ini /etc/odbcinst.ini
   - pip install git+https://github.com/ODM2/geoalchemy.git@odm2#egg=geoalchemy-0.7.3
   - pip install   .
   - pip install  -r requirements_tests.txt  --allow-external pyodbc --allow-unverified pyodbc
