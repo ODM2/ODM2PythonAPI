@@ -21,6 +21,7 @@ addons:
 before_install:
   - mysql --verbose -e "CREATE USER 'ODM'@'localhost' IDENTIFIED BY 'odm';GRANT ALL PRIVILEGES ON *.* TO 'ODM'@'localhost';" --user=root
   - mysql --verbose -e "CREATE USER 'ODM'@'127.0.0.1' IDENTIFIED BY 'odm';GRANT ALL PRIVILEGES ON *.* TO 'ODM'@'127.0.0.1';" --user=root
+  - mysql --verbose -e "CREATE USER 'ODM'@'%' IDENTIFIED BY 'odm';GRANT ALL PRIVILEGES ON *.* TO 'ODM'@'%';" --user=root
   - mysql  --verbose  -e "create database IF NOT EXISTS odm2;" --user=root
   - mysql -e "create database IF NOT EXISTS odm2test;" --user=root
   - psql -U postgres -c "create extension postgis"
@@ -39,7 +40,7 @@ before_install:
   - sudo apt-get install libc6  e2fsprogs  # mssql driver
   # see what's installed
   - odbcinst -j
-  - cat /etc/odbcinst.ini 
+  - cat /etc/odbcinst.ini /etc/odbc.ini /etc/ODBCDataSources /home/travis/.odbc.ini
   #
   - sudo apt-get install mysql-client
   # Spatialiate
@@ -47,8 +48,9 @@ before_install:
   - sudo ln -s /usr/lib/x86_64-linux-gnu/libspatialite.so /usr/lib/libspatialite.so
 #  - sudo apt-get install python-scipy python-matplotlib python-pandas python-sympy python-nose
   - sudo apt-get install python-matplotlib python-pandas python-nose
-  - pip install pandas
-  - export PYMSSQL_BUILD_WITH_BUNDLED_FREETDS=1;pip install pymssql
+  - pip install pandas --use-mirrors
+  - export PYMSSQL_BUILD_WITH_BUNDLED_FREETDS=1;pip install pymssql --use-mirrors
+  - pip install mysql-python --use-mirrors
 install: # now just our code
 
   - pip install git+https://github.com/ODM2/geoalchemy.git@odm2#egg=geoalchemy-0.7.3
