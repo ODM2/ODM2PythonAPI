@@ -40,7 +40,7 @@ before_install:
   - sudo apt-get install libc6  e2fsprogs  # mssql driver
   # see what's installed
   - odbcinst -j
-  - cat /etc/odbcinst.ini /etc/odbc.ini /etc/ODBCDataSources /home/travis/.odbc.ini
+#  - cat /etc/odbcinst.ini /etc/odbc.ini /etc/ODBCDataSources /home/travis/.odbc.ini
   #
   - sudo apt-get install mysql-client
   # Spatialiate
