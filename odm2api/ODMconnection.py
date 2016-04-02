@@ -14,7 +14,7 @@ import os
 # LIBSPATIALITE_PATH = './libspatialite.so.5.1.0'
 
 class SessionFactory():
-    def __init__(self, connection_string, echo, version = 1.1):
+    def __init__(self, connection_string, echo=True, version = 1.1):
         if 'sqlite' in connection_string:
             # from sqlite3 import dbapi2 as sqlite
             # put the spatialite dll on the path. If one had pyspatialite installed thn
