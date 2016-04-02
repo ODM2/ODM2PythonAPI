@@ -46,7 +46,6 @@ install: # now just our code
   - pip install pysqlite
   - ls -l  ./tests/usecasesql/littlebearriver/sampledatabases/odm2_mysql/LBR_MySQL_SmallExample.sql ./tests/usecasesql/marchantariats/marchantariats.sql
   - mysql -uroot  odm2 < ./tests/usecasesql/littlebearriver/sampledatabases/odm2_mysql/LBR_MySQL_SmallExample.sql
-  - mysql -uroot "GRANT ALL ON odm2 TO ‘ODM’@'localhost’;"
 # add -a to psql to see full log
   - psql -U postgres   -f ./tests/usecasesql/marchantariats/marchantariats.sql
 
