@@ -48,7 +48,8 @@ install: # now just our code
 # add -a to psql to see full log
   - psql -U postgres   -f ./tests/usecasesql/marchantariats/marchantariats.sql
 
-
+# don't forget to open up the azure mssql server to these addreses
+# https://docs.travis-ci.com/user/ip-addresses/
 
 # command to run tests
 script:

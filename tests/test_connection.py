@@ -10,7 +10,7 @@ dbs_readonly = [
      ['postgresql', 'localhost', 'marchantariats', 'postgres',  None],
 
      ["mssql",   "nrb8xkgxaj.database.windows.net"   ,  'odm2', 'web@nrb8xkgxaj', '1Forgetit!'],
-    ["mssql",   "localhost",                        'odm2', 'odm', 'odm'],
+#    ["mssql",   "localhost",                        'odm2', 'odm', 'odm'],
  #   ["sqlite", "./tests/spatialite/odm2_test.sqlite", None, None, None],
     ["sqlite", "./tests/spatialite/wof2odm/ODM2.sqlite", None,      None,   None]
 ]
