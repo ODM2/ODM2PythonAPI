@@ -9,15 +9,19 @@ python:
 #  - "3.5-dev" # 3.5 development branch
 #  - "nightly" # currently points to 3.6-dev
 # command to install dependencies
+cache:
+  directories:
+    - $HOME/.cache/pip/wheels
+    - "$HOME/virtualenv/python2.7.9"
 services:
   #- mysql
   - postgresql
 addons:
   mariadb: '10.1'
 before_install:
-  - mysql --verbose -e "CREATE USER 'ODM'@'localhost' IDENTIFIED BY 'odm';GRANT ALL PRIVILEGES ON *.* TO 'ODM'@'localhost';" -uroot
-  - mysql  --verbose  -e "create database IF NOT EXISTS odm2;" -uroot
-  - mysql -e "create database IF NOT EXISTS odm2test;" -uroot
+  - mysql --verbose -e "CREATE USER 'ODM'@'localhost' IDENTIFIED BY 'odm';GRANT ALL PRIVILEGES ON *.* TO 'ODM'@'localhost';" --user=root
+  - mysql  --verbose  -e "create database IF NOT EXISTS odm2;" --user=root
+  - mysql -e "create database IF NOT EXISTS odm2test;" --user=root
   - psql -U postgres -c "create extension postgis"
   - psql -c 'DROP DATABASE IF EXISTS odm2test;' -U postgres;
   - psql -c 'create database odm2test;' -U postgres;
@@ -40,8 +44,8 @@ before_install:
   - pip install pandas
 install: # now just our code
   - pip install git+https://github.com/ODM2/geoalchemy.git@odm2#egg=geoalchemy-0.7.3
-  - pip install .
-  - pip install -r requirements_tests.txt  --allow-external pyodbc --allow-unverified pyodbc
+  - pip install --user  .
+  - pip install --user  -r requirements_tests.txt  --allow-external pyodbc --allow-unverified pyodbc
     # pysqlite
   - pip install pysqlite
   - ls -l  ./tests/usecasesql/littlebearriver/sampledatabases/odm2_mysql/LBR_MySQL_SmallExample.sql ./tests/usecasesql/marchantariats/marchantariats.sql
@@ -50,7 +54,7 @@ install: # now just our code
   - mysql --user=root -e   "GRANT ALL PRIVILEGES ON odm2.* TO 'ODM'@'localhost';"
 # add -a to psql to see full log, -q is quiet
   - psql -U postgres -q  -f ./tests/usecasesql/marchantariats/marchantariats.sql
-  - netstat output | grep mysql
+#  - netstat output | grep mysql
   - cat /etc/my.cnf
   - mysql --user root -e   "SELECT User, Host FROM mysql.user;"
 
