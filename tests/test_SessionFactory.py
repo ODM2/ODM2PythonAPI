@@ -19,7 +19,7 @@ dbs_test = [
     ["sqlite", "./tests/spatialite/odm2_test.sqlite", None, None, None]
 
 ]
-class SessionFactory:
+class aSessionFactory:
     def __init__(self, request):
         #session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')
         db = request.param
@@ -39,7 +39,7 @@ class SessionFactory:
 #              params=["sqlite+pysqlite:///../../ODM2PythonAPI/tests/spatialite/odm2_test.sqlite", "mail.python.org"])
 @pytest.fixture(scope="session", params = dbs_readonly)
 def setup(request):
-    return SessionFactory(request)
+    return aSessionFactory(request)
 
 
 #connect to all 4 database types( mssql, mysql, postgresql, sqlite, mssql on mac)
