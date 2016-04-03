@@ -27,11 +27,11 @@ class SessionFactory:
         #session_factory = dbconnection.createConnection(db[0],db[1],db[2],db[3],db[4], echo=True)
         session_factory = SessionFactory(connection_string=db[1])
         assert session_factory is not None, ("failed to create a session for ", db[0], db[1])
-        assert session_factory.engine is not None, ("failed: session has no engine ", db[0], db[1])
-
-        insp = reflection.Inspector.from_engine(session_factory.engine)
-        tables = insp.get_table_names()
-        self.session = session_factory.getSession()
+#        assert session_factory.engine is not None, ("failed: session has no engine ", db[0], db[1])
+#
+ #       insp = reflection.Inspector.from_engine(session_factory.engine)
+#        tables = insp.get_table_names()
+        self.session = session_factory
         # self.session = session_factory.test_Session()
 
 
