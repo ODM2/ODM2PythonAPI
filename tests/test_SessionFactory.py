@@ -14,8 +14,14 @@ dbs_readonly = [
      ['postgresql', 'postgresql+psycopg2://postgres:None@localhost/marchantariats', 'marchantariats', 'postgres',  None],
     #'postgresql+psycopg2://postgres:None@localhost/marchantariats'
 
-     ["mssql",   "mssql+pyodbc:///?odbc_connect=DRIVER%3D%7BFreeTDS%7D%3BDSN%3Dnrb8xkgxaj.database.windows.net%3BUID%3Dweb%3BPWD%3D1Forgetit%21%3B"   ,  'odm2', 'web', '1Forgetit!'],
+     ["mssql_pyodbc",   "mssql+pyodbc:///?odbc_connect=DRIVER%3D%7BFreeTDS%7D%3BDSN%3Dnrb8xkgxaj.database.windows.net%3BUID%3Dweb%3BPWD%3D1Forgetit%21%3B"   ,  'odm2', 'web', '1Forgetit!'],
 #'mssql+pyodbc:///?odbc_connect=DRIVER%3D%7BFreeTDS%7D%3BDSN%3Dnrb8xkgxaj.database.windows.net%3BUID%3Dweb%3BPWD%3D1Forgetit%21%3B'
+    ["mssql_pyodbc_kyle",
+     "mssql+pyodbc:///?odbc_connect=DRIVER%3D%7BFreeTDS%7D%3BDSN%3Dkyle.ucsd.edu%3BUID%3Dweb%3BPWD%3Dweb%21%3B",
+     'odm2', 'web', '1Forgetit!'],
+    ["mssql_pyodbc2",
+     "mssql+pyodbc:///?odbc_connect=DRIVER=FreeTDS;SERVER=kyle.ucsd.edu;UID=web;PWD=web;DATABASE=pdm2",
+     'odm2', 'web', '1Forgetit!'],
     #    ["mssql",   "localhost",                        'odm2', 'odm', 'odm'],
  #   ["sqlite", "./tests/spatialite/odm2_test.sqlite", None, None, None],
     ["sqlite", "sqlite:///./tests/spatialite/wof2odm/ODM2.sqlite", None,      None,   None]
