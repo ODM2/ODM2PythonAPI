@@ -40,6 +40,7 @@ before_install:
   - sudo apt-get install libc6  e2fsprogs  # mssql driver
   # see what's installed
  # - odbcinst -j
+ - ls /usr/lib/x86_64-linux-gnu/odbc/
   - echo "[FreeTDS]\nDescription = v0.91 with protocol v7.2 \nDriver = /usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so \n" > sudo odbcinst -i -d -r
   #- ls -al /etc/odbcinst.ini /etc/odbc.ini
  # - cat /etc/odbcinst.ini
@@ -49,6 +50,7 @@ before_install:
   #
   - echo "[global]\ntds version = 4.2\n\n[kyle]\nhost = nrb8xkgxaj.database.windows.net\nport = 1433\ndatabase=odm2\n" > .freetds.conf
   - echo "[moonstone]\nhost = moonstone.sdsc.edu\nport = 1433\ndatabase=odm2\n" >> .freetds.conf
+  - cat .freetds.conf
   - sudo apt-get install mysql-client
   # Spatialiate
   - sudo apt-get install -y libproj-dev libgeos-dev libspatialite-dev
