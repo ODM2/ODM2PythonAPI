@@ -40,6 +40,7 @@ before_install:
   - sudo apt-get install libc6  e2fsprogs  # mssql driver
   # see what's installed
   - odbcinst -j
+  - ls -al /etc/odbcinst.ini /etc/odbc.ini
   - sudo echo "[FreeTDS] \n Description = v0.91 with protocol v7.2 \n Driver = /usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so \n" > /etc/odbcinst.ini
   - cat /etc/odbcinst.ini
   - cat  /etc/odbc.ini
