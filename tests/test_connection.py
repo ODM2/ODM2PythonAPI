@@ -8,7 +8,7 @@ from sqlalchemy.engine import reflection
 # [ name, driver, server, database, user, password ]
 dbs_readonly = [
  #   ['mysql', 'localhost', 'odm2', 'ODM', 'odm'],
-     ['mysql_odm2','mysql', '127.0.0.1', 'odm2', 'ODM',  'odm'],
+     ['mysql_odm2_root','mysql', '127.0.0.1', 'odm2', 'root',  ''],
      ['postgresql_marchantariats','postgresql', 'localhost', 'marchantariats', 'postgres',  None],
 
 # bet the @ is scrwing thing up
