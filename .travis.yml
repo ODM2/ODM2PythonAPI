@@ -42,7 +42,7 @@ before_install:
   - odbcinst -j
   - cat /etc/odbcinst.ini
   - cat  /etc/odbc.ini
-  - cat /etc/ODBCDataSources /home/travis/.odbc.ini
+  - ls /etc/ODBCDataSources
 #  - cat  /home/travis/.odbc.ini #not found
   #
   - sudo apt-get install mysql-client
