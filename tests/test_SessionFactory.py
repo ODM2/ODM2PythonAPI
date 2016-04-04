@@ -25,7 +25,7 @@ class aSessionFactory:
         db = request.param
         print ("dbtype", db[0], db[1] )
         #session_factory = dbconnection.createConnection(db[0],db[1],db[2],db[3],db[4], echo=True)
-        session_factory = SessionFactory(connection_string=db[1])
+        session_factory = SessionFactory(db[1])
         assert session_factory is not None, ("failed to create a session for ", db[0], db[1])
 #        assert session_factory.engine is not None, ("failed: session has no engine ", db[0], db[1])
 #
