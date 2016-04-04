@@ -8,9 +8,9 @@ from sqlalchemy.engine import reflection
 dbs_readonly = [
  #   ['mysql', 'localhost', 'odm2', 'ODM', 'odm'],
      ['mysql@Localhost/odm2', 'mysql+pymysql://root@127.0.0.1/odm2'],
-     ['postgresql', 'postgresql+psycopg2://postgres:localhost/marchantariats', 'marchantariats', 'postgres',  None],
+     ['postgresql', 'postgresql+psycopg2://postgres@localhost/marchantariats', 'marchantariats', 'postgres',  None],
 
-     ["mssql",   "mssql+pyodbc://nrb8xkgxaj.database.windows.net"   ,  'odm2', 'web', '1Forgetit!'],
+     ["mssql",   "mssql+pyodbc://web:1Forgetit!@nrb8xkgxaj.database.windows.net/odm2"   ,  'odm2', 'web', '1Forgetit!'],
 #    ["mssql",   "localhost",                        'odm2', 'odm', 'odm'],
  #   ["sqlite", "./tests/spatialite/odm2_test.sqlite", None, None, None],
     ["sqlite", "sqlite:///./tests/spatialite/wof2odm/ODM2.sqlite", None,      None,   None]
