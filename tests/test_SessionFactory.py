@@ -15,15 +15,15 @@ dbs_readonly = [
     ['postgresql_marchantariats_empty', 'postgresql', 'postgresql+psycopg2://postgres@localhost/marchantariats', 'marchantariats', 'postgres',  None],
     #'postgresql+psycopg2://postgres:None@localhost/marchantariats'
 
-     ["mssql_pyodbc_azure",   "mssql",   "mssql+pyodbc:///?odbc_connect=DRIVER%3D%7BFreeTDS%7D%3BDSN%3Dkyle%3BUID%3Dweb%3BPWD%3D1Forgetit%21%3B"   ,  'odm2', 'web', '1Forgetit!'],
+     ["mssql_pyodbc_azure",   "mssql",   "mssql+pyodbc:///?odbc_connect=DRIVER%3D%7BFreeTDS%7D%3BDSN%3Dazure%3BUID%3Dweb%3BPWD%3D1Forgetit%21%3B"   ,  'odm2', 'web', '1Forgetit!'],
     ["mssql_pyodbc2_azure", "mssql",
-     "mssql+pyodbc:///?odbc_connect=DRIVER=FreeTDS%3DSERVER=nrb8xkgxaj.database.windows.net%3DUID=web@nrb8xkgxaj%3DPWD=1Forgetit!%3DDATABASE=odm2",
+     "mssql+pyodbc:///?odbc_connect=DRIVER%3DFreeTDS%3BSERVER%3Dnrb8xkgxaj.database.windows.net%3BUID%3Dweb@nrb8xkgxaj%3BPWD%3D1Forgetit!%3BDATABASE%3Dodm2",
      'odm2', 'web', '1Forgetit!'],
     ["mssql_pyodbc3_azure", "mssql",
-     "mssql+pyodbc:///?odbc_connect=DRIVER={FreeTDS}%3DSERVER=nrb8xkgxaj.database.windows.net%3DUID=web%3DPWD=1Forgetit!%3DDATABASE=odm2%3D",
+     "mssql+pyodbc:///?odbc_connect=DRIVER%3D{FreeTDS}%3BSERVER%3Dnrb8xkgxaj.database.windows.net%3BUID%3Dweb%3DPWD%3D1Forgetit!%3BDATABASE%3Dodm2",
      'odm2', 'web', '1Forgetit!'],
     #'mssql+pyodbc:///?odbc_connect=DRIVER%3D%7BFreeTDS%7D%3BDSN%3Dnrb8xkgxaj.database.windows.net%3BUID%3Dweb%3BPWD%3D1Forgetit%21%3B'
-    ["mssql_pyodbc_kyle",   "mssql",
+    ["mssql_pyodbc_moonstone",   "mssql",
      "mssql+pyodbc:///?odbc_connect=DRIVER%3D%7BFreeTDS%7D%3BDSN%3Dmoonstone%3BUID%3Dwebservice%3BPWD%3Dwebservice%21%3BDATABASE=odm2",
      'odm2', 'web', '1Forgetit!'],
     ["mssql_pyodbc2",   "mssql",
