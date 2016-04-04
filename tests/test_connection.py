@@ -8,12 +8,12 @@ from sqlalchemy.engine import reflection
 # [ name, driver, server, database, user, password ]
 dbs_readonly = [
  #   ['mysql', 'localhost', 'odm2', 'ODM', 'odm'],
-     ['mysql_odm2_root','mysql', '127.0.0.1', 'odm2', 'root',  ''],
+     ['mysql_odm2_root','mysql', '127.0.0.1', 'odm2', 'root', None],
      ['postgresql_marchantariats','postgresql', 'localhost', 'marchantariats', 'postgres',  None],
 
 # bet the @ is scrwing thing up
     #      ["mssql",   "nrb8xkgxaj.database.windows.net"   ,  'odm2', 'web@nrb8xkgxaj', '1Forgetit!'],
-    ["mssql_azure", "mssql", "nrb8xkgxaj.database.windows.net", 'odm2', 'web@nrb8xkgxaj', '1Forgetit!'],
+    ["mssql_azure", "mssql", "azure", 'odm2', 'web@nrb8xkgxaj', '1Forgetit!'],
 #    ["mssql",   "localhost",                        'odm2', 'odm', 'odm'],
  #   ["sqlite", "./tests/spatialite/odm2_test.sqlite", None, None, None],
     ["sqlite_wof","sqlite", "./tests/spatialite/wof2odm/ODM2.sqlite", None,      None,   None]

@@ -193,7 +193,8 @@ class dbconnection():
             driver = "pyodbc"
             #'DRIVER={FreeTDS};DSN=%s;UID=%s;PWD=%s;' % (conn_dict['address'], conn_dict['user'], conn_dict['password'])
          #   quoted = urllib.quote_plus('DRIVER={FreeTDS};DSN=%s;UID=%s;PWD=%s;' % (conn_dict['address'], conn_dict['user'], conn_dict['password']))
-            quoted = urllib.quote_plus('DRIVER={FreeTDS};DATABASE=%s;UID=%s;PWD=%s;' % (conn_dict['address'], conn_dict['user'], conn_dict['password']))
+            quoted = urllib.quote_plus('DRIVER={FreeTDS};DSN=%s;UID=%s;PWD=%s;DATABASE=%s' %
+                                       (conn_dict['address'], conn_dict['user'], conn_dict['password'],conn_dict['db'],))
             conn_string = 'mssql+pyodbc:///?odbc_connect={}'.format(quoted)
         else:
             if conn_dict['engine'] == 'mssql':
