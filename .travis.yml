@@ -46,13 +46,13 @@ before_install:
   - echo "Driver = /usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so">> .odbc.ini
   - sudo odbcinst -i -d -f .odbc.ini
   # free tds
-  - sudo echo "[FreeTDS]" > odbcinst.ini
+  - sudo echo "[FreeTDS]" >> odbcinst.ini
   - sudo echo "Description = v0.91 with protocol v7.2" >> odbcinst.ini
   - sudo echo "Driver = /usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so " >> odbcinst.ini
 #  - sudo echo "Setup = $HOME/oob/client/libesoobsetup.so >> odbcinst.ini
 #  - sudo echo "FileUsage = 1" >> odbcinst.ini
   #- ls -al /etc/odbcinst.ini /etc/odbc.ini
- # - cat /etc/odbcinst.ini
+  - cat /etc/odbcinst.ini
   #- cat  /etc/odbc.ini
  # - ls /etc/ODBCDataSources
 #  - cat  /home/travis/.odbc.ini #not found
