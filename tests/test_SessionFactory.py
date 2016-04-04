@@ -9,7 +9,7 @@ from sqlalchemy.engine import reflection
 dbs_readonly = [
  #   ['mysql', 'localhost', 'odm2', 'ODM', 'odm'],
      ['mysql@Localhost/odm2', 'mysql', 'mysql+pymysql://root:@localhost/odm2'],
-    [' mysql + mysqldb:', 'mysql', ' mysql+mysqldb://root@localhost/odm2'],
+    [' mysql + mysqldb:', 'mysql', 'mysql+mysqldb://root@localhost/odm2'],
 
                      #'mysql+pymysql://ODM:odm@127.0.0.1/odm2'
      ['postgresql_marchantariats', 'postgresql', 'postgresql+psycopg2://postgres:None@localhost/marchantariats', 'marchantariats', 'postgres',  None],
@@ -21,7 +21,10 @@ dbs_readonly = [
      "mssql+pyodbc:///?odbc_connect=DRIVER%3D%7BFreeTDS%7D%3BDSN%3Dkyle.ucsd.edu%3BUID%3Dweb%3BPWD%3Dweb%21%3B",
      'odm2', 'web', '1Forgetit!'],
     ["mssql_pyodbc2",   "mssql",
-     "mssql+pyodbc:///?odbc_connect=DRIVER=FreeTDS;SERVER=kyle.ucsd.edu;UID=web;PWD=web;DATABASE=odm2",
+     "mssql+pyodbc:///?odbc_connect=DRIVER=FreeTDS;SERVER=moonstone.ucsd.edu;UID=web;PWD=web;DATABASE=odm2",
+     'odm2', 'web', '1Forgetit!'],
+    ["mssql_pyodbc_kyle",   "mssql",
+     "mssql+pymssql://web:1Forgetit!@kyle?charset=utf8",
      'odm2', 'web', '1Forgetit!'],
     #    ["mssql",   "localhost",                        'odm2', 'odm', 'odm'],
  #   ["sqlite", "./tests/spatialite/odm2_test.sqlite", None, None, None],
