@@ -15,7 +15,7 @@ dbs_readonly = [
     ['postgresql_marchantariats_empty', 'postgresql', 'postgresql+psycopg2://postgres@localhost/marchantariats', 'marchantariats', 'postgres',  None],
     #'postgresql+psycopg2://postgres:None@localhost/marchantariats'
 
-     ["mssql_pyodbc_azure",   "mssql",   "mssql+pyodbc:///?odbc_connect=DRIVER%3D%7BFreeTDS%7D%3BDSN%3Dnrb8xkgxaj.database.windows.net%3BUID%3Dweb%3BPWD%3D1Forgetit%21%3B"   ,  'odm2', 'web', '1Forgetit!'],
+     ["mssql_pyodbc_azure",   "mssql",   "mssql+pyodbc:///?odbc_connect=DRIVER%3D%7BFreeTDS%7D%3BDSN%3Dkyle%3BUID%3Dweb%3BPWD%3D1Forgetit%21%3B"   ,  'odm2', 'web', '1Forgetit!'],
     ["mssql_pyodbc2_azure", "mssql",
      "mssql+pyodbc:///?odbc_connect={DRIVER=FreeTDS;SERVER=nrb8xkgxaj.database.windows.net;UID=web@nrb8xkgxaj;PWD=1Forgetit!;DATABASE=odm2}",
      'odm2', 'web', '1Forgetit!'],
@@ -24,7 +24,7 @@ dbs_readonly = [
      'odm2', 'web', '1Forgetit!'],
     #'mssql+pyodbc:///?odbc_connect=DRIVER%3D%7BFreeTDS%7D%3BDSN%3Dnrb8xkgxaj.database.windows.net%3BUID%3Dweb%3BPWD%3D1Forgetit%21%3B'
     ["mssql_pyodbc_kyle",   "mssql",
-     "mssql+pyodbc:///?odbc_connect=DRIVER%3D%7BFreeTDS%7D%3BDSN%3Dkyle.ucsd.edu%3BUID%3Dweb%3BPWD%3Dweb%21%3B",
+     "mssql+pyodbc:///?odbc_connect=DRIVER%3D%7BFreeTDS%7D%3BDSN%3Dmoonstone%3BUID%3Dwebservice%3BPWD%3Dwebservice%21%3BDATABASE=odm2",
      'odm2', 'web', '1Forgetit!'],
     ["mssql_pyodbc2",   "mssql",
      "mssql+pyodbc:///?odbc_connect={DRIVER=FreeTDS;SERVER=moonstone.ucsd.edu;UID=web;PWD=web;DATABASE=odm2}",
