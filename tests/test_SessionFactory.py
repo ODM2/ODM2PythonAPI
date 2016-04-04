@@ -5,30 +5,31 @@ import pytest
 from sqlalchemy.engine import reflection
 
 # assumes that pytest is being run from ODM2PythonAPI director
+# [name, driver, connectionstring ]
 dbs_readonly = [
  #   ['mysql', 'localhost', 'odm2', 'ODM', 'odm'],
-     ['mysql@Localhost/odm2', 'mysql+pymysql://root:@localhost/odm2'],
-    [' mysql + mysqldb:', ' mysql + mysqldb:://root:@localhost/odm2'],
+     ['mysql@Localhost/odm2', 'mysql', 'mysql+pymysql://root:@localhost/odm2'],
+    [' mysql + mysqldb:', 'mysql', ' mysql+mysqldb:://root:@localhost/odm2'],
 
                      #'mysql+pymysql://ODM:odm@127.0.0.1/odm2'
-     ['postgresql', 'postgresql+psycopg2://postgres:None@localhost/marchantariats', 'marchantariats', 'postgres',  None],
+     ['postgresql_marchantariats', 'postgresql', 'postgresql+psycopg2://postgres:None@localhost/marchantariats', 'marchantariats', 'postgres',  None],
     #'postgresql+psycopg2://postgres:None@localhost/marchantariats'
 
-     ["mssql_pyodbc",   "mssql+pyodbc:///?odbc_connect=DRIVER%3D%7BFreeTDS%7D%3BDSN%3Dnrb8xkgxaj.database.windows.net%3BUID%3Dweb%3BPWD%3D1Forgetit%21%3B"   ,  'odm2', 'web', '1Forgetit!'],
+     ["mssql_pyodbc_azure",   "mssql",   "mssql+pyodbc:///?odbc_connect=DRIVER%3D%7BFreeTDS%7D%3BDSN%3Dnrb8xkgxaj.database.windows.net%3BUID%3Dweb%3BPWD%3D1Forgetit%21%3B"   ,  'odm2', 'web', '1Forgetit!'],
 #'mssql+pyodbc:///?odbc_connect=DRIVER%3D%7BFreeTDS%7D%3BDSN%3Dnrb8xkgxaj.database.windows.net%3BUID%3Dweb%3BPWD%3D1Forgetit%21%3B'
-    ["mssql_pyodbc_kyle",
+    ["mssql_pyodbc_kyle",   "mssql",
      "mssql+pyodbc:///?odbc_connect=DRIVER%3D%7BFreeTDS%7D%3BDSN%3Dkyle.ucsd.edu%3BUID%3Dweb%3BPWD%3Dweb%21%3B",
      'odm2', 'web', '1Forgetit!'],
-    ["mssql_pyodbc2",
-     "mssql+pyodbc:///?odbc_connect=DRIVER=FreeTDS;SERVER=kyle.ucsd.edu;UID=web;PWD=web;DATABASE=pdm2",
+    ["mssql_pyodbc2",   "mssql",
+     "mssql+pyodbc:///?odbc_connect=DRIVER=FreeTDS;SERVER=kyle.ucsd.edu;UID=web;PWD=web;DATABASE=odm2",
      'odm2', 'web', '1Forgetit!'],
     #    ["mssql",   "localhost",                        'odm2', 'odm', 'odm'],
  #   ["sqlite", "./tests/spatialite/odm2_test.sqlite", None, None, None],
-    ["sqlite", "sqlite:///./tests/spatialite/wof2odm/ODM2.sqlite", None,      None,   None]
+    ["sqlite_wof", "sqlite","sqlite:///./tests/spatialite/wof2odm/ODM2.sqlite", None,      None,   None]
     #'sqlite:///./tests/spatialite/wof2odm/ODM2.sqlite'
 ]
 dbs_test = [
-    ["sqlite", "./tests/spatialite/odm2_test.sqlite", None, None, None]
+    ["sqlite_test","sqlite" "./tests/spatialite/odm2_test.sqlite", None, None, None]
 
 ]
 class aSessionFactory:
@@ -37,7 +38,8 @@ class aSessionFactory:
         db = request.param
         print ("dbtype", db[0], db[1] )
         #session_factory = dbconnection.createConnection(db[0],db[1],db[2],db[3],db[4], echo=True)
-        session_factory = SessionFactory(db[1])
+        session_factory = SessionFactory(db[2])
+        setSchema(db[1])
         assert session_factory is not None, ("failed to create a session for ", db[0], db[1])
 #        assert session_factory.engine is not None, ("failed: session has no engine ", db[0], db[1])
 #

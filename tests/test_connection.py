@@ -5,17 +5,18 @@ import pytest
 from sqlalchemy.engine import reflection
 
 # assumes that pytest is being run from ODM2PythonAPI director
+# [ name, driver, server, database, user, password ]
 dbs_readonly = [
  #   ['mysql', 'localhost', 'odm2', 'ODM', 'odm'],
-     ['mysql', '127.0.0.1', 'odm2', 'ODM',  'odm'],
-     ['postgresql', 'localhost', 'marchantariats', 'postgres',  None],
+     ['mysql_odm2','mysql', '127.0.0.1', 'odm2', 'ODM',  'odm'],
+     ['postgresql_marchantariats','postgresql', 'localhost', 'marchantariats', 'postgres',  None],
 
 # bet the @ is scrwing thing up
     #      ["mssql",   "nrb8xkgxaj.database.windows.net"   ,  'odm2', 'web@nrb8xkgxaj', '1Forgetit!'],
-    ["mssql", "nrb8xkgxaj.database.windows.net", 'odm2', 'web@nrb8xkgxaj', '1Forgetit!'],
+    ["mssql_azure", "mssql", "nrb8xkgxaj.database.windows.net", 'odm2', 'web@nrb8xkgxaj', '1Forgetit!'],
 #    ["mssql",   "localhost",                        'odm2', 'odm', 'odm'],
  #   ["sqlite", "./tests/spatialite/odm2_test.sqlite", None, None, None],
-    ["sqlite", "./tests/spatialite/wof2odm/ODM2.sqlite", None,      None,   None]
+    ["sqlite_wof","sqlite", "./tests/spatialite/wof2odm/ODM2.sqlite", None,      None,   None]
 ]
 dbs_test = [
     ["sqlite", "./tests/spatialite/odm2_test.sqlite", None, None, None]
@@ -26,7 +27,7 @@ class Connection:
         #session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')
         db = request.param
         print ("dbtype", db[0], db[1] )
-        session_factory = dbconnection.createConnection(db[0],db[1],db[2],db[3],db[4], echo=True)
+        session_factory = dbconnection.createConnection(db[1],db[2],db[3],db[4],db[5], echo=True)
         assert session_factory is not None, ("failed to create a session for ", db[0], db[1])
         assert session_factory.engine is not None, ("failed: session has no engine ", db[0], db[1])
 
