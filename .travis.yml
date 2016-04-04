@@ -43,7 +43,7 @@ before_install:
   - cat /etc/odbcinst.ini
   - cat  /etc/odbc.ini
   - cat /etc/ODBCDataSources /home/travis/.odbc.ini
-  - cat  /home/travis/.odbc.ini
+#  - cat  /home/travis/.odbc.ini #not found
   #
   - sudo apt-get install mysql-client
   # Spatialiate
