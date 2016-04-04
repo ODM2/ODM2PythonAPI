@@ -42,9 +42,6 @@ before_install:
   - odbcinst -j
   - echo "[FreeTDS] \n Description = v0.91 with protocol v7.2 \n Driver = /usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so \n" > odbcinst -i -r
   - ls -al /etc/odbcinst.ini /etc/odbc.ini
-  - sudo echo "[FreeTDS] \n" >> /etc/odbcinst.ini
-  - sudo echo "Description = v0.91 with protocol v7.2 \n" >> /etc/odbcinst.ini
-  - sudo echo "Driver = /usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so \n" >> /etc/odbcinst.ini
   - cat /etc/odbcinst.ini
   - cat  /etc/odbc.ini
   - ls /etc/ODBCDataSources
