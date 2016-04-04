@@ -108,7 +108,7 @@ setup(
     # $ pip install -e .[dev,test]
     extras_require={
         'mysql': ['pymysql'],
-        'postgis': ['pymysql'],
+        'postgis': ['psycopg2'],
         'sqlite': ['pyspatialite >=3.0.0'], # need to look at: http://www.gaia-gis.it/spatialite-2.4.0-4/splite-python.html
         'test': ['coverage'],
     },
