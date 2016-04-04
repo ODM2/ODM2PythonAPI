@@ -8,5 +8,6 @@ pysqlite
 pymssql
 psycopg2
 #pyspatialite
+mysql-python
 
 

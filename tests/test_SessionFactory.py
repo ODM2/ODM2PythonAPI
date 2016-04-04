@@ -7,8 +7,10 @@ from sqlalchemy.engine import reflection
 # assumes that pytest is being run from ODM2PythonAPI director
 dbs_readonly = [
  #   ['mysql', 'localhost', 'odm2', 'ODM', 'odm'],
-     ['mysql@Localhost/odm2', 'mysql+pymysql://root@localhost/odm2'],
-    #'mysql+pymysql://ODM:odm@127.0.0.1/odm2'
+     ['mysql@Localhost/odm2', 'mysql+pymysql://root:@localhost/odm2'],
+    [' mysql + mysqldb:', ' mysql + mysqldb:://root:@localhost/odm2'],
+
+                     #'mysql+pymysql://ODM:odm@127.0.0.1/odm2'
      ['postgresql', 'postgresql+psycopg2://postgres:None@localhost/marchantariats', 'marchantariats', 'postgres',  None],
     #'postgresql+psycopg2://postgres:None@localhost/marchantariats'
 
