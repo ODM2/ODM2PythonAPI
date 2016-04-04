@@ -306,15 +306,16 @@ class SamplingFeatures(Base):
         return geomshape
 
     def __repr__(self):
-        geom = self.shape()
-        if geom is not None:
-            geomkt = geom.wkt
-        else:
-            geomkt = None
+        # geom = self.shape()
+        # if geom is not None:
+        #     geomkt = geom.wkt
+        # else:
+        #     geomkt = None
 
         return "<SamplingFeatures('%s', '%s', '%s', '%s', '%s')>" % (
             self.SamplingFeatureCode, self.SamplingFeatureName, self.SamplingFeatureDescription,
-            self.Elevation_m, geomkt)
+            # self.Elevation_m, geomkt)
+            self.Elevation_m, self.FeatureGeometry)
 
 
 GeometryDDL(SamplingFeatures.__table__)  # Geoalchemy1

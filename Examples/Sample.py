@@ -9,6 +9,7 @@ from matplotlib import dates
 
 from odm2api.ODMconnection import dbconnection
 from odm2api.ODM2.services.readService import *
+from odm2api.ODM2.services import CreateODM2
 # Create a connection to the ODM2 database
 # ----------------------------------------
 
@@ -24,6 +25,7 @@ session_factory= dbconnection.createConnection('mssql', "arroyoodm2", "", "ODM",
 
 #_session = session_factory.getSession()
 read = ReadODM2(session_factory)
+create =CreateODM2(session_factory)
 
 
 
@@ -80,18 +82,14 @@ except Exception as e:
 #add sampling feature
 print "\n------------ Create Sampling Feature --------- \n",
 try:
-    from odm2api.ODM2.models import SamplingFeatures
-    newsf = SamplingFeatures()
+    # from odm2api.ODM2.models import SamplingFeatures
     session = session_factory.getSession()
-    newsf.FeatureGeometry = "POINT(-111.946 41.718)"
-    newsf.Elevation_m=100
-    newsf.ElevationDatumCV=sf.ElevationDatumCV
-    newsf.SamplingFeatureCode= "TestSF"
-    newsf.SamplingFeatureDescription = "this is a test to add Feature Geomotry"
-    newsf.SamplingFeatureGeotypeCV= "Point"
-    newsf.SamplingFeatureTypeCV=sf.SamplingFeatureTypeCV
-    newsf.SamplingFeatureUUID= sf.SamplingFeatureUUID+"2"
-    session.add(newsf)
+    newsf = Sites(FeatureGeometryWKT = "POINT(-111.946 41.718)", Elevation_m=100, ElevationDatumCV=sf.ElevationDatumCV,
+    SamplingFeatureCode= "TestSF",SamplingFeatureDescription = "this is a test to add Feature Geomotry",
+    SamplingFeatureGeotypeCV= "Point", SamplingFeatureTypeCV=sf.SamplingFeatureTypeCV,SamplingFeatureUUID= sf.SamplingFeatureUUID+"2",
+    SiteTypeCV="cave", Latitude= "100", Longitude= "-100", SpatialReferenceID= 0)
+
+    create.createSamplingFeature(newsf)
     #session.commit()
     print "new sampling feature added to database", newsf
 
