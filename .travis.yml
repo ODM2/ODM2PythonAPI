@@ -41,7 +41,11 @@ before_install:
   # see what's installed
  # - odbcinst -j
   - ls /usr/lib/x86_64-linux-gnu/odbc/
-  - echo "[FreeTDS]\nDescription = v0.91 with protocol v7.2 \nDriver = /usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so \n" > sudo odbcinst -i -d -r
+  - echo "[FreeTDS]"> .odbc.ini
+  - echo "Description = v0.91 with protocol v7.2">> .odbc.ini
+  - echo "Driver = /usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so">> .odbc.ini
+  - sudo odbcinst -i -d -f .odbc.ini
+  # free tds
   - sudo echo "[FreeTDS]" > odbcinst.ini
   - sudo echo "Description = v0.91 with protocol v7.2" >> odbcinst.ini
   - sudo echo "Driver = /usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so " >> odbcinst.ini
@@ -53,8 +57,16 @@ before_install:
  # - ls /etc/ODBCDataSources
 #  - cat  /home/travis/.odbc.ini #not found
   #
-  - echo "[global]\ntds version = 4.2\n\n[kyle]\nhost = nrb8xkgxaj.database.windows.net\nport = 1433\ndatabase=odm2\n" > .freetds.conf
-  - echo "[moonstone]\nhost = moonstone.sdsc.edu\nport = 1433\ndatabase=odm2\n" >> .freetds.conf
+  - echo "[global]" > .freetds.conf
+  - echo "tds version = 4.2" >> .freetds.conf
+  - echo "[kyle]" >> .freetds.conf
+  - echo "host = nrb8xkgxaj.database.windows.net" >> .freetds.conf
+  - echo "port = 1433" >> .freetds.conf
+  - echo "database=odm2" >> .freetds.conf
+  - echo "[moonstone]">> .freetds.conf
+  - echo "host = moonstone.sdsc.edu">> .freetds.conf
+  - echo "port = 1433">> .freetds.conf
+  - echo "database=odm2" >> .freetds.conf
   - cat .freetds.conf
   - sudo apt-get install mysql-client
   # Spatialiate
