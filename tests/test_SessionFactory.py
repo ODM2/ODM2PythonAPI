@@ -8,12 +8,11 @@ from sqlalchemy.engine import reflection
 # [name, driver, connectionstring ]
 dbs_readonly = [
  #   ['mysql', 'localhost', 'odm2', 'ODM', 'odm'],
-#     ['mysql@Localhost/odm2', 'mysql', 'mysql+pymysql://root:@localhost/odm2'],
-#    [' mysql + mysqldb:', 'mysql', 'mysql+mysqldb://root@localhost/odm2'],
-    ['mysql@Localhost/odm2', 'mysql', 'mysql+pymysql://root:@localhost/'],
-    [' mysql + mysqldb:', 'mysql', 'mysql+mysqldb://root@localhost/'],
+    ['mysql@Localhost/odm2', 'mysql', 'mysql+pymysql://root:@localhost/odm2'],
+   [' mysql + mysqldb:', 'mysql', 'mysql+mysqldb://root@localhost/odm2'],
                      #'mysql+pymysql://ODM:odm@127.0.0.1/odm2'
-     ['postgresql_marchantariats', 'postgresql', 'postgresql+psycopg2://postgres:None@localhost/marchantariats', 'marchantariats', 'postgres',  None],
+     ['postgresql_marchantariats_none', 'postgresql', 'postgresql+psycopg2://postgres:None@localhost/marchantariats', 'marchantariats', 'postgres',  None],
+    ['postgresql_marchantariats_empty', 'postgresql', 'postgresql+psycopg2://postgres@localhost/marchantariats', 'marchantariats', 'postgres',  None],
     #'postgresql+psycopg2://postgres:None@localhost/marchantariats'
 
      ["mssql_pyodbc_azure",   "mssql",   "mssql+pyodbc:///?odbc_connect=DRIVER%3D%7BFreeTDS%7D%3BDSN%3Dnrb8xkgxaj.database.windows.net%3BUID%3Dweb%3BPWD%3D1Forgetit%21%3B"   ,  'odm2', 'web', '1Forgetit!'],
