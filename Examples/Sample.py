@@ -1,17 +1,11 @@
 __author__ = 'stephanie'
-import sys
-import os
+
 
 
 import matplotlib.pyplot as plt
 from matplotlib import dates
 
 
-#this will be removed when we can installthe api
-# this_file = os.path.realpath(__file__)
-# directory = os.path.dirname(os.path.dirname(this_file))
-# print directory
-# sys.path.insert(0, directory)
 
 from odm2api.ODMconnection import dbconnection
 from odm2api.ODM2.services.readService import *
@@ -20,16 +14,15 @@ from odm2api.ODM2.services.readService import *
 
 
 #connect to database
-#createconnection (dbtype, servername, dbname, username, password)
+# createconnection (dbtype, servername, dbname, username, password)
+# session_factory = dbconnection.createConnection('connection type: sqlite|mysql|mssql|postgresql', '/your/path/to/db/goes/here', 2.0)#sqlite
 # session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')#mysql
-#session_factory = dbconnection.createConnection('connection type: sqlite|mysql|mssql|postgresql', '/your/path/to/db/goes/here', 2.0)#sqlite
 # session_factory= dbconnection.createConnection('mssql', "(local)", "LBRODM2", "ODM", "odm")#win MSSQL
 session_factory= dbconnection.createConnection('mssql', "arroyoodm2", "", "ODM", "odm")#mac/linux MSSQL
 
 
 
 #_session = session_factory.getSession()
-
 read = ReadODM2(session_factory)
 
 
@@ -152,6 +145,7 @@ tsValues = read.getResultValues(resultid = 1)  # Return type is a pandas datafra
 # Print a few Time Series Values to the console
 # tsValues.set_index('ValueDateTime', inplace=True)
 try:
+    print "tsValues "
     print tsValues.head()
 except Exception as e:
     print e
@@ -159,18 +153,9 @@ except Exception as e:
 # Plot the time series
 
 try:
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    tsValues.plot(x='ValueDateTime', y='DataValue', kind='line',
-                  title=tsResult.ResultObj.VariableObj.VariableNameCV + " at " + tsResult.ResultObj.FeatureActionObj.SamplingFeatureObj.SamplingFeatureName,
-                  ax=ax)
-    ax.set_ylabel(tsResult.ResultObj.VariableObj.VariableNameCV + " (" + tsResult.ResultObj.UnitsObj.UnitsAbbreviation + ")")
-    ax.set_xlabel("Date/Time")
-    ax.xaxis.set_minor_locator(dates.MonthLocator())
-    ax.xaxis.set_minor_formatter(dates.DateFormatter('%b'))
-    ax.xaxis.set_major_locator(dates.YearLocator())
-    ax.xaxis.set_major_formatter(dates.DateFormatter('\n%Y'))
-    ax.grid(True)
+    plt.figure()
+    ax=tsValues.plot(x='ValueDateTime', y='DataValue')
+
     plt.show()
 except Exception as e:
     print "Unable to demo plotting of tsValues: ", e

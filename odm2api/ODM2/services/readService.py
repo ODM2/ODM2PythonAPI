@@ -656,15 +656,26 @@ class ReadODM2(serviceBase):
 
 
         """
+        type= self._session.query(Results).filter_by(ResultID=resultid).first().ResultTypeCV
+        Result = TimeSeriesResults
+        if "categorical" in type.lower():Result = CategoricalResultValues
+        elif "measurement" in type.lower():Result = MeasurementResultValues
+        elif "point" in type.lower():Result = PointCoverageResultValues
+        elif "profile" in type.lower():Result = ProfileResultValues
+        elif "section" in type.lower():Result = SectionResults
+        elif "spectra" in type.lower():Result = SpectraResultValues
+        elif "time" in type.lower():Result = TimeSeriesResultValues
+        elif "trajectory" in type.lower():Result = TrajectoryResultValues
+        elif "transect" in type.lower():Result = TransectResultValues
 
 
-        q = self._session.query(Results).filter_by(ResultID=id)
-        if starttime: q = q.filter(Results.ValueDateTime >= starttime)
-        if endtime: q = q.filter(Results.ValueDateTime <= endtime)
+        q = self._session.query(Result).filter_by(ResultID=resultid)
+        if starttime: q = q.filter(Result.ValueDateTime >= starttime)
+        if endtime: q = q.filter(Result.ValueDateTime <= endtime)
         try:
-            q = q.order_by(Results.ValueDateTime).all()
-            df = pd.DataFrame([dv.list_repr() for dv in q.all()])
-            df.columns = q[0].get_columns()
+            vals = q.order_by(Result.ValueDateTime)
+            df = pd.DataFrame([dv.list_repr() for dv in vals.all()])
+            df.columns = vals[0].get_columns()
             return df
         except:
             return None

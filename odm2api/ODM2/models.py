@@ -480,10 +480,6 @@ class Results(Base):
 # ################################################################################
 
 
-
-
-
-
 class DataLoggerProgramFiles(Base):
     __tablename__ = u'dataloggerprogramfiles'
     __table_args__ = {u'schema': 'odm2'}
@@ -508,8 +504,6 @@ class DataLoggerFiles(Base):
     DataLoggerOutputFileLink = Column('dataloggeroutputfilelink', String(255))
 
     ProgramObj = relationship(DataLoggerProgramFiles)
-
-
 
 
 class EquipmentModels(Base):
