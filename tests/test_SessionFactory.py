@@ -35,8 +35,8 @@ class aSessionFactory:
 #
  #       insp = reflection.Inspector.from_engine(session_factory.engine)
 #        tables = insp.get_table_names()
-        self.session = session_factory
-        # self.session = session_factory.test_Session()
+
+        self.session = session_factory.test_Session()
 
 
 #
