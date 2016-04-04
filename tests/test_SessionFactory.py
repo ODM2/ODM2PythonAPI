@@ -7,13 +7,17 @@ from sqlalchemy.engine import reflection
 # assumes that pytest is being run from ODM2PythonAPI director
 dbs_readonly = [
  #   ['mysql', 'localhost', 'odm2', 'ODM', 'odm'],
-     ['mysql@Localhost/odm2', 'mysql+pymysql://root@127.0.0.1/odm2'],
-     ['postgresql', 'postgresql+psycopg2://postgres@localhost/marchantariats', 'marchantariats', 'postgres',  None],
+     ['mysql@Localhost/odm2', 'mysql+pymysql://root@localhost/odm2'],
+    #'mysql+pymysql://ODM:odm@127.0.0.1/odm2'
+     ['postgresql', 'postgresql+psycopg2://postgres:None@localhost/marchantariats', 'marchantariats', 'postgres',  None],
+    #'postgresql+psycopg2://postgres:None@localhost/marchantariats'
 
-     ["mssql",   "mssql+pyodbc://web:1Forgetit!@nrb8xkgxaj.database.windows.net/odm2"   ,  'odm2', 'web', '1Forgetit!'],
-#    ["mssql",   "localhost",                        'odm2', 'odm', 'odm'],
+     ["mssql",   "mssql+pyodbc:///?odbc_connect=DRIVER%3D%7BFreeTDS%7D%3BDSN%3Dnrb8xkgxaj.database.windows.net%3BUID%3Dweb%3BPWD%3D1Forgetit%21%3B"   ,  'odm2', 'web', '1Forgetit!'],
+#'mssql+pyodbc:///?odbc_connect=DRIVER%3D%7BFreeTDS%7D%3BDSN%3Dnrb8xkgxaj.database.windows.net%3BUID%3Dweb%3BPWD%3D1Forgetit%21%3B'
+    #    ["mssql",   "localhost",                        'odm2', 'odm', 'odm'],
  #   ["sqlite", "./tests/spatialite/odm2_test.sqlite", None, None, None],
     ["sqlite", "sqlite:///./tests/spatialite/wof2odm/ODM2.sqlite", None,      None,   None]
+    #'sqlite:///./tests/spatialite/wof2odm/ODM2.sqlite'
 ]
 dbs_test = [
     ["sqlite", "./tests/spatialite/odm2_test.sqlite", None, None, None]
