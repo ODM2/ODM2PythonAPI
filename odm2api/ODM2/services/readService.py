@@ -263,6 +263,7 @@ class ReadODM2(serviceBase):
         q = self._session.query(SamplingFeatures)
 
         if type: q = q.filter_by(SamplingFeatureTypeCV=type)
+        if uuid: q = q.filter_by(SamplingFeatureUUID =uuid)
         if id: q = q.filter_by(SamplingFeatureID=id)
         if code: q = q.filter_by(SamplingFeatureCode=code)
         if wkt: q = q.filter_by(FeatureGeometryWKT=wkt)
@@ -403,7 +404,7 @@ class ReadODM2(serviceBase):
     Results
     """
 
-    def getResults(self, id=None, actionid=None, type=None):
+    def getResults(self, id=None, uuid=None, actionid=None, type=None):
 
         # TODO what if user sends in both type and actionid vs just actionid
         """Select by variableId
@@ -419,6 +420,7 @@ class ReadODM2(serviceBase):
         if type: query = query.filter_by(ResultTypeCV=type)
         if actionid: query = query.join(FeatureActions).filter_by(ActionID=actionid)
         if id: query = query.filter_by(ResultID=id)
+        if uuid: query= query.filter_by(ResultUUID = uuid)
 
         # if type: query=query.filter_by(ResultTypeCV=type)
         try:
@@ -457,10 +459,12 @@ class ReadODM2(serviceBase):
     Datasets
     """
 
-    def getDataSets(self, code=None):
+    def getDataSets(self, code=None, uuid=None):
         q = self._session.query(DataSets)
         if code:
             q = q.filter(DataSets.DataSetCode.ilike(code))
+        if uuid:
+            q = q.filter_by(DataSetUUID=uuid)
         try:
             return q.all()
         except:
