@@ -73,6 +73,7 @@ class dbconnection():
         self._connections = []
         self.version = 0
         self._connection_format = "%s+%s://%s:%s@%s/%s"
+        self._connection_format_nopassword = "%s+%s://%s@%s/%s"
 
     @classmethod
     def createConnection(self, engine, address, db=None, user=None, password=None, dbtype = 2.0, echo=False):
@@ -202,16 +203,30 @@ class dbconnection():
                 if "sqlncli11.dll" in os.listdir("C:\\Windows\\System32"):
                     conn = "%s+%s://%s:%s@%s/%s?driver=SQL+Server+Native+Client+11.0"
                 self._connection_format = conn
+                conn_string = self._connection_format % (
+                    conn_dict['engine'], driver, conn_dict['user'], conn_dict['password'], conn_dict['address'],
+                    conn_dict['db'])
             elif conn_dict['engine'] == 'mysql':
                 driver = "pymysql"
+                conn_string = self.constringBuilder(conn_dict, driver)
             elif conn_dict['engine'] == 'postgresql':
                 driver = "psycopg2"
+                conn_string = self.constringBuilder(conn_dict, driver)
             else:
                 driver = "None"
+                conn_string = self.constringBuilder(conn_dict, driver)
 
+
+        # print "******", conn_string
+        return conn_string
+
+    def constringBuilder(self, conn_dict, driver):
+        if conn_dict['password'] is None or not conn_dict['password']:
+            conn_string = self._connection_format_nopassword % (
+                conn_dict['engine'], driver, conn_dict['user'], conn_dict['address'],
+                conn_dict['db'])
+        else:
             conn_string = self._connection_format % (
                 conn_dict['engine'], driver, conn_dict['user'], conn_dict['password'], conn_dict['address'],
                 conn_dict['db'])
-
-        # print "******", conn_string
         return conn_string
