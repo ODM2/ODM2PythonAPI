@@ -8,7 +8,7 @@ from sqlalchemy.engine import reflection
 # [name, driver, connectionstring ]
 dbs_readonly = [
  #   ['mysql', 'localhost', 'odm2', 'ODM', 'odm'],
-     ['mysql@Localhost/odm2', 'mysql', 'mysql+pymysql://root:None@localhost/odm2'],
+     ['mysql@Localhost/odm2', 'mysql', 'mysql+pymysql://root:@localhost/odm2'],
     [' mysql + mysqldb:', 'mysql', 'mysql+mysqldb://root@localhost/odm2'],
 
                      #'mysql+pymysql://ODM:odm@127.0.0.1/odm2'
@@ -23,8 +23,11 @@ dbs_readonly = [
     ["mssql_pyodbc2",   "mssql",
      "mssql+pyodbc:///?odbc_connect=DRIVER=FreeTDS;SERVER=moonstone.ucsd.edu;UID=web;PWD=web;DATABASE=odm2",
      'odm2', 'web', '1Forgetit!'],
-    ["mssql_pyodbc_kyle",   "mssql",
-     "mssql+pymssql://web:1Forgetit!@kyle?charset=utf8",
+    ["pymssql_azre",   "mssql",
+     "mssql+pymssql://web@nrb8xkgxaj:1Forgetit!@kyle?charset=utf8",
+     'odm2', 'web', '1Forgetit!'],
+    ["pymssql_moonstone",   "mssql",
+     "mssql+pymssql://webservice:webservice@moonstone?charset=utf8",
      'odm2', 'web', '1Forgetit!'],
     #    ["mssql",   "localhost",                        'odm2', 'odm', 'odm'],
  #   ["sqlite", "./tests/spatialite/odm2_test.sqlite", None, None, None],

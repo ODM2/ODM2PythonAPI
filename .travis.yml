@@ -48,6 +48,7 @@ before_install:
 #  - cat  /home/travis/.odbc.ini #not found
   #
   - echo "[global]\ntds version = 4.2\n\n[kyle]\nhost = nrb8xkgxaj.database.windows.net\nport = 1433\ndatabase=odm2\n" > .freetds.conf
+  - echo "[moonstone]\nhost = moonstone.sdsc.edu\nport = 1433\ndatabase=odm2\n" >> .freetds.conf
   - sudo apt-get install mysql-client
   # Spatialiate
   - sudo apt-get install -y libproj-dev libgeos-dev libspatialite-dev
