@@ -198,7 +198,7 @@ class dbconnection():
             conn_string = 'mssql+pyodbc:///?odbc_connect={}'.format(quoted)
         else:
             if conn_dict['engine'] == 'mssql':
-                driver = "pyodbc"
+                driver = "pyodbc" 
                 #self._connection_format = "%s+%s://%s:%s@%s/%s?driver=SQL+Server+Native+Client+10.0"
                 conn = "%s+%s://%s:%s@%s/%s?driver=SQL+Server"
                 if "sqlncli11.dll" in os.listdir("C:\\Windows\\System32"):
