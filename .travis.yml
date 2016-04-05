@@ -65,7 +65,7 @@ before_install:
   - cat /etc/odbcinst.ini
   #- cat  /etc/odbc.ini
  # - ls /etc/ODBCDataSources
- - cat  .odbc.ini #not found
+  - cat  .odbc.ini #not found
   #
   - echo "[global]" > .freetds.conf
   - echo "tds version = 4.2" >> .freetds.conf
