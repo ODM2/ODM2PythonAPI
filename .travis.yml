@@ -19,7 +19,7 @@ services:
 addons:
   mariadb: '10.1'
 before_install:
-  - cat /etc/my.cnf
+  - cat /etc/mysql/my.cnf
   - mysqladmin -u root -p variables
   - mysql --verbose -e  "SHOW VARIABLES;" --user=root
   - mysql --verbose -e "CREATE USER 'ODM'@'localhost' IDENTIFIED BY 'odm';GRANT ALL PRIVILEGES ON *.* TO 'ODM'@'localhost';" --user=root
