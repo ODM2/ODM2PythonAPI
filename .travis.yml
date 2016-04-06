@@ -24,7 +24,7 @@ before_install:
   - ls -al /etc/mysql/conf.d/
   - cat /etc/mysql/conf.d/mariadb.cnf
   - cat /etc/mysql/conf.d/tokudb.cnf
-  - cat /etc/mysql/conf.d/mysql_safe_syslog.cnf
+  - cat /etc/mysql/conf.d/mysqld_safe_syslog.cnf
   - cat /etc/mysql/debian-start
   - cat /etc/apparmor.d/usr.sbin.mysqld
   - service --status-all
