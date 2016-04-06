@@ -30,17 +30,17 @@ before_install:
   - cat /etc/init.d/mysql
   - cat /etc/apparmor.d/usr.sbin.mysqld
   - ls -al /etc/mysql
-  - sudo echo "[mysqld]" >> /etc/mysql/debian.cnf
-  - sudo echo "lower_case_table_names=1" >> /etc/mysql/debian.cnf
+#  - sudo echo "[mysqld]" >> /etc/mysql/debian.cnf
+#  - sudo echo "lower_case_table_names=1" >> /etc/mysql/debian.cnf
   - service --status-all
-  - sudo service mysql stop
-  - sudo cat /etc/mysql/debian.cnf
-  - sudo echo "[mysqld]" >> /etc/mysql/debian.cnf
-  - sudo echo "lower_case_table_names=1" >> /etc/mysql/debian.cnf
-  - sudo cat /etc/mysql/debian.cnf
-  - sudo sed -i '/\[mysqld\]/a lower_case_table_names=1' /etc/mysql/my.cnf
+#  - sudo service mysql stop
+#  - sudo cat /etc/mysql/debian.cnf
+#  - sudo echo "[mysqld]" >> /etc/mysql/debian.cnf
+#  - sudo echo "lower_case_table_names=1" >> /etc/mysql/debian.cnf
+#  - sudo cat /etc/mysql/debian.cnf
+  - sudo sed -i '/\[mysqld\]/a lower_case_table_names = 1 ' /etc/mysql/my.cnf
   - cat /etc/mysql/my.cnf
-  - sudo service mysql start
+  - sudo service mysql restart
   - mysql --verbose -e  "SHOW VARIABLES;" --user=root
   - mysql --verbose -e "CREATE USER 'ODM'@'localhost' IDENTIFIED BY 'odm';GRANT ALL PRIVILEGES ON *.* TO 'ODM'@'localhost';" --user=root
   - mysql --verbose -e "CREATE USER 'ODM'@'127.0.0.1' IDENTIFIED BY 'odm';GRANT ALL PRIVILEGES ON *.* TO 'ODM'@'127.0.0.1';" --user=root
