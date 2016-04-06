@@ -19,7 +19,8 @@ services:
 addons:
   mariadb: '10.1'
 before_install:
-  - ls -al .my.cnf
+#  - ls -al .my.cnf
+  - ls -al /etc/my.cnf
   - ls -al /etc/mysql/conf.d/
   - cat /etc/mysql/conf.d/mariadb.cnf
   - cat /etc/mysql/conf.d/taku.cnf
