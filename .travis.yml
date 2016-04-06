@@ -21,7 +21,7 @@ addons:
 before_install:
   - service --status-all
   - sudo service mysql stop
-  - sed -i '/\[mysqld\]/a lower_case_table_names=1' /etc/mysql/my.cnf
+  - sudo sed -i '/\[mysqld\]/a lower_case_table_names=1' /etc/mysql/my.cnf
   - cat /etc/mysql/my.cnf
   - sudo service mysql start
   - mysql --verbose -e  "SHOW VARIABLES;" --user=root
