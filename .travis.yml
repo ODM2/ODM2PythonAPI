@@ -12,7 +12,7 @@ python:
 cache:
   directories:
     - $HOME/.cache/pip/wheels
-    - "$HOME/virtualenv/python2.7.9"
+    - $HOME/virtualenv/python2.7.9
 services:
   #- mysql
   - postgresql
