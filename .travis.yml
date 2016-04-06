@@ -93,6 +93,7 @@ install: # now just our code
   - pip install  -r requirements_tests.txt  --allow-external pyodbc --allow-unverified pyodbc
     # pysqlite
   - pip install pysqlite
+  - pip list
   - ls -l  ./tests/usecasesql/littlebearriver/sampledatabases/odm2_mysql/LBR_MySQL_SmallExample.sql ./tests/usecasesql/marchantariats/marchantariats.sql
   - mysql --user=ODM --password=odm  < ./tests/usecasesql/littlebearriver/sampledatabases/odm2_mysql/LBR_MySQL_SmallExample.sql
   - mysql --user=root  -e  "show databases;"
