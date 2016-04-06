@@ -27,7 +27,7 @@ before_install:
   - cat /etc/mysql/conf.d/mysqld_safe_syslog.cnf
   - cat /etc/mysql/debian-start
   - cat /usr/share/mysql/debian-start.inc.sh
-  - cat /etc/inti.d/mysql
+  - cat /etc/init.d/mysql
   - cat /etc/apparmor.d/usr.sbin.mysqld
   - ls -al /etc/mysql
 
