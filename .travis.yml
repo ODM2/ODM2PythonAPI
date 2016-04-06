@@ -19,7 +19,9 @@ services:
 addons:
   mariadb: '10.1'
 before_install:
-  - mysqld --help --verbose
+#  - mysqld --help --verbose
+  # Default options are read from the following files in the given order:
+ # /etc/my.cnf /etc/mysql/my.cnf ~/.my.cnf
 #  - ls -al .my.cnf
 #  - ls -al /etc/my.cnf
   - ls -al /etc/mysql/conf.d/
@@ -32,6 +34,8 @@ before_install:
   - cat /etc/apparmor.d/usr.sbin.mysqld
   - ls -al /etc/mysql
   - sudo service mysql stop
+  - sudo echo "[mysqld]" >> /etc/my.cnf
+  - sudo echo "lower_case_table_names=1" >> /etc/my.cnf
   - sudo echo "[mysqld]" >> /etc/mysql/debian.cnf
   - sudo echo "lower_case_table_names=1" >> /etc/mysql/debian.cnf
   - service --status-all
