@@ -64,7 +64,7 @@ class aSessionFactory:
  #       insp = reflection.Inspector.from_engine(session_factory.engine)
 #        tables = insp.get_table_names()
 
-        self.session = session_factory.test_Session()
+        self.session = session_factory.getSession()
 
 
 #
@@ -75,7 +75,7 @@ def setup(request):
 
 
 #connect to all 4 database types( mssql, mysql, postgresql, sqlite, mssql on mac)
-def test_connection(setup):
+def test_aSessionFactory(setup):
 
     q= setup.session.query(CVElevationDatum)
     results= q.all()

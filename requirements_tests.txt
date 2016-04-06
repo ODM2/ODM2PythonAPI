@@ -3,7 +3,7 @@ pytest
 pytest-cov
 mock
 #db support
-mysql-connector-python
+PyMysql
 pymysql
 pysqlite
 pymssql
