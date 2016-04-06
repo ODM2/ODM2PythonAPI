@@ -8,6 +8,8 @@ from sqlalchemy.engine import reflection
 # [name, driver, connectionstring ]
 dbs_readonly = [
  #   ['mysql', 'localhost', 'odm2', 'ODM', 'odm'],
+    ['mysql:ODM@Localhost/', 'mysql', 'mysql+pymysql://ODM:odm@localhost/'],
+    ['mysql"root@Localhost/', 'mysql', 'mysql+pymysql://root@localhost/'],
     ['mysql:ODM@Localhost/odm2', 'mysql', 'mysql+pymysql://ODM:odm@localhost/odm2'],
     ['mysql"root@Localhost/odm2', 'mysql', 'mysql+pymysql://root@localhost/odm2'],
    [' mysql + mysqldb:', 'mysql', 'mysql+mysqldb://root@localhost/odm2'],
