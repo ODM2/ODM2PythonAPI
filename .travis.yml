@@ -22,7 +22,7 @@ before_install:
   - mysql --verbose -e "CREATE USER 'ODM'@'localhost' IDENTIFIED BY 'odm';GRANT ALL PRIVILEGES ON *.* TO 'ODM'@'localhost';" --user=root
   - mysql --verbose -e "CREATE USER 'ODM'@'127.0.0.1' IDENTIFIED BY 'odm';GRANT ALL PRIVILEGES ON *.* TO 'ODM'@'127.0.0.1';" --user=root
   - mysql --verbose -e "CREATE USER 'ODM'@'%' IDENTIFIED BY 'odm';GRANT ALL PRIVILEGES ON *.* TO 'ODM'@'%';" --user=root
-  - mysql  --verbose  -e "create database IF NOT EXISTS odm2;" --user=root
+  - mysql  --verbose  -e "create database IF NOT EXISTS ODM2;" --user=root
   - mysql -e "create database IF NOT EXISTS odm2test;" --user=root
   - psql -U postgres -c "create extension postgis"
   - psql -c 'DROP DATABASE IF EXISTS odm2test;' -U postgres;
@@ -95,12 +95,12 @@ install: # now just our code
   - pip install pysqlite
   - pip list
   - ls -al  ./tests/usecasesql/littlebearriver/sampledatabases/odm2_mysql/LBR_MySQL_SmallExample.sql ./tests/usecasesql/marchantariats/marchantariats.sql
-  - mysql --user=ODM --password=odm  odm2 < ./tests/usecasesql/littlebearriver/sampledatabases/odm2_mysql/LBR_MySQL_SmallExample.sql
+  - mysql --user=ODM --password=odm  ODM2 < ./tests/usecasesql/littlebearriver/sampledatabases/odm2_mysql/LBR_MySQL_SmallExample.sql
   - mysql --user=root  -e  "show databases;"
-  - mysql --user=root -e   "GRANT ALL PRIVILEGES ON odm2.* TO 'ODM'@'localhost';FLUSH PRIVILEGES;"
-  - mysql --user=ODM --password=odm odm2 -e "use odm2; Select * from Variables;"
-  - mysql --user=ODM --password=odm odm2 -e "Select * from odm2.Variables;"
-  - mysql --user=ODM --password=odm  -e "Select * from odm2.Variables;"
+  - mysql --user=root -e   "GRANT ALL PRIVILEGES ON ODM2.* TO 'ODM'@'localhost';FLUSH PRIVILEGES;"
+  - mysql --user=ODM --password=odm ODM2 -e "use ODM2; Select * from Variables;"
+  - mysql --user=ODM --password=odm ODM2 -e "Select * from odm2.Variables;"
+  - mysql --user=ODM --password=odm ODM2 -e "Select * from odm2.Variables;"
 # add -a to psql to see full log, -q is quiet
   - psql -U postgres -q  -f ./tests/usecasesql/marchantariats/marchantariats.sql
 #  - netstat output | grep mysql
