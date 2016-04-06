@@ -35,6 +35,11 @@ I've created a PostgreSQL database dump file ([marchantariats.sql](marchantariat
 ```
 psql -h localhost -p 5432 -U postgres -W -f "./marchantariats.sql" template1
 ```
+windows. Note, may be issues with latest builds (april 2016): http://www.postgresonline.com/journal/archives/364-PostGIS-2.2-Windows-users-hold-off-on-installing-latest-PostgreSQL-patch-release.html
+```
+D:\dev_odm\ODM2PythonAPI>"c:\Program Files\PostgreSQL\9.5\bin\psql.exe" -U postgres  -q  -f .\tests\usecasesql\marchantariats\marchantariats.sql
+```
+
 The database and the dump file were created using PostgreSQL 9.3 and PostGIS 2.1, on Ubuntu Linux 14.04. The ODM2 database uses PostGIS geometry objects in the `samplingfeatures` table. The dump file was created with the following `pg_dump` statement (note: the database was originally called "odm2_rivers"):
 ```
 pg_dump -h localhost -p 5432 -d odm2_rivers --exclude-schema=amz_riverbgc -U "postgres" --role="postgres" -W --no-privileges --no-owner --format=p --create --blobs --verbose --file="./marchantariats.sql"
