@@ -19,6 +19,7 @@ services:
 addons:
   mariadb: '10.1'
 before_install:
+  - mysql --verbose -e  "SHOW VARIABLES;" --user=root
   - mysql --verbose -e "CREATE USER 'ODM'@'localhost' IDENTIFIED BY 'odm';GRANT ALL PRIVILEGES ON *.* TO 'ODM'@'localhost';" --user=root
   - mysql --verbose -e "CREATE USER 'ODM'@'127.0.0.1' IDENTIFIED BY 'odm';GRANT ALL PRIVILEGES ON *.* TO 'ODM'@'127.0.0.1';" --user=root
   - mysql --verbose -e "CREATE USER 'ODM'@'%' IDENTIFIED BY 'odm';GRANT ALL PRIVILEGES ON *.* TO 'ODM'@'%';" --user=root
