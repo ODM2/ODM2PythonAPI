@@ -19,8 +19,11 @@ services:
 addons:
   mariadb: '10.1'
 before_install:
+  - ls -al .my.cnf
   - ls -al /etc/mysql/conf.d/
   - cat /etc/mysql/conf.d/mariadb.cnf
+  - cat /etc/mysql/conf.d/taku.cnf
+  - cat /etc/mysql/conf.d/mysql_safe_syslog.cnf
   - service --status-all
   - sudo service mysql stop
   - sudo sed -i '/\[mysqld\]/a lower_case_table_names=1' /etc/mysql/my.cnf
