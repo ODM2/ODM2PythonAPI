@@ -98,7 +98,7 @@ install: # now just our code
   - mysql --user=ODM --password=odm  odm2 < ./tests/usecasesql/littlebearriver/sampledatabases/odm2_mysql/LBR_MySQL_SmallExample.sql
   - mysql --user=root  -e  "show databases;"
   - mysql --user=root -e   "GRANT ALL PRIVILEGES ON odm2.* TO 'ODM'@'localhost';FLUSH PRIVILEGES;"
-  - mysql --user=ODM --password=odm odm2 -e "Select * from Variables;"
+  - mysql --user=ODM --password=odm odm2 -e "use odm2; Select * from Variables;"
   - mysql --user=ODM --password=odm odm2 -e "Select * from odm2.Variables;"
   - mysql --user=ODM --password=odm  -e "Select * from odm2.Variables;"
 # add -a to psql to see full log, -q is quiet
