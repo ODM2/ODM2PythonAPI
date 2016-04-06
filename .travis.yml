@@ -19,6 +19,7 @@ services:
 addons:
   mariadb: '10.1'
 before_install:
+  - mysqld --help --verbose
 #  - ls -al .my.cnf
 #  - ls -al /etc/my.cnf
   - ls -al /etc/mysql/conf.d/
