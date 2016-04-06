@@ -10,7 +10,7 @@ dbs_readonly = [
  #   ['mysql', 'localhost', 'odm2', 'ODM', 'odm'],
     ['mysql_odm2_odm', 'mysql', 'localhost', 'odm2', 'ODM', 'odm'],
      ['mysql_odm2_root','mysql', 'localhost', 'odm2', 'root', None],
-     ['postgresql_marchantariats','postgresql', 'localhost', 'marchantariats', 'postgres',  None],
+     ['postgresql_marchantariats','postgresql', 'localhost', 'marchantariats', 'postgres',  'iforget'],
 
 # bet the @ is scrwing thing up
     #      ["mssql",   "nrb8xkgxaj.database.windows.net"   ,  'odm2', 'web@nrb8xkgxaj', '1Forgetit!'],
