@@ -27,7 +27,7 @@ before_install:
   - cat /etc/mysql/conf.d/mysqld_safe_syslog.cnf
   - cat /etc/mysql/debian-start
   - cat /etc/apparmor.d/usr.sbin.mysqld
-  - cat /etc/mysql/debian.cnf
+  - sudo cat /etc/mysql/debian.cnf
   - service --status-all
   - sudo service mysql stop
   - sudo sed -i '/\[mysqld\]/a lower_case_table_names=1' /etc/mysql/my.cnf
