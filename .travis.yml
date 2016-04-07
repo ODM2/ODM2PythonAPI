@@ -37,6 +37,8 @@ before_install:
   - sudo service mysql stop
   -  echo "[mysqld]" > /etc/my.cnf
   -  echo "lower_case_table_names=1" >> /etc/my.cnf
+  -  echo "[mariadb-10.0]" >> /etc/my.cnf
+  -  echo "lower_case_table_names=1" >> /etc/my.cnf
   - sudo echo "[mysqld]" >> /etc/mysql/debian.cnf
   - sudo echo "lower_case_table_names=1" >> /etc/mysql/debian.cnf
   - service --status-all
