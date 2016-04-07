@@ -19,6 +19,7 @@ services:
 addons:
   mariadb: '10.1'
 before_install:
+  - strace mysql 2>&1 | grep cnf
 #  - mysqld --help --verbose
   # Default options are read from the following files in the given order:
  # /etc/my.cnf /etc/mysql/my.cnf ~/.my.cnf
