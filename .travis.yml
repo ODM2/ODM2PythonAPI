@@ -53,6 +53,7 @@ before_install:
 #  -  sudo  echo "lower_case_table_names = 1" >> /etc/my.cnf
   -  echo "[mysqld]" > $HOME/.my.cnf
   -  echo "lower_case_table_names = 1" >> $HOME/.my.cnf
+  - cat $HOME/.my.cnf
 #  -  echo "[mariadb-10.0]" >> .my.cnf
 #  -  echo "lower_case_table_names = 1" >> .my.cnf
 #  - sudo echo "[mysqld]" >> /etc/mysql/debian.cnf
@@ -68,7 +69,7 @@ before_install:
   - sudo service mysql start
 #  - sudo service mysql restart
   - mysql --verbose -e  "show variables like 'lower%';" --user=root
-#  - strace mysql 2>&1 | grep cnf
+  - strace mysql 2>&1 | grep cnf
   - mysql --verbose -e "CREATE USER 'ODM'@'localhost' IDENTIFIED BY 'odm';GRANT ALL PRIVILEGES ON *.* TO 'ODM'@'localhost';" --user=root
   - mysql --verbose -e "CREATE USER 'ODM'@'127.0.0.1' IDENTIFIED BY 'odm';GRANT ALL PRIVILEGES ON *.* TO 'ODM'@'127.0.0.1';" --user=root
   - mysql --verbose -e "CREATE USER 'ODM'@'%' IDENTIFIED BY 'odm';GRANT ALL PRIVILEGES ON *.* TO 'ODM'@'%';" --user=root
@@ -150,8 +151,10 @@ install: # now just our code
   - mysql --user=root  -e "select table_schema,table_name,table_rows from information_schema.tables;"
   - mysql --user=root -e   "GRANT ALL PRIVILEGES ON odm2.* TO 'ODM'@'localhost';FLUSH PRIVILEGES;"
   - mysql --user=ODM --password=odm odm2 -e "use odm2; Select * from Variables;"
+  - mysql --user=ODM --password=odm odm2 -e "use odm2; Select * from variables;"
 #  - mysql --user=ODM --password=odm odm2 -e "Select * from odm2.Variables;"
   - mysql --user=ODM --password=odm  -e "Select * from odm2.Variables;"
+  - mysql --user=ODM --password=odm  -e "Select * from odm2.variables;"
 # add -a to psql to see full log, -q is quiet
   - psql -U postgres -q  -f ./tests/usecasesql/marchantariats/marchantariats.sql
 #  - netstat output | grep mysql
