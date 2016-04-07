@@ -30,7 +30,7 @@ before_install:
 #stat("/etc/mysql/conf.d/tokudb.cnf", {st_mode=S_IFREG|0644, st_size=285, ...}) = 0
 #open("/etc/mysql/conf.d/tokudb.cnf", O_RDONLY|O_CLOEXEC) = 4
 #stat("/home/travis/.my.cnf", 0x7ffef7c8dca0) = -1 ENOENT (No such file or directory)
-  - ls -l /etc/mariadb
+#  - ls -l /etc/mariadb
 #  - mysqld --help --verbose
   # Default options are read from the following files in the given order:
  # /etc/my.cnf /etc/mysql/my.cnf ~/.my.cnf
