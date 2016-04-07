@@ -32,7 +32,7 @@ before_install:
 #stat("/home/travis/.my.cnf", 0x7ffef7c8dca0) = -1 ENOENT (No such file or directory)
 #  - ls -l /etc/mariadb
   - mysqld --help --verbose
-  -  mysql -uroot -p -e 'SHOW VARIABLES WHERE Variable_Name LIKE "%dir"'
+  - mysql -uroot -p -e 'SHOW VARIABLES WHERE Variable_Name LIKE "%dir"'
   # Default options are read from the following files in the given order:
  # /etc/my.cnf /etc/mysql/my.cnf ~/.my.cnf
 #  - ls -al .my.cnf
@@ -48,7 +48,7 @@ before_install:
   - cat /etc/init.d/mysql
   - sudo cat /etc/mysql/debian.cnf
   #  - cat /etc/apparmor.d/usr.sbin.mysqld
-  - ls -al /etc/mysql 
+  - ls -al /etc/mysql
   - sudo service mysql stop
   -  sudo  echo "[mysqld]" > /etc/my.cnf
   -  sudo  echo "lower_case_table_names = 1" >> /etc/my.cnf
