@@ -14,10 +14,10 @@ cache:
     - $HOME/.cache/pip/wheels
     - $HOME/virtualenv/python2.7.9
 services:
-  #- mysql
+  - mysql
   - postgresql
-addons:
-  mariadb: '10.1'
+#addons:
+#  mariadb: '10.1'
 before_install:
 #  - strace mysql 2>&1 | grep cnf
 #stat("/etc/my.cnf", 0x7ffef7c8dca0)     = -1 ENOENT (No such file or directory)
@@ -48,13 +48,13 @@ before_install:
   - ls -al /etc/mysql
   - sudo service mysql stop
 #  -  sudo  echo "[mysqld]" > /etc/my.cnf
-#  -  sudo  echo "lower_case_table_names = 2" >> /etc/my.cnf
+#  -  sudo  echo "lower_case_table_names = 1" >> /etc/my.cnf
 #  -  sudo  echo "[mariadb-10.0]" >> /etc/my.cnf
-#  -  sudo  echo "lower_case_table_names = 2" >> /etc/my.cnf
+#  -  sudo  echo "lower_case_table_names = 1" >> /etc/my.cnf
   -  echo "[mysqld]" > $HOME/.my.cnf
-  -  echo "lower_case_table_names = 2" >> $HOME/.my.cnf
+  -  echo "lower_case_table_names = 1" >> $HOME/.my.cnf
 #  -  echo "[mariadb-10.0]" >> .my.cnf
-#  -  echo "lower_case_table_names = 2" >> .my.cnf
+#  -  echo "lower_case_table_names = 1" >> .my.cnf
 #  - sudo echo "[mysqld]" >> /etc/mysql/debian.cnf
 #  - sudo echo "lower_case_table_names = 2" >> /etc/mysql/debian.cnf
   - service --status-all
@@ -63,12 +63,12 @@ before_install:
 #  - sudo echo "[mysqld]" >> /etc/mysql/debian.cnf
 #  - sudo echo "lower_case_table_names=1" >> /etc/mysql/debian.cnf
 #  - sudo cat /etc/mysql/debian.cnf
-  - sudo sed -i '/\[mysqld\]/a lower_case_table_names = 2 ' /etc/mysql/my.cnf
-  - cat /etc/mysql/my.cnf
+#  - sudo sed -i '/\[mysqld\]/a lower_case_table_names = 2 ' /etc/mysql/my.cnf
+#  - cat /etc/mysql/my.cnf
   - sudo service mysql start
 #  - sudo service mysql restart
   - mysql --verbose -e  "show variables like 'lower%';" --user=root
-  - strace mysql 2>&1 | grep cnf
+#  - strace mysql 2>&1 | grep cnf
   - mysql --verbose -e "CREATE USER 'ODM'@'localhost' IDENTIFIED BY 'odm';GRANT ALL PRIVILEGES ON *.* TO 'ODM'@'localhost';" --user=root
   - mysql --verbose -e "CREATE USER 'ODM'@'127.0.0.1' IDENTIFIED BY 'odm';GRANT ALL PRIVILEGES ON *.* TO 'ODM'@'127.0.0.1';" --user=root
   - mysql --verbose -e "CREATE USER 'ODM'@'%' IDENTIFIED BY 'odm';GRANT ALL PRIVILEGES ON *.* TO 'ODM'@'%';" --user=root
