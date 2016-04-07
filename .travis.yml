@@ -59,7 +59,7 @@ before_install:
 #  -  sudo  echo "lower_case_table_names = 1" >> /etc/my.cnf
   -  echo "[mysqld]" > $HOME/.my.cnf
   -  echo "lower-case-table-names = 1" >> $HOME/.my.cnf
-  -  echo "lower_case_table_names=1" >> $HOME/.my.cnf
+#  -  echo "lower_case_table_names=1" >> $HOME/.my.cnf
   - cat $HOME/.my.cnf
 #  -  echo "[mariadb-10.0]" >> .my.cnf
 #  -  echo "lower_case_table_names = 1" >> .my.cnf
@@ -75,7 +75,7 @@ before_install:
   - sudo service mysql start
 #  - sudo service mysql restart
   - mysql --verbose -e  "show variables like 'lower%';" --user=root
-  - strace mysql 2>&1 | grep cnf
+#  - strace mysql 2>&1 | grep cnf
   - mysql --verbose -e "CREATE USER 'ODM'@'localhost' IDENTIFIED BY 'odm';GRANT ALL PRIVILEGES ON *.* TO 'ODM'@'localhost';" --user=root
   - mysql --verbose -e "CREATE USER 'ODM'@'127.0.0.1' IDENTIFIED BY 'odm';GRANT ALL PRIVILEGES ON *.* TO 'ODM'@'127.0.0.1';" --user=root
   - mysql --verbose -e "CREATE USER 'ODM'@'%' IDENTIFIED BY 'odm';GRANT ALL PRIVILEGES ON *.* TO 'ODM'@'%';" --user=root
