@@ -315,7 +315,7 @@ class SamplingFeatures(Base):
         return "<SamplingFeatures('%s', '%s', '%s', '%s', '%s')>" % (
             self.SamplingFeatureCode, self.SamplingFeatureName, self.SamplingFeatureDescription,
             # self.Elevation_m, geomkt)
-            self.Elevation_m, self.FeatureGeometry)
+            self.Elevation_m, self.FeatureGeometryWKT)
 
 
 GeometryDDL(SamplingFeatures.__table__)  # Geoalchemy1
