@@ -53,13 +53,13 @@ before_install:
   #  - cat /etc/apparmor.d/usr.sbin.mysqld
   - ls -al /etc/mysql
   - sudo service mysql stop
-  -    echo "[mysqld]" > /etc/my.cnf
-  -    echo "lower_case_table_names = 1" >> /etc/my.cnf
+#  -    echo "[mysqld]" > /etc/my.cnf
+#  -    echo "lower_case_table_names = 1" >> /etc/my.cnf
 #  -  sudo  echo "[mariadb-10.0]" >> /etc/my.cnf
 #  -  sudo  echo "lower_case_table_names = 1" >> /etc/my.cnf
   -  echo "[mysqld]" > $HOME/.my.cnf
   -  echo "lower-case-table-names = 1" >> $HOME/.my.cnf
-  -  echo "lower_case_table_names = 1" >> $HOME/.my.cnf
+  -  echo "lower_case_table_names=1" >> $HOME/.my.cnf
   - cat $HOME/.my.cnf
 #  -  echo "[mariadb-10.0]" >> .my.cnf
 #  -  echo "lower_case_table_names = 1" >> .my.cnf
