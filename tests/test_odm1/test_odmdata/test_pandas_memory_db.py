@@ -10,7 +10,10 @@ __author__ = 'jmeline'
 """
 Sample ODM Database connection and data insertion for unittesting against
 """
+import  pytest
 
+@pytest.mark.skip(
+                    reason="ODM1.1 shim is out of date")
 class TestPandasMemoryDB:
     """
     Test to Load up a series from a dataframe and load it into an in memory database

@@ -7,7 +7,10 @@ from tests.test_util import build_db
 import urllib
 import sqlalchemy
 from sqlalchemy.orm import sessionmaker
+import  pytest
 
+@pytest.mark.skip(
+                    reason="ODM1.1 shim is out of date")
 class TestFreeTDS:
     def setup(self):
         # connection string

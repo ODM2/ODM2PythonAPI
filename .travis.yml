@@ -174,5 +174,5 @@ script:
 # just the connection part
   - py.test tests/test_SessionFactory.py
   - py.test tests/test_connection.py
-#  - py.test
+  - py.test
 

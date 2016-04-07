@@ -3,7 +3,10 @@ from odmtools.odmdata import copy_series
 
 from tests import test_util1_1_1 as test_util
 
+import  pytest
 
+@pytest.mark.skip(
+                    reason="ODM1.1 shim is out of date")
 class TestSeries:
     def setup(self):
         self.connection_string = "sqlite:///:memory:"
