@@ -1,4 +1,6 @@
 language: python
+# if the https://travis-ci.org/ODM2/ODM2PythonAPI/requests ever says: missing config
+# validate at: http://lint.travis-ci.org/
 python:
 #  - "2.6"
   - "2.7"
@@ -32,7 +34,7 @@ before_install:
 #stat("/home/travis/.my.cnf", 0x7ffef7c8dca0) = -1 ENOENT (No such file or directory)
 #  - ls -l /etc/mariadb
   - mysqld --help --verbose
-  - mysql -uroot -p -e 'SHOW VARIABLES WHERE Variable_Name LIKE "%dir"'
+  - mysql -uroot -e 'SHOW VARIABLES WHERE Variable_Name LIKE "%dir"'
   # Default options are read from the following files in the given order:
  # /etc/my.cnf /etc/mysql/my.cnf ~/.my.cnf
 #  - ls -al .my.cnf
