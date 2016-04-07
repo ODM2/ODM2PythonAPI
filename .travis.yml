@@ -41,7 +41,7 @@ before_install:
 #  - ls -al /etc/my.cnf
   - ls -al /etc/mysql/conf.d/
   - ls -al /etc/mysql/
-  - ls -al /var/lib/mysql
+#  - ls -al /var/lib/mysql
 #  - ls -al /usr/local/etc/my.cnf.d/
 #  - cat /etc/mysql/conf.d/mariadb.cnf
 #  - cat /etc/mysql/conf.d/tokudb.cnf
@@ -58,6 +58,7 @@ before_install:
 #  -  sudo  echo "[mariadb-10.0]" >> /etc/my.cnf
 #  -  sudo  echo "lower_case_table_names = 1" >> /etc/my.cnf
   -  echo "[mysqld]" > $HOME/.my.cnf
+  -  echo "lower-case-table-names = 1" >> $HOME/.my.cnf
   -  echo "lower_case_table_names = 1" >> $HOME/.my.cnf
   - cat $HOME/.my.cnf
 #  -  echo "[mariadb-10.0]" >> .my.cnf
