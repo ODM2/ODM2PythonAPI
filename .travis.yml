@@ -37,7 +37,7 @@ before_install:
  # /etc/my.cnf /etc/mysql/my.cnf ~/.my.cnf
 #  - ls -al .my.cnf
 #  - ls -al /etc/my.cnf
-   - ls -al /etc/mysql/conf.d/
+  - ls -al /etc/mysql/conf.d/
   - ls -al /etc/mysql/
 #  - ls -al /usr/local/etc/my.cnf.d/
 #  - cat /etc/mysql/conf.d/mariadb.cnf
@@ -62,7 +62,6 @@ before_install:
 #  - sudo echo "[mysqld]" >> /etc/mysql/debian.cnf
 #  - sudo echo "lower_case_table_names = 2" >> /etc/mysql/debian.cnf
   - service --status-all
-
   - sudo cat /etc/mysql/debian.cnf
   - sudo echo "[mysqld]" >> /etc/mysql/debian.cnf
   - sudo echo "lower_case_table_names=1" >> /etc/mysql/debian.cnf
