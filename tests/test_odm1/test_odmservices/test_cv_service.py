@@ -1,15 +1,15 @@
 import pytest
 import sqlalchemy.orm.exc
-from odmtools.odmdata import Qualifier
-from odmtools.odmservices import CVService
+from odm2api.ODM1_1_1.models import Qualifier
+from odm2api.ODM1_1_1.services import CVService
 
-from tests import test_util
+from tests import test_util1_1_1 as test_util
 
 
 session = None
 
 
-class TestCVService:
+class TestCVService_1_1:
     def setup(self):
         self.connection_string = "sqlite:///:memory:"
         self.cv_service = CVService(self.connection_string, debug=False)
@@ -17,14 +17,14 @@ class TestCVService:
         engine = self.cv_service._session_factory.engine
         test_util.build_db(engine)
 
-    def test_get_vertical_datum_cvs(self):
+    def test_get_vertical_datum_cvs_1_1(self):
         assert self.cv_service.get_vertical_datum_cvs() == []
 
         vert_dat = test_util.add_vertical_datum_cv(self.session)
         db_vert_dat = self.cv_service.get_vertical_datum_cvs()[0]
         assert vert_dat.term == db_vert_dat.term
 
-    def test_get_samples(self):
+    def test_get_samples_1_1(self):
         assert self.cv_service.get_samples() == []
 
         lab_method = test_util.add_lab_method(self.session)
@@ -36,80 +36,80 @@ class TestCVService:
 
 
 
-    def test_get_site_type_cvs(self):
+    def test_get_site_type_cvs_1_1(self):
         assert self.cv_service.get_site_type_cvs() == []
 
         st_cv = test_util.add_site_type_cv(self.session)
         db_st_cv = self.cv_service.get_site_type_cvs()[0]
         assert st_cv.term == db_st_cv.term
 
-    def test_get_variable_name_cvs(self):
+    def test_get_variable_name_cvs_1_1(self):
         assert self.cv_service.get_variable_name_cvs() == []
 
         var_name_cv = test_util.add_variable_name_cv(self.session)
         db_var_name_cv = self.cv_service.get_variable_name_cvs()[0]
         assert var_name_cv.term == db_var_name_cv.term
 
-    def test_get_offset_type_cvs(self):
+    def test_get_offset_type_cvs_1_1(self):
         assert self.cv_service.get_offset_type_cvs() == []
 
-        unit = test_util.add_unit(self.session)
+        unit = test_util.add_unit_1_1(self.session)
         offset = test_util.add_offset_type_cv(self.session, unit.id)
 
         db_offset = self.cv_service.get_offset_type_cvs()[0]
         assert offset.id == db_offset.id
         assert offset.unit_id == db_offset.unit_id
 
-    def test_get_speciation_cvs(self):
+    def test_get_speciation_cvs_1_1(self):
         assert self.cv_service.get_speciation_cvs() == []
 
         speciation = test_util.add_speciation_cv(self.session)
         db_speciation = self.cv_service.get_speciation_cvs()[0]
         assert speciation.term == db_speciation.term
 
-    def test_get_sample_medium_cvs(self):
+    def test_get_sample_medium_cvs_1_1(self):
         assert self.cv_service.get_sample_medium_cvs() == []
 
         sample_medium = test_util.add_sample_medium_cv(self.session)
         db_sample_medium = self.cv_service.get_sample_medium_cvs()[0]
         assert sample_medium.term == db_sample_medium.term
 
-    def test_get_value_type_cvs(self):
+    def test_get_value_type_cvs_1_1(self):
         assert self.cv_service.get_value_type_cvs() == []
 
         value_type = test_util.add_value_type_cv(self.session)
         db_val_type = self.cv_service.get_value_type_cvs()[0]
         assert value_type.term == db_val_type.term
 
-    def test_get_data_type_cvs(self):
+    def test_get_data_type_cvs_1_1(self):
         assert self.cv_service.get_data_type_cvs() == []
 
         data_type = test_util.add_data_type_cv(self.session)
         db_data_type = self.cv_service.get_data_type_cvs()[0]
         assert data_type.term == db_data_type.term
 
-    def test_get_general_category_cvs(self):
+    def test_get_general_category_cvs_1_1(self):
         assert self.cv_service.get_general_category_cvs() == []
 
         gen_cat = test_util.add_general_category_cv(self.session)
         db_gen_cat = self.cv_service.get_general_category_cvs()[0]
         assert gen_cat.term == db_gen_cat.term
 
-    def test_get_censor_code_cvs(self):
+    def test_get_censor_code_cvs_1_1(self):
         assert self.cv_service.get_censor_code_cvs() == []
 
         censor_code = test_util.add_censor_code_cv(self.session)
         db_censor_code = self.cv_service.get_censor_code_cvs()[0]
         assert censor_code.term == db_censor_code.term
 
-    def test_get_sample_type_cvs(self):
+    def test_get_sample_type_cvs_1_1(self):
         assert self.cv_service.get_sample_type_cvs() == []
 
         sample_type = test_util.add_sample_type_cv(self.session)
         db_sample_type = self.cv_service.get_sample_type_cvs()[0]
         assert sample_type.term == db_sample_type.term
 
-    def test_get_units(self):
+    def test_get_units_1_1(self):
         assert self.cv_service.get_units() == []
 
         unit = test_util.add_unit(self.session)

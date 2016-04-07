@@ -5,7 +5,10 @@ from odmtools.odmservices import SeriesService
 from tests import test_util
 import datetime
 
+import  pytest
 
+@pytest.mark.skip(
+                    reason="ODM1.1 shim is out of date")
 class TestMemoryDB:
     def setup(self):
         self.connection_string = "sqlite:///:memory:"

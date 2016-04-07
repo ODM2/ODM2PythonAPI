@@ -1,10 +1,14 @@
-from odmtools.odmdata import *
-from odmtools.odmservices import SeriesService, EditService
+from odm2api.ODM1_1_1.models import *
+from odm2api.ODM1_1_1.services  import SeriesService, EditService
 
-from tests import test_util
+from tests import test_util1_1_1 as test_util
 
 
-class TestSeriesService:
+import  pytest
+
+@pytest.mark.skipif(True,
+                    reason="ODM1.1 shim is out of date")
+class TestSeriesService_1_1:
     def setup(self):
 
         self.connection_string = "sqlite:///:memory:"
@@ -25,10 +29,10 @@ class TestSeriesService:
 
     ## TODO Unittest save_series, save_as, save_as_existing
 
-    def test_save_series(self):
+    def test_save_series_1_1(self):
         assert self.edit_service.save()
 
-    def test_save_as_series(self):
+    def test_save_as_series_1_1(self):
         var = test_util.add_variable(self.session)
         print var
         assert self.edit_service.save_as(var= var)
@@ -36,7 +40,7 @@ class TestSeriesService:
         #                                         self.series.source.id, self.series.qcl.id)
 
 
-    def test_save_as_existing_series(self):
+    def test_save_as_existing_series_1_1(self):
         var = test_util.add_variable(self.session)
         assert self.edit_service.save_existing(var = var)
 
