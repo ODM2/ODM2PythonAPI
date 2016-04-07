@@ -52,8 +52,8 @@ before_install:
   #  - cat /etc/apparmor.d/usr.sbin.mysqld
   - ls -al /etc/mysql
   - sudo service mysql stop
-  -  sudo  echo "[mysqld]" > /etc/my.cnf
-  -  sudo  echo "lower_case_table_names = 1" >> /etc/my.cnf
+  -    echo "[mysqld]" > /etc/my.cnf
+  -    echo "lower_case_table_names = 1" >> /etc/my.cnf
 #  -  sudo  echo "[mariadb-10.0]" >> /etc/my.cnf
 #  -  sudo  echo "lower_case_table_names = 1" >> /etc/my.cnf
   -  echo "[mysqld]" > $HOME/.my.cnf
@@ -68,8 +68,8 @@ before_install:
   - sudo echo "[mysqld]" >> /etc/mysql/debian.cnf
   - sudo echo "lower_case_table_names=1" >> /etc/mysql/debian.cnf
   - sudo cat /etc/mysql/debian.cnf
-#  - sudo sed -i '/\[mysqld\]/a lower_case_table_names = 2 ' /etc/mysql/my.cnf
-#  - cat /etc/mysql/my.cnf
+  - sudo sed -i '/\[mysqld\]/a lower_case_table_names = 1 ' /etc/mysql/my.cnf
+  - cat /etc/mysql/my.cnf
   - sudo service mysql start
 #  - sudo service mysql restart
   - mysql --verbose -e  "show variables like 'lower%';" --user=root
