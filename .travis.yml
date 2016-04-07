@@ -25,6 +25,7 @@ before_install:
 #  - ls -al .my.cnf
 #  - ls -al /etc/my.cnf
   - ls -al /etc/mysql/conf.d/
+  - ls -al /usr/local/etc/my.cnf.d/
   - cat /etc/mysql/conf.d/mariadb.cnf
   - cat /etc/mysql/conf.d/tokudb.cnf
   - cat /etc/mysql/conf.d/mysqld_safe_syslog.cnf
