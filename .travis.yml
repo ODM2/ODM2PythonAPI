@@ -25,7 +25,7 @@ before_install:
 #  - ls -al .my.cnf
 #  - ls -al /etc/my.cnf
   - ls -al /etc/mysql/conf.d/
-  - ls -al /usr/local/etc/my.cnf.d/
+#  - ls -al /usr/local/etc/my.cnf.d/
   - cat /etc/mysql/conf.d/mariadb.cnf
   - cat /etc/mysql/conf.d/tokudb.cnf
   - cat /etc/mysql/conf.d/mysqld_safe_syslog.cnf
@@ -36,22 +36,22 @@ before_install:
   - ls -al /etc/mysql
   - sudo service mysql stop
   -  echo "[mysqld]" > /etc/my.cnf
-  -  echo "lower_case_table_names=1" >> /etc/my.cnf
+  -  echo "lower_case_table_names = 2" >> /etc/my.cnf
   -  echo "[mariadb-10.0]" >> /etc/my.cnf
-  -  echo "lower_case_table_names=1" >> /etc/my.cnf
+  -  echo "lower_case_table_names = 2" >> /etc/my.cnf
   - sudo echo "[mysqld]" >> /etc/mysql/debian.cnf
-  - sudo echo "lower_case_table_names=1" >> /etc/mysql/debian.cnf
+  - sudo echo "lower_case_table_names = 2" >> /etc/mysql/debian.cnf
   - service --status-all
 
 #  - sudo cat /etc/mysql/debian.cnf
 #  - sudo echo "[mysqld]" >> /etc/mysql/debian.cnf
 #  - sudo echo "lower_case_table_names=1" >> /etc/mysql/debian.cnf
 #  - sudo cat /etc/mysql/debian.cnf
-  - sudo sed -i '/\[mysqld\]/a lower_case_table_names = 1 ' /etc/mysql/my.cnf
+  - sudo sed -i '/\[mysqld\]/a lower_case_table_names = 2 ' /etc/mysql/my.cnf
   - cat /etc/mysql/my.cnf
   - sudo service mysql start
 #  - sudo service mysql restart
-  - mysql --verbose -e  "SHOW VARIABLES;" --user=root
+  - mysql --verbose -e  "show variables like 'lower%';" --user=root
   - mysql --verbose -e "CREATE USER 'ODM'@'localhost' IDENTIFIED BY 'odm';GRANT ALL PRIVILEGES ON *.* TO 'ODM'@'localhost';" --user=root
   - mysql --verbose -e "CREATE USER 'ODM'@'127.0.0.1' IDENTIFIED BY 'odm';GRANT ALL PRIVILEGES ON *.* TO 'ODM'@'127.0.0.1';" --user=root
   - mysql --verbose -e "CREATE USER 'ODM'@'%' IDENTIFIED BY 'odm';GRANT ALL PRIVILEGES ON *.* TO 'ODM'@'%';" --user=root
