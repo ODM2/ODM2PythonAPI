@@ -52,7 +52,7 @@ before_install:
 #  -  sudo  echo "[mariadb-10.0]" >> /etc/my.cnf
 #  -  sudo  echo "lower_case_table_names = 2" >> /etc/my.cnf
 #  -  echo "[mysqld]" > .my.cnf
-  -  echo "lower_case_table_names = 2" > .my.cnf
+  -  echo "lower_case_table_names = 2" > $HOME/.my.cnf
 #  -  echo "[mariadb-10.0]" >> .my.cnf
 #  -  echo "lower_case_table_names = 2" >> .my.cnf
 #  - sudo echo "[mysqld]" >> /etc/mysql/debian.cnf
