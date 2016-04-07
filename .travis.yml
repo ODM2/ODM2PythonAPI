@@ -66,9 +66,9 @@ before_install:
 #  - sudo echo "[mysqld]" >> /etc/mysql/debian.cnf
 #  - sudo echo "lower_case_table_names = 2" >> /etc/mysql/debian.cnf
   - service --status-all
-  - sudo cat /etc/mysql/debian.cnf
-  - sudo echo "[mysqld]" >> /etc/mysql/debian.cnf
-  - sudo echo "lower_case_table_names=1" >> /etc/mysql/debian.cnf
+#  - sudo cat /etc/mysql/debian.cnf
+#  - sudo echo "[mysqld]" >> /etc/mysql/debian.cnf
+#  - sudo echo "lower_case_table_names=1" >> /etc/mysql/debian.cnf
   - sudo cat /etc/mysql/debian.cnf
   - sudo sed -i '/\[mysqld\]/a lower_case_table_names = 1 ' /etc/mysql/my.cnf
   - cat /etc/mysql/my.cnf
