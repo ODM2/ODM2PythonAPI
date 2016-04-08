@@ -1,4 +1,4 @@
-from odmtools.odmdata import SessionFactory
+from odm2api.ODMconnection import SessionFactory
 
 from odm2api.ODM1_1_1.models import Series
 from odm2api.ODM1_1_1.services import SeriesService
@@ -12,9 +12,9 @@ Sample ODM Database connection and data insertion for unittesting against
 """
 import  pytest
 
-@pytest.mark.skip(
+@pytest.mark.skipif(True,
                     reason="ODM1.1 shim is out of date")
-class TestPandasMemoryDB:
+class TestPandasMemoryDB_1_1:
     """
     Test to Load up a series from a dataframe and load it into an in memory database
     """

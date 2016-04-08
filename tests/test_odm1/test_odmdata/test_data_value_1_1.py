@@ -8,7 +8,7 @@ import  pytest
 
 @pytest.mark.skipif(True,
                     reason="ODM1.1 shim is out of date")
-class TestDataValue:
+class TestDataValue_1_1:
     def setup(self):
         self.connection_string = "sqlite:///:memory:"
         session_factory = SessionFactory(self.connection_string, echo=False)

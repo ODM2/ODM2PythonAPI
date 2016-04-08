@@ -1,15 +1,16 @@
 import pytest
 
-from odmtools.odmdata import MemoryDatabase
-from odmtools.odmservices import SeriesService
-from tests import test_util
+from odm2api.ODM1_1_1 import memory_database as MemoryDatabase
+from odm2api.ODM1_1_1.services import SeriesService
+from tests import test_util1_1_1 as test_util
+
 import datetime
 
 import  pytest
 
-@pytest.mark.skip(
+@pytest.mark.skipif(True,
                     reason="ODM1.1 shim is out of date")
-class TestMemoryDB:
+class TestMemoryDB_1_1:
     def setup(self):
         self.connection_string = "sqlite:///:memory:"
         self.series_service = SeriesService(connection_string=self.connection_string, debug=False)

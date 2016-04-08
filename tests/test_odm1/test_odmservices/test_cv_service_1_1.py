@@ -1,7 +1,7 @@
 import pytest
 import sqlalchemy.orm.exc
 from odm2api.ODM1_1_1.models import Qualifier
-from odm2api.ODM1_1_1.services import CVService
+#from odm2api.ODM1_1_1.services import CVService
 
 from tests import test_util1_1_1 as test_util
 
@@ -9,6 +9,8 @@ from tests import test_util1_1_1 as test_util
 session = None
 
 
+@pytest.mark.skipif(True,
+                    reason="ODM1.1 shim is out of date")
 class TestCVService_1_1:
     def setup(self):
         self.connection_string = "sqlite:///:memory:"

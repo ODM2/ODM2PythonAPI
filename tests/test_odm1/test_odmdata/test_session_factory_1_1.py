@@ -1,10 +1,10 @@
-from odmtools.odmdata import SessionFactory
+from odm2api.ODMconnection import SessionFactory
 
 import  pytest
 
-@pytest.mark.skip(
+@pytest.mark.skipif(True,
                     reason="ODM1.1 shim is out of date")
-class TestSessionFactory:
+class TestSessionFactory_1_1:
     def setup(self):
         self.connection_string = "sqlite:///:memory:"
         self.session_factory = SessionFactory(self.connection_string, echo=True)

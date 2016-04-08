@@ -1,17 +1,19 @@
 # -*- coding: utf-8 -*-
-from odmtools.odmdata import SessionFactory, variable, series
-from odmtools.odmservices import SeriesService
-from tests import test_util
-import wx
-from tests.test_util import build_db
+from odm2api.ODM1_1_1.models import  Variable, Series
+from odm2api.ODM1_1_1.services import SeriesService
+from odm2api.ODMconnection import SessionFactory
+from tests import test_util1_1_1 as test_util
+
+#import wx
+from tests.test_util1_1_1 import build_db
 import urllib
 import sqlalchemy
 from sqlalchemy.orm import sessionmaker
 import  pytest
 
-@pytest.mark.skip(
+@pytest.mark.skipif(True,
                     reason="ODM1.1 shim is out of date")
-class TestFreeTDS:
+class TestFreeTDS_1_1:
     def setup(self):
         # connection string
         
@@ -27,12 +29,12 @@ class TestFreeTDS:
         assert Session
         session = Session()
         assert session
-        q= session.query(variable.Variable).all()
+        q= session.query(Variable.Variable).all()
         print "q:", type(q), dir(q)
         for i in q:
             print i
         #conn.close()
-        q= session.query(series.Series).all()
+        q= session.query(Series.Series).all()
         for i in q[:10]:
             print i
         assert q
