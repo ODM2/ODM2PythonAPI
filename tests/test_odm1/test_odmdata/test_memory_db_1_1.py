@@ -1,6 +1,6 @@
 import pytest
 
-from odm2api.ODM1_1_1 import memory_database as MemoryDatabase
+#from odm2api.ODM1_1_1 import memory_database as MemoryDatabase
 from odm2api.ODM1_1_1.services import SeriesService
 from tests import test_util1_1_1 as test_util
 
