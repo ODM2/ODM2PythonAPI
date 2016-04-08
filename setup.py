@@ -94,7 +94,6 @@ setup(
         'sqlalchemy',
         'geoalchemy>=0.7.3',
         'shapely',
-        'dateutils',
         'pandas',
     ],
     # dependency_links- geoalchemy from the ODM repository

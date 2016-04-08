@@ -5,7 +5,6 @@ sqlalchemy
 -e git+https://github.com/ODM2/geoalchemy.git@odm2#egg=geoalchemy-0.7.3
 #https://github.com/ODM2/geoalchemy/archive/v0.7.3.tar.gz
 shapely
-dateutils
 pandas
 #psycopg2  # Commented out because I could not pip install it.
 #matplotlib
