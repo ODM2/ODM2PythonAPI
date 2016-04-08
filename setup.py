@@ -17,15 +17,9 @@ from codecs import open
 from os import path
 
 here = path.abspath(path.dirname(__file__))
-# with open('requirements.txt') as f:
-#     require = f.readlines()
-# install_reqs = [r.strip() for r in require if
-#                     not r.startswith('http') and not r.startswith('#')]
 
 from pip.req import parse_requirements
-
 install_reqs = parse_requirements('requirements.txt', session=False)
-
 reqs = [str(ir.req) for ir in install_reqs]
 
 # Get the long description from the relevant file

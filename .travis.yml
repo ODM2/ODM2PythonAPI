@@ -21,7 +21,7 @@ services:
 #addons:
 #  mariadb: '10.1'
 before_install:
- - ls -al /etc/mysql
+  - ls -al /etc/mysql
   - sudo service mysql stop
 # lower-case-table-names = 1 leaving lower_case_table_names=1 since that is what the docs say
   -  echo "[mysqld]" > $HOME/.my.cnf
