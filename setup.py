@@ -19,8 +19,14 @@ from os import path
 here = path.abspath(path.dirname(__file__))
 # with open('requirements.txt') as f:
 #     require = f.readlines()
-# install_requires = [r.strip() for r in require if
+# install_reqs = [r.strip() for r in require if
 #                     not r.startswith('http') and not r.startswith('#')]
+
+from pip.req import parse_requirements
+
+install_reqs = parse_requirements('requirements.txt', session=False)
+
+reqs = [str(ir.req) for ir in install_reqs]
 
 # Get the long description from the relevant file
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
@@ -50,7 +56,7 @@ setup(
     maintainer_email='david.valentine@gmail.com',
 
     # Choose your license
-    license='BSD',
+    license='BSD-3-Clause',
 
     # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
@@ -87,15 +93,15 @@ setup(
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
 
-    #install_requires=install_requires,
-    install_requires=[
-        'pyodbc',
-        'six',
-        'sqlalchemy',
-        'geoalchemy>=0.7.3',
-        'shapely',
-        'pandas',
-    ],
+    install_requires=install_reqs,
+    # install_requires=[
+    #     'pyodbc',
+    #     'six',
+    #     'sqlalchemy',
+    #     'geoalchemy>=0.7.3',
+    #     'shapely',
+    #     'pandas',
+    # ],
     # dependency_links- geoalchemy from the ODM repository
     dependency_links=[
         "git+https://github.com/ODM2/geoalchemy.git@v0.7.3#egg=geoalchemy-0.7.3"

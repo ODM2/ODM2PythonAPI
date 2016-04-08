@@ -33,13 +33,16 @@ environment:
     # a later point release.
     # See: http://www.appveyor.com/docs/installed-software#python
 
-    - PYTHON: "C:\\Python27"
-      PYTHON_VERSION: "2.7.x" # currently 2.7.9
-      PYTHON_ARCH: "32"
 
-    - PYTHON: "C:\\Python27-x64"
-      PYTHON_VERSION: "2.7.x" # currently 2.7.9
-      PYTHON_ARCH: "64"
+    matrix:
+      - PYTHON: "C:\\Python27-conda32"
+        PYTHON_VERSION: "2.7"
+        PYTHON_ARCH: "32"
+
+      - PYTHON: "C:\\Python34-conda64"
+        PYTHON_VERSION: "3.4"
+        PYTHON_ARCH: "64"
+
 services:
   - mssql2008r2sp2
   - mysql

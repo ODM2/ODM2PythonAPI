@@ -21,61 +21,21 @@ services:
 #addons:
 #  mariadb: '10.1'
 before_install:
-#  - strace mysql 2>&1 | grep cnf
-#stat("/etc/my.cnf", 0x7ffef7c8dca0)     = -1 ENOENT (No such file or directory)
-#stat("/etc/mysql/my.cnf", {st_mode=S_IFREG|0644, st_size=5232, ...}) = 0
-#open("/etc/mysql/my.cnf", O_RDONLY|O_CLOEXEC) = 3
-#stat("/etc/mysql/conf.d/mariadb.cnf", {st_mode=S_IFREG|0644, st_size=435, ...}) = 0
-#open("/etc/mysql/conf.d/mariadb.cnf", O_RDONLY|O_CLOEXEC) = 4
-#stat("/etc/mysql/conf.d/mysqld_safe_syslog.cnf", {st_mode=S_IFREG|0644, st_size=36, ...}) = 0
-#open("/etc/mysql/conf.d/mysqld_safe_syslog.cnf", O_RDONLY|O_CLOEXEC) = 4
-#stat("/etc/mysql/conf.d/tokudb.cnf", {st_mode=S_IFREG|0644, st_size=285, ...}) = 0
-#open("/etc/mysql/conf.d/tokudb.cnf", O_RDONLY|O_CLOEXEC) = 4
-#stat("/home/travis/.my.cnf", 0x7ffef7c8dca0) = -1 ENOENT (No such file or directory)
-#  - ls -l /etc/mariadb
-  - mysqld --help --verbose
-  - mysql -uroot -e 'SHOW VARIABLES WHERE Variable_Name LIKE "%dir"'
-  # Default options are read from the following files in the given order:
- # /etc/my.cnf /etc/mysql/my.cnf ~/.my.cnf
-#  - ls -al .my.cnf
-#  - ls -al /etc/my.cnf
-  - ls -al /etc/mysql/conf.d/
-  - ls -al /etc/mysql/
-#  - ls -al /var/lib/mysql
-#  - ls -al /usr/local/etc/my.cnf.d/
-#  - cat /etc/mysql/conf.d/mariadb.cnf
-#  - cat /etc/mysql/conf.d/tokudb.cnf
-#  - cat /etc/mysql/conf.d/mysqld_safe_syslog.cnf
-  - cat /etc/mysql/debian-start
-  - cat /usr/share/mysql/debian-start.inc.sh
-  - cat /etc/init.d/mysql
-  - sudo cat /etc/mysql/debian.cnf
-  #  - cat /etc/apparmor.d/usr.sbin.mysqld
-  - ls -al /etc/mysql
+ - ls -al /etc/mysql
   - sudo service mysql stop
-#  -    echo "[mysqld]" > /etc/my.cnf
-#  -    echo "lower_case_table_names = 1" >> /etc/my.cnf
-#  -  sudo  echo "[mariadb-10.0]" >> /etc/my.cnf
-#  -  sudo  echo "lower_case_table_names = 1" >> /etc/my.cnf
+# lower-case-table-names = 1 leaving lower_case_table_names=1 since that is what the docs say
   -  echo "[mysqld]" > $HOME/.my.cnf
   -  echo "lower-case-table-names = 1" >> $HOME/.my.cnf
 #  -  echo "lower_case_table_names=1" >> $HOME/.my.cnf
-  - cat $HOME/.my.cnf
-#  -  echo "[mariadb-10.0]" >> .my.cnf
-#  -  echo "lower_case_table_names = 1" >> .my.cnf
-#  - sudo echo "[mysqld]" >> /etc/mysql/debian.cnf
-#  - sudo echo "lower_case_table_names = 2" >> /etc/mysql/debian.cnf
+  - cat $HOME/.my.cnf # be sure it registered
   - service --status-all
-#  - sudo cat /etc/mysql/debian.cnf
-#  - sudo echo "[mysqld]" >> /etc/mysql/debian.cnf
-#  - sudo echo "lower_case_table_names=1" >> /etc/mysql/debian.cnf
-  - sudo cat /etc/mysql/debian.cnf
-  - sudo sed -i '/\[mysqld\]/a lower_case_table_names = 1 ' /etc/mysql/my.cnf
-  - cat /etc/mysql/my.cnf
-  - sudo service mysql start
-#  - sudo service mysql restart
+#  this should have worked.
+#  - sudo sed -i '/\[mysqld\]/a lower_case_table_names = 1 ' /etc/mysql/my.cnf
+#  - cat /etc/mysql/my.cnf
+  - sudo service mysql start  restart
   - mysql --verbose -e  "show variables like 'lower%';" --user=root
-#  - strace mysql 2>&1 | grep cnf
+
+#  - strace mysql 2>&1 | grep cnf # will tell you what files are being used
   - mysql --verbose -e "CREATE USER 'ODM'@'localhost' IDENTIFIED BY 'odm';GRANT ALL PRIVILEGES ON *.* TO 'ODM'@'localhost';" --user=root
   - mysql --verbose -e "CREATE USER 'ODM'@'127.0.0.1' IDENTIFIED BY 'odm';GRANT ALL PRIVILEGES ON *.* TO 'ODM'@'127.0.0.1';" --user=root
   - mysql --verbose -e "CREATE USER 'ODM'@'%' IDENTIFIED BY 'odm';GRANT ALL PRIVILEGES ON *.* TO 'ODM'@'%';" --user=root
@@ -154,25 +114,20 @@ install: # now just our code
   - ls -al  ./tests/usecasesql/littlebearriver/sampledatabases/odm2_mysql/LBR_MySQL_SmallExample.sql ./tests/usecasesql/marchantariats/marchantariats.sql
   - mysql --user=ODM --password=odm  odm2 < ./tests/usecasesql/littlebearriver/sampledatabases/odm2_mysql/LBR_MySQL_SmallExample.sql
   - mysql --user=root  -e  "show databases;"
-  - mysql --user=root  -e "select table_schema,table_name,table_rows from information_schema.tables;"
   - mysql --user=root -e   "GRANT ALL PRIVILEGES ON odm2.* TO 'ODM'@'localhost';FLUSH PRIVILEGES;"
+# these should all work, if they don't the lower_case_table_names failed
   - mysql --user=ODM --password=odm odm2 -e "use odm2; Select * from Variables;"
-  - mysql --user=ODM --password=odm odm2 -e "use odm2; Select * from variables;"
-#  - mysql --user=ODM --password=odm odm2 -e "Select * from odm2.Variables;"
+  - mysql --user=ODM --password=odm odm2 -e "Select * from odm2.Variables;"
   - mysql --user=ODM --password=odm  -e "Select * from odm2.Variables;"
-  - mysql --user=ODM --password=odm  -e "Select * from odm2.variables;"
 # add -a to psql to see full log, -q is quiet
   - psql -U postgres -q  -f ./tests/usecasesql/marchantariats/marchantariats.sql
-#  - netstat output | grep mysql
-  - mysql --user root -e   "SELECT User, Host FROM mysql.user;"
+
 
 # don't forget to open up the azure mssql server to these addreses
 # https://docs.travis-ci.com/user/ip-addresses/
 
 # command to run tests
 script:
-# just the connection part
-  - py.test tests/test_SessionFactory.py
-  - py.test tests/test_connection.py
+
   - py.test
 
