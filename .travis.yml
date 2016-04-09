@@ -1,4 +1,5 @@
 language: python
+sudo: required
 # if the https://travis-ci.org/ODM2/ODM2PythonAPI/requests ever says: missing config
 # validate at: http://lint.travis-ci.org/
 python:
@@ -37,11 +38,14 @@ addons:
       - libspatialite-dev
 #  mariadb: '10.1'
 before_script:
+#  - ./scripts/mysql.sh
+#  - ./scripts/postgres.sh
+#  - ./freetds.sh
+
+before_install:
   - ./scripts/mysql.sh
   - ./scripts/postgres.sh
   - ./freetds.sh
-
-before_install:
 
 #  - ls -al /etc/mysql
 #  - sudo service mysql stop
