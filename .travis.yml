@@ -38,14 +38,14 @@ addons:
       - libspatialite-dev
 #  mariadb: '10.1'
 before_script:
-#  - ./scripts/mysql.sh
-#  - ./scripts/postgres.sh
-#  - ./freetds.sh
+  - ./scripts/mysql_setup.sh
+  - ./scripts/postgres_setup.sh
+  - ./freetds.sh
 
 before_install:
-  - ./scripts/mysql.sh
-  - ./scripts/postgres.sh
-  - ./freetds.sh
+#  - ./scripts/mysql_setup.sh
+#  - ./scripts/postgres_setup.sh
+#  - ./freetds.sh
 
 #  - ls -al /etc/mysql
 #  - sudo service mysql stop
