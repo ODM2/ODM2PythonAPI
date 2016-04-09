@@ -19,24 +19,24 @@ services:
   - mysql
   - postgresql
 addons:
-#  mariadb: '10.1'
   apt:
     packages:
-    - cmake
-    - unixodbc
-    - unixodbc-dev
-    - odbcinst1debian2
-    - odbcinst
-    - freetds-dev
-    - freetds-bin
-    - tdsodbc
-    - libc6
-    - e2fsprogs
-    - mysql-client
-    - libproj-dev
-    - libgeos-dev
-    - libspatialite-dev
-before_scripts:
+      - cmake
+      - unixodbc
+      - unixodbc-dev
+      - odbcinst1debian2
+      - odbcinst
+      - freetds-dev
+      - freetds-bin
+      - tdsodbc
+      - libc6
+      - e2fsprogs
+      - mysql-client
+      - libproj-dev
+      - libgeos-dev
+      - libspatialite-dev
+#  mariadb: '10.1'
+before_script:
   - ./scripts/mysql.sh
   - ./scripts/postgres.sh
   - ./freetds.sh
