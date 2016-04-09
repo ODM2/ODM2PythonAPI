@@ -40,7 +40,7 @@ addons:
 before_script:
   - ./scripts/mysql_setup.sh
   - ./scripts/postgres_setup.sh
-  - ./freetds.sh
+  - ./scripts/freetds.sh
 
 before_install:
 #  - ./scripts/mysql_setup.sh
