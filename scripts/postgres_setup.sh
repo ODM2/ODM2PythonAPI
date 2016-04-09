@@ -1,5 +1,5 @@
 #!/bin/bash
-psql -U postgres -c "create extension postgis"
+psql -U postgres -c "create extension postgis" 
 psql -c 'DROP DATABASE IF EXISTS odm2test;' -U postgres;
 psql -c 'create database odm2test;' -U postgres;
 #psql -U postgres -d odm2test -a -f ./tests/schemas/postgresql/ODM2_for_PostgreSQL.sql
