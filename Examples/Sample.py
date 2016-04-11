@@ -1,36 +1,31 @@
 __author__ = 'stephanie'
-import sys
-import os
+
 
 
 import matplotlib.pyplot as plt
 from matplotlib import dates
 
 
-#this will be removed when we can installthe api
-# this_file = os.path.realpath(__file__)
-# directory = os.path.dirname(os.path.dirname(this_file))
-# print directory
-# sys.path.insert(0, directory)
 
 from odm2api.ODMconnection import dbconnection
 from odm2api.ODM2.services.readService import *
+from odm2api.ODM2.services import CreateODM2
 # Create a connection to the ODM2 database
 # ----------------------------------------
 
 
 #connect to database
-#createconnection (dbtype, servername, dbname, username, password)
-#session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')
-#session_factory = dbconnection.createConnection('connection type: sqlite|mysql|mssql|postgresql', '/your/path/to/db/goes/here', 2.0)
-# session_factory= dbconnection.createConnection('mssql', "(local)", "LBRODM2", "ODM", "odm")
-session_factory= dbconnection.createConnection('mssql', "arroyoodm2", "LBRODM2", "ODM", "odm")
+# createconnection (dbtype, servername, dbname, username, password)
+# session_factory = dbconnection.createConnection('connection type: sqlite|mysql|mssql|postgresql', '/your/path/to/db/goes/here', 2.0)#sqlite
+# session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')#mysql
+# session_factory= dbconnection.createConnection('mssql', "(local)", "LBRODM2", "ODM", "odm")#win MSSQL
+session_factory= dbconnection.createConnection('mssql', "arroyoodm2", "", "ODM", "odm")#mac/linux MSSQL
 
 
 
 #_session = session_factory.getSession()
-
 read = ReadODM2(session_factory)
+create =CreateODM2(session_factory)
 
 
 
@@ -64,22 +59,22 @@ try:
     numSites = len(siteFeatures)
 
     for x in siteFeatures:
-        print x.SamplingFeatureCode + ": " + x.SamplingFeatureName
+        print x.SamplingFeatureCode + ": " + str(x.SamplingFeatureName) + ", " + x.SamplingFeatureTypeCV
 except Exception as e:
     print "Unable to demo getSamplingFeaturesByType", e
 
 
 # Now get the SamplingFeature object for a SamplingFeature code
 try:
-    sf = read.getSamplingFeatures(code='USU-LBR-Mendon')
+    sf = read.getSamplingFeatures(code='USU-LBR-Mendon')[0]
     print sf
     print "\n-------- Information about an individual SamplingFeature ---------"
-    print "The following are some of the attributes of a SamplingFeature retrieved using getSamplingFeatureByCode(): \n"
+    print "The following are some of the attributes of a SamplingFeature retrieved using getSamplingFeature(code = x): \n"
     print "SamplingFeatureCode: " + sf.SamplingFeatureCode
     print "SamplingFeatureName: " + sf.SamplingFeatureName
     print "SamplingFeatureDescription: %s" % sf.SamplingFeatureDescription
     print "SamplingFeatureGeotypeCV: %s" % sf.SamplingFeatureGeotypeCV
-    print "SamplingFeatureGeometry: %s" % sf.FeatureGeometry
+    print "SamplingFeatureGeometry: %s" % sf.FeatureGeometryWKT
     print "Elevation_m: %s" % str(sf.Elevation_m)
 except Exception as e:
     print "Unable to demo getSamplingFeatureByCode: ", e
@@ -87,18 +82,14 @@ except Exception as e:
 #add sampling feature
 print "\n------------ Create Sampling Feature --------- \n",
 try:
-    from odm2api.ODM2.models import SamplingFeatures
-    newsf = SamplingFeatures()
+    # from odm2api.ODM2.models import SamplingFeatures
     session = session_factory.getSession()
-    newsf.FeatureGeometry = "POINT(-111.946 41.718)"
-    newsf.Elevation_m=100
-    newsf.ElevationDatumCV=sf.ElevationDatumCV
-    newsf.SamplingFeatureCode= "TestSF"
-    newsf.SamplingFeatureDescription = "this is a test to add Feature Geomotry"
-    newsf.SamplingFeatureGeotypeCV= "Point"
-    newsf.SamplingFeatureTypeCV=sf.SamplingFeatureTypeCV
-    newsf.SamplingFeatureUUID= sf.SamplingFeatureUUID+"2"
-    session.add(newsf)
+    newsf = Sites(FeatureGeometryWKT = "POINT(-111.946 41.718)", Elevation_m=100, ElevationDatumCV=sf.ElevationDatumCV,
+    SamplingFeatureCode= "TestSF",SamplingFeatureDescription = "this is a test to add Feature Geomotry",
+    SamplingFeatureGeotypeCV= "Point", SamplingFeatureTypeCV=sf.SamplingFeatureTypeCV,SamplingFeatureUUID= sf.SamplingFeatureUUID+"2",
+    SiteTypeCV="cave", Latitude= "100", Longitude= "-100", SpatialReferenceID= 0)
+
+    create.createSamplingFeature(newsf)
     #session.commit()
     print "new sampling feature added to database", newsf
 
@@ -127,32 +118,32 @@ except Exception as e:
 # Now get a particular Result using a ResultID
 print "\n------- Example of Retrieving Attributes of a Time Series Result -------"
 try:
-    tsResult = read.getTimeSeriesResultByResultId(1)
+    tsResult = read.getResults(id = 1)[0]
     print (
         "The following are some of the attributes for the TimeSeriesResult retrieved using getTimeSeriesResultByResultID(): \n" +
-        "ResultTypeCV: " + tsResult.ResultObj.ResultTypeCV + "\n" +
+        "ResultTypeCV: " + tsResult.ResultTypeCV + "\n" +
         # Get the ProcessingLevel from the TimeSeriesResult's ProcessingLevel object
-        "ProcessingLevel: " + tsResult.ResultObj.ProcessingLevelObj.Definition + "\n" +
-        "SampledMedium: " + tsResult.ResultObj.SampledMediumCV + "\n" +
+        "ProcessingLevel: " + tsResult.ProcessingLevelObj.Definition + "\n" +
+        "SampledMedium: " + tsResult.SampledMediumCV + "\n" +
         # Get the variable information from the TimeSeriesResult's Variable object
-        "Variable: " + tsResult.ResultObj.VariableObj.VariableCode + ": " + tsResult.ResultObj.VariableObj.VariableNameCV + "\n"
+        "Variable: " + tsResult.VariableObj.VariableCode + ": " + tsResult.VariableObj.VariableNameCV + "\n"
                                                                                                         "AggregationStatistic: " + tsResult.AggregationStatisticCV + "\n" +
         "Elevation_m: " + str(sf.Elevation_m) + "\n" +
         # Get the site information by drilling down
-        "SamplingFeature: " + tsResult.ResultObj.FeatureActionObj.SamplingFeatureObj.SamplingFeatureCode + " - " +
-        tsResult.ResultObj.FeatureActionObj.SamplingFeatureObj.SamplingFeatureName)
+        "SamplingFeature: " + tsResult.FeatureActionObj.SamplingFeatureObj.SamplingFeatureCode + " - " +
+        tsResult.FeatureActionObj.SamplingFeatureObj.SamplingFeatureName)
 except Exception as e:
     print "Unable to demo Example of retrieving Attributes of a time Series Result: ", e
 
 # Get the values for a particular TimeSeriesResult
 print "\n-------- Example of Retrieving Time Series Result Values ---------"
 
-tsValues = read.getTimeSeriesResultValuesByResultId(1)  # Return type is a pandas dataframe
-tsValues = read.getResultValues(type = 'timeseries', id = 1)
+tsValues = read.getResultValues(resultid = 1)  # Return type is a pandas datafram
 
 # Print a few Time Series Values to the console
 # tsValues.set_index('ValueDateTime', inplace=True)
 try:
+    print "tsValues "
     print tsValues.head()
 except Exception as e:
     print e
@@ -160,18 +151,9 @@ except Exception as e:
 # Plot the time series
 
 try:
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    tsValues.plot(x='ValueDateTime', y='DataValue', kind='line',
-                  title=tsResult.ResultObj.VariableObj.VariableNameCV + " at " + tsResult.ResultObj.FeatureActionObj.SamplingFeatureObj.SamplingFeatureName,
-                  ax=ax)
-    ax.set_ylabel(tsResult.ResultObj.VariableObj.VariableNameCV + " (" + tsResult.ResultObj.UnitsObj.UnitsAbbreviation + ")")
-    ax.set_xlabel("Date/Time")
-    ax.xaxis.set_minor_locator(dates.MonthLocator())
-    ax.xaxis.set_minor_formatter(dates.DateFormatter('%b'))
-    ax.xaxis.set_major_locator(dates.YearLocator())
-    ax.xaxis.set_major_formatter(dates.DateFormatter('\n%Y'))
-    ax.grid(True)
+    plt.figure()
+    ax=tsValues.plot(x='ValueDateTime', y='DataValue')
+
     plt.show()
 except Exception as e:
     print "Unable to demo plotting of tsValues: ", e
