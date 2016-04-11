@@ -1,0 +1,32 @@
+
+Testing a package
+* upload to pyptest: https://wiki.python.org/moin/TestPyPI
+https://testpypi.python.org/pypi
+
+python setup.py sdist upload -r https://testpypi.python.org/pypi
+
+=== testing
+cd dev_odm
+virtualenv --system-site-packages v_odmtest
+cd ODM2PythonAPI
+python setup.py install
+# above failed on windows... need to be able to compile code
+
+=== CONDA == WINDOWS
+Start anaconda console
+conda search "^python$"
+conda create -n v_odm2test python=2.7.11 anaconda panadas sqlalchemy six geos pyodbc
+activate v_odm2test
+conda install -c SciTools shapely # to get binary versions
+
+
+conda remove --name v_odm2test --all
+# note issue solved by editing (anacona)\Scripts\activate.bat
+http://stackoverflow.com/questions/34818282/anaconda-prompt-loading-error-the-input-line-is-too-long
+===
+note for packaging yodatools
+https://gehrcke.de/2014/02/distributing-a-python-command-line-application/
+
+creating the databases:
+connection string for spatiallite
+sqlite+pysqlite:///../../../ODM2PythonAPI/tests/spatialite/odm2_test.sqlite
