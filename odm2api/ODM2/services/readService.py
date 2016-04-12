@@ -200,7 +200,7 @@ class ReadODM2(serviceBase):
     Variable
     """
 
-    def getVariables(self, ids=None, code=None):
+    def getVariables(self, ids=None, codes=None):
         """
         getVariables()
         * Pass nothing - returns full list of variable objects
@@ -210,7 +210,7 @@ class ReadODM2(serviceBase):
 
         query = self._session.query(Variables)
         if ids: query = query.filter(Variables.VariableID.in_(ids))
-        if code: query = query.filter(Variables.VariableCode.in_(code))
+        if codes: query = query.filter(Variables.VariableCode.in_(codes))
         try:
             return query.all()
         except:
@@ -220,7 +220,7 @@ class ReadODM2(serviceBase):
     Method
     """
 
-    def getMethods(self, ids=None, code=None, type=None):
+    def getMethods(self, ids=None, codes=None, type=None):
 
         """
         getMethods()
@@ -231,7 +231,7 @@ class ReadODM2(serviceBase):
         """
         q = self._session.query(Methods)
         if ids: q = q.filter(Methods.MethodID.in_(ids))
-        if code: q = q.filter(Methods.MethodCode.in_(code))
+        if codes: q = q.filter(Methods.MethodCode.in_(codes))
         if type: q = q.filter_by(MethodTypeCV=type)
 
         try:
@@ -243,7 +243,7 @@ class ReadODM2(serviceBase):
     ProcessingLevel
     """
 
-    def getProcessingLevels(self, ids=None, code=None):
+    def getProcessingLevels(self, ids=None, codes=None):
         """
         getProcessingLevels()
         * Pass nothing - returns full list of ProcessingLevel objects
@@ -252,7 +252,7 @@ class ReadODM2(serviceBase):
         """
         q = self._session.query(ProcessingLevels)
         if ids: q = q.filter(ProcessingLevels.ProcessingLevels.in_(ids))
-        if code: q = q.filter(ProcessingLevels.ProcessingLevelCode.in_(code))
+        if codes: q = q.filter(ProcessingLevels.ProcessingLevelCode.in_(codes))
 
         try:
             return q.all()
@@ -263,7 +263,7 @@ class ReadODM2(serviceBase):
     Sampling Feature
     """
 
-    def getSamplingFeatures(self, ids=None, code=None, uuid=None, type=None, wkt=None):
+    def getSamplingFeatures(self, ids=None, codes=None, uuid=None, type=None, wkt=None):
         """
         getSamplingFeatures
         * Pass nothing - returns a list of all sampling feature objects with each object of type specific to that sampling feature
@@ -277,7 +277,7 @@ class ReadODM2(serviceBase):
 
         if type: q = q.filter_by(SamplingFeatureTypeCV=type)
         if ids: q = q.filter(SamplingFeatures.SamplingFeatureID.in_(ids))
-        if code: q = q.filter(SamplingFeatures.SamplingFeatureCode.in_(code))
+        if codes: q = q.filter(SamplingFeatures.SamplingFeatureCode.in_(codes))
         if wkt: q = q.filter_by(FeatureGeometryWKT=wkt)
         try:
             return q.all()
@@ -364,7 +364,7 @@ class ReadODM2(serviceBase):
     Organization
     """
 
-    def getOrganizations(self, ids=None, code=None):
+    def getOrganizations(self, ids=None, codes=None):
         """
         getOrganizations()
         * Pass nothing - returns a list of all organization objects
@@ -373,7 +373,7 @@ class ReadODM2(serviceBase):
         """
         q = self._session.query(Organizations)
         if ids: q = q.filter(Organizations.OrganizationID.in_(ids))
-        if code: q = q.filter(Organizations.OrganizationCode.in_(code))
+        if codes: q = q.filter(Organizations.OrganizationCode.in_(codes))
         try:
             return q.all()
         except:
@@ -474,7 +474,7 @@ class ReadODM2(serviceBase):
     Datasets
     """
 
-    def getDataSets(self, code=None):
+    def getDataSets(self, codes=None):
         """
         getDataSets()
         * Pass nothing - returns a list of all DataSet objects
@@ -482,8 +482,8 @@ class ReadODM2(serviceBase):
 
         """
         q = self._session.query(DataSets)
-        if code:
-            q = q.filter(DataSets.DataSetCode.in_(code))
+        if codes:
+            q = q.filter(DataSets.DataSetCode.in_(codes))
         try:
             return q.all()
         except:
@@ -519,7 +519,7 @@ class ReadODM2(serviceBase):
     # ################################################################################
 
     # TODO Equipment Schema Queries
-    def getEquipment(self, code=None, type=None, sfid=None, actionid=None):
+    def getEquipment(self, codes=None, type=None, sfid=None, actionid=None):
         """
         getEquipment()
         * Pass nothing - returns a list of all Equipment objects
@@ -532,6 +532,7 @@ class ReadODM2(serviceBase):
             .join(Actions) \
             .join(FeatureActions) \
             .filter(FeatureActions.SamplingFeatureID == sfid)
+        if codes: e = e.filter(Equipment.EquipmentCode.in_(codes))
         if actionid: e = e.join(EquipmentUsed).join(Actions) \
             .filter(Actions.ActionID == actionid)
         return e.all()
@@ -710,14 +711,14 @@ class ReadODM2(serviceBase):
     Site
     """
 
-    def getSpatialReference(self, srsCode=None):
+    def getSpatialReference(self, srsCodes=None):
         """
         getSpatialReference()
         * Pass a ResultID - Returns a result values object of type that is specific to the result type
         * Pass a ResultID and a date range - returns a result values object of type that is specific to the result type with values between the input date range
         """
         q = self._session.query(SpatialReferences)
-        if srsCode: q.filter(SpatialReferences.SRSCode.ilike(srsCode))
+        if srsCodes: q.filter(SpatialReferences.SRSCode.in_(srsCodes))
         try:
             return q.first()
         except:
@@ -756,9 +757,9 @@ class ReadODM2(serviceBase):
     #         print e
     #         return None
 
-    def getModels(self, code=None):
+    def getModels(self, codes=None):
         m = self._session.query(Models)
-        if code: m = m.filter(Models.ModelCode.ilike(code))
+        if codes: m = m.filter(Models.ModelCode.in_(codes))
         try:
             return m.all()
         except:
