@@ -17,35 +17,40 @@ from codecs import open
 from os import path
 
 here = path.abspath(path.dirname(__file__))
-with open('requirements.txt') as f:
-    require = f.readlines()
-install_requires = [r.strip() for r in require if
-                    not r.startswith('http') and not r.startswith('#')]
+
+from pip.req import parse_requirements
+install_reqs = parse_requirements('requirements.txt', session=False)
+reqs = [str(ir.req) for ir in install_reqs]
 
 # Get the long description from the relevant file
-# with open(path.join(here, 'DESCRIPTION.rst'), encoding='utf-8') as f:
-#     long_description = f.read()
-long_description = ""
+with open(path.join(here, 'README.md'), encoding='utf-8') as f:
+     long_description = f.read()
+#long_description = ""
 setup(
     name='odm2api',
 
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='0.1',
+    version='0.5',
 
-    description='ODM 2 Python API',
+    description='A Python-based application programmers interface for the Observations Data Model 2 (ODM2) ',
     long_description=long_description,
 
     # The project's main homepage.
     url='https://github.com/ODM2/ODM2PythonAPI',
 
     # Author details
-    author='UWRL ',
-    author_email='test@usu.edu',
+    author='ODM2 team-Stephanie Reeder',
+    author_email='stephanie.reeder@usu.edu',
+
+    # note: maintainer gets listed as author in PKG-INFO, so leaving
+    # this commented out for now
+    maintainer='David Valentine',
+    maintainer_email='david.valentine@gmail.com',
 
     # Choose your license
-    license='Open GPL',
+    license='BSD-3-Clause',
 
     # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
@@ -53,22 +58,24 @@ setup(
         #   3 - Alpha
         #   4 - Beta
         #   5 - Production/Stable
-        'Development Status :: 4 - Beta',
+        'Development Status :: 3 - Alpha',
 
         # Indicate who your project is intended for
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Build Tools',
 
         # Pick your license as you wish (should match "license" above)
-        'License :: OSI Approved :: Open GPL',
-
+        'License :: OSI Approved :: BSD License',
+        'Operating System :: OS Independent',
         # Specify the Python versions you support here. In particular, ensure
         # that you indicate whether you support Python 2, Python 3 or both.
-        'Programming Language :: Python :: 2.7'
+        'Programming Language :: Python :: 2.7',
+        'Topic :: Software Development :: Libraries :: Python Modules',
+        'Topic :: Scientific/Engineering'
     ],
 
     # What does your project relate to?
-    keywords='ODM2 development',
+    keywords='Observations Data Model ODM2',
 
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
@@ -80,7 +87,15 @@ setup(
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
 
-    install_requires=install_requires,
+    install_requires=install_reqs,
+    # install_requires=[
+    #     'pyodbc',
+    #     'six',
+    #     'sqlalchemy',
+    #     'geoalchemy>=0.7.3',
+    #     'shapely',
+    #     'pandas',
+    # ],
     # dependency_links- geoalchemy from the ODM repository
     dependency_links=[
         "git+https://github.com/ODM2/geoalchemy.git@v0.7.3#egg=geoalchemy-0.7.3"
@@ -90,11 +105,12 @@ setup(
     # dependencies). You can install these using the following syntax,
     # for example:
     # $ pip install -e .[dev,test]
-
-    # extras_require={
-    #     'dev': ['check-manifest'],
-    #     'test': ['coverage'],
-    # },
+    extras_require={
+        'mysql': ['pymysql'],
+        'postgis': ['psycopg2'],
+        'sqlite': ['pyspatialite >=3.0.0'], # need to look at: http://www.gaia-gis.it/spatialite-2.4.0-4/splite-python.html
+        'test': ['coverage'],
+    },
 
     # If there are data files included in your packages that need to be
     # installed, specify them here.  If using Python 2.6 or less, then these

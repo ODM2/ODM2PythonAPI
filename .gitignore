@@ -1,5 +1,6 @@
 *.py[cod]
 *~
+.ipynb_checkpoints
 
 #  C extensions
 *.so
@@ -42,4 +43,3 @@ log
 .idea
 
 .DS_Store
-.ipynb_checkpoints
