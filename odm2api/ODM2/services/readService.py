@@ -944,7 +944,8 @@ class ReadODM2( serviceBase   ):
         :return: all models related to the specified id
         """
         try:
-            return self._session.query(RelatedModels).filter_by(RelatedModelID=modelid).all()
+            # note this was RelatedModelID = modelid  which would return all Parent models of  RelatedModelID
+            return self._session.query(RelatedModels).filter_by(ModelID=modelid).all()
         except Exception, e:
             print e
         return None
@@ -956,7 +957,8 @@ class ReadODM2( serviceBase   ):
         :return: all models related to the provided model code
         """
         try:
-            return self._session.query(RelatedModels).join(Models, RelatedModels.RelatedModelID == Models.ModelID) \
+            # note this was RelatedModels.RelatedModelID == Models.ModelID which would return all Parent models of  RelatedModelID
+            return self._session.query(RelatedModels).join(Models, RelatedModels.ModelID == Models.ModelID) \
                 .filter(Models.ModelCode == modelcode).all()
         except Exception, e:
             print e
