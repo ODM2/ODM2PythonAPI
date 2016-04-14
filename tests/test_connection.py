@@ -20,8 +20,9 @@ dbs_readonly = [
     ["sqlite_wof","sqlite", "./tests/spatialite/wof2odm/ODM2.sqlite", None,      None,   None]
 ]
 dbs_test = [
-    ["sqlite", "./tests/spatialite/odm2_test.sqlite", None, None, None]
 
+    #     ["sqlite_local","sqlite", "./tests/spatialite/odm2_test.sqlite", None, None, None],
+    ["sqlite_memory", "sqlite", ":memory:", None, None, None]
 ]
 class Connection:
     def __init__(self, request):
