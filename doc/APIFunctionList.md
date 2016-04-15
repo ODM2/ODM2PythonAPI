@@ -58,7 +58,7 @@ ODM2 API Get Functions
 * Pass an ActionID - Returns a list of result objects (without values) for an ActionID
 * Pass a ResultType - Returns a list of result objects (without values) of that type
 
-**getResultValues()v
+**getResultValues()**
 * Pass a ResultID - Returns a result values object of type that is specific to the result type
 * Pass a ResultID and a date range - returns a result values object of type that is specific to the result type with values between the input date range
 NOTE:  Another option here would be to put a flag on getResults that specifies whether values should be returned
