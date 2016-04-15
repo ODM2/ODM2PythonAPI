@@ -33,7 +33,7 @@ create =CreateODM2(session_factory)
 # ------------------------------
 # Get all of the variables from the database and print their names to the console
 allVars = read.getVariables()
-
+print "\n-------- Information about Variables ---------"
 for x in allVars:
     print x.VariableCode + ": " + x.VariableNameCV
 
@@ -41,7 +41,7 @@ for x in allVars:
 
 # Get all of the people from the database
 allPeople = read.getPeople()
-
+print "\n-------- Information about People ---------"
 for x in allPeople:
     print x.PersonFirstName + " " + x.PersonLastName
 
@@ -55,6 +55,7 @@ except Exception as e:
 
 # Get all of the SamplingFeatures from the database that are Sites
 try:
+    print "\n-------- Information about Sites ---------"
     siteFeatures = read.getSamplingFeatures(type='Site')
     numSites = len(siteFeatures)
 
@@ -66,8 +67,7 @@ except Exception as e:
 
 # Now get the SamplingFeature object for a SamplingFeature code
 try:
-    sf = read.getSamplingFeatures(code='USU-LBR-Mendon')[0]
-    print sf
+    sf = read.getSamplingFeatures(code=['USU-LBR-Mendon'])[0]
     print "\n-------- Information about an individual SamplingFeature ---------"
     print "The following are some of the attributes of a SamplingFeature retrieved using getSamplingFeature(code = x): \n"
     print "SamplingFeatureCode: " + sf.SamplingFeatureCode
@@ -118,7 +118,7 @@ except Exception as e:
 # Now get a particular Result using a ResultID
 print "\n------- Example of Retrieving Attributes of a Time Series Result -------"
 try:
-    tsResult = read.getResults(id = 1)[0]
+    tsResult = read.getResults(ids = [1])[0]
     print (
         "The following are some of the attributes for the TimeSeriesResult retrieved using getTimeSeriesResultByResultID(): \n" +
         "ResultTypeCV: " + tsResult.ResultTypeCV + "\n" +
