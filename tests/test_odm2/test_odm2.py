@@ -60,6 +60,8 @@ def setup( request):
         del dbConn.odmcreate
         del dbConn.odmupdate
         del dbConn.odmdelete
+        session_factory.engine.dispose()
+        session_factory.test_engine.dispose()
 
     request.addfinalizer(fin)
 
