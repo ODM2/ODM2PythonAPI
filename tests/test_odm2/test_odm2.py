@@ -44,13 +44,15 @@ def setup( request):
     dbConn.odmcreate = CreateODM2(session_factory)
     dbConn.odmupdate = UpdateODM2(session_factory)
     dbConn.odmdelete = DeleteODM2(session_factory)
-
+    s = session_factory.getSession()
     # initialize the in-memory database, loop through each command (skip first and last lines)
     #build = open('./tests/spatialite/build_empty.sqlite').read()
     if (db[2] == ':memory:'):
         build = open('./tests/schemas/sqlite/ODM2_for_SQLite.sql').read()
         for line in build.split(';\n'):
-            session_factory.getSession().execute(line)
+            s.execute(line)
+        s.flush()
+ #       s.invalidate()
 
     print 'database initialization completed successfully'
 
@@ -62,6 +64,7 @@ def setup( request):
         del dbConn.odmdelete
         session_factory.engine.dispose()
         session_factory.test_engine.dispose()
+        s.invalidate()
 
     request.addfinalizer(fin)
 
