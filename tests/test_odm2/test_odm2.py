@@ -53,6 +53,16 @@ def setup( request):
             session_factory.getSession().execute(line)
 
     print 'database initialization completed successfully'
+
+    def fin():
+        print ("teardown odm2 test connection")
+        del dbConn.odmread
+        del dbConn.odmcreate
+        del dbConn.odmupdate
+        del dbConn.odmdelete
+
+    request.addfinalizer(fin)
+
     return dbConn
 
 @pytest.mark.skipif(True, reason="Enable for testing: CreateService Session closes on failed create #52")
