@@ -70,7 +70,7 @@ def setup( request):
 
     return dbConn
 
-@pytest.mark.skipif(True, reason="Enable for testing: CreateService Session closes on failed create #52")
+#@pytest.mark.skipif(True, reason="Enable for testing: CreateService Session closes on failed create #52")
 def test_SessionNotFailed(setup):
     # goal of this is to see that if we force errors like a null value, or duplicate that the session does not fail
 
