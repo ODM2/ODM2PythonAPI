@@ -1,5 +1,5 @@
-__author__ = 'tonycastronova'
-__author__ = 'david valentin'
+__author__ = 'tony castronova'
+__author__ = 'david valentine'
 
 #import unittest
 
@@ -34,7 +34,7 @@ def setup( request):
     # conn = dbconnection.createConnection('sqlite', ':memory:')
     db = request.param
     print ("dbtype", db[0], db[1])
-    session_factory = dbconnection.createConnection(db[1], db[2], db[3], db[4], db[5], echo=True)
+    session_factory = dbconnection.createConnection(db[1], db[2], db[3], db[4], db[5], echo=False)
     assert session_factory is not None, ("failed to create a session for ", db[0], db[1])
     assert session_factory.engine is not None, ("failed: session has no engine ", db[0], db[1])
     # dbconnection._setSchema(conn.engine)
