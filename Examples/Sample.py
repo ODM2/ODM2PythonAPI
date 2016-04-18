@@ -23,8 +23,7 @@ from odm2api.ODM2.services.readService import *
 #createconnection (dbtype, servername, dbname, username, password)
 #session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')
 #session_factory = dbconnection.createConnection('connection type: sqlite|mysql|mssql|postgresql', '/your/path/to/db/goes/here', 2.0)
-#session_factory = dbconnection.createConnection('sqlite', '/Users/denversmith/Downloads/ODM2.sqlite', 2.0)
-session_factory = dbconnection.createConnection('postgresql', '50.19.46.248:5432', db='postgres',user='postgres',password='RomaeDintorni!m0nel')
+session_factory = dbconnection.createConnection('sqlite', '/Users/denversmith/Downloads/ODM2.sqlite', 2.0)
 # session_factory= dbconnection.createConnection('mssql')
 
 
