@@ -110,7 +110,7 @@ class TestReadService:
 
 
         # get the model using the api
-        resapi = self.reader.getModels(code=modelCode)
+        resapi = self.reader.getModels(codes=[modelCode])
 
         assert resapi is not None
 
@@ -212,7 +212,7 @@ class TestReadService:
 
         # get simulation by actionid using the api
         # resapi = self.reader.getSimulationByActionID(actionID=actionID)
-        resapi = self.reader.getSimulation(actionid=actionID)
+        resapi = self.reader.getSimulations(actionid=actionID)
         assert resapi is not None
 
     def test_getResultsBySimulationID(self):

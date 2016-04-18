@@ -63,8 +63,8 @@ class TestCreateService:
         nodv = -9999
         speciation="mg/L as PO4"
         definition="This is a test variable"
-        v = models.Variables(VariableCode = code, VariableName=name, VariableTypeCV=vType, NoDataValue= nodv, Speciation = speciation,
-                      Definition=definition)
+        v = models.Variables(VariableCode = code, VariableNameCV=name, VariableTypeCV=vType, NoDataValue= nodv, SpeciationCV = speciation,
+                      VariableDefinition=definition)
         # self.writer.createVariable(code = code,name = name,vType = vType,nodv =nodv,speciation=None,definition=None)
         self.writer.createVariable(v)
         # assert that this dataset has been successfully inserted
@@ -164,7 +164,7 @@ class TestCreateService:
         #                                    dstitle=title,
         #                                    dsabstract=desc)
         #TODO uuid
-        d = models.Datasets(DataSetTypeCV = type, DataSetCode =code, DataSetTitle=title, DataSetAbstract = desc)
+        d = models.DataSets(DataSetTypeCV = type, DataSetCode =code, DataSetTitle=title, DataSetAbstract = desc)
         dataset = self.writer.createDataset(d)
 
 
@@ -309,9 +309,9 @@ class TestCreateService:
                                SimulationName ="MySimulation",
                                SimulationDescription = "My simulation description",
                                SimulationsStartDateTime = st,
-                               SimulationStartOffset=6,
+                               SimulationStartDateTimeUTCOffset=6,
                                SimulationEdnDateTime=et,
-                               SimulationEndOffset=6,
+                               SimulationEndDateTimeUTCOffset=6,
                                TimeStepValue=1,
                                TimeStepuUnitsID=1,
                                InputDataSetID=None

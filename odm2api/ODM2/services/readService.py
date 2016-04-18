@@ -796,7 +796,7 @@ class ReadODM2(serviceBase):
 
         m = self._session.query(Models).select_from(RelatedModels).join(RelatedModels.RelatedModelObj)
         if id: m = m.filter(RelatedModels.ModelID == id)
-        if code: m = m.filter(RelatedModels.ModelCode == code)
+        if code: m = m.filter(Models.ModelCode == code)
 
         try:
             return m.all()
