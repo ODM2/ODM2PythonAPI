@@ -134,7 +134,8 @@ class TestReadService:
     def test_getRelatedModelsByID(self):
 
         # get related models by id using the api
-        resapi = self.reader.getRelatedModelsByID(2)
+        # resapi = self.reader.getRelatedModelsByID(2)
+        resapi = self.reader.getRelatedModels(id = 2)
 
         assert resapi is not None
         assert resapi[0].ModelObj.ModelCode == 'swat'
@@ -142,19 +143,23 @@ class TestReadService:
     def test_getRelatedModelsByCode(self):
 
         # get related models by id using the api
-        resapi = self.reader.getRelatedModelsByCode('swmm')
+        #resapi = self.reader.getRelatedModelsByCode('swmm')
+        resapi = self.reader.getRelatedModels(code = 'swmm')
 
         assert resapi is not None
         assert len(resapi) > 0
         assert resapi[0].ModelObj.ModelCode == 'swat'
 
         # test model code that doesn't exist
-        resapi = self.reader.getRelatedModelsByCode('None')
+        # resapi = self.reader.getRelatedModelsByCode('None')
+        resapi= self.reader.getRelatedModels(code = 'None')
+
         assert resapi is not None
         assert len(resapi) == 0
 
         # test invalid argument
-        resapi = self.reader.getRelatedModelsByCode(models.ActionBy)
+        # resapi = self.reader.getRelatedModelsByCode(models.ActionBy)
+        resapi = self.reader.getRelatedModels(code = models.ActionBy)
         assert resapi is None
 
 
@@ -184,8 +189,8 @@ class TestReadService:
         res = self.engine.execute('SELECT * FROM Simulations').fetchall()
 
         # get all simulations using the api
-        resapi = self.reader.getAllSimulations()
-
+        # resapi = self.reader.getAllSimulations()
+        resapi = self.reader.getSimulations()
         assert len(res) == len(resapi)
 
     def test_getSimulationByName(self):
@@ -195,7 +200,8 @@ class TestReadService:
         simName = res[2]
 
         # get simulation by name using the api
-        resapi = self.reader.getSimulationByName(simulationName=simName)
+        # resapi = self.reader.getSimulationByName(simulationName=simName)
+        resapi = self.reader.getSimulations(name = simName)
         assert resapi is not None
 
     def test_getSimulationByActionID(self):
@@ -205,7 +211,8 @@ class TestReadService:
         actionID = res[1]
 
         # get simulation by actionid using the api
-        resapi = self.reader.getSimulationByActionID(actionID=actionID)
+        # resapi = self.reader.getSimulationByActionID(actionID=actionID)
+        resapi = self.reader.getSimulation(actionid=actionID)
         assert resapi is not None
 
     def test_getResultsBySimulationID(self):
@@ -225,7 +232,9 @@ class TestReadService:
         print res
 
         # get simulation by id using the api
-        resapi = self.reader.getResultsBySimulationID(simulation.SimulationID)
+        # resapi = self.reader.getResultsBySimulationID(simulation.SimulationID)
+        resapi = self.reader.getResults(simulationid = simulation.SimulationID)
+
         assert resapi is not None
         assert len(resapi) > 0
         assert res.ResultID == resapi[0].ResultID

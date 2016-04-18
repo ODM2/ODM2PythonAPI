@@ -423,7 +423,7 @@ class ReadODM2(serviceBase):
     Results
     """
 
-    def getResults(self, ids=None, actionid=None):
+    def getResults(self, ids=None, actionid=None, simulationid = None):
 
         # TODO what if user sends in both type and actionid vs just actionid
         """
@@ -436,6 +436,11 @@ class ReadODM2(serviceBase):
         query = self._session.query(Results)
 
         if actionid: query = query.join(FeatureActions).filter_by(ActionID=actionid)
+        if simulationid: query = query.join(Results)\
+            .join(FeatureActions)\
+            .join(Actions)\
+            .join(Simulations)\
+            .filter(Simulations.SimulationID == simulationid)
         if ids: query = query.filter(Results.ResultID.in_(ids))
 
         try:
@@ -443,6 +448,17 @@ class ReadODM2(serviceBase):
         except:
             return None
 
+    #
+    # def getResultsBySimulationID(self, simulationid):
+    #     try:
+    #         return self._session.query(Results) \
+    #             .join(FeatureActions) \
+    #             .join(Actions) \
+    #             .join(Simulations) \
+    #             .filter(Simulations.SimulationID == simulationid).all()
+    #     except Exception, e:
+    #         print e
+    #         return None
     #
     #
     # def getResultValidDateTime(self, resultId):
