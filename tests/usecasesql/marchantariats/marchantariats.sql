@@ -1709,6 +1709,7 @@ CREATE TABLE samplingfeatures (
     samplingfeaturedescription character varying(500),
     samplingfeaturegeotypecv character varying(255),
     featuregeometry public.geometry,
+    featuregeometrywkt character varying(50),
     elevation_m double precision,
     elevationdatumcv character varying(255),
     CONSTRAINT enforce_dims_featuregeometry CHECK ((public.st_ndims(featuregeometry) = 2))

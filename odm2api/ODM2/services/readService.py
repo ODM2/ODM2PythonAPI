@@ -263,7 +263,7 @@ class ReadODM2(serviceBase):
     Sampling Feature
     """
 
-    def getSamplingFeatures(self, ids=None, codes=None, uuid=None, type=None, wkt=None):
+    def getSamplingFeatures(self, ids=None, codes=None, uuids=None, type=None, wkt=None):
         """
         getSamplingFeatures
         * Pass nothing - returns a list of all sampling feature objects with each object of type specific to that sampling feature
@@ -278,6 +278,7 @@ class ReadODM2(serviceBase):
         if type: q = q.filter_by(SamplingFeatureTypeCV=type)
         if ids: q = q.filter(SamplingFeatures.SamplingFeatureID.in_(ids))
         if codes: q = q.filter(SamplingFeatures.SamplingFeatureCode.in_(codes))
+        if uuids: q = q.filter(SamplingFeatures.SamplingFeatureUUID.in_(uuids))
         if wkt: q = q.filter_by(FeatureGeometryWKT=wkt)
         try:
             return q.all()
@@ -423,7 +424,7 @@ class ReadODM2(serviceBase):
     Results
     """
 
-    def getResults(self, ids=None, actionid=None, simulationid = None):
+    def getResults(self, ids=None, uuids= None,  actionid=None, simulationid = None):
 
         # TODO what if user sends in both type and actionid vs just actionid
         """
@@ -436,12 +437,12 @@ class ReadODM2(serviceBase):
         query = self._session.query(Results)
 
         if actionid: query = query.join(FeatureActions).filter_by(ActionID=actionid)
-        if simulationid: query = query.join(Results)\
-            .join(FeatureActions)\
+        if simulationid: query = query.join(FeatureActions)\
             .join(Actions)\
             .join(Simulations)\
             .filter(Simulations.SimulationID == simulationid)
         if ids: query = query.filter(Results.ResultID.in_(ids))
+        if uuids: query =query.filter(Results.ResultUUID.in_(uuids))
 
         try:
             return query.all()
@@ -490,7 +491,7 @@ class ReadODM2(serviceBase):
     Datasets
     """
 
-    def getDataSets(self, codes=None):
+    def getDataSets(self, codes=None, uuids=None):
         """
         getDataSets()
         * Pass nothing - returns a list of all DataSet objects
@@ -500,6 +501,8 @@ class ReadODM2(serviceBase):
         q = self._session.query(DataSets)
         if codes:
             q = q.filter(DataSets.DataSetCode.in_(codes))
+        if uuids:
+            q.q.filter(DataSets.DataSetUUID.in_(uuids))
         try:
             return q.all()
         except:
@@ -761,17 +764,7 @@ class ReadODM2(serviceBase):
         except:
             return None
 
-    #
-    # def getResultsBySimulationID(self, simulationid):
-    #     try:
-    #         return self._session.query(Results) \
-    #             .join(FeatureActions) \
-    #             .join(Actions) \
-    #             .join(Simulations) \
-    #             .filter(Simulations.SimulationID == simulationid).all()
-    #     except Exception, e:
-    #         print e
-    #         return None
+
 
     def getModels(self, codes=None):
         m = self._session.query(Models)
@@ -796,7 +789,7 @@ class ReadODM2(serviceBase):
 
         m = self._session.query(Models).select_from(RelatedModels).join(RelatedModels.RelatedModelObj)
         if id: m = m.filter(RelatedModels.ModelID == id)
-        if code: m = m.filter(Models.ModelCode == code)
+        if code: m = m.filter(RelatedModels.ModelCode == code)
 
         try:
             return m.all()

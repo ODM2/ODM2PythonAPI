@@ -138,7 +138,7 @@ class TestReadService:
         resapi = self.reader.getRelatedModels(id = 2)
 
         assert resapi is not None
-        assert resapi[0].ModelObj.ModelCode == 'swat'
+        assert resapi[0].ModelCode == 'swat'
 
     def test_getRelatedModelsByCode(self):
 
@@ -148,7 +148,7 @@ class TestReadService:
 
         assert resapi is not None
         assert len(resapi) > 0
-        assert resapi[0].ModelObj.ModelCode == 'swat'
+        assert resapi[0].ModelCode == 'swat'
 
         # test model code that doesn't exist
         # resapi = self.reader.getRelatedModelsByCode('None')

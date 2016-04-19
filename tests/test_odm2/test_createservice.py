@@ -4,6 +4,7 @@ from os.path import *
 from odm2api.ODM2 import models
 from odm2api.ODMconnection import dbconnection
 from odm2api.ODM2.services.createService import CreateODM2
+import uuid
 # run this test from the root directory using:
 # python -m pytest tests/test_odm2/test_createservice.py
 
@@ -63,8 +64,8 @@ class TestCreateService:
         nodv = -9999
         speciation="mg/L as PO4"
         definition="This is a test variable"
-        v = models.Variables(VariableCode = code, VariableNameCV=name, VariableTypeCV=vType, NoDataValue= nodv, SpeciationCV = speciation,
-                      VariableDefinition=definition)
+        v = models.Variables(VariableCode = code, VariableNameCV=name, VariableTypeCV=vType, NoDataValue= nodv, SpeciationCV = None,
+                      VariableDefinition=None)
         # self.writer.createVariable(code = code,name = name,vType = vType,nodv =nodv,speciation=None,definition=None)
         self.writer.createVariable(v)
         # assert that this dataset has been successfully inserted
@@ -77,9 +78,9 @@ class TestCreateService:
         assert(res[5] == None)          # speciation
         assert(res[6] == nodv )         # nodata
 
-        v = models.Variables(VariableCode = code, VariableName=name, VariableTypeCV=vType, NoDataValue= nodv, Speciation = speciation,
-                      Definition=definition)
-        # self.writer.createVariable(code = code,name = name,vType = vType,nodv =nodv,speciation=None,definition=None)
+        v = models.Variables(VariableCode = code, VariableNameCV=name, VariableTypeCV=vType, NoDataValue= nodv, SpeciationCV = speciation,
+                      VariableDefinition=None)
+        # self.writer.createVariable(code = code,name = name,vType = vType,nodv =nodv,speciation=speciation,definition=None)
         self.writer.createVariable(v)
 
         # assert that this dataset has been successfully inserted
@@ -92,9 +93,9 @@ class TestCreateService:
         assert(res[5] == speciation)    # speciation
         assert(res[6] == nodv )         # nodata
 
-        v = models.Variables(VariableCode = code, VariableName=name, VariableTypeCV=vType, NoDataValue= nodv, Speciation = speciation,
-                      Definition=definition)
-        # self.writer.createVariable(code = code,name = name,vType = vType,nodv =nodv,speciation=None,definition=None)
+        v = models.Variables(VariableCode = code, VariableNameCV=name, VariableTypeCV=vType, NoDataValue= nodv, SpeciationCV = None,
+                      VariableDefinition=definition)
+        # self.writer.createVariable(code = code,name = name,vType = vType,nodv =nodv,speciation=None,definition=definition)
         self.writer.createVariable(v)
 
 
@@ -109,9 +110,9 @@ class TestCreateService:
         assert(res[6] == nodv )         # nodata
 
 
-        v = models.Variables(VariableCode = code, VariableName=name, VariableTypeCV=vType, NoDataValue= nodv, Speciation = speciation,
-                      Definition=definition)
-        # self.writer.createVariable(code = code,name = name,vType = vType,nodv =nodv,speciation=None,definition=None)
+        v = models.Variables(VariableCode = code, VariableNameCV=name, VariableTypeCV=vType, NoDataValue= nodv, SpeciationCV = speciation,
+                      VariableDefinition=definition)
+        # self.writer.createVariable(code = code,name = name,vType = vType,nodv =nodv,speciation=speciation,definition=definition)
         self.writer.createVariable(v)
 
 
@@ -163,8 +164,8 @@ class TestCreateService:
         #                                    dscode=code,
         #                                    dstitle=title,
         #                                    dsabstract=desc)
-        #TODO uuid
-        d = models.DataSets(DataSetTypeCV = type, DataSetCode =code, DataSetTitle=title, DataSetAbstract = desc)
+
+        d = models.DataSets(DataSetTypeCV = type, DataSetCode =code, DataSetTitle=title, DataSetAbstract = desc, DataSetUUID = uuid.uuid4().hex)
         dataset = self.writer.createDataset(d)
 
 
@@ -201,7 +202,7 @@ class TestCreateService:
         #                         resulttypecv = 'time series',
         #                         taxonomicclass=None, resultdatetime=None, resultdatetimeutcoffset=None,
         #                         validdatetime=None, validdatetimeutcoffset=None, statuscv=None)
-        #TODO uuid
+
         r = models.Results(FeatureActionID = 1,
                     VariableID=1,
                     UnitsID =1,
@@ -214,7 +215,9 @@ class TestCreateService:
                     ResultDateTimeUTCOffset = None,
                     ValidDateTime=None,
                     ValidDateTimeUTCOffset = None,
-                    StatusCV = None
+                    StatusCV = None,
+                    ResultUUID = uuid.uuid4().hex
+
             )
         self.writer.createResult(r)
 
@@ -235,7 +238,7 @@ class TestCreateService:
             # create a basic result record
             # self.writer.createResult(featureactionid = 1,variableid = 1,unitid = 1,processinglevelid = 1,
             #                         valuecount = 0,sampledmedium = 'unknown',resulttypecv = 'time series')
-            #TODO uuid
+
             r = models.Results(FeatureActionID = 1,
                     VariableID=1,
                     UnitsID =1,
@@ -243,6 +246,8 @@ class TestCreateService:
                     ValueCount = 0,
                     SampledMediumCV = 'unknown',
                     ResultTypeCV = 'time series',
+                    ResultUUID = uuid.uuid4().hex
+
 
             )
             self.writer.createResult(r)
@@ -252,9 +257,9 @@ class TestCreateService:
 
         # create most basic time series result record possible
         # tsr = self.writer.createTimeSeriesResult(result=result, aggregationstatistic='unknown')
-        t = models.TimeSeriesResults(ResultID = result.ResultID, AggregationStatisticCV = 'unknown')
-        tsr= self.writer.createResults(t)
-        # assert that this basic tsr exists in the datbase
+        # t = models.TimeSeriesResults(ResultID = result.ResultID, AggregationStatisticCV = 'unknown')
+        # tsr= self.writer.createResult(t)
+        # assert that this basic tsr exists in the database
         res = self.engine.execute('SELECT * FROM TimeSeriesResults').first()
         assert(res is not None)
         
@@ -308,15 +313,16 @@ class TestCreateService:
         s = models.Simulations(ActionID = 1,
                                SimulationName ="MySimulation",
                                SimulationDescription = "My simulation description",
-                               SimulationsStartDateTime = st,
+                               SimulationStartDateTime = st,
                                SimulationStartDateTimeUTCOffset=6,
-                               SimulationEdnDateTime=et,
+                               SimulationEndDateTime=et,
                                SimulationEndDateTimeUTCOffset=6,
                                TimeStepValue=1,
-                               TimeStepuUnitsID=1,
-                               InputDataSetID=None
+                               TimeStepUnitsID=1,
+                               InputDataSetID=None,
+                               ModelID = 1
                                )
-        sim = self.writer.creatSimulation(s)
+        sim = self.writer.createSimulation(s)
 
         # assert that this record has been successfully inserted
         res = self.engine.execute('SELECT * from Simulations')
