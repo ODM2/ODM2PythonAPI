@@ -142,33 +142,17 @@ class dbconnection():
     # private variables
     ## ###################
 
-    # def __buildConnectionString(self, conn_dict):
-    #     driver = ""
-    #     if conn_dict['engine'] == 'mssql':
-    #         driver = "pyodbc"
-    #     elif conn_dict['engine'] == 'mysql':
-    #         driver = "pymysql"
-    #     elif conn_dict['engine'] == 'postgresql':
-    #         driver = "psycopg2"
-    #     else:
-    #         driver = "None"
-    #
-    #     conn_string = self._connection_format % (
-    #         conn_dict['engine'], driver, conn_dict['user'], conn_dict['password'], conn_dict['address'],
-    #         conn_dict['db'])
-    #     # print conn_string
-    #     return conn_string
 
     def __buildConnectionString(self, conn_dict):
         # driver = ""
         # print "****", conn_dict
         if conn_dict['engine'] == 'mssql' and sys.platform != 'win32':
             driver = "pyodbc"
-            #'DRIVER={FreeTDS};DSN=%s;UID=%s;PWD=%s;' % (conn_dict['address'], conn_dict['user'], conn_dict['password'])
-         #   quoted = urllib.quote_plus('DRIVER={FreeTDS};DSN=%s;UID=%s;PWD=%s;' % (conn_dict['address'], conn_dict['user'], conn_dict['password']))
-            quoted = urllib.quote_plus('DRIVER={FreeTDS};DSN=%s;UID=%s;PWD=%s'%#;DATABASE=%s' %
-                                       (conn_dict['address'], conn_dict['user'], conn_dict['password'],#conn_dict['db'],
-                                        ))
+            quoted = urllib.quote_plus('DRIVER={FreeTDS};DSN=%s;UID=%s;PWD=%s;' % (conn_dict['address'], conn_dict['user'],
+                                                                                  conn_dict['password']))
+            # quoted = urllib.quote_plus('DRIVER={FreeTDS};DSN=%s;UID=%s;PWD=%s;DATABASE=%s' %
+            #                            (conn_dict['address'], conn_dict['user'], conn_dict['password'],conn_dict['db'],
+            #                             ))
             conn_string = 'mssql+pyodbc:///?odbc_connect={}'.format(quoted)
         else:
             if conn_dict['engine'] == 'mssql':
