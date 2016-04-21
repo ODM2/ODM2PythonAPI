@@ -12,7 +12,7 @@ dbs_readonly = [
     ['mysql"root@Localhost/', 'mysql', 'mysql+pymysql://root@localhost/'],
     ['mysql:ODM@Localhost/odm2', 'mysql', 'mysql+pymysql://ODM:odm@localhost/odm2'],
     ['mysql"root@Localhost/odm2', 'mysql', 'mysql+pymysql://root@localhost/odm2'],
-   [' mysql + mysqldb:', 'mysql', 'mysql+mysqldb://root@localhost/odm2'],
+  # [' mysql + mysqldb:', 'mysql', 'mysql+mysqldb://root@localhost/odm2'],
                      #'mysql+pymysql://ODM:odm@127.0.0.1/odm2'
      ['postgresql_marchantariats_none', 'postgresql', 'postgresql+psycopg2://postgres:None@localhost/marchantariats', 'marchantariats', 'postgres',  None],
     ['postgresql_marchantariats_empty', 'postgresql', 'postgresql+psycopg2://postgres@localhost/marchantariats', 'marchantariats', 'postgres',  None],
