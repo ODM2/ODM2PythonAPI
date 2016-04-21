@@ -5,7 +5,7 @@ mock
 #db support
 pymysql
 #pysqlite
-#sqlite3
+sqlite
 pymssql
 psycopg2
 #pyspatialite
