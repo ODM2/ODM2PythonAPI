@@ -20,6 +20,7 @@ from odm2api.ODM2.services import CreateODM2
 # session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')#mysql
 # session_factory= dbconnection.createConnection('mssql', "(local)", "LBRODM2", "ODM", "odm")#win MSSQL
 session_factory= dbconnection.createConnection('mssql', "arroyoodm2", "", "ODM", "odm")#mac/linux MSSQL
+# session_factory = dbconnection.createConnection('sqlite', '/Users/Stephanie/Desktop/TestODM2.db', 2.0)
 
 
 
@@ -33,7 +34,7 @@ create =CreateODM2(session_factory)
 # ------------------------------
 # Get all of the variables from the database and print their names to the console
 allVars = read.getVariables()
-print "\n-------- Information about Variables ---------"
+print ("\n-------- Information about Variables ---------")
 for x in allVars:
     print(x.VariableCode + ": " + x.VariableNameCV)
 
@@ -41,7 +42,7 @@ for x in allVars:
 
 # Get all of the people from the database
 allPeople = read.getPeople()
-print "\n-------- Information about People ---------"
+print ("\n-------- Information about People ---------")
 for x in allPeople:
     print(x.PersonFirstName + " " + x.PersonLastName)
 
@@ -55,12 +56,13 @@ except Exception as e:
 
 # Get all of the SamplingFeatures from the database that are Sites
 try:
-    print "\n-------- Information about Sites ---------"
-    siteFeatures = read.getSamplingFeatures(type='Site')
+    print ("\n-------- Information about Sites ---------")
+    siteFeatures = read.getSamplingFeatures()
+    # siteFeatures = read.getSamplingFeatures(type='Site')
     numSites = len(siteFeatures)
 
     for x in siteFeatures:
-        print(x.SamplingFeatureCode + ": " + x.SamplingFeatureName)
+        print(x.SamplingFeatureCode + ": " + x.SamplingFeatureTypeCV )
 except Exception as e:
     print("Unable to demo getSamplingFeaturesByType", e)
 
@@ -117,19 +119,19 @@ except Exception as e:
 
 
 # Now get a particular Result using a ResultID
-print("\n------- Example of Retrieving Attributes of a Time Series Result -------")
+print("\n------- Example of Retrieving Attributes of a Result -------")
 try:
     tsResult = read.getResults(ids = [1])[0]
     print (
-        "The following are some of the attributes for the TimeSeriesResult retrieved using getTimeSeriesResultByResultID(): \n" +
+        "The following are some of the attributes for the TimeSeriesResult retrieved using getResults(ids=[1]): \n" +
         "ResultTypeCV: " + tsResult.ResultTypeCV + "\n" +
         # Get the ProcessingLevel from the TimeSeriesResult's ProcessingLevel object
         "ProcessingLevel: " + tsResult.ProcessingLevelObj.Definition + "\n" +
         "SampledMedium: " + tsResult.SampledMediumCV + "\n" +
         # Get the variable information from the TimeSeriesResult's Variable object
         "Variable: " + tsResult.VariableObj.VariableCode + ": " + tsResult.VariableObj.VariableNameCV + "\n"
-                                                                                                        "AggregationStatistic: " + tsResult.AggregationStatisticCV + "\n" +
-        "Elevation_m: " + str(sf.Elevation_m) + "\n" +
+                               #"AggregationStatistic: " + tsResult.AggregationStatisticCV + "\n" +
+
         # Get the site information by drilling down
         "SamplingFeature: " + tsResult.FeatureActionObj.SamplingFeatureObj.SamplingFeatureCode + " - " +
         tsResult.FeatureActionObj.SamplingFeatureObj.SamplingFeatureName)

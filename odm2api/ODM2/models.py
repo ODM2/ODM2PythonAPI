@@ -1,8 +1,7 @@
-from sqlalchemy import BigInteger, Column, Date, DateTime, Float, ForeignKey, Integer, String, Boolean, BLOB
+from sqlalchemy import BigInteger, Column, Date, DateTime, Float, ForeignKey, Integer, String, Boolean, BLOB, case
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects import postgresql, mysql, sqlite
-# Should not be importing anything from a specific dialect
-# from sqlalchemy.dialects.mssql.base import BIT
+
 
 from geoalchemy import GeometryDDL, GeometryColumn
 from geoalchemy.geometry import Geometry
@@ -280,10 +279,16 @@ class SamplingFeatures(Base):
     FeatureGeometryWKT = Column('featuregeometrywkt', String(50))
     # FeatureGeometry = Column('featuregeometry', BLOB)  # custom geometry queries
     __mapper_args__ = {
+        # 'polymorphic_on': SamplingFeatureTypeCV,
+        "polymorphic_on":case([
+            (SamplingFeatureTypeCV == "Specimen", "Specimen"),
+            (SamplingFeatureTypeCV == "Site", "Site"),
+        ], else_="samplingfeatures"),
         'polymorphic_identity':'samplingfeatures',
-        'polymorphic_on': SamplingFeatureTypeCV,
-        'with_polymorphic':'*'
+        # 'with_polymorphic':'*'
     }
+
+
 
     def shape(self):
         """
@@ -466,9 +471,21 @@ class Results(Base):
     VariableObj = relationship(Variables)
 
     __mapper_args__ = {
-        'polymorphic_on':ResultTypeCV,
+        # 'polymorphic_on':ResultTypeCV,
+        "polymorphic_on":case([
+            (ResultTypeCV == "Point coverage", "Point coverage"),
+            (ResultTypeCV == "Profile Coverage", "Profile Coverage"),
+            (ResultTypeCV == "Category coverage", "Category coverage"),
+            (ResultTypeCV == "Transect Coverage", "Transect Coverage"),
+            (ResultTypeCV == "Spectra coverage", "Spectra coverage"),
+            (ResultTypeCV == "Time series coverage", "Time series coverage"),
+            (ResultTypeCV == "Section coverage", "Section coverage"),
+            (ResultTypeCV == "Profile Coverage", "Profile Coverage"),
+            (ResultTypeCV == "Trajectory coverage", "Trajectory coverage"),
+            (ResultTypeCV == "Measurement", "Measurement"),
+        ], else_="results"),
         'polymorphic_identity':'results',
-        'with_polymorphic':'*'
+        # 'with_polymorphic':'*'
     }
 
     def __repr__(self):
@@ -738,7 +755,9 @@ class Specimens(SamplingFeatures):
     __mapper_args__ = {
         'polymorphic_identity':'Specimen',
     }
-
+    def __repr__(self):
+        return "<Specimens('%s', '%s', '%s',  '%s',)>" \
+               % (self.SamplingFeatureID, self.SamplingFeatureCode, self.SpecimenTypeCV,self.SamplingFeatureCode)
 
 class SpatialOffsets(Base):
     __tablename__ = u'spatialoffsets'
