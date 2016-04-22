@@ -119,7 +119,7 @@ class dbconnection():
             s.test_Session().query(Variable2.VariableCode).limit(1).first()
 
         except Exception as e:
-            print "Connection was unsuccessful ", e.message
+            print("Connection was unsuccessful ", e.message)
             return False
         return True
 
@@ -131,7 +131,7 @@ class dbconnection():
             s.test_Session().query(ODM.Variable.code).limit(1).first()
 
         except Exception as e:
-            print "Connection was unsuccessful ", e.message
+            print("Connection was unsuccessful ", e.message)
             return False
         return True
 

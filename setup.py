@@ -98,7 +98,7 @@ setup(
     # ],
     # dependency_links- geoalchemy from the ODM repository
     dependency_links=[
-        "git+https://github.com/ODM2/geoalchemy.git@v0.7.3#egg=geoalchemy-0.7.3"
+        "git+https://github.com/ODM2/geoalchemy.git@v0.7.4#egg=geoalchemy-0.7.4"
     ],
 
     # List additional groups of dependencies here (e.g. development

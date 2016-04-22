@@ -457,7 +457,7 @@ class EditService():
                 print("Save existing series ID: %s" % str(series.id))
                 series = tseries
             else:
-                print "Series doesn't exist (if you are not, you should be running SaveAs)"
+                print("Series doesn't exist (if you are not, you should be running SaveAs)")
 
         if is_new_series:
 

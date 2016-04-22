@@ -262,7 +262,7 @@ class CreateODM2( serviceBase):
         #self._session.flush()
         # self._session.refresh(a)
 
-        print a.OrganizationID
+        print(a.OrganizationID)
 
         return a
 
@@ -523,8 +523,8 @@ class CreateODM2( serviceBase):
 
 
             return datavalues
-        except Exception, e:
-            print e
+        except Exception as e:
+            print(e)
             return None
 
 

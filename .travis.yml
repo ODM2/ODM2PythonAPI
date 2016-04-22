@@ -46,13 +46,13 @@ before_install:
 # python -m pip makes the install go into the virtualenv
   - python -m pip install pandas
   - export PYMSSQL_BUILD_WITH_BUNDLED_FREETDS=1;python -m  pip install pymssql
-  - python -m  pip install mysql-python
+#  - python -m  pip install mysql-python
 install: # now just our code
   - pip install git+https://github.com/ODM2/geoalchemy.git@odm2#egg=geoalchemy-0.7.3
   - pip install   .
   - pip install  -r requirements_tests.txt  --allow-external pyodbc --allow-unverified pyodbc
     # pysqlite
-  - pip install pysqlite
+#  - pip install pysqlite
   - pip list
 
 # don't forget to open up the azure mssql server to these addreses

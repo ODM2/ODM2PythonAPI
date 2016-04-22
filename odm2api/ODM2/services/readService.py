@@ -331,8 +331,8 @@ class ReadODM2( serviceBase   ):
         """
         try:
             return self._session.query(ProcessingLevels).filter_by(ProcessingLevelCode=str(processingCode)).first()
-        except Exception, e:
-            print e
+        except Exception as e:
+            print(e)
             return None
 
     """
@@ -387,7 +387,7 @@ class ReadODM2( serviceBase   ):
         try:
             return self._session.query(SamplingFeatures).filter_by(SamplingFeatureTypeCV=samplingFeatureTypeCV).all()
         except Exception as e:
-            print e
+            print(e)
             return None
 
     def getSamplingFeatureByGeometry(self, wkt_geometry):
@@ -396,17 +396,17 @@ class ReadODM2( serviceBase   ):
             # ST_Equals(geometry, geometry)
             return self._session.query(SamplingFeatures).filter(
                 func.ST_AsText(SamplingFeatures.FeatureGeometry) == func.ST_AsText(wkt_geometry)).first()
-        except Exception, e:
-            print e
+        except Exception as e:
+            print(e)
             return None
 
     def getGeometryTest(self, TestGeom):
         Geom = self._session.query(SamplingFeatures).first()
-        print "Queried Geometry: ", self._session.query(Geom.FeatureGeometry.ST_AsText()).first()
+        print("Queried Geometry: ", self._session.query(Geom.FeatureGeometry.ST_AsText()).first())
         GeomText = self._session.query(
             func.ST_Union(Geom.FeatureGeometry, func.ST_GeomFromText(TestGeom)).ST_AsText()).first()
 
-        print GeomText
+        print(GeomText)
 
     """
     Action
@@ -773,13 +773,13 @@ class ReadODM2( serviceBase   ):
         """
         try:
             q = self._session.query(TimeSeriesResultValues).filter_by(ResultID=resultId).all()
-            print type(q[0]), q[0]
+            print(type(q[0]), q[0])
             df = pd.DataFrame([dv.list_repr() for dv in q])
             df.columns = q[0].get_columns()
             return df
             # return self._session.query(Timeseriesresultvalue).filter_by(ResultID=resultId).all()
         except Exception as e:
-            print e
+            print(e)
             return None
 
     def getTimeSeriesResultValuesByCode(self, timeSeriesCode):
@@ -944,10 +944,8 @@ class ReadODM2( serviceBase   ):
         :return: all models related to the specified id
         """
         try:
-            # note this was RelatedModelID = modelid  which would return all Parent models of  RelatedModelID
-            return self._session.query(RelatedModels).filter_by(ModelID=modelid).all()
-        except Exception, e:
-            print e
+        except Exception as e:
+            print(e)
         return None
 
     def getRelatedModelsByCode(self, modelcode):
@@ -957,11 +955,9 @@ class ReadODM2( serviceBase   ):
         :return: all models related to the provided model code
         """
         try:
-            # note this was RelatedModels.RelatedModelID == Models.ModelID which would return all Parent models of  RelatedModelID
-            return self._session.query(RelatedModels).join(Models, RelatedModels.ModelID == Models.ModelID) \
                 .filter(Models.ModelCode == modelcode).all()
-        except Exception, e:
-            print e
+        except Exception as e:
+            print(e)
         return None
 
     def getResultsBySimulationID(self, simulationID):
@@ -971,8 +967,8 @@ class ReadODM2( serviceBase   ):
                     .join(Actions) \
                     .join(Simulations) \
                     .filter(Simulations.SimulationID == simulationID).all()
-        except Exception, e:
-            print e
+        except Exception as e:
+            print(e)
         return None
 
 # ################################################################################

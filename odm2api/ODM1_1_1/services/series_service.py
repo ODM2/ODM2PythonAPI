@@ -286,7 +286,7 @@ class SeriesService(serviceBase):
         try:
             return self._session.query(ODM.Series).filter_by(id=series_id).first()
         except Exception as e:
-            print e
+            print(e)
             return None
 
     def get_series_by_id_quint(self, site_id, var_id, method_id, source_id, qcl_id):

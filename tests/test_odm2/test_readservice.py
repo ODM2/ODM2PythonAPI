@@ -58,7 +58,7 @@ class TestReadService:
         for line in ddl.split(');')[:-1]:
             try:
                 db.engine.execute(line + ');')
-            except Exception, e:
+            except Exception as e:
                 print e
 
         self.reader = ReadODM2(db)

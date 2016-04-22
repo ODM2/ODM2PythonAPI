@@ -19,7 +19,7 @@ class ExportService():
             return False
 
         writer = csv.writer(open(filename, 'wb'))
-        print "filename: ", filename
+        print("filename: ", filename)
         self.write_data_header(writer, utc, site, var, offset, qual, src, qcl)
         for dv in series.data_values:
             self.write_data_row(writer, series, dv, utc, site, var, offset, qual, src, qcl)
