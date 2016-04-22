@@ -1024,7 +1024,7 @@ class RelatedModels(Base):
     __tablename__ = 'relatedmodels'
     __table_args__ = {u'schema': 'odm2'}  # __table_args__ = {u'schema': Schema.getSchema()}
 
-    RelationID = Column('relationid', Integer, primary_key=True, nullable=False)
+    RelatedID = Column('relatedid', Integer, primary_key=True, nullable=False)
     ModelID = Column('modelid', ForeignKey(Models.ModelID), nullable=False)
     RelationshipTypeCV = Column('relationshiptypecv', ForeignKey(CVRelationshipType.Name), nullable=False,
                                 index=True)

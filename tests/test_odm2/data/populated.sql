@@ -15947,7 +15947,7 @@ CREATE TABLE Models (
 INSERT INTO "Models" VALUES(1,'swat','soil and water assessment tool','The Soil and Water Assessment Tool (SWAT) is a public domain Model jointly developed by USDA Agricultural Research Service (USDA-ARS) and Texas A&M AgriLife Research, part of The Texas A&M University System. SWAT is a small watershed to river basin-scale Model to simulate the quality and quantity of surface and ground water and predict the environmental impact of land use, land management practices, and climate change.',NULL,NULL);
 INSERT INTO "Models" VALUES(2,'swmm','storm water management model','SWMM is a dynamic hydrology-hydraulic water quality simulation model. It is used for single event or long-term (continuous) simulation of runoff quantity and quality from primarily urban areas. The runoff component operates on a collection of sub catchment areas that receive precipitation and generate runoff and pollutant loads. The routing portion transports this runoff through a system of pipes, channels, storage/treatment devices, pumps, and regulators.','5.1.010','http://www.epa.gov/water-research/storm-water-management-model-swmm');
 CREATE TABLE RelatedModels (
-	RelationID INTEGER   NOT NULL PRIMARY KEY,
+	RelatedID INTEGER   NOT NULL PRIMARY KEY,
 	ModelID INTEGER   NOT NULL,
 	RelationshipTypeCV VARCHAR (255)  NOT NULL,
 	RelatedModelID INTEGER   NOT NULL,

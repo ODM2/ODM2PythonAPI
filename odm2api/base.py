@@ -54,6 +54,9 @@ class serviceBase(object):
     #self._session_factory=""
    # def getSessionFactory( session = None):
     def getSession(self):
+        if self._session is None:
+            self._session = self._session_factory.getSession()
+
         return self._session
 
 
