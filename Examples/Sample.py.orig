@@ -46,8 +46,10 @@ for x in allPeople:
     print(x.PersonFirstName + " " + x.PersonLastName)
 
 try:
-    print("\n-------- Information about an Affiliation ---------")
+
+    print "\n-------- Information about an Affiliation ---------"
     allaff = read.getAffiliations()
+
     for x in allaff:
         print(x.PersonObj.PersonFirstName + ": " + str(x.OrganizationID))
 except Exception as e:
@@ -60,23 +62,26 @@ try:
     numSites = len(siteFeatures)
 
     for x in siteFeatures:
-        print(x.SamplingFeatureCode + ": " + x.SamplingFeatureName)
+
+        print x.SamplingFeatureCode + ": " + str(x.SamplingFeatureName) + ", " + x.SamplingFeatureTypeCV
+
 except Exception as e:
     print("Unable to demo getSamplingFeaturesByType", e)
 
 
 # Now get the SamplingFeature object for a SamplingFeature code
 try:
+
     sf = read.getSamplingFeatures(code=['USU-LBR-Mendon'])[0]
-    print(sf)
-    print("\n-------- Information about an individual SamplingFeature ---------")
-    print("The following are some of the attributes of a SamplingFeature retrieved using getSamplingFeatureByCode(): \n")
-    print("SamplingFeatureCode: " + sf.SamplingFeatureCode)
-    print("SamplingFeatureName: " + sf.SamplingFeatureName)
-    print("SamplingFeatureDescription: %s" % sf.SamplingFeatureDescription)
-    print("SamplingFeatureGeotypeCV: %s" % sf.SamplingFeatureGeotypeCV)
-    print("SamplingFeatureGeometry: %s" % sf.FeatureGeometry)
-    print("Elevation_m: %s" % str(sf.Elevation_m))
+    print "\n-------- Information about an individual SamplingFeature ---------"
+    print "The following are some of the attributes of a SamplingFeature retrieved using getSamplingFeature(code = x): \n"
+    print "SamplingFeatureCode: " + sf.SamplingFeatureCode
+    print "SamplingFeatureName: " + sf.SamplingFeatureName
+    print "SamplingFeatureDescription: %s" % sf.SamplingFeatureDescription
+    print "SamplingFeatureGeotypeCV: %s" % sf.SamplingFeatureGeotypeCV
+    print "SamplingFeatureGeometry: %s" % sf.FeatureGeometryWKT
+    print "Elevation_m: %s" % str(sf.Elevation_m)
+
 except Exception as e:
     print("Unable to demo getSamplingFeatureByCode: ", e)
 
@@ -145,6 +150,7 @@ tsValues = read.getResultValues(resultid = 1)  # Return type is a pandas datafra
 # tsValues.set_index('ValueDateTime', inplace=True)
 try:
     print(tsValues.head())
+
 except Exception as e:
     print(e)
 

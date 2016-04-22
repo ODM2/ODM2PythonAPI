@@ -31,7 +31,7 @@ class TestMemoryDB_1_1:
     def test_update_points(self):
         self.memory_db.update([{"value":15,"id":1}])
         dvs = self.memory_db.getDataValuesDF()
-        print dvs["DataValue"]
+        print ( dvs["DataValue"] )
         assert dvs["DataValue"][1-1] == 9
 
     def test_update_value(self):

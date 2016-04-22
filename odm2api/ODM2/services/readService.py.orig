@@ -255,9 +255,14 @@ class ReadODM2(serviceBase):
         if codes: q = q.filter(ProcessingLevels.ProcessingLevelCode.in_(codes))
 
         try:
+<<<<<<< HEAD
             return q.all()
+        except:
+=======
+            return self._session.query(ProcessingLevels).filter_by(ProcessingLevelCode=str(processingCode)).first()
         except Exception as e:
             print(e)
+>>>>>>> origin/master
             return None
 
     """
@@ -287,6 +292,7 @@ class ReadODM2(serviceBase):
             print(e)
             return None
 
+<<<<<<< HEAD
     def getRelatedSamplingFeatures(self, id):
         """
 
@@ -297,6 +303,25 @@ class ReadODM2(serviceBase):
         sf = self._session.query(SamplingFeatures).select_from(RelatedFeatures).join(RelatedFeatures.RelatedFeatureObj)
         if id: sf = sf.filter(RelatedFeatures.RelatedFeatureID == id)
         return sf.all()
+=======
+    def getSamplingFeatureByGeometry(self, wkt_geometry):
+
+        try:
+            # ST_Equals(geometry, geometry)
+            return self._session.query(SamplingFeatures).filter(
+                func.ST_AsText(SamplingFeatures.FeatureGeometry) == func.ST_AsText(wkt_geometry)).first()
+        except Exception as e:
+            print(e)
+            return None
+
+    def getGeometryTest(self, TestGeom):
+        Geom = self._session.query(SamplingFeatures).first()
+        print("Queried Geometry: ", self._session.query(Geom.FeatureGeometry.ST_AsText()).first())
+        GeomText = self._session.query(
+            func.ST_Union(Geom.FeatureGeometry, func.ST_GeomFromText(TestGeom)).ST_AsText()).first()
+
+        print(GeomText)
+>>>>>>> origin/master
 
     """
     Action
@@ -458,8 +483,8 @@ class ReadODM2(serviceBase):
     #             .join(Actions) \
     #             .join(Simulations) \
     #             .filter(Simulations.SimulationID == simulationid).all()
-    #     except Exception as e:
-    #         print (e)
+    #     except Exception, e:
+    #         print e
     #         return None
     #
     #
@@ -696,6 +721,7 @@ class ReadODM2(serviceBase):
     def getResultValues(self, resultid, starttime=None, endtime=None):
 
         """Select all on TimeSeriesResults
+<<<<<<< HEAD
         getResultValues()
         * Pass a ResultID - Returns a result values object of type that is specific to the result type
         * Pass a ResultID and a date range - returns a result values object of type that is specific to the result type with values between the input date range
@@ -720,6 +746,86 @@ class ReadODM2(serviceBase):
             df = pd.DataFrame([dv.list_repr() for dv in vals.all()])
             df.columns = vals[0].get_columns()
             return df
+=======
+
+        :return TimeSeriesResults Objects:
+            :type list:
+        """
+        return self._session.query(TimeSeriesResults).all()
+
+    def getTimeSeriesResultByResultId(self, resultId):
+        """Select by resultID on ResultID
+
+        :param resultId:
+            :type Integer:
+        :return return matching Timeseriesresult Object filtered by resultId
+        """
+
+        try:
+            return self._session.query(TimeSeriesResults).filter_by(ResultID=resultId).one()
+        except:
+            return None
+
+    def getTimeSeriesResultbyCode(self, timeSeriesCode):
+        """Select by time
+        """
+        pass
+
+    """
+    TimeSeriesResultValues
+    """
+
+    def getTimeSeriesResultValues(self):
+        """Select all on TimeSeriesResults
+
+        :return TimeSeriesResultsValue Objects:
+            :type list:
+        """
+
+        q = self._session.query(TimeSeriesResults).all()
+        df = pd.DataFrame([dv.list_repr() for dv in q])
+        df.columns = q[0].get_columns()
+        return df
+        # return self._session.query(Timeseriesresultvalue).all()
+
+    def getTimeSeriesResultValuesByResultId(self, resultId):
+        """Select by resultId
+
+        :param timeSeriesId:
+            :type Integer:
+        :return return matching Timeseriesresultvalue Object filtered by resultId:
+            :type Timeseriesresultvalue:
+        """
+        try:
+            q = self._session.query(TimeSeriesResultValues).filter_by(ResultID=resultId).all()
+            print(type(q[0]), q[0])
+            df = pd.DataFrame([dv.list_repr() for dv in q])
+            df.columns = q[0].get_columns()
+            return df
+            # return self._session.query(Timeseriesresultvalue).filter_by(ResultID=resultId).all()
+        except Exception as e:
+            print(e)
+            return None
+
+    def getTimeSeriesResultValuesByCode(self, timeSeriesCode):
+        """
+
+        :param timeSeriesCode:
+        :return:
+        """
+        pass
+
+    def getTimeSeriesResultValuesByTime(self, resultid, starttime, endtime=None):
+
+        # set end = start if it is None
+        endtime = starttime if not endtime else endtime
+
+        try:
+            return self._session.query(TimeSeriesResultValues).filter_by(ResultID=resultid) \
+                .filter(TimeSeriesResultValues.ValueDateTime >= starttime) \
+                .filter(TimeSeriesResultValues.ValueDateTime <= endtime) \
+                .order_by(TimeSeriesResultValues.ValueDateTime).all()
+>>>>>>> origin/master
         except:
             return None
 
@@ -801,12 +907,50 @@ class ReadODM2(serviceBase):
         # if id: m = m.filter(RelatedModels.ModelID == id)
         # if code: m = m.filter(RelatedModels.ModelCode == code)
 
+<<<<<<< HEAD
 
-
+=======
+    def getRelatedModelsByID(self, modelid):
+        """
+        queries the ODM2 for any models that have a relationship with the provided model id
+        :param modelid: id of the model to search
+        :return: all models related to the specified id
+        """
         try:
-            return m.all()
+            return self._session.query(RelatedModels).filter_by(RelatedModelID=modelid).all()
         except Exception as e:
             print(e)
+        return None
+
+    def getRelatedModelsByCode(self, modelcode):
+        """
+        queries the ODM2 for any models that have a relationship with the provided model id
+        :param modelcode: the code of the model to search
+        :return: all models related to the provided model code
+        """
+        try:
+            return self._session.query(RelatedModels).join(Models, RelatedModels.RelatedModelID == Models.ModelID) \
+                .filter(Models.ModelCode == modelcode).all()
+        except Exception as e:
+            print(e)
+        return None
+>>>>>>> origin/master
+
+        try:
+<<<<<<< HEAD
+            return m.all()
+        except Exception, e:
+            print e
             return None
+=======
+            return self._session.query(Results) \
+                    .join(FeatureActions) \
+                    .join(Actions) \
+                    .join(Simulations) \
+                    .filter(Simulations.SimulationID == simulationID).all()
+        except Exception as e:
+            print(e)
+        return None
+>>>>>>> origin/master
 
 
