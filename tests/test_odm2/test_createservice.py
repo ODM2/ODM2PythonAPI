@@ -4,6 +4,7 @@ from os.path import *
 from odm2api.ODM2 import models
 from odm2api.ODMconnection import dbconnection
 from odm2api.ODM2.services.createService import CreateODM2
+import uuid
 # run this test from the root directory using:
 # python -m pytest tests/test_odm2/test_createservice.py
 
@@ -63,8 +64,10 @@ class TestCreateService:
         nodv = -9999
         speciation="mg/L as PO4"
         definition="This is a test variable"
-        self.writer.createVariable(code = code,name = name,vType = vType,nodv =nodv,speciation=None,definition=None)
-
+        v = models.Variables(VariableCode = code, VariableNameCV=name, VariableTypeCV=vType, NoDataValue= nodv, SpeciationCV = None,
+                      VariableDefinition=None)
+        # self.writer.createVariable(code = code,name = name,vType = vType,nodv =nodv,speciation=None,definition=None)
+        self.writer.createVariable(v)
         # assert that this dataset has been successfully inserted
         res = self.engine.execute('SELECT * from Variables WHERE VariableCode = "MyVar" ORDER BY VariableID DESC').first()
         assert(res is not None)
@@ -75,7 +78,10 @@ class TestCreateService:
         assert(res[5] == None)          # speciation
         assert(res[6] == nodv )         # nodata
 
-        self.writer.createVariable(code = code, name = name, vType = vType, nodv =nodv, speciation=speciation,definition=None)
+        v = models.Variables(VariableCode = code, VariableNameCV=name, VariableTypeCV=vType, NoDataValue= nodv, SpeciationCV = speciation,
+                      VariableDefinition=None)
+        # self.writer.createVariable(code = code,name = name,vType = vType,nodv =nodv,speciation=speciation,definition=None)
+        self.writer.createVariable(v)
 
         # assert that this dataset has been successfully inserted
         res = self.engine.execute('SELECT * from Variables WHERE VariableCode = "MyVar" ORDER BY VariableID DESC').first()
@@ -87,8 +93,11 @@ class TestCreateService:
         assert(res[5] == speciation)    # speciation
         assert(res[6] == nodv )         # nodata
 
+        v = models.Variables(VariableCode = code, VariableNameCV=name, VariableTypeCV=vType, NoDataValue= nodv, SpeciationCV = None,
+                      VariableDefinition=definition)
+        # self.writer.createVariable(code = code,name = name,vType = vType,nodv =nodv,speciation=None,definition=definition)
+        self.writer.createVariable(v)
 
-        self.writer.createVariable(code = code,name = name,vType = vType,nodv =nodv,speciation=None,definition=definition)
 
         # assert that this dataset has been successfully inserted
         res = self.engine.execute('SELECT * from Variables WHERE VariableCode = "MyVar" ORDER BY VariableID DESC').first()
@@ -101,7 +110,11 @@ class TestCreateService:
         assert(res[6] == nodv )         # nodata
 
 
-        self.writer.createVariable(code = code,name = name,vType = vType,nodv =nodv,speciation=speciation,definition=definition)
+        v = models.Variables(VariableCode = code, VariableNameCV=name, VariableTypeCV=vType, NoDataValue= nodv, SpeciationCV = speciation,
+                      VariableDefinition=definition)
+        # self.writer.createVariable(code = code,name = name,vType = vType,nodv =nodv,speciation=speciation,definition=definition)
+        self.writer.createVariable(v)
+
 
         # assert that this dataset has been successfully inserted
         res = self.engine.execute('SELECT * from Variables WHERE VariableCode = "MyVar" ORDER BY VariableID DESC').first()
@@ -147,10 +160,14 @@ class TestCreateService:
         assert(len(res.fetchall()) == 0)
 
         # create a new dataset
-        dataset = self.writer.createDataset(dstype=type,
-                                           dscode=code,
-                                           dstitle=title,
-                                           dsabstract=desc)
+        # dataset = self.writer.createDataset(dstype=type,
+        #                                    dscode=code,
+        #                                    dstitle=title,
+        #                                    dsabstract=desc)
+
+        d = models.DataSets(DataSetTypeCV = type, DataSetCode =code, DataSetTitle=title, DataSetAbstract = desc, DataSetUUID = uuid.uuid4().hex)
+        dataset = self.writer.createDataset(d)
+
 
         # assert that this dataset has been successfully inserted
         res = self.engine.execute('SELECT * from DataSets')
@@ -169,27 +186,45 @@ class TestCreateService:
     def test_createFeatureAction(self):
         pass
 
-    def test_createResult(self):
-
-        # assert that there are no results
-        res = self.engine.execute('SELECT * FROM Results')
-        assert(len(res.fetchall()) == 0)
-
-        # create a result record
-        self.writer.createResult(featureactionid = 1,
-                                variableid = 1,
-                                unitid = 1,
-                                processinglevelid = 1,
-                                valuecount = 0,
-                                sampledmedium = 'unknown',
-                                resulttypecv = 'time series',
-                                taxonomicclass=None, resultdatetime=None, resultdatetimeutcoffset=None,
-                                validdatetime=None, validdatetimeutcoffset=None, statuscv=None)
-
-
-        # assert that there are results
-        res = self.engine.execute('SELECT * FROM Results')
-        assert(len(res.fetchall()) == 1)
+    # def test_createResult(self):
+    #
+    #     # assert that there are no results
+    #     res = self.engine.execute('SELECT * FROM Results')
+    #     assert(len(res.fetchall()) == 0)
+    #
+    #     # create a result record
+    #     # self.writer.createResult(featureactionid = 1,
+    #     #                         variableid = 1,
+    #     #                         unitid = 1,
+    #     #                         processinglevelid = 1,
+    #     #                         valuecount = 0,
+    #     #                         sampledmedium = 'unknown',
+    #     #                         resulttypecv = 'time series',
+    #     #                         taxonomicclass=None, resultdatetime=None, resultdatetimeutcoffset=None,
+    #     #                         validdatetime=None, validdatetimeutcoffset=None, statuscv=None)
+    #
+    #     r = models.Results(FeatureActionID = 1,
+    #                 VariableID=1,
+    #                 UnitsID =1,
+    #                 ProcessingLevelID = 1,
+    #                 ValueCount = 0,
+    #                 SampledMediumCV = 'unknown',
+    #                 ResultTypeCV = 'time series',
+    #                 TaxonomicClassifierID = None,
+    #                 ResultDateTime = None,
+    #                 ResultDateTimeUTCOffset = None,
+    #                 ValidDateTime=None,
+    #                 ValidDateTimeUTCOffset = None,
+    #                 StatusCV = None,
+    #                 ResultUUID = uuid.uuid4().hex
+    #
+    #         )
+    #     self.writer.createResult(r)
+    #
+    #
+    #     # assert that there are results
+    #     res = self.engine.execute('SELECT * FROM Results')
+    #     assert(len(res.fetchall()) == 1)
 
     def test_createTimeSeriesResult(self):
 
@@ -197,20 +232,27 @@ class TestCreateService:
         res = self.engine.execute('SELECT * FROM TimeSeriesResults').first()
         assert(res is None)
         
-        # create a result record if it doesnt exist (required to test foriegn key relationship)
-        result = self.engine.execute('SELECT * FROM Results').first()
-        if result is None:
-            # create a basic result record
-            self.writer.createResult(featureactionid = 1,variableid = 1,unitid = 1,processinglevelid = 1,
-                                    valuecount = 0,sampledmedium = 'unknown',resulttypecv = 'time series')
-            result = self.engine.execute('SELECT * FROM Results').first()
-            assert(result is not None)
-
 
         # create most basic time series result record possible
-        tsr = self.writer.createTimeSeriesResult(result=result, aggregationstatistic='unknown')
+        r = models.TimeSeriesResults(FeatureActionID = 1,
+                VariableID=1,
+                UnitsID =1,
+                ProcessingLevelID = 1,
+                ValueCount = 0,
+                SampledMediumCV = 'unknown',
+                ResultTypeCV = 'time series',
+                ResultUUID = uuid.uuid4().hex,
+                AggregationStatisticCV = 'unknown'
 
-        # assert that this basic tsr exists in the datbase
+
+
+        )
+        self.writer.createResult(r)
+        result = self.engine.execute('SELECT * FROM Results').first()
+        assert(result is not None)
+
+
+        # assert that this basic tsr exists in the database
         res = self.engine.execute('SELECT * FROM TimeSeriesResults').first()
         assert(res is not None)
         
@@ -250,17 +292,30 @@ class TestCreateService:
         # create a new simulation
         st = datetime.datetime(2016,1,1)
         et = datetime.datetime(2016,1,25)
-        dataset = self.writer.createSimulation( actionid = 1,
-                                                modelID=1,
-                                                simulationName= 'MySimulation',
-                                                simulationDescription = 'My simulation description',
-                                                simulationStartDateTime = st,
-                                                simulationStartOffset = 6,
-                                                simulationEndDateTime = et,
-                                                simulationEndOffset = 6,
-                                                timeStepValue = 1,
-                                                timeStepUnitID = 1,
-                                                inputDatasetID=None)
+        # sim = self.writer.createSimulation( actionid = 1,
+        #                                         modelID=1,
+        #                                         simulationName= 'MySimulation',
+        #                                         simulationDescription = 'My simulation description',
+        #                                         simulationStartDateTime = st,
+        #                                         simulationStartOffset = 6,
+        #                                         simulationEndDateTime = et,
+        #                                         simulationEndOffset = 6,
+        #                                         timeStepValue = 1,
+        #                                         timeStepUnitID = 1,
+        #                                         inputDatasetID=None)
+        s = models.Simulations(ActionID = 1,
+                               SimulationName ="MySimulation",
+                               SimulationDescription = "My simulation description",
+                               SimulationStartDateTime = st,
+                               SimulationStartDateTimeUTCOffset=6,
+                               SimulationEndDateTime=et,
+                               SimulationEndDateTimeUTCOffset=6,
+                               TimeStepValue=1,
+                               TimeStepUnitsID=1,
+                               InputDataSetID=None,
+                               ModelID = 1
+                               )
+        sim = self.writer.createSimulation(s)
 
         # assert that this record has been successfully inserted
         res = self.engine.execute('SELECT * from Simulations')

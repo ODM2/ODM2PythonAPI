@@ -55,6 +55,25 @@ class CreateODM2(serviceBase):
     def createAffiliation(self, affiliation):
         self._session.add(affiliation)
         self._session.commit()
+<<<<<<< HEAD
+=======
+        #self._session.flush()
+        # self._session.refresh(a)
+
+        print(a.OrganizationID)
+
+        return a
+
+    def createDataset(self, dstype, dscode, dstitle, dsabstract):
+        ds = DataSets()
+
+        # create the dataset
+        ds.DataSetTypeCV = dstype
+        ds.DataSetCode = dscode
+        ds.DataSetTitle = dstitle
+        ds.DataSetAbstract = dsabstract
+        ds.DataSetUUID = uuid.uuid4().hex
+>>>>>>> origin/master
 
     def createDataset(self, dataset):
         self._session.add(dataset)

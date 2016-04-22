@@ -16,34 +16,7 @@ import os
 class SessionFactory():
     def __init__(self, connection_string, echo=True, version = 1.1):
         if 'sqlite' in connection_string:
-            # from sqlite3 import dbapi2 as sqlite
-            # put the spatialite dll on the path. If one had pyspatialite installed thn
-            # this would not be required... but trying to get that on a windows machine
-            # was way too hard to bother
-            # dirDLLspatialite = 'C:/bin'
-            # os.environ['PATH'] = dirDLLspatialite + ';' + os.environ['PATH']
 
-            # #engine = create_engine('sqlite:///D:\\temp\\test_1.db', module=sqlite, echo=False)
-            # engine = create_engine(connection_string, module=sqlite, echo=False)
-
-            # this enables the extension on each connection
-            # @event.listens_for(engine, "connect")
-            # def connect(dbapi_connection, connection_rec):
-            #     dbapi_connection.enable_load_extension(True)
-            #     dbapi_connection.execute("SELECT load_extension('libspatialite-4.dll')")
-
-            #from pysqlite2 import dbapi2 as sqlite
-            #import pyspatialite.dpabi as sqlite
-            # self.engine = create_engine(connection_string, model = sqlite ,encoding='utf-8', echo=echo)
-
-            # @event.listens_for(self.engine, "connect")
-            # def connect(dbapi_connection, connection_rec):
-            #         dbapi_connection.enable_load_extension(True)
-            #         dbapi_connection.execute("SELECT load_extension('{0}');".format("mod_spatialite"))
-
-            # self.engine.execute("SELECT InitSpatialMetaData();")#
-            # self.engine.connect().connection.enable_load_extension(True)
-            # self.engine.execute("SELECT load_extension('mod_spatialite');")#
             self.engine = create_engine(connection_string,  encoding='utf-8', echo=echo)
             self.test_engine = self.engine
 
@@ -169,37 +142,21 @@ class dbconnection():
     # private variables
     ## ###################
 
-    # def __buildConnectionString(self, conn_dict):
-    #     driver = ""
-    #     if conn_dict['engine'] == 'mssql':
-    #         driver = "pyodbc"
-    #     elif conn_dict['engine'] == 'mysql':
-    #         driver = "pymysql"
-    #     elif conn_dict['engine'] == 'postgresql':
-    #         driver = "psycopg2"
-    #     else:
-    #         driver = "None"
-    #
-    #     conn_string = self._connection_format % (
-    #         conn_dict['engine'], driver, conn_dict['user'], conn_dict['password'], conn_dict['address'],
-    #         conn_dict['db'])
-    #     # print conn_string
-    #     return conn_string
 
     def __buildConnectionString(self, conn_dict):
         # driver = ""
         # print "****", conn_dict
         if conn_dict['engine'] == 'mssql' and sys.platform != 'win32':
             driver = "pyodbc"
-            #'DRIVER={FreeTDS};DSN=%s;UID=%s;PWD=%s;' % (conn_dict['address'], conn_dict['user'], conn_dict['password'])
-         #   quoted = urllib.quote_plus('DRIVER={FreeTDS};DSN=%s;UID=%s;PWD=%s;' % (conn_dict['address'], conn_dict['user'], conn_dict['password']))
-            quoted = urllib.quote_plus('DRIVER={FreeTDS};DSN=%s;UID=%s;PWD=%s;DATABASE=%s' %
-                                       (conn_dict['address'], conn_dict['user'], conn_dict['password'],conn_dict['db'],))
+            quoted = urllib.quote_plus('DRIVER={FreeTDS};DSN=%s;UID=%s;PWD=%s;' % (conn_dict['address'], conn_dict['user'],
+                                                                                  conn_dict['password']))
+            # quoted = urllib.quote_plus('DRIVER={FreeTDS};DSN=%s;UID=%s;PWD=%s;DATABASE=%s' %
+            #                            (conn_dict['address'], conn_dict['user'], conn_dict['password'],conn_dict['db'],
+            #                             ))
             conn_string = 'mssql+pyodbc:///?odbc_connect={}'.format(quoted)
         else:
             if conn_dict['engine'] == 'mssql':
                 driver = "pyodbc"
-                #self._connection_format = "%s+%s://%s:%s@%s/%s?driver=SQL+Server+Native+Client+10.0"
                 conn = "%s+%s://%s:%s@%s/%s?driver=SQL+Server"
                 if "sqlncli11.dll" in os.listdir("C:\\Windows\\System32"):
                     conn = "%s+%s://%s:%s@%s/%s?driver=SQL+Server+Native+Client+11.0"
