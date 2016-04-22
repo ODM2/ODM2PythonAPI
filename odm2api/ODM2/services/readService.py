@@ -440,7 +440,7 @@ class ReadODM2(serviceBase):
         if simulationid: query = query.join(FeatureActions)\
             .join(Actions)\
             .join(Simulations)\
-            .filter(Simulations.SimulationID == simulationid)
+            .filter_by(SimulationID = simulationid)
         if ids: query = query.filter(Results.ResultID.in_(ids))
         if uuids: query =query.filter(Results.ResultUUID.in_(uuids))
 
@@ -786,10 +786,21 @@ class ReadODM2(serviceBase):
         :return:
         :rtype:
         """
+# cdoe from master
+#+            # note this was RelatedModels.RelatedModelID == Models.ModelID which would return all Parent models of  RelatedModelID
+# +            self._session.query(RelatedModels).filter_by(ModelID=modelid).all()
+# +            self._session.query(RelatedModels).join(Models, RelatedModels.ModelID == Models.ModelID).filter(Models.ModelCode == modelcode).all()
 
-        m = self._session.query(Models).select_from(RelatedModels).join(RelatedModels.RelatedModelObj)
+        m = self._session.query(Models).select_from(RelatedModels).join(RelatedModels.ModelObj)
         if id: m = m.filter(RelatedModels.ModelID == id)
-        if code: m = m.filter(RelatedModels.ModelCode == code)
+        if code: m = m.filter(Models.ModelCode == code)
+
+#previous version of code
+        # m = self._session.query(Models).select_from(RelatedModels).join(RelatedModels.RelatedModelObj)
+        # if id: m = m.filter(RelatedModels.ModelID == id)
+        # if code: m = m.filter(RelatedModels.ModelCode == code)
+
+
 
         try:
             return m.all()

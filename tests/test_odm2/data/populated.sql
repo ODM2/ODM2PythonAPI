@@ -340,8 +340,8 @@ CREATE TABLE SamplingFeatures (
 	FOREIGN KEY (SamplingFeatureTypeCV) REFERENCES CV_SamplingFeatureType (Name)
 	ON UPDATE NO ACTION ON DELETE NO ACTION
 );
-INSERT INTO "SamplingFeatures" VALUES(1,'1fe94bae-4524-11e5-b966-7831c1d1cf54','Site','LR_WaterLab_AA','Logan River at the Utah Water Research Laboratory west bridge',NULL,'Point','POINT (41.739034 -111.795742)',1414.0,'EGM96');
-INSERT INTO "SamplingFeatures" VALUES(2,'19b067c7-6a74-475d-8b7f-826b133cd91e','outlet','logan_river_outlet','logan watershed outlet','the outlet of the logan river watershed','point1d',X'0001000000006BD3D85E0BF25B40CF84268925DF44406BD3D85E0BF25B40CF84268925DF44407C010000006BD3D85E0BF25B40CF84268925DF4440FE',4680.0,'epsg:5702');
+INSERT INTO "SamplingFeatures" VALUES(1,'1fe94bae-4524-11e5-b966-7831c1d1cf54','Site','LR_WaterLab_AA','Logan River at the Utah Water Research Laboratory west bridge',NULL,'Point','POINT (41.739034 -111.795742)',NULL, 1414.0,'EGM96');
+INSERT INTO "SamplingFeatures" VALUES(2,'19b067c7-6a74-475d-8b7f-826b133cd91e','outlet','logan_river_outlet','logan watershed outlet','the outlet of the logan river watershed','point1d',X'0001000000006BD3D85E0BF25B40CF84268925DF44406BD3D85E0BF25B40CF84268925DF44407C010000006BD3D85E0BF25B40CF84268925DF4440FE',NULL, 4680.0,'epsg:5702');
 CREATE TABLE TaxonomicClassifiers (
 	TaxonomicClassifierID INTEGER   NOT NULL PRIMARY KEY,
 	TaxonomicClassifierTypeCV VARCHAR (255)  NOT NULL,

@@ -186,45 +186,45 @@ class TestCreateService:
     def test_createFeatureAction(self):
         pass
 
-    def test_createResult(self):
-
-        # assert that there are no results
-        res = self.engine.execute('SELECT * FROM Results')
-        assert(len(res.fetchall()) == 0)
-
-        # create a result record
-        # self.writer.createResult(featureactionid = 1,
-        #                         variableid = 1,
-        #                         unitid = 1,
-        #                         processinglevelid = 1,
-        #                         valuecount = 0,
-        #                         sampledmedium = 'unknown',
-        #                         resulttypecv = 'time series',
-        #                         taxonomicclass=None, resultdatetime=None, resultdatetimeutcoffset=None,
-        #                         validdatetime=None, validdatetimeutcoffset=None, statuscv=None)
-
-        r = models.Results(FeatureActionID = 1,
-                    VariableID=1,
-                    UnitsID =1,
-                    ProcessingLevelID = 1,
-                    ValueCount = 0,
-                    SampledMediumCV = 'unknown',
-                    ResultTypeCV = 'time series',
-                    TaxonomicClassifierID = None,
-                    ResultDateTime = None,
-                    ResultDateTimeUTCOffset = None,
-                    ValidDateTime=None,
-                    ValidDateTimeUTCOffset = None,
-                    StatusCV = None,
-                    ResultUUID = uuid.uuid4().hex
-
-            )
-        self.writer.createResult(r)
-
-
-        # assert that there are results
-        res = self.engine.execute('SELECT * FROM Results')
-        assert(len(res.fetchall()) == 1)
+    # def test_createResult(self):
+    #
+    #     # assert that there are no results
+    #     res = self.engine.execute('SELECT * FROM Results')
+    #     assert(len(res.fetchall()) == 0)
+    #
+    #     # create a result record
+    #     # self.writer.createResult(featureactionid = 1,
+    #     #                         variableid = 1,
+    #     #                         unitid = 1,
+    #     #                         processinglevelid = 1,
+    #     #                         valuecount = 0,
+    #     #                         sampledmedium = 'unknown',
+    #     #                         resulttypecv = 'time series',
+    #     #                         taxonomicclass=None, resultdatetime=None, resultdatetimeutcoffset=None,
+    #     #                         validdatetime=None, validdatetimeutcoffset=None, statuscv=None)
+    #
+    #     r = models.Results(FeatureActionID = 1,
+    #                 VariableID=1,
+    #                 UnitsID =1,
+    #                 ProcessingLevelID = 1,
+    #                 ValueCount = 0,
+    #                 SampledMediumCV = 'unknown',
+    #                 ResultTypeCV = 'time series',
+    #                 TaxonomicClassifierID = None,
+    #                 ResultDateTime = None,
+    #                 ResultDateTimeUTCOffset = None,
+    #                 ValidDateTime=None,
+    #                 ValidDateTimeUTCOffset = None,
+    #                 StatusCV = None,
+    #                 ResultUUID = uuid.uuid4().hex
+    #
+    #         )
+    #     self.writer.createResult(r)
+    #
+    #
+    #     # assert that there are results
+    #     res = self.engine.execute('SELECT * FROM Results')
+    #     assert(len(res.fetchall()) == 1)
 
     def test_createTimeSeriesResult(self):
 
@@ -232,33 +232,26 @@ class TestCreateService:
         res = self.engine.execute('SELECT * FROM TimeSeriesResults').first()
         assert(res is None)
         
-        # create a result record if it doesnt exist (required to test foriegn key relationship)
-        result = self.engine.execute('SELECT * FROM Results').first()
-        if result is None:
-            # create a basic result record
-            # self.writer.createResult(featureactionid = 1,variableid = 1,unitid = 1,processinglevelid = 1,
-            #                         valuecount = 0,sampledmedium = 'unknown',resulttypecv = 'time series')
-
-            r = models.Results(FeatureActionID = 1,
-                    VariableID=1,
-                    UnitsID =1,
-                    ProcessingLevelID = 1,
-                    ValueCount = 0,
-                    SampledMediumCV = 'unknown',
-                    ResultTypeCV = 'time series',
-                    ResultUUID = uuid.uuid4().hex
-
-
-            )
-            self.writer.createResult(r)
-            result = self.engine.execute('SELECT * FROM Results').first()
-            assert(result is not None)
-
 
         # create most basic time series result record possible
-        # tsr = self.writer.createTimeSeriesResult(result=result, aggregationstatistic='unknown')
-        # t = models.TimeSeriesResults(ResultID = result.ResultID, AggregationStatisticCV = 'unknown')
-        # tsr= self.writer.createResult(t)
+        r = models.TimeSeriesResults(FeatureActionID = 1,
+                VariableID=1,
+                UnitsID =1,
+                ProcessingLevelID = 1,
+                ValueCount = 0,
+                SampledMediumCV = 'unknown',
+                ResultTypeCV = 'time series',
+                ResultUUID = uuid.uuid4().hex,
+                AggregationStatisticCV = 'unknown'
+
+
+
+        )
+        self.writer.createResult(r)
+        result = self.engine.execute('SELECT * FROM Results').first()
+        assert(result is not None)
+
+
         # assert that this basic tsr exists in the database
         res = self.engine.execute('SELECT * FROM TimeSeriesResults').first()
         assert(res is not None)

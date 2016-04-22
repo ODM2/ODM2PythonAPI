@@ -76,7 +76,30 @@ class TestReadService:
         self.db = globals['db']
 
 
+# ################################################################################
+# Sampling Features
+# ################################################################################
 
+    def test_getAllSamplingFeatures(self):
+
+        # get all models from the database
+        res = self.engine.execute('SELECT * FROM SamplingFeatures').fetchall()
+
+        # get all simulations using the api
+        resapi = self.reader.getSamplingFeatures()
+
+        assert len(res) == len(resapi)
+
+    def test_getSamplingFeatureByID(self):
+
+        # get all models from the database
+        res = self.engine.execute('SELECT * FROM SamplingFeatures').fetchone()
+        sfid=res[0]
+
+        # get all simulations using the api
+        resapi = self.reader.getSamplingFeatures(ids = [sfid])
+
+        assert resapi is not None
 
 # ################################################################################
 # Models
@@ -162,6 +185,49 @@ class TestReadService:
         resapi = self.reader.getRelatedModels(code = models.ActionBy)
         assert resapi is None
 
+
+# ################################################################################
+# Results
+# ################################################################################
+    """
+        TABLE Results (
+        ResultID INTEGER   NOT NULL PRIMARY KEY,
+        ResultUUID VARCHAR(36)   NOT NULL,
+        FeatureActionID INTEGER   NOT NULL,
+        ResultTypeCV VARCHAR (255)  NOT NULL,
+        VariableID INTEGER   NOT NULL,
+        UnitsID INTEGER   NOT NULL,
+        TaxonomicClassifierID INTEGER   NULL,
+        ProcessingLevelID INTEGER   NOT NULL,
+        ResultDateTime DATETIME   NULL,
+        ResultDateTimeUTCOffset INTEGER   NULL,
+        ValidDateTime DATETIME   NULL,
+        ValidDateTimeUTCOffset INTEGER   NULL,
+        StatusCV VARCHAR (255)  NULL,
+        SampledMediumCV VARCHAR (255)  NOT NULL,
+        ValueCount INTEGER   NOT NULL
+    """
+    def test_getAllResults(self):
+
+        # get all results from the database
+        res = self.engine.execute('SELECT * FROM Results').fetchall()
+        print res
+        # get all results using the api
+        resapi = self.reader.getResults()
+
+        assert len(res) == len(resapi)
+
+    def test_getResultsByID(self):
+
+        # get a result from the database
+        res = self.engine.execute('SELECT * FROM Results').fetchone()
+        resultid = res[1]
+
+
+        # get the result using the api
+        resapi = self.reader.getResults(ids=[resultid])
+
+        assert resapi is not None
 
 # ################################################################################
 # Simulations
