@@ -32,7 +32,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='0.5',
+    version='0.5.1',
 
     description='A Python-based application programmers interface for the Observations Data Model 2 (ODM2) ',
     long_description=long_description,
