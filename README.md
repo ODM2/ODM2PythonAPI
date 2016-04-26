@@ -1,7 +1,7 @@
 ODM2 Python API
 ====
 
-A Python-based application programmer's interface for the Observations Data Model 2 (ODM2) 
+A Python-based application programmer's interface for the [Observations Data Model 2 (ODM2)](http://odm2.org).
 
 [List of current and planned functions included in the API](https://github.com/ODM2/ODM2PythonAPI/blob/master/doc/APIFunctionList.md)
 
@@ -41,8 +41,8 @@ conda env create -n myenv --file py2_conda_environment.yml
 ```
 Activate the new environment, then install `odm2api` into the environment:
 ```bash
-activate odm2api_env1  # On Windows
-source activate odm2api_env1  # On MacOSX or Linux
+activate myenv  # On Windows
+source activate myenv  # On MacOSX or Linux
 
 pip install --process-dependency-links git+https://github.com/ODM2/ODM2PythonAPI.git
 ```
