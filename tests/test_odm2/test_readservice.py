@@ -158,7 +158,8 @@ class TestReadService:
 
         # get related models by id using the api
         # resapi = self.reader.getRelatedModelsByID(2)
-        resapi = self.reader.getRelatedModels(id = 2)
+        resapi = self.reader.getRelatedModels(id = 1)
+        # resapi = self.reader.getRelatedModels(id = 2)
 
         assert resapi is not None
         assert resapi[0].ModelCode == 'swat'
@@ -166,22 +167,21 @@ class TestReadService:
     def test_getRelatedModelsByCode(self):
 
         # get related models by id using the api
-        #resapi = self.reader.getRelatedModelsByCode('swmm')
-        resapi = self.reader.getRelatedModels(code = 'swmm')
+        resapi = self.reader.getRelatedModels(code = 'swat')
+        #resapi = self.reader.getRelatedModels(code = 'swmm')
 
         assert resapi is not None
         assert len(resapi) > 0
+        print resapi[0].ModelCode
         assert resapi[0].ModelCode == 'swat'
 
         # test model code that doesn't exist
-        # resapi = self.reader.getRelatedModelsByCode('None')
         resapi= self.reader.getRelatedModels(code = 'None')
 
         assert resapi is not None
         assert len(resapi) == 0
 
         # test invalid argument
-        # resapi = self.reader.getRelatedModelsByCode(models.ActionBy)
         resapi = self.reader.getRelatedModels(code = models.ActionBy)
         assert resapi is None
 
