@@ -1,6 +1,7 @@
 from sqlalchemy import BigInteger, Column, Date, DateTime, Float, ForeignKey, Integer, String, Boolean, BLOB, case
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects import postgresql, mysql, sqlite
+# from sqlalchemy.dialects.sqlite import BIT
 
 
 from geoalchemy import GeometryDDL, GeometryColumn
@@ -16,6 +17,9 @@ BigIntegerType = BigInteger()
 BigIntegerType = BigIntegerType.with_variant(sqlite.INTEGER(), 'sqlite')
 BigIntegerType = BigIntegerType.with_variant(postgresql.BIGINT(), 'postgresql')
 BigIntegerType = BigIntegerType.with_variant(mysql.BIGINT(), 'mysql')
+
+# BooleanType = Boolean()
+# BooleanType =BooleanType.with_variant(sqlite.BIT(), 'sqlite')
 
 
 def is_hex(s):

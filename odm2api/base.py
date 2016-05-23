@@ -45,6 +45,9 @@ class Base(object):
     def __init__(self, *args, **kwargs):
         for name, value in kwargs.items(): setattr(self, name, value)
 
+    def __eq__(self, other) :
+        return self.__dict__ == other.__dict__
+
 from sqlalchemy.ext.declarative import declarative_base
 
 

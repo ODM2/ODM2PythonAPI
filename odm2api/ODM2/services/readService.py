@@ -412,10 +412,14 @@ class ReadODM2(serviceBase):
         * Pass an OrganizationCode - returns a Affiliation object
         """
         q = self._session.query(Affiliations)
-        if ids: q = q.filter(Affiliations.AffiliationID.in_(ids))
-        if orgcode: q = q.filter(Organizations.OrganizationCode.ilike(orgcode))
-        if personfirst: q = q.filter(People.PersonFirstName.ilike(personfirst))
-        if personlast: q = q.filter(People.PersonLastName.ilike(personlast)).first()
+        if ids:
+            q = q.filter(Affiliations.AffiliationID.in_(ids))
+        if orgcode:
+            q = q.filter(Organizations.OrganizationCode.ilike(orgcode))
+        if personfirst:
+            q = q.filter(People.PersonFirstName.ilike(personfirst))
+        if personlast:
+            q = q.filter(People.PersonLastName.ilike(personlast))
         try:
             return q.all()
         except:
@@ -800,8 +804,6 @@ class ReadODM2(serviceBase):
         # m = self._session.query(Models).select_from(RelatedModels).join(RelatedModels.RelatedModelObj)
         # if id: m = m.filter(RelatedModels.ModelID == id)
         # if code: m = m.filter(RelatedModels.ModelCode == code)
-
-
 
         try:
             return m.all()

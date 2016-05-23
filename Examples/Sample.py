@@ -20,7 +20,7 @@ from odm2api.ODM2.services import CreateODM2
 # session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')#mysql
 # session_factory= dbconnection.createConnection('mssql', "(local)", "LBRODM2", "ODM", "odm")#win MSSQL
 session_factory= dbconnection.createConnection('mssql', "arroyoodm2", "", "ODM", "odm")#mac/linux MSSQL
-# session_factory = dbconnection.createConnection('sqlite', '/Users/Stephanie/Desktop/TestODM2.db', 2.0)
+# session_factory = dbconnection.createConnection('sqlite', '/Users/stephanie/DEV/ODM2/usecases/WOF_to_ODM2/ODM2.sqlite', 2.0)
 
 
 
