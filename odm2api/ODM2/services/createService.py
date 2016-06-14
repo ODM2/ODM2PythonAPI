@@ -24,78 +24,117 @@ class CreateODM2(serviceBase):
              self._session.add(values)
         self._session.commit()
 
+
     def createVariable(self, var):
         self._session.add(var)
         self._session.commit()
+        self._session.flush()
+        return var
 
     def createMethod(self, method):
         self._session.add(method)
         self._session.commit()
+        self._session.flush()
+        return method
 
     def createProcessingLevel(self, proclevel):
         self._session.add(proclevel)
         self._session.commit()
+        self._session.flush()
+        return proclevel
 
     def createSamplingFeature(self, samplingfeature):
         self._session.add(samplingfeature)
         self._session.commit()
+        self._session.flush()
+        return samplingfeature
 
     def createUnit(self, unit):
         self._session.add(unit)
         self._session.commit()
+        self._session.flush()
+        return unit
 
     def createOrganization(self, org):
         self._session.add(org)
         self._session.commit()
+        self._session.flush()
+        return org
 
     def createPerson(self, person):
         self._session.add(person)
         self._session.commit()
+        self._session.flush()
+        return person
 
     def createAffiliation(self, affiliation):
         self._session.add(affiliation)
         self._session.commit()
+        self._session.flush()
+        return affiliation
 
     def createDataset(self, dataset):
         self._session.add(dataset)
         self._session.commit()
+        self._session.flush()
+        return dataset
 
     def createDatasetResults(self, datasetresult):
         self._session.add(datasetresult)
         self._session.commit()
+        self._session.flush()
+        return datasetresult
 
     def createAction(self, action, actionby):
         self._session.add(action)
+        self._session.commit()
+        self._session.flush()
+        actionby.ActionID = action.ActionID
         self._session.add(actionby)
         self._session.commit()
+        return action
 
     def createRelatedAction(self, relatedaction):
         self._session.add(relatedaction)
         self._session.commit()
+        self._session.flush()
+        return relatedaction
 
     def createResult(self, result):
         self._session.add(result)
         self._session.commit()
+        self._session.flush()
+        return result
 
-    def createResultValues(self, values):
-        self._session.add(values)
+    def createResultValue(self, value):
+        self._session.add(value)
         self._session.commit()
+        self._session.flush()
+        return value
 
     def createSpatialReference(self, spatialref):
         self._session.add(spatialref)
         self._session.commit()
+        self._session.flush()
+        return spatialref
 
     def createModel(self, model):
         self._session.add(model)
         self._session.commit()
+        self._session.flush()
+        return model
 
     def createRelatedModel(self, relatedmodel):
         self._session.add(relatedmodel)
         self._session.commit()
+        self._session.flush()
+        return relatedmodel
 
     def createSimulation(self, simulation):
         self._session.add(simulation)
         self._session.commit()
+        self._session.flush()
+        return simulation
 
     def createTimeSeriesResultValues(self, datavalues):
         try:

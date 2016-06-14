@@ -279,7 +279,7 @@ class SamplingFeatures(Base):
                                       index=True)
     Elevation_m = Column('elevation_m', Float(53))
     ElevationDatumCV = Column('elevationdatumcv', ForeignKey(CVElevationDatum.Name), index=True)
-    FeatureGeometry = Column('featuregeometry', Geometry)  # String(50))#
+    FeatureGeometry = Column('featuregeometry',  String(50))#Geometry)  #
     FeatureGeometryWKT = Column('featuregeometrywkt', String(50))
     # FeatureGeometry = Column('featuregeometry', BLOB)  # custom geometry queries
     __mapper_args__ = {
@@ -289,30 +289,30 @@ class SamplingFeatures(Base):
             (SamplingFeatureTypeCV == "Site", "Site"),
         ], else_="samplingfeatures"),
         'polymorphic_identity':'samplingfeatures',
-        # 'with_polymorphic':'*'
+
     }
 
 
 
-    def shape(self):
-        """
-        Method name based on shapely shapely.geometry.shape() function.
-        Returns a shapely geometry object
-        :return geomshape:
-        """
-        _FeatureGeometry = self.FeatureGeometry
-        geomshape = None
-        if _FeatureGeometry is not None:
-            print _FeatureGeometry
-            print _FeatureGeometry.geom_wkb
-            if is_hex(_FeatureGeometry.geom_wkb):
-                # to parse wkb hex string directly
-                geomshape = wkb.loads(_FeatureGeometry.geom_wkb, hex=True)
-                # _FeatureGeometry = GeometryColumn('featuregeometry', Geometry)
-            else:
-                geomshape = wkt.loads(str(_FeatureGeometry.geom_wkb))
-
-        return geomshape
+    # def shape(self):
+    #     """
+    #     Method name based on shapely shapely.geometry.shape() function.
+    #     Returns a shapely geometry object
+    #     :return geomshape:
+    #     """
+    #     _FeatureGeometry = self.FeatureGeometry
+    #     geomshape = None
+    #     if _FeatureGeometry is not None:
+    #         print _FeatureGeometry
+    #         print _FeatureGeometry.geom_wkb
+    #         if is_hex(_FeatureGeometry.geom_wkb):
+    #             # to parse wkb hex string directly
+    #             geomshape = wkb.loads(_FeatureGeometry.geom_wkb, hex=True)
+    #             # _FeatureGeometry = GeometryColumn('featuregeometry', Geometry)
+    #         else:
+    #             geomshape = wkt.loads(str(_FeatureGeometry.geom_wkb))
+    #
+    #     return geomshape
 
     def __repr__(self):
         # geom = self.shape()
@@ -327,7 +327,7 @@ class SamplingFeatures(Base):
             self.Elevation_m, self.FeatureGeometryWKT)
 
 
-GeometryDDL(SamplingFeatures.__table__)  # Geoalchemy1
+# GeometryDDL(SamplingFeatures.__table__)  # Geoalchemy1
 
 
 class FeatureActions(Base):
