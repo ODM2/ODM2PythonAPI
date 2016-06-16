@@ -174,7 +174,7 @@ class TestCreateService:
 
 
         # assert that this dataset has been successfully inserted
-        res = self.engine.execute('SELECT * from DataSets')res.fetchall()
+        res = self.engine.execute('SELECT * from DataSets').fetchall()
 
         assert(len(res) == 1)
         assert(res[0]==dataset.DataSetID)
@@ -326,5 +326,5 @@ class TestCreateService:
         # assert that this record has been successfully inserted
         res = self.engine.execute('SELECT * from Simulations').fetchall()
         assert(len(res) == 1)
-        assert(res[0]=sim.SimulationID)
+        assert(res[0]==sim.SimulationID)
 
