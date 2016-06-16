@@ -150,7 +150,10 @@ class ReadODM2(serviceBase):
             CV = CVVariableType
         else:
             return None
-        return self._session.query(CV).all()
+        try:
+            return self._session.query(CV).all()
+        except Exception as e:
+            print("Error running Query: %s" % e)
 
     # ################################################################################
     # Core
@@ -213,7 +216,8 @@ class ReadODM2(serviceBase):
         if codes: query = query.filter(Variables.VariableCode.in_(codes))
         try:
             return query.all()
-        except:
+        except Exception as e:
+            print("Error running Query: %s" % e)
             return None
 
     """
@@ -236,7 +240,8 @@ class ReadODM2(serviceBase):
 
         try:
             q.all()
-        except:
+        except Exception as e:
+            print("Error running Query: %s" % e)
             return None
 
     """
@@ -257,7 +262,7 @@ class ReadODM2(serviceBase):
         try:
             return q.all()
         except Exception as e:
-            print(e)
+            print("Error running Query: %s" % e)
             return None
 
     """
@@ -284,7 +289,7 @@ class ReadODM2(serviceBase):
         try:
             return q.all()
         except Exception as e:
-            print(e)
+            print("Error running Query: %s" % e)
             return None
 
     def getRelatedSamplingFeatures(self, id):
@@ -296,7 +301,11 @@ class ReadODM2(serviceBase):
 
         sf = self._session.query(SamplingFeatures).select_from(RelatedFeatures).join(RelatedFeatures.RelatedFeatureObj)
         if id: sf = sf.filter(RelatedFeatures.RelatedFeatureID == id)
-        return sf.all()
+        try:
+            return sf.all()
+        except Exception as e:
+            print("Error running Query: %s" % e)
+            return None
 
     """
     Action
@@ -326,7 +335,8 @@ class ReadODM2(serviceBase):
 
         try:
             return q.all()
-        except:
+        except Exception as e:
+            print("Error running Query: %s" % e)
             return None
 
     def getRelatedActions(self, actionid=None):
@@ -338,8 +348,11 @@ class ReadODM2(serviceBase):
         """
         q = self._session.query(Actions).select_from(RelatedActions).join(RelatedActions.RelatedActionObj)
         if actionid: q = q.filter(RelatedActions.ActionID == actionid)
-
-        return q.all()
+        try:
+            return q.all()
+        except Exception as e:
+            print("Error running Query: %s" % e)
+            return None
 
     """
     Unit
@@ -359,7 +372,8 @@ class ReadODM2(serviceBase):
         if type: q = q.filter(Units.UnitsTypeCV.ilike(type))
         try:
             return q.all()
-        except:
+        except Exception as e:
+            print("Error running Query: %s" % e)
             return None
 
     """
@@ -378,7 +392,8 @@ class ReadODM2(serviceBase):
         if codes: q = q.filter(Organizations.OrganizationCode.in_(codes))
         try:
             return q.all()
-        except:
+        except Exception as e:
+            print("Error running Query: %s" % e)
             return None
 
     """
@@ -399,7 +414,8 @@ class ReadODM2(serviceBase):
         if lastname: q = q.filter(People.PersonLastName.ilike(lastname))
         try:
             return q.all()
-        except:
+        except Exception as e:
+            print("Error running Query: %s" % e)
             return None
 
     def getAffiliations(self, ids=None, personfirst=None, personlast=None, orgcode=None):
@@ -412,17 +428,16 @@ class ReadODM2(serviceBase):
         * Pass an OrganizationCode - returns a Affiliation object
         """
         q = self._session.query(Affiliations)
-        if ids:
-            q = q.filter(Affiliations.AffiliationID.in_(ids))
-        if orgcode:
-            q = q.filter(Organizations.OrganizationCode.ilike(orgcode))
-        if personfirst:
-            q = q.filter(People.PersonFirstName.ilike(personfirst))
-        if personlast:
-            q = q.filter(People.PersonLastName.ilike(personlast))
+
+        if ids: q = q.filter(Affiliations.AffiliationID.in_(ids))
+        if orgcode: q = q.filter(Organizations.OrganizationCode.ilike(orgcode))
+        if personfirst: q = q.filter(People.PersonFirstName.ilike(personfirst))
+        if personlast: q = q.filter(People.PersonLastName.ilike(personlast))
+
         try:
             return q.all()
-        except:
+        except Exception as e:
+            print("Error running Query: %s"%e)
             return None
 
     """
@@ -463,7 +478,7 @@ class ReadODM2(serviceBase):
     #             .join(Simulations) \
     #             .filter(Simulations.SimulationID == simulationid).all()
     #     except Exception as e:
-    #         print (e)
+    #         print("Error running Query %s"%e)
     #         return None
     #
     #
@@ -478,7 +493,8 @@ class ReadODM2(serviceBase):
     #             join(SamplingFeatures). \
     #             join(Results). \
     #             filter_by(ResultID=resultID).one()
-    #     except:
+    #     except Exception as e:
+    #         print("Error running Query %s"%e)
     #         return None
     #
     # def getResultAndGeomByActionID(self, actionID):
@@ -489,7 +505,8 @@ class ReadODM2(serviceBase):
     #             join(SamplingFeatures). \
     #             join(Actions). \
     #             filter_by(ActionID=actionID).all()
-    #     except:
+    #     except Exception as e:
+    #         print("Error running Query"%e)
     #         return None
 
     """
@@ -510,7 +527,8 @@ class ReadODM2(serviceBase):
             q.q.filter(DataSets.DataSetUUID.in_(uuids))
         try:
             return q.all()
-        except:
+        except Exception as e:
+            print("Error running Query %s"%e)
             return None
 
     # ################################################################################
@@ -614,7 +632,8 @@ class ReadODM2(serviceBase):
             e = VariableExtensionPropertyValues
         try:
             return self._session.query(e).all()
-        except:
+        except Exception as e:
+            print("Error running Query: %s" % e)
             return None
 
     # ################################################################################
@@ -640,7 +659,8 @@ class ReadODM2(serviceBase):
             e = VariableExternalIdentifiers
         try:
             return self._session.query(e).all()
-        except:
+        except Exception as e:
+            print("Error running Query: %s" % e)
             return None
 
     # ################################################################################
@@ -724,7 +744,8 @@ class ReadODM2(serviceBase):
             df = pd.DataFrame([dv.list_repr() for dv in vals.all()])
             df.columns = vals[0].get_columns()
             return df
-        except:
+        except Exception as e:
+            print("Error running Query: %s" % e)
             return None
 
     # ################################################################################
@@ -735,7 +756,7 @@ class ReadODM2(serviceBase):
     Site
     """
 
-    def getSpatialReference(self, srsCodes=None):
+    def getSpatialReferences(self, srsCodes=None):
         """
         getSpatialReference()
         * Pass a ResultID - Returns a result values object of type that is specific to the result type
@@ -744,8 +765,9 @@ class ReadODM2(serviceBase):
         q = self._session.query(SpatialReferences)
         if srsCodes: q.filter(SpatialReferences.SRSCode.in_(srsCodes))
         try:
-            return q.first()
-        except:
+            return q.all()
+        except Exception as e:
+            print("Error running Query: %s" % e)
             return None
 
 
@@ -766,7 +788,8 @@ class ReadODM2(serviceBase):
         if actionid: s = s.filter_by(ActionID=actionid)
         try:
             return s.all()
-        except:
+        except Exception as e:
+            print("Error running Query: %s" % e)
             return None
 
 
@@ -776,7 +799,8 @@ class ReadODM2(serviceBase):
         if codes: m = m.filter(Models.ModelCode.in_(codes))
         try:
             return m.all()
-        except:
+        except Exception as e:
+            print("Error running Query: %s" % e)
             return None
 
     def getRelatedModels(self, id=None, code=None):
@@ -808,7 +832,7 @@ class ReadODM2(serviceBase):
         try:
             return m.all()
         except Exception as e:
-            print(e)
+            print("Error running Query: %s" % e)
             return None
 
 

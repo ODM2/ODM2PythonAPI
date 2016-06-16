@@ -17,10 +17,11 @@ from odm2api.ODM2.services import CreateODM2
 #connect to database
 # createconnection (dbtype, servername, dbname, username, password)
 # session_factory = dbconnection.createConnection('connection type: sqlite|mysql|mssql|postgresql', '/your/path/to/db/goes/here', 2.0)#sqlite
-session_factory = dbconnection.createConnection('mysql', 'arroyo.uwrl.usu.edu', 'odm2', 'ODM', 'odm')#mysql
+session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')#mysql
 # session_factory= dbconnection.createConnection('mssql', "(local)", "LBRODM2", "ODM", "odm")#win MSSQL
 # session_factory= dbconnection.createConnection('mssql', "arroyoodm2", "", "ODM", "odm")#mac/linux MSSQL
 # session_factory = dbconnection.createConnection('sqlite', '/Users/stephanie/DEV/ODM2/usecases/WOF_to_ODM2/ODM2.sqlite', 2.0)
+
 
 
 
@@ -60,7 +61,7 @@ try:
     siteFeatures = read.getSamplingFeatures()
     # siteFeatures = read.getSamplingFeatures(type='Site')
     numSites = len(siteFeatures)
-
+    print ("Successful query")
     for x in siteFeatures:
         print(x.SamplingFeatureCode + ": " + x.SamplingFeatureTypeCV )
 except Exception as e:
@@ -69,7 +70,7 @@ except Exception as e:
 
 # Now get the SamplingFeature object for a SamplingFeature code
 try:
-    sf = read.getSamplingFeatures(code=['USU-LBR-Mendon'])[0]
+    sf = read.getSamplingFeatures(codes=['USU-LBR-Mendon'])[0]
     print(sf)
     print("\n-------- Information about an individual SamplingFeature ---------")
     print("The following are some of the attributes of a SamplingFeature retrieved using getSamplingFeatureByCode(): \n")
