@@ -15,13 +15,13 @@ class DetailedResult:
                  unit):
         # result.result_id etc.
         self.resultID = result.ResultID
-        self.samplingFeatureCode = samplingFeature.SamplingFeatureCode
+        self.samplingFeatureCode = samplingFeature#.SamplingFeatureCode
         self.methodCode = method.MethodCode
         self.variableCode = variable.VariableCode
         self.processingLevelCode = processingLevel.ProcessingLevelCode
         self.unitsName = unit.UnitsName
 
-        self.samplingFeatureName = samplingFeature.SamplingFeatureName
+        self.samplingFeatureName = samplingFeature#.SamplingFeatureName
         self.methodName = method.MethodName
         self.variableNameCV = variable.VariableNameCV
         self.processingLevelDef = processingLevel.Definition
@@ -167,7 +167,7 @@ class ReadODM2(serviceBase):
         return affiliationList
 
     def getDetailedResultInfo(self, resultTypeCV, resultID=None):
-        q = self._session.query(Results, SamplingFeatures, Methods, Variables,
+        q = self._session.query(Results, SamplingFeatures.SamplingFeatureCode, Methods, Variables,
                                 ProcessingLevels, Units).filter(Results.VariableID == Variables.VariableID) \
             .filter(Results.UnitsID == Units.UnitsID) \
             .filter(Results.FeatureActionID == FeatureActions.FeatureActionID) \

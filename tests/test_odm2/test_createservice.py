@@ -67,10 +67,11 @@ class TestCreateService:
         v = models.Variables(VariableCode = code, VariableNameCV=name, VariableTypeCV=vType, NoDataValue= nodv, SpeciationCV = None,
                       VariableDefinition=None)
         # self.writer.createVariable(code = code,name = name,vType = vType,nodv =nodv,speciation=None,definition=None)
-        self.writer.createVariable(v)
+        val=self.writer.createVariable(v)
         # assert that this dataset has been successfully inserted
         res = self.engine.execute('SELECT * from Variables WHERE VariableCode = "MyVar" ORDER BY VariableID DESC').first()
         assert(res is not None)
+        assert(res[0] == val.VariableID)
         assert(res[1] == vType )        # vType
         assert(res[2] == code )         # code
         assert(res[3] == name )         # name
@@ -81,11 +82,12 @@ class TestCreateService:
         v = models.Variables(VariableCode = code, VariableNameCV=name, VariableTypeCV=vType, NoDataValue= nodv, SpeciationCV = speciation,
                       VariableDefinition=None)
         # self.writer.createVariable(code = code,name = name,vType = vType,nodv =nodv,speciation=speciation,definition=None)
-        self.writer.createVariable(v)
+        val=self.writer.createVariable(v)
 
         # assert that this dataset has been successfully inserted
         res = self.engine.execute('SELECT * from Variables WHERE VariableCode = "MyVar" ORDER BY VariableID DESC').first()
         assert(res is not None)
+        assert(res[0] == val.VariableID)
         assert(res[1] == vType )        # vType
         assert(res[2] == code )         # code
         assert(res[3] == name )         # name
@@ -96,12 +98,13 @@ class TestCreateService:
         v = models.Variables(VariableCode = code, VariableNameCV=name, VariableTypeCV=vType, NoDataValue= nodv, SpeciationCV = None,
                       VariableDefinition=definition)
         # self.writer.createVariable(code = code,name = name,vType = vType,nodv =nodv,speciation=None,definition=definition)
-        self.writer.createVariable(v)
+        val=self.writer.createVariable(v)
 
 
         # assert that this dataset has been successfully inserted
         res = self.engine.execute('SELECT * from Variables WHERE VariableCode = "MyVar" ORDER BY VariableID DESC').first()
         assert(res is not None)
+        assert(res[0] == val.VariableID)
         assert(res[1] == vType )        # vType
         assert(res[2] == code )         # code
         assert(res[3] == name )         # name
@@ -113,12 +116,13 @@ class TestCreateService:
         v = models.Variables(VariableCode = code, VariableNameCV=name, VariableTypeCV=vType, NoDataValue= nodv, SpeciationCV = speciation,
                       VariableDefinition=definition)
         # self.writer.createVariable(code = code,name = name,vType = vType,nodv =nodv,speciation=speciation,definition=definition)
-        self.writer.createVariable(v)
+        val= self.writer.createVariable(v)
 
 
         # assert that this dataset has been successfully inserted
         res = self.engine.execute('SELECT * from Variables WHERE VariableCode = "MyVar" ORDER BY VariableID DESC').first()
         assert(res is not None)
+        assert(res[0] == val.VariableID)
         assert(res[1] == vType )        # vType
         assert(res[2] == code )         # code
         assert(res[3] == name )         # name
@@ -170,9 +174,10 @@ class TestCreateService:
 
 
         # assert that this dataset has been successfully inserted
-        res = self.engine.execute('SELECT * from DataSets')
-        assert(len(res.fetchall()) == 1)
+        res = self.engine.execute('SELECT * from DataSets')res.fetchall()
 
+        assert(len(res) == 1)
+        assert(res[0]==dataset.DataSetID)
 
     def test_createDatasetResults(self):
         pass
@@ -247,9 +252,10 @@ class TestCreateService:
 
 
         )
-        self.writer.createResult(r)
+        newres=self.writer.createResult(r)
         result = self.engine.execute('SELECT * FROM Results').first()
         assert(result is not None)
+        assert(result[0] ==newres.ResultID)
 
 
         # assert that this basic tsr exists in the database
@@ -318,6 +324,7 @@ class TestCreateService:
         sim = self.writer.createSimulation(s)
 
         # assert that this record has been successfully inserted
-        res = self.engine.execute('SELECT * from Simulations')
-        assert(len(res.fetchall()) == 1)
+        res = self.engine.execute('SELECT * from Simulations').fetchall()
+        assert(len(res) == 1)
+        assert(res[0]=sim.SimulationID)
 
