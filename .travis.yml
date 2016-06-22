@@ -45,6 +45,7 @@ before_script:
 
 before_install:
 # python -m pip makes the install go into the virtualenv
+  - pip install --upgrade pip
   - python -m pip install pandas
   - export PYMSSQL_BUILD_WITH_BUNDLED_FREETDS=1;python -m  pip install pymssql
 #  - python -m  pip install mysql-python
