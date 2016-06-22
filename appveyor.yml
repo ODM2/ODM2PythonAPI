@@ -99,7 +99,7 @@ install:
 build_script:
 ##https://github.com/sqlectron/sqlectron-core/blob/master/appveyor.yml
 
-   sqlserver
+   #sqlserver
   - ps: ci-helpers\appveyor\sqlserver.ps1 SQL2008R2SP2
   - sqlcmd -S localhost,1433 -U sa -P Password12! -Q "CREATE DATABASE odm2" -d "master"
   - sqlcmd -S localhost,1433 -U sa -P Password12! -i tests/usecasesql/littlebearriver/sampledatabases/odm2_ms_sql_server/LBR_ODM2_MSSQLDump.sql -d "odm2"
