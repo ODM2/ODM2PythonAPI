@@ -99,17 +99,17 @@ install:
 build_script:
 ##https://github.com/sqlectron/sqlectron-core/blob/master/appveyor.yml
 
-  # sqlserver
-#  - ps: ci-helpers\appveyor\sqlserver.ps1 SQL2008R2SP2
-#  - sqlcmd -S localhost,1433 -U sa -P Password12! -Q "CREATE DATABASE odm2" -d "master"
-#  - sqlcmd -S localhost,1433 -U sa -P Password12! -i tests/usecasesql/littlebearriver/sampledatabases/odm2_ms_sql_server/LBR_ODM2_MSSQLDump.sql -d "odm2"
-#  - sqlcmd -S localhost,1433 -U sa -P Password12! -Q "select table_name from information_schema.tables" -d "odm2"
+   sqlserver
+  - ps: ci-helpers\appveyor\sqlserver.ps1 SQL2008R2SP2
+  - sqlcmd -S localhost,1433 -U sa -P Password12! -Q "CREATE DATABASE odm2" -d "master"
+  - sqlcmd -S localhost,1433 -U sa -P Password12! -i tests/usecasesql/littlebearriver/sampledatabases/odm2_ms_sql_server/LBR_ODM2_MSSQLDump.sql -d "odm2"
+  - sqlcmd -S localhost,1433 -U sa -P Password12! -Q "select table_name from information_schema.tables" -d "odm2"
 #  # postgres
 #  - psql createdb odm2
 #  - psql -d odm2 -a -f tests/usecasesql/marchantariats/marchantariats.sql
   # mysql
-  - mysql -e "drop database test; create database odm2;" --user=root
-  - mysql odm2 < tests/usecasesql/littlebearriver/sampledatabases/odm2_mysql/LBR_MySQL_SmallExample.sql --user=root
+#  - mysql -e "drop database test; create database odm2;" --user=root
+#  - mysql odm2 < tests/usecasesql/littlebearriver/sampledatabases/odm2_mysql/LBR_MySQL_SmallExample.sql --user=root
 
 test_script:
   # Run the project tests
