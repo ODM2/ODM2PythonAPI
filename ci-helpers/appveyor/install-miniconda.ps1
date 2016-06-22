@@ -168,6 +168,10 @@ if ($env:ASTROPY_VERSION -match "dev") {
    Invoke-Expression "${env:CMD_IN_ENV} pip install git+https://github.com/astropy/astropy.git#egg=astropy --upgrade --no-deps"
 }
 
+Invoke-Expression "${env:CMD_IN_ENV} pip install -e git+https://github.com/ODM2/geoalchemy.git@v0.7.4#egg=geoalchemy-0.7.4"
+
+
+
 # We finally install the dependencies listed in PIP_DEPENDENCIES. We do this
 # after installing the Numpy versions of Numpy or Astropy. If we didn't do this,
 # then calling pip earlier could result in the stable version of astropy getting
