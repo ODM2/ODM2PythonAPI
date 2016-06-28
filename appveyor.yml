@@ -103,13 +103,13 @@ build_script:
   - echo %PATH%
 
   # postgres
-  - ./ci-helpers/postgres_setup.sh
+  - sh ci-helpers\postgres_setup.sh
 #  - psql createdb marchantariats
 #  - psql -d marchantariats -a -f tests/usecasesql/marchantariats/marchantariats.sql
 
 
   # mysql
-  - ./ci-helpers/mysql_setup.sh
+  - sh ci-helpers\mysql_setup.sh
 #  - mysql -e "drop database test; create database odm2;" --user=root
 #  - mysql odm2 < tests/usecasesql/littlebearriver/sampledatabases/odm2_mysql/LBR_MySQL_SmallExample.sql --user=root
 
