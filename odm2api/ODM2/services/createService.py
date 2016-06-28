@@ -83,16 +83,16 @@ class CreateODM2(serviceBase):
 
         return datasetresult
 
-    def createAction(self, action, actionby):
+    def createAction(self, action):
         self._session.add(action)
-
-        self._session.commit()
-        self._session.flush()
-        actionby.ActionID = action.ActionID
-        self._session.add(actionby)
         self._session.commit()
         return action
 
+    def createActionby(self, actionby):
+
+        self._session.add(actionby)
+        self._session.commit()
+        return actionby
 
     def createRelatedAction(self, relatedaction):
         self._session.add(relatedaction)

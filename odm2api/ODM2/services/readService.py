@@ -9,19 +9,19 @@ from odm2api.ODM2.models import *
 
 class DetailedResult:
     def __init__(self, result,
-                 samplingFeature,
+                 sc, sn,
                  method, variable,
                  processingLevel,
                  unit):
         # result.result_id etc.
         self.resultID = result.ResultID
-        self.samplingFeatureCode = samplingFeature#.SamplingFeatureCode
+        self.samplingFeatureCode = sc#.SamplingFeatureCode
         self.methodCode = method.MethodCode
         self.variableCode = variable.VariableCode
         self.processingLevelCode = processingLevel.ProcessingLevelCode
         self.unitsName = unit.UnitsName
 
-        self.samplingFeatureName = samplingFeature#.SamplingFeatureName
+        self.samplingFeatureName = sn#.SamplingFeatureName
         self.methodName = method.MethodName
         self.variableNameCV = variable.VariableNameCV
         self.processingLevelDef = processingLevel.Definition
@@ -170,7 +170,7 @@ class ReadODM2(serviceBase):
         return affiliationList
 
     def getDetailedResultInfo(self, resultTypeCV, resultID=None):
-        q = self._session.query(Results, SamplingFeatures.SamplingFeatureCode, Methods, Variables,
+        q = self._session.query(Results, SamplingFeatures.SamplingFeatureCode, SamplingFeatures.SamplingFeatureName, Methods, Variables,
                                 ProcessingLevels, Units).filter(Results.VariableID == Variables.VariableID) \
             .filter(Results.UnitsID == Units.UnitsID) \
             .filter(Results.FeatureActionID == FeatureActions.FeatureActionID) \
@@ -181,14 +181,14 @@ class ReadODM2(serviceBase):
             .filter(Results.ResultTypeCV == resultTypeCV)
         resultList = []
         if resultID:
-            for r, s, m, v, p, u in q.filter_by(ResultID=resultID).all():
+            for r, sc, sn, m, v, p, u in q.filter_by(ResultID=resultID).all():
                 detailedResult = DetailedResult( \
-                    r, s, m, v, p, u)
+                    r, sc, sn, m, v, p, u)
                 resultList.append(detailedResult)
         else:
-            for r, s, m, v, p, u in q.all():
+            for r, sc, sn, m, v, p, u in q.all():
                 detailedResult = DetailedResult( \
-                    r, s, m, v, p, u)
+                    r, sc, sn, m, v, p, u)
                 resultList.append(detailedResult)
         return resultList
 
@@ -466,7 +466,8 @@ class ReadODM2(serviceBase):
 
         try:
             return query.all()
-        except:
+        except Exception as e:
+            print("Error running Query: %s" % e)
             return None
 
     #

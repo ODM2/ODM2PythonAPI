@@ -89,13 +89,13 @@ try:
     # from odm2api.ODM2.models import SamplingFeatures
     session = session_factory.getSession()
     newsf = Sites(FeatureGeometryWKT = "POINT(-111.946 41.718)", Elevation_m=100, ElevationDatumCV=sf.ElevationDatumCV,
-    SamplingFeatureCode= "TestSF",SamplingFeatureDescription = "this is a test to add Feature Geomotry",
-    SamplingFeatureGeotypeCV= "Point", SamplingFeatureTypeCV=sf.SamplingFeatureTypeCV,SamplingFeatureUUID= sf.SamplingFeatureUUID+"3",
+    SamplingFeatureCode= "TestSF",SamplingFeatureDescription = "this is a test in sample.py",
+    SamplingFeatureGeotypeCV= "Point", SamplingFeatureTypeCV=sf.SamplingFeatureTypeCV,SamplingFeatureUUID= sf.SamplingFeatureUUID+"2",
     SiteTypeCV="cave", Latitude= "100", Longitude= "-100", SpatialReferenceID= 0)
 
-    create.createSamplingFeature(newsf)
+    c=create.createSamplingFeature(newsf)
     #session.commit()
-    print("new sampling feature added to database", newsf)
+    print("new sampling feature added to database", c)
 
 except Exception as e :
     print("error adding a sampling feature: " + str(e))

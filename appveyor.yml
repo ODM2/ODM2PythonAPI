@@ -8,8 +8,9 @@ environment:
     MINICONDA_VERSION: "latest"
     #    CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\appveyor\\run_with_env.cmd"
     CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\ci-helpers/appveyor/windows_sdk.cmd"
-    CONDA_DEPENDENCIES: "scipy pandas seaborn sqlalchemy pymysql "
-    PIP_DEPENDENCIES: "shapely,pyodbc,pytest,psycopg2"
+    CONDA_CHANNELS: "ODM2"
+    CONDA_DEPENDENCIES: "scipy pandas seaborn sqlalchemy pymysql geoalchemy-odm2 shapely psycopg2"
+    PIP_DEPENDENCIES: "pyodbc,pytest"
     #,-e git+https://github.com/ODM2/geoalchemy.git@v0.7.4#egg=geoalchemy-0.7.4"
 
 
