@@ -90,7 +90,7 @@ try:
     session = session_factory.getSession()
     newsf = Sites(FeatureGeometryWKT = "POINT(-111.946 41.718)", Elevation_m=100, ElevationDatumCV=sf.ElevationDatumCV,
     SamplingFeatureCode= "TestSF",SamplingFeatureDescription = "this is a test to add Feature Geomotry",
-    SamplingFeatureGeotypeCV= "Point", SamplingFeatureTypeCV=sf.SamplingFeatureTypeCV,SamplingFeatureUUID= sf.SamplingFeatureUUID+"2",
+    SamplingFeatureGeotypeCV= "Point", SamplingFeatureTypeCV=sf.SamplingFeatureTypeCV,SamplingFeatureUUID= sf.SamplingFeatureUUID+"3",
     SiteTypeCV="cave", Latitude= "100", Longitude= "-100", SpatialReferenceID= 0)
 
     create.createSamplingFeature(newsf)
