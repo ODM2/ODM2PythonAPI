@@ -102,16 +102,18 @@ build_script:
 ##https://github.com/sqlectron/sqlectron-core/blob/master/appveyor.yml
   - echo %PATH%
 
+  # mysql
+  - sh ci-helpers\mysql_setup.sh
+#  - mysql -e "drop database test; create database odm2;" --user=root
+#  - mysql odm2 < tests/usecasesql/littlebearriver/sampledatabases/odm2_mysql/LBR_MySQL_SmallExample.sql --user=root
+
   # postgres
   - sh ci-helpers\postgres_setup.sh
 #  - psql createdb marchantariats
 #  - psql -d marchantariats -a -f tests/usecasesql/marchantariats/marchantariats.sql
 
 
-  # mysql
-  - sh ci-helpers\mysql_setup.sh
-#  - mysql -e "drop database test; create database odm2;" --user=root
-#  - mysql odm2 < tests/usecasesql/littlebearriver/sampledatabases/odm2_mysql/LBR_MySQL_SmallExample.sql --user=root
+
 
   # sqlserver
   - ps: ci-helpers\appveyor\sqlserver.ps1 SQL2008R2SP2
