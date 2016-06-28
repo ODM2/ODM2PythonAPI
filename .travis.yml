@@ -38,8 +38,8 @@ addons:
       - libspatialite-dev
 #  mariadb: '10.1'
 before_script:
-  - ./ci-helpers/travis/mysql_setup.sh
-  - ./ci-helpers/travis/postgres_setup.sh
+  - ./ci-helpers/mysql_setup.sh
+  - ./ci-helpers/postgres_setup.sh
   - ./ci-helpers/travis/freetds.sh
 
 
