@@ -168,7 +168,7 @@ if ($env:ASTROPY_VERSION -match "dev") {
    Invoke-Expression "${env:CMD_IN_ENV} pip install git+https://github.com/astropy/astropy.git#egg=astropy --upgrade --no-deps"
 }
 
-Invoke-Expression "${env:CMD_IN_ENV} pip install -e git+https://github.com/ODM2/geoalchemy.git@v0.7.4#egg=geoalchemy-0.7.4"
+#Invoke-Expression "${env:CMD_IN_ENV} pip install -e git+https://github.com/ODM2/geoalchemy.git@v0.7.4#egg=geoalchemy-0.7.4"
 
 
 

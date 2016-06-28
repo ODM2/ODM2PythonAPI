@@ -8,7 +8,7 @@ environment:
     MINICONDA_VERSION: "latest"
     #    CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\appveyor\\run_with_env.cmd"
     CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\ci-helpers/appveyor/windows_sdk.cmd"
-    CONDA_CHANNELS: "ODM2"
+    CONDA_CHANNELS: "odm2"
     CONDA_DEPENDENCIES: "scipy pandas seaborn sqlalchemy pymysql geoalchemy-odm2 shapely psycopg2"
     PIP_DEPENDENCIES: "pyodbc,pytest"
     #,-e git+https://github.com/ODM2/geoalchemy.git@v0.7.4#egg=geoalchemy-0.7.4"
@@ -89,7 +89,7 @@ install:
   # the parent CMD process).
   - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
   # add databases
-  - "SET PATH=%POSTGRES_PATH%\bin;%MYSQL_PATH%\bin;%PATH%"
+  - "SET PATH=%POSTGRES_PATH%\\bin;%MYSQL_PATH%\\bin;%PATH%"
   - "activate test"
 
   # Check that we have the expected version and architecture for Python
@@ -101,17 +101,17 @@ install:
 build_script:
 ##https://github.com/sqlectron/sqlectron-core/blob/master/appveyor.yml
 
-   #sqlserver
+  # sqlserver
   - ps: ci-helpers\appveyor\sqlserver.ps1 SQL2008R2SP2
   - sqlcmd -S localhost,1433 -U sa -P Password12! -Q "CREATE DATABASE odm2" -d "master"
   - sqlcmd -S localhost,1433 -U sa -P Password12! -i tests/usecasesql/littlebearriver/sampledatabases/odm2_ms_sql_server/LBR_ODM2_MSSQLDump.sql -d "odm2"
   - sqlcmd -S localhost,1433 -U sa -P Password12! -Q "select table_name from information_schema.tables" -d "odm2"
-#  # postgres
-#  - psql createdb odm2
-#  - psql -d odm2 -a -f tests/usecasesql/marchantariats/marchantariats.sql
+  # postgres
+  - psql createdb marchantariats
+  - psql -d marchantariats -a -f tests/usecasesql/marchantariats/marchantariats.sql
   # mysql
-#  - mysql -e "drop database test; create database odm2;" --user=root
-#  - mysql odm2 < tests/usecasesql/littlebearriver/sampledatabases/odm2_mysql/LBR_MySQL_SmallExample.sql --user=root
+  - mysql -e "drop database test; create database odm2;" --user=root
+  - mysql odm2 < tests/usecasesql/littlebearriver/sampledatabases/odm2_mysql/LBR_MySQL_SmallExample.sql --user=root
 
 test_script:
   # Run the project tests

@@ -4,7 +4,7 @@ pytest-cov
 mock
 #db support
 pymysql
-pymssql
+#pymssql
 psycopg2
 #pysqlite
 #sqlite
