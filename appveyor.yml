@@ -13,25 +13,23 @@ environment:
     PIP_DEPENDENCIES: "pyodbc,pytest"
     #,-e git+https://github.com/ODM2/geoalchemy.git@v0.7.4#egg=geoalchemy-0.7.4"
 
-
-
-
-
     # postgres
     POSTGRES_PORT: tcp://localhost:5432
     POSTGRES_ENV_POSTGRES_USER: postgres
     POSTGRES_ENV_POSTGRES_PASSWORD: Password12!
     POSTGRES_ENV_POSTGRES_DB: odm2
-    POSTGRES_PATH: C:\\Program Files\\PostgreSQL\\9.4
+    POSTGRES_PATH: C:\Program Files\PostgreSQL\9.4
     PGUSER: postgres
     PGPASSWORD: Password12!
+
     # mysql
     MYSQL_PORT: tcp://localhost:3306
     MYSQL_ENV_MYSQL_USER: root
     MYSQL_ENV_MYSQL_PASSWORD: Password12!
     MYSQL_ENV_MYSQL_DATABASE: odm2
-    MYSQL_PATH: C:\\Program Files\\MySql\\MySQL Server 5.6
+    MYSQL_PATH: C:\Program Files\MySql\MySQL Server 5.6
     MYSQL_PWD: Password12!
+
     # sql server
     SQLSERVER_ENV_SQLSERVER_HOST: localhost
     SQLSERVER_ENV_SQLSERVER_PORT: 1433
@@ -102,18 +100,16 @@ build_script:
 ##https://github.com/sqlectron/sqlectron-core/blob/master/appveyor.yml
   - echo %PATH%
 
-  # mysql
-  - sh ci-helpers\mysql_setup.sh
-#  - mysql -e "drop database test; create database odm2;" --user=root
-#  - mysql odm2 < tests/usecasesql/littlebearriver/sampledatabases/odm2_mysql/LBR_MySQL_SmallExample.sql --user=root
-
   # postgres
   - sh ci-helpers\postgres_setup.sh
 #  - psql createdb marchantariats
 #  - psql -d marchantariats -a -f tests/usecasesql/marchantariats/marchantariats.sql
 
 
-
+  # mysql
+  - sh ci-helpers\mysql_setup.sh
+#  - mysql -e "drop database test; create database odm2;" --user=root
+#  - mysql odm2 < tests/usecasesql/littlebearriver/sampledatabases/odm2_mysql/LBR_MySQL_SmallExample.sql --user=root
 
   # sqlserver
   - ps: ci-helpers\appveyor\sqlserver.ps1 SQL2008R2SP2

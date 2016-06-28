@@ -239,7 +239,7 @@ class ReadODM2(serviceBase):
         if type: q = q.filter_by(MethodTypeCV=type)
 
         try:
-            q.all()
+            return q.all()
         except Exception as e:
             print("Error running Query: %s" % e)
             return None
