@@ -46,6 +46,7 @@ class CreateODM2(serviceBase):
 
         return proclevel
 
+    #send in any type of sampling feature
     def createSamplingFeature(self, samplingfeature):
         self._session.add(samplingfeature)
         self._session.commit()
@@ -97,12 +98,18 @@ class CreateODM2(serviceBase):
         self._session.commit()
         return actionby
 
+    def createFeatureAction(self, action):
+        self._session.add(action)
+        self._session.commit()
+        return action
+
     def createRelatedAction(self, relatedaction):
         self._session.add(relatedaction)
         self._session.commit()
 
         return relatedaction
 
+    #send in any type of result object
     def createResult(self, result):
         self._session.add(result)
         self._session.commit()

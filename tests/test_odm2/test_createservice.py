@@ -171,13 +171,14 @@ class TestCreateService:
 
         d = models.DataSets(DataSetTypeCV = type, DataSetCode =code, DataSetTitle=title, DataSetAbstract = desc, DataSetUUID = uuid.uuid4().hex)
         dataset = self.writer.createDataset(d)
-
+        assert(dataset == d)
+        assert (dataset.DataSetID ==1)
 
         # assert that this dataset has been successfully inserted
         res = self.engine.execute('SELECT * from DataSets').fetchall()
 
         assert(len(res) == 1)
-        assert(res[0]==dataset.DataSetID)
+        assert(res[0][0]==dataset.DataSetID)
 
     def test_createDatasetResults(self):
         pass
@@ -246,21 +247,27 @@ class TestCreateService:
                 ValueCount = 0,
                 SampledMediumCV = 'unknown',
                 ResultTypeCV = 'time series',
-                ResultUUID = uuid.uuid4().hex,
+                ResultUUID = str(uuid.uuid4()),
                 AggregationStatisticCV = 'unknown'
 
-
-
         )
+
+
         newres=self.writer.createResult(r)
+
+        # assert that this basic tsr exists in the database
+        tsr = self.engine.execute('SELECT * FROM TimeSeriesResults').first()
+        assert(tsr is not None)
+
+        assert (newres == r)
         result = self.engine.execute('SELECT * FROM Results').first()
         assert(result is not None)
+
+        assert(newres.ResultID ==1)
         assert(result[0] ==newres.ResultID)
 
 
-        # assert that this basic tsr exists in the database
-        res = self.engine.execute('SELECT * FROM TimeSeriesResults').first()
-        assert(res is not None)
+
         
 
 
@@ -322,9 +329,10 @@ class TestCreateService:
                                ModelID = 1
                                )
         sim = self.writer.createSimulation(s)
-
+        assert (s == sim)
+        assert (s.SimulationID == 1)
         # assert that this record has been successfully inserted
         res = self.engine.execute('SELECT * from Simulations').fetchall()
         assert(len(res) == 1)
-        assert(res[0]==sim.SimulationID)
+        assert(res[0][0]==s.SimulationID)
 

@@ -889,6 +889,10 @@ class Simulations(Base):
     Model = relationship(Models)
     Unit = relationship(Units)
 
+    def __repr__(self):
+        return "<Simulations('%s', '%s', '%s', '%s')>" % \
+               (self.SimulationID, self.ActionID, self.SimulationName, self.SimulationStartDateTime)
+
 
 # Part of the Provenance table, needed here to meet dependancies
 class Citations(Base):
@@ -1650,9 +1654,10 @@ class TimeSeriesResults(Results):
     __mapper_args__ = {'polymorphic_identity':'Time series coverage'}
 
     def __repr__(self):
-        return "<TimeSeriesResults('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')>" % \
-               (self.ResultID, self.XLocation, self.YLocation, self.XLocation,
-                self.ResultTypeCV, self.XLocationUnitsObj, self.SpatialReferenceObj,
+        return "<TimeSeriesResult('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')>" % \
+               ( self.FeatureActionID, self.ProcessingLevelID, self.VariableID, self.ProcessinglevelID,
+                 self.self.XLocation, self.YLocation,
+                self.ResultTypeCV,
                 self.IntendedTimeSpacing, self.AggregationStatisticCV)
 
 

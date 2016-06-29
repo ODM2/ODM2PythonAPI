@@ -51,20 +51,20 @@ class dbconnection():
     @classmethod
     def createConnection(self, engine, address, db=None, user=None, password=None, dbtype = 2.0, echo=False):
 
-        # if engine == 'sqlite':
-        #     connection_string = engine +':///'+address
-        #     s = SessionFactory(connection_string, echo = echo, version= dbtype)
-        #     setSchema(s.engine)
-        #     return s
-        #
-        # else:
-        connection_string = dbconnection.buildConnDict(dbconnection(), engine, address, db, user, password)
-        if self.isValidConnection(connection_string, dbtype):
-            s= SessionFactory(connection_string, echo = echo, version= dbtype)
+        if engine == 'sqlite':
+            connection_string = engine +':///'+address
+            s = SessionFactory(connection_string, echo = echo, version= dbtype)
             setSchema(s.engine)
             return s
-        else :
-            return None
+
+        else:
+            connection_string = dbconnection.buildConnDict(dbconnection(), engine, address, db, user, password)
+            if self.isValidConnection(connection_string, dbtype):
+                s= SessionFactory(connection_string, echo = echo, version= dbtype)
+                setSchema(s.engine)
+                return s
+            else :
+                return None
         # if self.testConnection(connection_string):
 
     @classmethod
