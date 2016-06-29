@@ -17,12 +17,15 @@ class CreateODM2(serviceBase):
     # Annotations
     # ################################################################################
 
-    def create(self, values):
-        if len(values)>1:
-            self._session.add_all(values)
-        else:
-             self._session.add(values)
+    def create(self, value):
+        self._session.add(value)
         self._session.commit()
+        return value
+
+    def createAll(self, values):
+        self._session.add_all(values)
+        self._session.commit()
+        return values
 
 
     def createVariable(self, var):
