@@ -1,6 +1,7 @@
 from sqlalchemy import BigInteger, Column, Date, DateTime, Float, ForeignKey, Integer, String, Boolean, BLOB, case
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects import postgresql, mysql, sqlite
+# from sqlalchemy.dialects.sqlite import BIT
 
 
 from geoalchemy import GeometryDDL, GeometryColumn
@@ -16,6 +17,9 @@ BigIntegerType = BigInteger()
 BigIntegerType = BigIntegerType.with_variant(sqlite.INTEGER(), 'sqlite')
 BigIntegerType = BigIntegerType.with_variant(postgresql.BIGINT(), 'postgresql')
 BigIntegerType = BigIntegerType.with_variant(mysql.BIGINT(), 'mysql')
+
+# BooleanType = Boolean()
+# BooleanType =BooleanType.with_variant(sqlite.BIT(), 'sqlite')
 
 
 def is_hex(s):
@@ -275,7 +279,7 @@ class SamplingFeatures(Base):
                                       index=True)
     Elevation_m = Column('elevation_m', Float(53))
     ElevationDatumCV = Column('elevationdatumcv', ForeignKey(CVElevationDatum.Name), index=True)
-    FeatureGeometry = Column('featuregeometry', Geometry)  # String(50))#
+    FeatureGeometry = Column('featuregeometry',  String(50))#Geometry)  #
     FeatureGeometryWKT = Column('featuregeometrywkt', String(50))
     # FeatureGeometry = Column('featuregeometry', BLOB)  # custom geometry queries
     __mapper_args__ = {
@@ -285,30 +289,30 @@ class SamplingFeatures(Base):
             (SamplingFeatureTypeCV == "Site", "Site"),
         ], else_="samplingfeatures"),
         'polymorphic_identity':'samplingfeatures',
-        # 'with_polymorphic':'*'
+
     }
 
 
 
-    def shape(self):
-        """
-        Method name based on shapely shapely.geometry.shape() function.
-        Returns a shapely geometry object
-        :return geomshape:
-        """
-        _FeatureGeometry = self.FeatureGeometry
-        geomshape = None
-        if _FeatureGeometry is not None:
-            print _FeatureGeometry
-            print _FeatureGeometry.geom_wkb
-            if is_hex(_FeatureGeometry.geom_wkb):
-                # to parse wkb hex string directly
-                geomshape = wkb.loads(_FeatureGeometry.geom_wkb, hex=True)
-                # _FeatureGeometry = GeometryColumn('featuregeometry', Geometry)
-            else:
-                geomshape = wkt.loads(str(_FeatureGeometry.geom_wkb))
-
-        return geomshape
+    # def shape(self):
+    #     """
+    #     Method name based on shapely shapely.geometry.shape() function.
+    #     Returns a shapely geometry object
+    #     :return geomshape:
+    #     """
+    #     _FeatureGeometry = self.FeatureGeometry
+    #     geomshape = None
+    #     if _FeatureGeometry is not None:
+    #         print _FeatureGeometry
+    #         print _FeatureGeometry.geom_wkb
+    #         if is_hex(_FeatureGeometry.geom_wkb):
+    #             # to parse wkb hex string directly
+    #             geomshape = wkb.loads(_FeatureGeometry.geom_wkb, hex=True)
+    #             # _FeatureGeometry = GeometryColumn('featuregeometry', Geometry)
+    #         else:
+    #             geomshape = wkt.loads(str(_FeatureGeometry.geom_wkb))
+    #
+    #     return geomshape
 
     def __repr__(self):
         # geom = self.shape()
@@ -323,7 +327,7 @@ class SamplingFeatures(Base):
             self.Elevation_m, self.FeatureGeometryWKT)
 
 
-GeometryDDL(SamplingFeatures.__table__)  # Geoalchemy1
+# GeometryDDL(SamplingFeatures.__table__)  # Geoalchemy1
 
 
 class FeatureActions(Base):
@@ -884,6 +888,10 @@ class Simulations(Base):
     DataSet = relationship(DataSets)
     Model = relationship(Models)
     Unit = relationship(Units)
+
+    def __repr__(self):
+        return "<Simulations('%s', '%s', '%s', '%s')>" % \
+               (self.SimulationID, self.ActionID, self.SimulationName, self.SimulationStartDateTime)
 
 
 # Part of the Provenance table, needed here to meet dependancies
@@ -1646,9 +1654,10 @@ class TimeSeriesResults(Results):
     __mapper_args__ = {'polymorphic_identity':'Time series coverage'}
 
     def __repr__(self):
-        return "<TimeSeriesResults('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')>" % \
-               (self.ResultID, self.XLocation, self.YLocation, self.XLocation,
-                self.ResultTypeCV, self.XLocationUnitsObj, self.SpatialReferenceObj,
+        return "<TimeSeriesResult('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')>" % \
+               ( self.FeatureActionID, self.ProcessingLevelID, self.VariableID, self.ProcessinglevelID,
+                 self.self.XLocation, self.YLocation,
+                self.ResultTypeCV,
                 self.IntendedTimeSpacing, self.AggregationStatisticCV)
 
 

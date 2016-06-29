@@ -2,8 +2,8 @@ __author__ = 'stephanie'
 
 
 
-import matplotlib.pyplot as plt
-from matplotlib import dates
+# import matplotlib.pyplot as plt
+
 
 
 
@@ -17,10 +17,11 @@ from odm2api.ODM2.services import CreateODM2
 #connect to database
 # createconnection (dbtype, servername, dbname, username, password)
 # session_factory = dbconnection.createConnection('connection type: sqlite|mysql|mssql|postgresql', '/your/path/to/db/goes/here', 2.0)#sqlite
-# session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')#mysql
+session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')#mysql
 # session_factory= dbconnection.createConnection('mssql', "(local)", "LBRODM2", "ODM", "odm")#win MSSQL
-session_factory= dbconnection.createConnection('mssql', "arroyoodm2", "", "ODM", "odm")#mac/linux MSSQL
-# session_factory = dbconnection.createConnection('sqlite', '/Users/Stephanie/Desktop/TestODM2.db', 2.0)
+# session_factory= dbconnection.createConnection('mssql', "arroyoodm2", "", "ODM", "odm")#mac/linux MSSQL
+# session_factory = dbconnection.createConnection('sqlite', '/Users/stephanie/DEV/ODM2/usecases/WOF_to_ODM2/ODM2.sqlite', 2.0)
+
 
 
 
@@ -60,7 +61,7 @@ try:
     siteFeatures = read.getSamplingFeatures()
     # siteFeatures = read.getSamplingFeatures(type='Site')
     numSites = len(siteFeatures)
-
+    print ("Successful query")
     for x in siteFeatures:
         print(x.SamplingFeatureCode + ": " + x.SamplingFeatureTypeCV )
 except Exception as e:
@@ -69,7 +70,7 @@ except Exception as e:
 
 # Now get the SamplingFeature object for a SamplingFeature code
 try:
-    sf = read.getSamplingFeatures(code=['USU-LBR-Mendon'])[0]
+    sf = read.getSamplingFeatures(codes=['USU-LBR-Mendon'])[0]
     print(sf)
     print("\n-------- Information about an individual SamplingFeature ---------")
     print("The following are some of the attributes of a SamplingFeature retrieved using getSamplingFeatureByCode(): \n")
@@ -88,13 +89,13 @@ try:
     # from odm2api.ODM2.models import SamplingFeatures
     session = session_factory.getSession()
     newsf = Sites(FeatureGeometryWKT = "POINT(-111.946 41.718)", Elevation_m=100, ElevationDatumCV=sf.ElevationDatumCV,
-    SamplingFeatureCode= "TestSF",SamplingFeatureDescription = "this is a test to add Feature Geomotry",
+    SamplingFeatureCode= "TestSF",SamplingFeatureDescription = "this is a test in sample.py",
     SamplingFeatureGeotypeCV= "Point", SamplingFeatureTypeCV=sf.SamplingFeatureTypeCV,SamplingFeatureUUID= sf.SamplingFeatureUUID+"2",
     SiteTypeCV="cave", Latitude= "100", Longitude= "-100", SpatialReferenceID= 0)
 
-    create.createSamplingFeature(newsf)
+    c=create.createSamplingFeature(newsf)
     #session.commit()
-    print("new sampling feature added to database", newsf)
+    print("new sampling feature added to database", c)
 
 except Exception as e :
     print("error adding a sampling feature: " + str(e))

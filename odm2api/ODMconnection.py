@@ -154,6 +154,9 @@ class dbconnection():
             #                            (conn_dict['address'], conn_dict['user'], conn_dict['password'],conn_dict['db'],
             #                             ))
             conn_string = 'mssql+pyodbc:///?odbc_connect={}'.format(quoted)
+        elif conn_dict['engine']=='sqlite':
+            driver = 'sqlite'
+            conn_string = "%s:///%s" % (driver, conn_dict['address'])
         else:
             if conn_dict['engine'] == 'mssql':
                 driver = "pyodbc"

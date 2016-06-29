@@ -1,0 +1,16 @@
+{
+  "tests/test_SessionFactory.py::test_aSessionFactory[setup4]": true, 
+  "tests/test_SessionFactory.py::test_aSessionFactory[setup5]": true, 
+  "tests/test_SessionFactory.py::test_aSessionFactory[setup6]": true, 
+  "tests/test_connection.py::test_connection[setup2]": true, 
+  "tests/test_connection.py::test_connection[setup3]": true, 
+  "tests/test_odm2/test_createservice.py::TestCreateService::()::test_createTimeSeriesResult": true, 
+  "tests/test_odm2/test_model.py::test_cvelevationdatum[setup2]": true, 
+  "tests/test_odm2/test_model.py::test_cvelevationdatum[setup3]": true, 
+  "tests/test_odm2/test_model.py::test_cvsamplingfeatuergeotype[setup2]": true, 
+  "tests/test_odm2/test_model.py::test_cvsamplingfeatuergeotype[setup3]": true, 
+  "tests/test_odm2/test_model.py::test_cvsamplingfeaturetype[setup2]": true, 
+  "tests/test_odm2/test_model.py::test_cvsamplingfeaturetype[setup3]": true, 
+  "tests/test_odm2/test_model.py::test_sampling_feature[setup2]": true, 
+  "tests/test_odm2/test_model.py::test_sampling_feature[setup3]": true
+}
