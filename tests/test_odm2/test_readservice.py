@@ -76,7 +76,30 @@ class TestReadService:
         self.db = globals['db']
 
 
+# ################################################################################
+# Sampling Features
+# ################################################################################
 
+    def test_getAllSamplingFeatures(self):
+
+        # get all models from the database
+        res = self.engine.execute('SELECT * FROM SamplingFeatures').fetchall()
+
+        # get all simulations using the api
+        resapi = self.reader.getSamplingFeatures()
+
+        assert len(res) == len(resapi)
+
+    def test_getSamplingFeatureByID(self):
+
+        # get all models from the database
+        res = self.engine.execute('SELECT * FROM SamplingFeatures').fetchone()
+        sfid=res[0]
+
+        # get all simulations using the api
+        resapi = self.reader.getSamplingFeatures(ids = [sfid])
+
+        assert resapi is not None
 
 # ################################################################################
 # Models
@@ -98,7 +121,7 @@ class TestReadService:
         res = self.engine.execute('SELECT * FROM Models').fetchall()
 
         # get all simulations using the api
-        resapi = self.reader.getAllModels()
+        resapi = self.reader.getModels()
 
         assert len(res) == len(resapi)
 
@@ -110,7 +133,7 @@ class TestReadService:
 
 
         # get the model using the api
-        resapi = self.reader.getModelByCode(modelcode=modelCode)
+        resapi = self.reader.getModels(codes=[modelCode])
 
         assert resapi is not None
 
@@ -135,30 +158,78 @@ class TestReadService:
 
         # get related models by id using the api
         resapi = self.reader.getRelatedModelsByID(1) #was 2
+        resapi = self.reader.getRelatedModels(id = 1)
+        # resapi = self.reader.getRelatedModels(id = 2)
 
         assert resapi is not None
-        assert resapi[0].ModelObj.ModelCode == 'swat'
+        assert resapi[0].ModelCode == 'swat'
         assert resapi[0].RelatedModelObj.ModelCode == 'swmm'
 
     def test_getRelatedModelsByCode(self):
 
         # get related models by id using the api
-        resapi = self.reader.getRelatedModelsByCode('swat')
+        resapi = self.reader.getRelatedModels(code = 'swat')
+        #resapi = self.reader.getRelatedModels(code = 'swmm')
 
         assert resapi is not None
         assert len(resapi) > 0
-        assert resapi[0].ModelObj.ModelCode == 'swat'
+        print resapi[0].ModelCode
+        assert resapi[0].ModelCode == 'swat'
         assert resapi[0].RelatedModelObj.ModelCode == 'swmm'
         # test model code that doesn't exist
-        resapi = self.reader.getRelatedModelsByCode('None')
+        resapi= self.reader.getRelatedModels(code = 'None')
+
         assert resapi is not None
         assert len(resapi) == 0
 
         # test invalid argument
-        resapi = self.reader.getRelatedModelsByCode(models.ActionBy)
+        resapi = self.reader.getRelatedModels(code = models.ActionBy)
         assert resapi is None
 
 
+
+# ################################################################################
+# Results
+# ################################################################################
+    """
+        TABLE Results (
+        ResultID INTEGER   NOT NULL PRIMARY KEY,
+        ResultUUID VARCHAR(36)   NOT NULL,
+        FeatureActionID INTEGER   NOT NULL,
+        ResultTypeCV VARCHAR (255)  NOT NULL,
+        VariableID INTEGER   NOT NULL,
+        UnitsID INTEGER   NOT NULL,
+        TaxonomicClassifierID INTEGER   NULL,
+        ProcessingLevelID INTEGER   NOT NULL,
+        ResultDateTime DATETIME   NULL,
+        ResultDateTimeUTCOffset INTEGER   NULL,
+        ValidDateTime DATETIME   NULL,
+        ValidDateTimeUTCOffset INTEGER   NULL,
+        StatusCV VARCHAR (255)  NULL,
+        SampledMediumCV VARCHAR (255)  NOT NULL,
+        ValueCount INTEGER   NOT NULL
+    """
+    def test_getAllResults(self):
+
+        # get all results from the database
+        res = self.engine.execute('SELECT * FROM Results').fetchall()
+        print res
+        # get all results using the api
+        resapi = self.reader.getResults()
+
+        assert len(res) == len(resapi)
+
+    def test_getResultsByID(self):
+
+        # get a result from the database
+        res = self.engine.execute('SELECT * FROM Results').fetchone()
+        resultid = res[1]
+
+
+        # get the result using the api
+        resapi = self.reader.getResults(ids=[resultid])
+
+        assert resapi is not None
 
 # ################################################################################
 # Simulations
@@ -186,8 +257,8 @@ class TestReadService:
         res = self.engine.execute('SELECT * FROM Simulations').fetchall()
 
         # get all simulations using the api
-        resapi = self.reader.getAllSimulations()
-
+        # resapi = self.reader.getAllSimulations()
+        resapi = self.reader.getSimulations()
         assert len(res) == len(resapi)
 
     def test_getSimulationByName(self):
@@ -197,7 +268,8 @@ class TestReadService:
         simName = res[2]
 
         # get simulation by name using the api
-        resapi = self.reader.getSimulationByName(simulationName=simName)
+        # resapi = self.reader.getSimulationByName(simulationName=simName)
+        resapi = self.reader.getSimulations(name = simName)
         assert resapi is not None
 
     def test_getSimulationByActionID(self):
@@ -207,7 +279,8 @@ class TestReadService:
         actionID = res[1]
 
         # get simulation by actionid using the api
-        resapi = self.reader.getSimulationByActionID(actionID=actionID)
+        # resapi = self.reader.getSimulationByActionID(actionID=actionID)
+        resapi = self.reader.getSimulations(actionid=actionID)
         assert resapi is not None
 
     def test_getResultsBySimulationID(self):
@@ -227,7 +300,9 @@ class TestReadService:
         print res
 
         # get simulation by id using the api
-        resapi = self.reader.getResultsBySimulationID(simulation.SimulationID)
+        # resapi = self.reader.getResultsBySimulationID(simulation.SimulationID)
+        resapi = self.reader.getResults(simulationid = simulation.SimulationID)
+
         assert resapi is not None
         assert len(resapi) > 0
         assert res.ResultID == resapi[0].ResultID

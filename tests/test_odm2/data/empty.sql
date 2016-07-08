@@ -278,6 +278,7 @@ BEGIN TRANSACTION;CREATE TABLE ActionAnnotations (
 	SamplingFeatureDescription VARCHAR (500)  NULL,
 	SamplingFeatureGeotypeCV VARCHAR (255)  NULL,
 	FeatureGeometry geometry   NULL,
+	FeatureGeometryWKT VARCHAR (50)   NULL,
 	Elevation_m FLOAT   NULL,
 	ElevationDatumCV VARCHAR (255)  NULL,
 	FOREIGN KEY (ElevationDatumCV) REFERENCES CV_ElevationDatum (Name)

@@ -115,6 +115,9 @@ class clsDBConfiguration ( wx.Panel ):
 		self.btnTest.Bind( wx.EVT_BUTTON, self.OnBtnTest )
 		self.btnSave.Bind( wx.EVT_BUTTON, self.OnBtnSave )
 		self.btnCancel.Bind( wx.EVT_BUTTON, self.OnBtnCancel )
+
+		self.btnTest.SetFocus()
+
 	
 	def __del__( self ):
 		pass

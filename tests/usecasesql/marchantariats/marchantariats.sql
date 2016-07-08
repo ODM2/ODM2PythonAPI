@@ -18,7 +18,7 @@ SET client_min_messages = warning;
 -- Name: marchantariats; Type: DATABASE; Schema: -; Owner: -
 --
 
-CREATE DATABASE marchantariats WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'en_US.UTF-8' LC_CTYPE = 'en_US.UTF-8';
+CREATE DATABASE marchantariats WITH TEMPLATE = template0 ENCODING = 'UTF8' ;--LC_COLLATE = 'en_US.UTF-8' LC_CTYPE = 'en_US.UTF-8';
 
 
 \connect marchantariats
@@ -1709,6 +1709,7 @@ CREATE TABLE samplingfeatures (
     samplingfeaturedescription character varying(500),
     samplingfeaturegeotypecv character varying(255),
     featuregeometry public.geometry,
+    featuregeometrywkt character varying(50),
     elevation_m double precision,
     elevationdatumcv character varying(255),
     CONSTRAINT enforce_dims_featuregeometry CHECK ((public.st_ndims(featuregeometry) = 2))
@@ -1828,7 +1829,7 @@ CREATE VIEW mappings_results_fine_particulates AS
 
 --
 -- TOC entry 386 (class 1259 OID 70923)
--- Name: measurementresults; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: measurementresults; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE measurementresults (
@@ -1850,7 +1851,7 @@ CREATE TABLE measurementresults (
 
 --
 -- TOC entry 219 (class 1259 OID 70024)
--- Name: measurementresultvalueannotations; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: measurementresultvalueannotations; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE measurementresultvalueannotations (
@@ -1884,7 +1885,7 @@ ALTER SEQUENCE measurementresultvalueannotations_bridgeid_seq OWNED BY measureme
 
 --
 -- TOC entry 388 (class 1259 OID 70933)
--- Name: measurementresultvalues; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: measurementresultvalues; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE measurementresultvalues (
@@ -1920,7 +1921,7 @@ ALTER SEQUENCE measurementresultvalues_valueid_seq OWNED BY measurementresultval
 
 --
 -- TOC entry 221 (class 1259 OID 70032)
--- Name: methodannotations; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: methodannotations; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE methodannotations (
@@ -1954,7 +1955,7 @@ ALTER SEQUENCE methodannotations_bridgeid_seq OWNED BY methodannotations.bridgei
 
 --
 -- TOC entry 373 (class 1259 OID 70867)
--- Name: methodcitations; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: methodcitations; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE methodcitations (
@@ -1989,7 +1990,7 @@ ALTER SEQUENCE methodcitations_bridgeid_seq OWNED BY methodcitations.bridgeid;
 
 --
 -- TOC entry 335 (class 1259 OID 70680)
--- Name: methodextensionpropertyvalues; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: methodextensionpropertyvalues; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE methodextensionpropertyvalues (
@@ -2024,7 +2025,7 @@ ALTER SEQUENCE methodextensionpropertyvalues_bridgeid_seq OWNED BY methodextensi
 
 --
 -- TOC entry 346 (class 1259 OID 70731)
--- Name: methodexternalidentifiers; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: methodexternalidentifiers; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE methodexternalidentifiers (
@@ -2060,7 +2061,7 @@ ALTER SEQUENCE methodexternalidentifiers_bridgeid_seq OWNED BY methodexternalide
 
 --
 -- TOC entry 253 (class 1259 OID 70172)
--- Name: methods; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: methods; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE methods (
@@ -2098,7 +2099,7 @@ ALTER SEQUENCE methods_methodid_seq OWNED BY methods.methodid;
 
 --
 -- TOC entry 420 (class 1259 OID 71098)
--- Name: modelaffiliations; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: modelaffiliations; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE modelaffiliations (
@@ -2134,7 +2135,7 @@ ALTER SEQUENCE modelaffiliations_bridgeid_seq OWNED BY modelaffiliations.bridgei
 
 --
 -- TOC entry 422 (class 1259 OID 71109)
--- Name: models; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: models; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE models (
@@ -2171,7 +2172,7 @@ ALTER SEQUENCE models_modelid_seq OWNED BY models.modelid;
 
 --
 -- TOC entry 255 (class 1259 OID 70183)
--- Name: organizations; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: organizations; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE organizations (
@@ -2209,7 +2210,7 @@ ALTER SEQUENCE organizations_organizationid_seq OWNED BY organizations.organizat
 
 --
 -- TOC entry 257 (class 1259 OID 70194)
--- Name: people; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: people; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE people (
@@ -2244,7 +2245,7 @@ ALTER SEQUENCE people_personid_seq OWNED BY people.personid;
 
 --
 -- TOC entry 348 (class 1259 OID 70742)
--- Name: personexternalidentifiers; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: personexternalidentifiers; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE personexternalidentifiers (
@@ -2280,7 +2281,7 @@ ALTER SEQUENCE personexternalidentifiers_bridgeid_seq OWNED BY personexternalide
 
 --
 -- TOC entry 389 (class 1259 OID 70939)
--- Name: pointcoverageresults; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: pointcoverageresults; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE pointcoverageresults (
@@ -2300,7 +2301,7 @@ CREATE TABLE pointcoverageresults (
 
 --
 -- TOC entry 223 (class 1259 OID 70040)
--- Name: pointcoverageresultvalueannotations; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: pointcoverageresultvalueannotations; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE pointcoverageresultvalueannotations (
@@ -2334,7 +2335,7 @@ ALTER SEQUENCE pointcoverageresultvalueannotations_bridgeid_seq OWNED BY pointco
 
 --
 -- TOC entry 391 (class 1259 OID 70946)
--- Name: pointcoverageresultvalues; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: pointcoverageresultvalues; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE pointcoverageresultvalues (
@@ -2376,7 +2377,7 @@ ALTER SEQUENCE pointcoverageresultvalues_valueid_seq OWNED BY pointcoverageresul
 
 --
 -- TOC entry 259 (class 1259 OID 70205)
--- Name: processinglevels; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: processinglevels; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE processinglevels (
@@ -2411,7 +2412,7 @@ ALTER SEQUENCE processinglevels_processinglevelid_seq OWNED BY processinglevels.
 
 --
 -- TOC entry 392 (class 1259 OID 70955)
--- Name: profileresults; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: profileresults; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE profileresults (
@@ -2431,7 +2432,7 @@ CREATE TABLE profileresults (
 
 --
 -- TOC entry 225 (class 1259 OID 70048)
--- Name: profileresultvalueannotations; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: profileresultvalueannotations; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE profileresultvalueannotations (
@@ -2465,7 +2466,7 @@ ALTER SEQUENCE profileresultvalueannotations_bridgeid_seq OWNED BY profileresult
 
 --
 -- TOC entry 394 (class 1259 OID 70962)
--- Name: profileresultvalues; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: profileresultvalues; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE profileresultvalues (
@@ -2508,7 +2509,7 @@ ALTER SEQUENCE profileresultvalues_valueid_seq OWNED BY profileresultvalues.valu
 
 --
 -- TOC entry 350 (class 1259 OID 70753)
--- Name: referencematerialexternalidentifiers; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: referencematerialexternalidentifiers; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE referencematerialexternalidentifiers (
@@ -2544,7 +2545,7 @@ ALTER SEQUENCE referencematerialexternalidentifiers_bridgeid_seq OWNED BY refere
 
 --
 -- TOC entry 301 (class 1259 OID 70514)
--- Name: referencematerials; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: referencematerials; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE referencematerials (
@@ -2562,7 +2563,7 @@ CREATE TABLE referencematerials (
 
 --
 -- TOC entry 302 (class 1259 OID 70522)
--- Name: referencematerialvalues; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: referencematerialvalues; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE referencematerialvalues (
@@ -2578,7 +2579,7 @@ CREATE TABLE referencematerialvalues (
 
 --
 -- TOC entry 261 (class 1259 OID 70216)
--- Name: relatedactions; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: relatedactions; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE relatedactions (
@@ -2613,7 +2614,7 @@ ALTER SEQUENCE relatedactions_relationid_seq OWNED BY relatedactions.relationid;
 
 --
 -- TOC entry 375 (class 1259 OID 70875)
--- Name: relatedannotations; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: relatedannotations; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE relatedannotations (
@@ -2648,7 +2649,7 @@ ALTER SEQUENCE relatedannotations_relationid_seq OWNED BY relatedannotations.rel
 
 --
 -- TOC entry 377 (class 1259 OID 70883)
--- Name: relatedcitations; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: relatedcitations; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE relatedcitations (
@@ -2683,7 +2684,7 @@ ALTER SEQUENCE relatedcitations_relationid_seq OWNED BY relatedcitations.relatio
 
 --
 -- TOC entry 379 (class 1259 OID 70891)
--- Name: relateddatasets; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: relateddatasets; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE relateddatasets (
@@ -2719,7 +2720,7 @@ ALTER SEQUENCE relateddatasets_relationid_seq OWNED BY relateddatasets.relationi
 
 --
 -- TOC entry 327 (class 1259 OID 70645)
--- Name: relatedequipment; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: relatedequipment; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE relatedequipment (
@@ -2758,7 +2759,7 @@ ALTER SEQUENCE relatedequipment_relationid_seq OWNED BY relatedequipment.relatio
 
 --
 -- TOC entry 411 (class 1259 OID 71053)
--- Name: relatedfeatures; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: relatedfeatures; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE relatedfeatures (
@@ -2794,7 +2795,7 @@ ALTER SEQUENCE relatedfeatures_relationid_seq OWNED BY relatedfeatures.relationi
 
 --
 -- TOC entry 424 (class 1259 OID 71120)
--- Name: relatedmodels; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: relatedmodels; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE relatedmodels (
@@ -2829,7 +2830,7 @@ ALTER SEQUENCE relatedmodels_relatedid_seq OWNED BY relatedmodels.relatedid;
 
 --
 -- TOC entry 381 (class 1259 OID 70899)
--- Name: relatedresults; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: relatedresults; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE relatedresults (
@@ -2866,7 +2867,7 @@ ALTER SEQUENCE relatedresults_relationid_seq OWNED BY relatedresults.relationid;
 
 --
 -- TOC entry 227 (class 1259 OID 70056)
--- Name: resultannotations; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: resultannotations; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE resultannotations (
@@ -2902,7 +2903,7 @@ ALTER SEQUENCE resultannotations_bridgeid_seq OWNED BY resultannotations.bridgei
 
 --
 -- TOC entry 382 (class 1259 OID 70905)
--- Name: resultderivationequations; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: resultderivationequations; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE resultderivationequations (
@@ -2913,7 +2914,7 @@ CREATE TABLE resultderivationequations (
 
 --
 -- TOC entry 337 (class 1259 OID 70688)
--- Name: resultextensionpropertyvalues; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: resultextensionpropertyvalues; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE resultextensionpropertyvalues (
@@ -2948,7 +2949,7 @@ ALTER SEQUENCE resultextensionpropertyvalues_bridgeid_seq OWNED BY resultextensi
 
 --
 -- TOC entry 303 (class 1259 OID 70527)
--- Name: resultnormalizationvalues; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: resultnormalizationvalues; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE resultnormalizationvalues (
@@ -2959,7 +2960,7 @@ CREATE TABLE resultnormalizationvalues (
 
 --
 -- TOC entry 263 (class 1259 OID 70224)
--- Name: results; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: results; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE results (
@@ -3005,7 +3006,7 @@ ALTER SEQUENCE results_resultid_seq OWNED BY results.resultid;
 
 --
 -- TOC entry 305 (class 1259 OID 70534)
--- Name: resultsdataquality; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: resultsdataquality; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE resultsdataquality (
@@ -3039,7 +3040,7 @@ ALTER SEQUENCE resultsdataquality_bridgeid_seq OWNED BY resultsdataquality.bridg
 
 --
 -- TOC entry 229 (class 1259 OID 70064)
--- Name: samplingfeatureannotations; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: samplingfeatureannotations; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE samplingfeatureannotations (
@@ -3073,7 +3074,7 @@ ALTER SEQUENCE samplingfeatureannotations_bridgeid_seq OWNED BY samplingfeaturea
 
 --
 -- TOC entry 339 (class 1259 OID 70696)
--- Name: samplingfeatureextensionpropertyvalues; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: samplingfeatureextensionpropertyvalues; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE samplingfeatureextensionpropertyvalues (
@@ -3108,7 +3109,7 @@ ALTER SEQUENCE samplingfeatureextensionpropertyvalues_bridgeid_seq OWNED BY samp
 
 --
 -- TOC entry 352 (class 1259 OID 70764)
--- Name: samplingfeatureexternalidentifiers; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: samplingfeatureexternalidentifiers; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE samplingfeatureexternalidentifiers (
@@ -3166,7 +3167,7 @@ ALTER SEQUENCE samplingfeatures_samplingfeatureid_seq OWNED BY samplingfeatures.
 
 --
 -- TOC entry 395 (class 1259 OID 70971)
--- Name: sectionresults; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: sectionresults; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE sectionresults (
@@ -3186,7 +3187,7 @@ CREATE TABLE sectionresults (
 
 --
 -- TOC entry 231 (class 1259 OID 70072)
--- Name: sectionresultvalueannotations; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: sectionresultvalueannotations; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE sectionresultvalueannotations (
@@ -3220,7 +3221,7 @@ ALTER SEQUENCE sectionresultvalueannotations_bridgeid_seq OWNED BY sectionresult
 
 --
 -- TOC entry 397 (class 1259 OID 70978)
--- Name: sectionresultvalues; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: sectionresultvalues; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE sectionresultvalues (
@@ -3267,7 +3268,7 @@ ALTER SEQUENCE sectionresultvalues_valueid_seq OWNED BY sectionresultvalues.valu
 
 --
 -- TOC entry 426 (class 1259 OID 71128)
--- Name: simulations; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: simulations; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE simulations (
@@ -3310,7 +3311,7 @@ ALTER SEQUENCE simulations_simulationid_seq OWNED BY simulations.simulationid;
 
 --
 -- TOC entry 412 (class 1259 OID 71059)
--- Name: sites; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: sites; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE sites (
@@ -3324,7 +3325,7 @@ CREATE TABLE sites (
 
 --
 -- TOC entry 413 (class 1259 OID 71064)
--- Name: spatialoffsets; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: spatialoffsets; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE spatialoffsets (
@@ -3341,7 +3342,7 @@ CREATE TABLE spatialoffsets (
 
 --
 -- TOC entry 354 (class 1259 OID 70775)
--- Name: spatialreferenceexternalidentifiers; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: spatialreferenceexternalidentifiers; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE spatialreferenceexternalidentifiers (
@@ -3377,7 +3378,7 @@ ALTER SEQUENCE spatialreferenceexternalidentifiers_bridgeid_seq OWNED BY spatial
 
 --
 -- TOC entry 415 (class 1259 OID 71071)
--- Name: spatialreferences; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: spatialreferences; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE spatialreferences (
@@ -3439,7 +3440,7 @@ CREATE VIEW specimen_site_sf AS
 
 --
 -- TOC entry 363 (class 1259 OID 70825)
--- Name: specimenbatchpostions; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: specimenbatchpostions; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE specimenbatchpostions (
@@ -3451,7 +3452,7 @@ CREATE TABLE specimenbatchpostions (
 
 --
 -- TOC entry 416 (class 1259 OID 71080)
--- Name: specimens; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: specimens; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE specimens (
@@ -3464,7 +3465,7 @@ CREATE TABLE specimens (
 
 --
 -- TOC entry 418 (class 1259 OID 71090)
--- Name: specimentaxonomicclassifiers; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: specimentaxonomicclassifiers; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE specimentaxonomicclassifiers (
@@ -3499,7 +3500,7 @@ ALTER SEQUENCE specimentaxonomicclassifiers_bridgeid_seq OWNED BY specimentaxono
 
 --
 -- TOC entry 398 (class 1259 OID 70987)
--- Name: spectraresults; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: spectraresults; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE spectraresults (
@@ -3519,7 +3520,7 @@ CREATE TABLE spectraresults (
 
 --
 -- TOC entry 233 (class 1259 OID 70080)
--- Name: spectraresultvalueannotations; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: spectraresultvalueannotations; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE spectraresultvalueannotations (
@@ -3553,7 +3554,7 @@ ALTER SEQUENCE spectraresultvalueannotations_bridgeid_seq OWNED BY spectraresult
 
 --
 -- TOC entry 400 (class 1259 OID 70994)
--- Name: spectraresultvalues; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: spectraresultvalues; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE spectraresultvalues (
@@ -3596,7 +3597,7 @@ ALTER SEQUENCE spectraresultvalues_valueid_seq OWNED BY spectraresultvalues.valu
 
 --
 -- TOC entry 356 (class 1259 OID 70786)
--- Name: taxonomicclassifierexternalidentifiers; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: taxonomicclassifierexternalidentifiers; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE taxonomicclassifierexternalidentifiers (
@@ -3632,7 +3633,7 @@ ALTER SEQUENCE taxonomicclassifierexternalidentifiers_bridgeid_seq OWNED BY taxo
 
 --
 -- TOC entry 266 (class 1259 OID 70244)
--- Name: taxonomicclassifiers; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: taxonomicclassifiers; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE taxonomicclassifiers (
@@ -3647,7 +3648,7 @@ CREATE TABLE taxonomicclassifiers (
 
 --
 -- TOC entry 401 (class 1259 OID 71003)
--- Name: timeseriesresults; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: timeseriesresults; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE timeseriesresults (
@@ -3667,7 +3668,7 @@ CREATE TABLE timeseriesresults (
 
 --
 -- TOC entry 235 (class 1259 OID 70088)
--- Name: timeseriesresultvalueannotations; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: timeseriesresultvalueannotations; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE timeseriesresultvalueannotations (
@@ -3701,7 +3702,7 @@ ALTER SEQUENCE timeseriesresultvalueannotations_bridgeid_seq OWNED BY timeseries
 
 --
 -- TOC entry 403 (class 1259 OID 71010)
--- Name: timeseriesresultvalues; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: timeseriesresultvalues; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE timeseriesresultvalues (
@@ -3741,7 +3742,7 @@ ALTER SEQUENCE timeseriesresultvalues_valueid_seq OWNED BY timeseriesresultvalue
 
 --
 -- TOC entry 404 (class 1259 OID 71019)
--- Name: trajectoryresults; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: trajectoryresults; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE trajectoryresults (
@@ -3757,7 +3758,7 @@ CREATE TABLE trajectoryresults (
 
 --
 -- TOC entry 237 (class 1259 OID 70096)
--- Name: trajectoryresultvalueannotations; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: trajectoryresultvalueannotations; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE trajectoryresultvalueannotations (
@@ -3791,7 +3792,7 @@ ALTER SEQUENCE trajectoryresultvalueannotations_bridgeid_seq OWNED BY trajectory
 
 --
 -- TOC entry 406 (class 1259 OID 71026)
--- Name: trajectoryresultvalues; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: trajectoryresultvalues; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE trajectoryresultvalues (
@@ -3840,7 +3841,7 @@ ALTER SEQUENCE trajectoryresultvalues_valueid_seq OWNED BY trajectoryresultvalue
 
 --
 -- TOC entry 407 (class 1259 OID 71035)
--- Name: transectresults; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: transectresults; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE transectresults (
@@ -3858,7 +3859,7 @@ CREATE TABLE transectresults (
 
 --
 -- TOC entry 239 (class 1259 OID 70104)
--- Name: transectresultvalueannotations; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: transectresultvalueannotations; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE transectresultvalueannotations (
@@ -3892,7 +3893,7 @@ ALTER SEQUENCE transectresultvalueannotations_bridgeid_seq OWNED BY transectresu
 
 --
 -- TOC entry 409 (class 1259 OID 71042)
--- Name: transectresultvalues; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: transectresultvalues; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE transectresultvalues (
@@ -3940,7 +3941,7 @@ ALTER SEQUENCE transectresultvalues_valueid_seq OWNED BY transectresultvalues.va
 
 --
 -- TOC entry 268 (class 1259 OID 70254)
--- Name: units; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: units; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE units (
@@ -3976,7 +3977,7 @@ ALTER SEQUENCE units_unitsid_seq OWNED BY units.unitsid;
 
 --
 -- TOC entry 341 (class 1259 OID 70704)
--- Name: variableextensionpropertyvalues; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: variableextensionpropertyvalues; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE variableextensionpropertyvalues (
@@ -4011,7 +4012,7 @@ ALTER SEQUENCE variableextensionpropertyvalues_bridgeid_seq OWNED BY variableext
 
 --
 -- TOC entry 358 (class 1259 OID 70797)
--- Name: variableexternalidentifiers; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: variableexternalidentifiers; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE variableexternalidentifiers (
@@ -4047,7 +4048,7 @@ ALTER SEQUENCE variableexternalidentifiers_bridgeid_seq OWNED BY variableexterna
 
 --
 -- TOC entry 270 (class 1259 OID 70265)
--- Name: variables; Type: TABLE; Schema: odm2; Owner: -; Tablespace: 
+-- Name: variables; Type: TABLE; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE TABLE variables (
@@ -20697,7 +20698,7 @@ SET search_path = odm2, pg_catalog;
 
 --
 -- TOC entry 4069 (class 2606 OID 69994)
--- Name: actionannotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: actionannotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY actionannotations
@@ -20706,7 +20707,7 @@ ALTER TABLE ONLY actionannotations
 
 --
 -- TOC entry 4099 (class 2606 OID 70120)
--- Name: actionby_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: actionby_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY actionby
@@ -20715,7 +20716,7 @@ ALTER TABLE ONLY actionby
 
 --
 -- TOC entry 4256 (class 2606 OID 70813)
--- Name: actiondirectives_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: actiondirectives_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY actiondirectives
@@ -20724,7 +20725,7 @@ ALTER TABLE ONLY actiondirectives
 
 --
 -- TOC entry 4224 (class 2606 OID 70658)
--- Name: actionextensionpropertyvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: actionextensionpropertyvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY actionextensionpropertyvalues
@@ -20733,7 +20734,7 @@ ALTER TABLE ONLY actionextensionpropertyvalues
 
 --
 -- TOC entry 4101 (class 2606 OID 70131)
--- Name: actions_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: actions_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY actions
@@ -20742,7 +20743,7 @@ ALTER TABLE ONLY actions
 
 --
 -- TOC entry 4103 (class 2606 OID 70142)
--- Name: affiliations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: affiliations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY affiliations
@@ -20751,7 +20752,7 @@ ALTER TABLE ONLY affiliations
 
 --
 -- TOC entry 4071 (class 2606 OID 70005)
--- Name: annotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: annotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY annotations
@@ -20760,7 +20761,7 @@ ALTER TABLE ONLY annotations
 
 --
 -- TOC entry 4262 (class 2606 OID 70837)
--- Name: authorlists_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: authorlists_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY authorlists
@@ -20769,7 +20770,7 @@ ALTER TABLE ONLY authorlists
 
 --
 -- TOC entry 4200 (class 2606 OID 70544)
--- Name: calibrationactions_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: calibrationactions_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY calibrationactions
@@ -20778,7 +20779,7 @@ ALTER TABLE ONLY calibrationactions
 
 --
 -- TOC entry 4202 (class 2606 OID 70552)
--- Name: calibrationreferenceequipment_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: calibrationreferenceequipment_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY calibrationreferenceequipment
@@ -20787,7 +20788,7 @@ ALTER TABLE ONLY calibrationreferenceequipment
 
 --
 -- TOC entry 4204 (class 2606 OID 70560)
--- Name: calibrationstandards_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: calibrationstandards_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY calibrationstandards
@@ -20796,7 +20797,7 @@ ALTER TABLE ONLY calibrationstandards
 
 --
 -- TOC entry 4282 (class 2606 OID 70914)
--- Name: categoricalresults_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: categoricalresults_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY categoricalresults
@@ -20805,7 +20806,7 @@ ALTER TABLE ONLY categoricalresults
 
 --
 -- TOC entry 4073 (class 2606 OID 70013)
--- Name: categoricalresultvalueannotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: categoricalresultvalueannotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY categoricalresultvalueannotations
@@ -20814,7 +20815,7 @@ ALTER TABLE ONLY categoricalresultvalueannotations
 
 --
 -- TOC entry 4284 (class 2606 OID 70922)
--- Name: categoricalresultvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: categoricalresultvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY categoricalresultvalues
@@ -20823,7 +20824,7 @@ ALTER TABLE ONLY categoricalresultvalues
 
 --
 -- TOC entry 4226 (class 2606 OID 70666)
--- Name: citationextensionpropertyvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: citationextensionpropertyvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY citationextensionpropertyvalues
@@ -20832,7 +20833,7 @@ ALTER TABLE ONLY citationextensionpropertyvalues
 
 --
 -- TOC entry 4238 (class 2606 OID 70720)
--- Name: citationexternalidentifiers_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: citationexternalidentifiers_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY citationexternalidentifiers
@@ -20841,7 +20842,7 @@ ALTER TABLE ONLY citationexternalidentifiers
 
 --
 -- TOC entry 4264 (class 2606 OID 70848)
--- Name: citations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: citations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY citations
@@ -20850,7 +20851,7 @@ ALTER TABLE ONLY citations
 
 --
 -- TOC entry 4132 (class 2606 OID 70281)
--- Name: cv_actiontype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: cv_actiontype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY cv_actiontype
@@ -20859,7 +20860,7 @@ ALTER TABLE ONLY cv_actiontype
 
 --
 -- TOC entry 4134 (class 2606 OID 70289)
--- Name: cv_aggregationstatistic_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: cv_aggregationstatistic_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY cv_aggregationstatistic
@@ -20868,7 +20869,7 @@ ALTER TABLE ONLY cv_aggregationstatistic
 
 --
 -- TOC entry 4136 (class 2606 OID 70297)
--- Name: cv_annotationtype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: cv_annotationtype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY cv_annotationtype
@@ -20877,7 +20878,7 @@ ALTER TABLE ONLY cv_annotationtype
 
 --
 -- TOC entry 4138 (class 2606 OID 70305)
--- Name: cv_censorcode_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: cv_censorcode_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY cv_censorcode
@@ -20886,7 +20887,7 @@ ALTER TABLE ONLY cv_censorcode
 
 --
 -- TOC entry 4140 (class 2606 OID 70313)
--- Name: cv_dataqualitytype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: cv_dataqualitytype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY cv_dataqualitytype
@@ -20895,7 +20896,7 @@ ALTER TABLE ONLY cv_dataqualitytype
 
 --
 -- TOC entry 4142 (class 2606 OID 70321)
--- Name: cv_datasettypecv_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: cv_datasettypecv_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY cv_datasettypecv
@@ -20904,7 +20905,7 @@ ALTER TABLE ONLY cv_datasettypecv
 
 --
 -- TOC entry 4144 (class 2606 OID 70329)
--- Name: cv_directivetype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: cv_directivetype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY cv_directivetype
@@ -20913,7 +20914,7 @@ ALTER TABLE ONLY cv_directivetype
 
 --
 -- TOC entry 4146 (class 2606 OID 70337)
--- Name: cv_elevationdatum_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: cv_elevationdatum_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY cv_elevationdatum
@@ -20922,7 +20923,7 @@ ALTER TABLE ONLY cv_elevationdatum
 
 --
 -- TOC entry 4148 (class 2606 OID 70345)
--- Name: cv_equipmenttype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: cv_equipmenttype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY cv_equipmenttype
@@ -20931,7 +20932,7 @@ ALTER TABLE ONLY cv_equipmenttype
 
 --
 -- TOC entry 4150 (class 2606 OID 70353)
--- Name: cv_methodtype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: cv_methodtype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY cv_methodtype
@@ -20940,7 +20941,7 @@ ALTER TABLE ONLY cv_methodtype
 
 --
 -- TOC entry 4152 (class 2606 OID 70361)
--- Name: cv_organizationtype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: cv_organizationtype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY cv_organizationtype
@@ -20949,7 +20950,7 @@ ALTER TABLE ONLY cv_organizationtype
 
 --
 -- TOC entry 4154 (class 2606 OID 70369)
--- Name: cv_propertydatatype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: cv_propertydatatype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY cv_propertydatatype
@@ -20958,7 +20959,7 @@ ALTER TABLE ONLY cv_propertydatatype
 
 --
 -- TOC entry 4156 (class 2606 OID 70377)
--- Name: cv_qualitycode_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: cv_qualitycode_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY cv_qualitycode
@@ -20967,7 +20968,7 @@ ALTER TABLE ONLY cv_qualitycode
 
 --
 -- TOC entry 4158 (class 2606 OID 70385)
--- Name: cv_referencematerialmedium_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: cv_referencematerialmedium_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY cv_referencematerialmedium
@@ -20976,7 +20977,7 @@ ALTER TABLE ONLY cv_referencematerialmedium
 
 --
 -- TOC entry 4160 (class 2606 OID 70393)
--- Name: cv_relationshiptype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: cv_relationshiptype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY cv_relationshiptype
@@ -20985,7 +20986,7 @@ ALTER TABLE ONLY cv_relationshiptype
 
 --
 -- TOC entry 4162 (class 2606 OID 70401)
--- Name: cv_resulttype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: cv_resulttype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY cv_resulttype
@@ -20994,7 +20995,7 @@ ALTER TABLE ONLY cv_resulttype
 
 --
 -- TOC entry 4164 (class 2606 OID 70409)
--- Name: cv_sampledmedium_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: cv_sampledmedium_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY cv_sampledmedium
@@ -21003,7 +21004,7 @@ ALTER TABLE ONLY cv_sampledmedium
 
 --
 -- TOC entry 4166 (class 2606 OID 70417)
--- Name: cv_samplingfeaturegeotype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: cv_samplingfeaturegeotype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY cv_samplingfeaturegeotype
@@ -21012,7 +21013,7 @@ ALTER TABLE ONLY cv_samplingfeaturegeotype
 
 --
 -- TOC entry 4168 (class 2606 OID 70425)
--- Name: cv_samplingfeaturetype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: cv_samplingfeaturetype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY cv_samplingfeaturetype
@@ -21021,7 +21022,7 @@ ALTER TABLE ONLY cv_samplingfeaturetype
 
 --
 -- TOC entry 4170 (class 2606 OID 70433)
--- Name: cv_sitetype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: cv_sitetype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY cv_sitetype
@@ -21030,7 +21031,7 @@ ALTER TABLE ONLY cv_sitetype
 
 --
 -- TOC entry 4172 (class 2606 OID 70441)
--- Name: cv_spatialoffsettype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: cv_spatialoffsettype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY cv_spatialoffsettype
@@ -21039,7 +21040,7 @@ ALTER TABLE ONLY cv_spatialoffsettype
 
 --
 -- TOC entry 4174 (class 2606 OID 70449)
--- Name: cv_speciation_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: cv_speciation_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY cv_speciation
@@ -21048,7 +21049,7 @@ ALTER TABLE ONLY cv_speciation
 
 --
 -- TOC entry 4176 (class 2606 OID 70457)
--- Name: cv_specimenmedium_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: cv_specimenmedium_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY cv_specimenmedium
@@ -21057,7 +21058,7 @@ ALTER TABLE ONLY cv_specimenmedium
 
 --
 -- TOC entry 4178 (class 2606 OID 70465)
--- Name: cv_specimentype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: cv_specimentype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY cv_specimentype
@@ -21066,7 +21067,7 @@ ALTER TABLE ONLY cv_specimentype
 
 --
 -- TOC entry 4180 (class 2606 OID 70473)
--- Name: cv_status_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: cv_status_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY cv_status
@@ -21075,7 +21076,7 @@ ALTER TABLE ONLY cv_status
 
 --
 -- TOC entry 4182 (class 2606 OID 70481)
--- Name: cv_taxonomicclassifiertype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: cv_taxonomicclassifiertype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY cv_taxonomicclassifiertype
@@ -21084,7 +21085,7 @@ ALTER TABLE ONLY cv_taxonomicclassifiertype
 
 --
 -- TOC entry 4184 (class 2606 OID 70489)
--- Name: cv_unitstype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: cv_unitstype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY cv_unitstype
@@ -21093,7 +21094,7 @@ ALTER TABLE ONLY cv_unitstype
 
 --
 -- TOC entry 4186 (class 2606 OID 70497)
--- Name: cv_variablename_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: cv_variablename_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY cv_variablename
@@ -21102,7 +21103,7 @@ ALTER TABLE ONLY cv_variablename
 
 --
 -- TOC entry 4188 (class 2606 OID 70505)
--- Name: cv_variabletype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: cv_variabletype_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY cv_variabletype
@@ -21111,7 +21112,7 @@ ALTER TABLE ONLY cv_variabletype
 
 --
 -- TOC entry 4206 (class 2606 OID 70571)
--- Name: dataloggerfilecolumns_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: dataloggerfilecolumns_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY dataloggerfilecolumns
@@ -21120,7 +21121,7 @@ ALTER TABLE ONLY dataloggerfilecolumns
 
 --
 -- TOC entry 4208 (class 2606 OID 70582)
--- Name: dataloggerfiles_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: dataloggerfiles_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY dataloggerfiles
@@ -21129,7 +21130,7 @@ ALTER TABLE ONLY dataloggerfiles
 
 --
 -- TOC entry 4210 (class 2606 OID 70593)
--- Name: dataloggerprogramfiles_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: dataloggerprogramfiles_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY dataloggerprogramfiles
@@ -21138,7 +21139,7 @@ ALTER TABLE ONLY dataloggerprogramfiles
 
 --
 -- TOC entry 4190 (class 2606 OID 70513)
--- Name: dataquality_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: dataquality_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY dataquality
@@ -21147,7 +21148,7 @@ ALTER TABLE ONLY dataquality
 
 --
 -- TOC entry 4266 (class 2606 OID 70856)
--- Name: datasetcitations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: datasetcitations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY datasetcitations
@@ -21156,7 +21157,7 @@ ALTER TABLE ONLY datasetcitations
 
 --
 -- TOC entry 4105 (class 2606 OID 70153)
--- Name: datasets_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: datasets_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY datasets
@@ -21165,7 +21166,7 @@ ALTER TABLE ONLY datasets
 
 --
 -- TOC entry 4107 (class 2606 OID 70161)
--- Name: datasetsresults_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: datasetsresults_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY datasetsresults
@@ -21174,7 +21175,7 @@ ALTER TABLE ONLY datasetsresults
 
 --
 -- TOC entry 4268 (class 2606 OID 70864)
--- Name: derivationequations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: derivationequations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY derivationequations
@@ -21183,7 +21184,7 @@ ALTER TABLE ONLY derivationequations
 
 --
 -- TOC entry 4258 (class 2606 OID 70824)
--- Name: directives_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: directives_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY directives
@@ -21192,7 +21193,7 @@ ALTER TABLE ONLY directives
 
 --
 -- TOC entry 4212 (class 2606 OID 70604)
--- Name: equipment_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: equipment_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY equipment
@@ -21201,7 +21202,7 @@ ALTER TABLE ONLY equipment
 
 --
 -- TOC entry 4075 (class 2606 OID 70021)
--- Name: equipmentannotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: equipmentannotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY equipmentannotations
@@ -21210,7 +21211,7 @@ ALTER TABLE ONLY equipmentannotations
 
 --
 -- TOC entry 4214 (class 2606 OID 70615)
--- Name: equipmentmodels_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: equipmentmodels_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY equipmentmodels
@@ -21219,7 +21220,7 @@ ALTER TABLE ONLY equipmentmodels
 
 --
 -- TOC entry 4216 (class 2606 OID 70623)
--- Name: equipmentused_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: equipmentused_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY equipmentused
@@ -21228,7 +21229,7 @@ ALTER TABLE ONLY equipmentused
 
 --
 -- TOC entry 4228 (class 2606 OID 70677)
--- Name: extensionproperties_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: extensionproperties_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY extensionproperties
@@ -21237,7 +21238,7 @@ ALTER TABLE ONLY extensionproperties
 
 --
 -- TOC entry 4240 (class 2606 OID 70728)
--- Name: externalidentifiersystems_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: externalidentifiersystems_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY externalidentifiersystems
@@ -21246,7 +21247,7 @@ ALTER TABLE ONLY externalidentifiersystems
 
 --
 -- TOC entry 4109 (class 2606 OID 70169)
--- Name: featureactions_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: featureactions_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY featureactions
@@ -21255,7 +21256,7 @@ ALTER TABLE ONLY featureactions
 
 --
 -- TOC entry 4218 (class 2606 OID 70634)
--- Name: instrumentoutputvariables_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: instrumentoutputvariables_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY instrumentoutputvariables
@@ -21264,7 +21265,7 @@ ALTER TABLE ONLY instrumentoutputvariables
 
 --
 -- TOC entry 4220 (class 2606 OID 70642)
--- Name: maintenanceactions_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: maintenanceactions_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY maintenanceactions
@@ -21273,7 +21274,7 @@ ALTER TABLE ONLY maintenanceactions
 
 --
 -- TOC entry 4286 (class 2606 OID 70930)
--- Name: measurementresults_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: measurementresults_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY measurementresults
@@ -21282,7 +21283,7 @@ ALTER TABLE ONLY measurementresults
 
 --
 -- TOC entry 4077 (class 2606 OID 70029)
--- Name: measurementresultvalueannotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: measurementresultvalueannotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY measurementresultvalueannotations
@@ -21291,7 +21292,7 @@ ALTER TABLE ONLY measurementresultvalueannotations
 
 --
 -- TOC entry 4288 (class 2606 OID 70938)
--- Name: measurementresultvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: measurementresultvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY measurementresultvalues
@@ -21300,7 +21301,7 @@ ALTER TABLE ONLY measurementresultvalues
 
 --
 -- TOC entry 4079 (class 2606 OID 70037)
--- Name: methodannotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: methodannotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY methodannotations
@@ -21309,7 +21310,7 @@ ALTER TABLE ONLY methodannotations
 
 --
 -- TOC entry 4270 (class 2606 OID 70872)
--- Name: methodcitations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: methodcitations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY methodcitations
@@ -21318,7 +21319,7 @@ ALTER TABLE ONLY methodcitations
 
 --
 -- TOC entry 4230 (class 2606 OID 70685)
--- Name: methodextensionpropertyvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: methodextensionpropertyvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY methodextensionpropertyvalues
@@ -21327,7 +21328,7 @@ ALTER TABLE ONLY methodextensionpropertyvalues
 
 --
 -- TOC entry 4242 (class 2606 OID 70739)
--- Name: methodexternalidentifiers_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: methodexternalidentifiers_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY methodexternalidentifiers
@@ -21336,7 +21337,7 @@ ALTER TABLE ONLY methodexternalidentifiers
 
 --
 -- TOC entry 4111 (class 2606 OID 70180)
--- Name: methods_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: methods_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY methods
@@ -21345,7 +21346,7 @@ ALTER TABLE ONLY methods
 
 --
 -- TOC entry 4330 (class 2606 OID 71106)
--- Name: modelaffiliations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: modelaffiliations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY modelaffiliations
@@ -21354,7 +21355,7 @@ ALTER TABLE ONLY modelaffiliations
 
 --
 -- TOC entry 4332 (class 2606 OID 71117)
--- Name: models_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: models_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY models
@@ -21363,7 +21364,7 @@ ALTER TABLE ONLY models
 
 --
 -- TOC entry 4113 (class 2606 OID 70191)
--- Name: organizations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: organizations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY organizations
@@ -21372,7 +21373,7 @@ ALTER TABLE ONLY organizations
 
 --
 -- TOC entry 4115 (class 2606 OID 70202)
--- Name: people_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: people_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY people
@@ -21381,7 +21382,7 @@ ALTER TABLE ONLY people
 
 --
 -- TOC entry 4244 (class 2606 OID 70750)
--- Name: personexternalidentifiers_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: personexternalidentifiers_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY personexternalidentifiers
@@ -21390,7 +21391,7 @@ ALTER TABLE ONLY personexternalidentifiers
 
 --
 -- TOC entry 4290 (class 2606 OID 70943)
--- Name: pointcoverageresults_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: pointcoverageresults_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY pointcoverageresults
@@ -21399,7 +21400,7 @@ ALTER TABLE ONLY pointcoverageresults
 
 --
 -- TOC entry 4081 (class 2606 OID 70045)
--- Name: pointcoverageresultvalueannotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: pointcoverageresultvalueannotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY pointcoverageresultvalueannotations
@@ -21408,7 +21409,7 @@ ALTER TABLE ONLY pointcoverageresultvalueannotations
 
 --
 -- TOC entry 4292 (class 2606 OID 70954)
--- Name: pointcoverageresultvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: pointcoverageresultvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY pointcoverageresultvalues
@@ -21417,7 +21418,7 @@ ALTER TABLE ONLY pointcoverageresultvalues
 
 --
 -- TOC entry 4117 (class 2606 OID 70213)
--- Name: processinglevels_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: processinglevels_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY processinglevels
@@ -21426,7 +21427,7 @@ ALTER TABLE ONLY processinglevels
 
 --
 -- TOC entry 4294 (class 2606 OID 70959)
--- Name: profileresults_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: profileresults_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY profileresults
@@ -21435,7 +21436,7 @@ ALTER TABLE ONLY profileresults
 
 --
 -- TOC entry 4083 (class 2606 OID 70053)
--- Name: profileresultvalueannotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: profileresultvalueannotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY profileresultvalueannotations
@@ -21444,7 +21445,7 @@ ALTER TABLE ONLY profileresultvalueannotations
 
 --
 -- TOC entry 4296 (class 2606 OID 70970)
--- Name: profileresultvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: profileresultvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY profileresultvalues
@@ -21453,7 +21454,7 @@ ALTER TABLE ONLY profileresultvalues
 
 --
 -- TOC entry 4246 (class 2606 OID 70761)
--- Name: referencematerialexternalidentifiers_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: referencematerialexternalidentifiers_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY referencematerialexternalidentifiers
@@ -21462,7 +21463,7 @@ ALTER TABLE ONLY referencematerialexternalidentifiers
 
 --
 -- TOC entry 4192 (class 2606 OID 70521)
--- Name: referencematerials_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: referencematerials_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY referencematerials
@@ -21471,7 +21472,7 @@ ALTER TABLE ONLY referencematerials
 
 --
 -- TOC entry 4194 (class 2606 OID 70526)
--- Name: referencematerialvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: referencematerialvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY referencematerialvalues
@@ -21480,7 +21481,7 @@ ALTER TABLE ONLY referencematerialvalues
 
 --
 -- TOC entry 4119 (class 2606 OID 70221)
--- Name: relatedactions_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: relatedactions_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY relatedactions
@@ -21489,7 +21490,7 @@ ALTER TABLE ONLY relatedactions
 
 --
 -- TOC entry 4272 (class 2606 OID 70880)
--- Name: relatedannotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: relatedannotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY relatedannotations
@@ -21498,7 +21499,7 @@ ALTER TABLE ONLY relatedannotations
 
 --
 -- TOC entry 4274 (class 2606 OID 70888)
--- Name: relatedcitations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: relatedcitations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY relatedcitations
@@ -21507,7 +21508,7 @@ ALTER TABLE ONLY relatedcitations
 
 --
 -- TOC entry 4276 (class 2606 OID 70896)
--- Name: relateddatasets_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: relateddatasets_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY relateddatasets
@@ -21516,7 +21517,7 @@ ALTER TABLE ONLY relateddatasets
 
 --
 -- TOC entry 4222 (class 2606 OID 70650)
--- Name: relatedequipment_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: relatedequipment_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY relatedequipment
@@ -21525,7 +21526,7 @@ ALTER TABLE ONLY relatedequipment
 
 --
 -- TOC entry 4318 (class 2606 OID 71058)
--- Name: relatedfeatures_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: relatedfeatures_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY relatedfeatures
@@ -21534,7 +21535,7 @@ ALTER TABLE ONLY relatedfeatures
 
 --
 -- TOC entry 4334 (class 2606 OID 71125)
--- Name: relatedmodels_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: relatedmodels_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY relatedmodels
@@ -21543,7 +21544,7 @@ ALTER TABLE ONLY relatedmodels
 
 --
 -- TOC entry 4278 (class 2606 OID 70904)
--- Name: relatedresults_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: relatedresults_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY relatedresults
@@ -21552,7 +21553,7 @@ ALTER TABLE ONLY relatedresults
 
 --
 -- TOC entry 4085 (class 2606 OID 70061)
--- Name: resultannotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: resultannotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY resultannotations
@@ -21561,7 +21562,7 @@ ALTER TABLE ONLY resultannotations
 
 --
 -- TOC entry 4280 (class 2606 OID 70909)
--- Name: resultderivationequations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: resultderivationequations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY resultderivationequations
@@ -21570,7 +21571,7 @@ ALTER TABLE ONLY resultderivationequations
 
 --
 -- TOC entry 4232 (class 2606 OID 70693)
--- Name: resultextensionpropertyvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: resultextensionpropertyvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY resultextensionpropertyvalues
@@ -21579,7 +21580,7 @@ ALTER TABLE ONLY resultextensionpropertyvalues
 
 --
 -- TOC entry 4196 (class 2606 OID 70531)
--- Name: resultnormalizationvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: resultnormalizationvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY resultnormalizationvalues
@@ -21588,7 +21589,7 @@ ALTER TABLE ONLY resultnormalizationvalues
 
 --
 -- TOC entry 4121 (class 2606 OID 70232)
--- Name: results_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: results_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY results
@@ -21597,7 +21598,7 @@ ALTER TABLE ONLY results
 
 --
 -- TOC entry 4198 (class 2606 OID 70539)
--- Name: resultsdataquality_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: resultsdataquality_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY resultsdataquality
@@ -21606,7 +21607,7 @@ ALTER TABLE ONLY resultsdataquality
 
 --
 -- TOC entry 4087 (class 2606 OID 70069)
--- Name: samplingfeatureannotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: samplingfeatureannotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY samplingfeatureannotations
@@ -21615,7 +21616,7 @@ ALTER TABLE ONLY samplingfeatureannotations
 
 --
 -- TOC entry 4234 (class 2606 OID 70701)
--- Name: samplingfeatureextensionpropertyvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: samplingfeatureextensionpropertyvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY samplingfeatureextensionpropertyvalues
@@ -21624,7 +21625,7 @@ ALTER TABLE ONLY samplingfeatureextensionpropertyvalues
 
 --
 -- TOC entry 4248 (class 2606 OID 70772)
--- Name: samplingfeatureexternalidentifiers_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: samplingfeatureexternalidentifiers_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY samplingfeatureexternalidentifiers
@@ -21633,7 +21634,7 @@ ALTER TABLE ONLY samplingfeatureexternalidentifiers
 
 --
 -- TOC entry 4124 (class 2606 OID 70243)
--- Name: samplingfeatures_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: samplingfeatures_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY samplingfeatures
@@ -21642,7 +21643,7 @@ ALTER TABLE ONLY samplingfeatures
 
 --
 -- TOC entry 4298 (class 2606 OID 70975)
--- Name: sectionresults_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: sectionresults_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY sectionresults
@@ -21651,7 +21652,7 @@ ALTER TABLE ONLY sectionresults
 
 --
 -- TOC entry 4089 (class 2606 OID 70077)
--- Name: sectionresultvalueannotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: sectionresultvalueannotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY sectionresultvalueannotations
@@ -21660,7 +21661,7 @@ ALTER TABLE ONLY sectionresultvalueannotations
 
 --
 -- TOC entry 4300 (class 2606 OID 70986)
--- Name: sectionresultvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: sectionresultvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY sectionresultvalues
@@ -21669,7 +21670,7 @@ ALTER TABLE ONLY sectionresultvalues
 
 --
 -- TOC entry 4336 (class 2606 OID 71136)
--- Name: simulations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: simulations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY simulations
@@ -21678,7 +21679,7 @@ ALTER TABLE ONLY simulations
 
 --
 -- TOC entry 4320 (class 2606 OID 71063)
--- Name: sites_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: sites_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY sites
@@ -21687,7 +21688,7 @@ ALTER TABLE ONLY sites
 
 --
 -- TOC entry 4322 (class 2606 OID 71068)
--- Name: spatialoffsets_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: spatialoffsets_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY spatialoffsets
@@ -21696,7 +21697,7 @@ ALTER TABLE ONLY spatialoffsets
 
 --
 -- TOC entry 4250 (class 2606 OID 70783)
--- Name: spatialreferenceexternalidentifiers_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: spatialreferenceexternalidentifiers_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY spatialreferenceexternalidentifiers
@@ -21705,7 +21706,7 @@ ALTER TABLE ONLY spatialreferenceexternalidentifiers
 
 --
 -- TOC entry 4324 (class 2606 OID 71079)
--- Name: spatialreferences_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: spatialreferences_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY spatialreferences
@@ -21714,7 +21715,7 @@ ALTER TABLE ONLY spatialreferences
 
 --
 -- TOC entry 4260 (class 2606 OID 70829)
--- Name: specimenbatchpostions_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: specimenbatchpostions_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY specimenbatchpostions
@@ -21723,7 +21724,7 @@ ALTER TABLE ONLY specimenbatchpostions
 
 --
 -- TOC entry 4326 (class 2606 OID 71087)
--- Name: specimens_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: specimens_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY specimens
@@ -21732,7 +21733,7 @@ ALTER TABLE ONLY specimens
 
 --
 -- TOC entry 4328 (class 2606 OID 71095)
--- Name: specimentaxonomicclassifiers_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: specimentaxonomicclassifiers_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY specimentaxonomicclassifiers
@@ -21741,7 +21742,7 @@ ALTER TABLE ONLY specimentaxonomicclassifiers
 
 --
 -- TOC entry 4302 (class 2606 OID 70991)
--- Name: spectraresults_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: spectraresults_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY spectraresults
@@ -21750,7 +21751,7 @@ ALTER TABLE ONLY spectraresults
 
 --
 -- TOC entry 4091 (class 2606 OID 70085)
--- Name: spectraresultvalueannotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: spectraresultvalueannotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY spectraresultvalueannotations
@@ -21759,7 +21760,7 @@ ALTER TABLE ONLY spectraresultvalueannotations
 
 --
 -- TOC entry 4304 (class 2606 OID 71002)
--- Name: spectraresultvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: spectraresultvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY spectraresultvalues
@@ -21768,7 +21769,7 @@ ALTER TABLE ONLY spectraresultvalues
 
 --
 -- TOC entry 4252 (class 2606 OID 70794)
--- Name: taxonomicclassifierexternalidentifiers_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: taxonomicclassifierexternalidentifiers_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY taxonomicclassifierexternalidentifiers
@@ -21777,7 +21778,7 @@ ALTER TABLE ONLY taxonomicclassifierexternalidentifiers
 
 --
 -- TOC entry 4126 (class 2606 OID 70251)
--- Name: taxonomicclassifiers_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: taxonomicclassifiers_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY taxonomicclassifiers
@@ -21786,7 +21787,7 @@ ALTER TABLE ONLY taxonomicclassifiers
 
 --
 -- TOC entry 4306 (class 2606 OID 71007)
--- Name: timeseriesresults_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: timeseriesresults_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY timeseriesresults
@@ -21795,7 +21796,7 @@ ALTER TABLE ONLY timeseriesresults
 
 --
 -- TOC entry 4093 (class 2606 OID 70093)
--- Name: timeseriesresultvalueannotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: timeseriesresultvalueannotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY timeseriesresultvalueannotations
@@ -21804,7 +21805,7 @@ ALTER TABLE ONLY timeseriesresultvalueannotations
 
 --
 -- TOC entry 4308 (class 2606 OID 71018)
--- Name: timeseriesresultvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: timeseriesresultvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY timeseriesresultvalues
@@ -21813,7 +21814,7 @@ ALTER TABLE ONLY timeseriesresultvalues
 
 --
 -- TOC entry 4310 (class 2606 OID 71023)
--- Name: trajectoryresults_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: trajectoryresults_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY trajectoryresults
@@ -21822,7 +21823,7 @@ ALTER TABLE ONLY trajectoryresults
 
 --
 -- TOC entry 4095 (class 2606 OID 70101)
--- Name: trajectoryresultvalueannotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: trajectoryresultvalueannotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY trajectoryresultvalueannotations
@@ -21831,7 +21832,7 @@ ALTER TABLE ONLY trajectoryresultvalueannotations
 
 --
 -- TOC entry 4312 (class 2606 OID 71034)
--- Name: trajectoryresultvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: trajectoryresultvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY trajectoryresultvalues
@@ -21840,7 +21841,7 @@ ALTER TABLE ONLY trajectoryresultvalues
 
 --
 -- TOC entry 4314 (class 2606 OID 71039)
--- Name: transectresults_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: transectresults_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY transectresults
@@ -21849,7 +21850,7 @@ ALTER TABLE ONLY transectresults
 
 --
 -- TOC entry 4097 (class 2606 OID 70109)
--- Name: transectresultvalueannotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: transectresultvalueannotations_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY transectresultvalueannotations
@@ -21858,7 +21859,7 @@ ALTER TABLE ONLY transectresultvalueannotations
 
 --
 -- TOC entry 4316 (class 2606 OID 71050)
--- Name: transectresultvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: transectresultvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY transectresultvalues
@@ -21867,7 +21868,7 @@ ALTER TABLE ONLY transectresultvalues
 
 --
 -- TOC entry 4128 (class 2606 OID 70262)
--- Name: units_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: units_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY units
@@ -21876,7 +21877,7 @@ ALTER TABLE ONLY units
 
 --
 -- TOC entry 4236 (class 2606 OID 70709)
--- Name: variableextensionpropertyvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: variableextensionpropertyvalues_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY variableextensionpropertyvalues
@@ -21885,7 +21886,7 @@ ALTER TABLE ONLY variableextensionpropertyvalues
 
 --
 -- TOC entry 4254 (class 2606 OID 70805)
--- Name: variableexternalidentifiers_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: variableexternalidentifiers_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY variableexternalidentifiers
@@ -21894,7 +21895,7 @@ ALTER TABLE ONLY variableexternalidentifiers
 
 --
 -- TOC entry 4130 (class 2606 OID 70273)
--- Name: variables_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace: 
+-- Name: variables_pkey; Type: CONSTRAINT; Schema: odm2; Owner: -; Tablespace:
 --
 
 ALTER TABLE ONLY variables
@@ -21903,7 +21904,7 @@ ALTER TABLE ONLY variables
 
 --
 -- TOC entry 4122 (class 1259 OID 72583)
--- Name: idx_samplingfeature_featuregeom; Type: INDEX; Schema: odm2; Owner: -; Tablespace: 
+-- Name: idx_samplingfeature_featuregeom; Type: INDEX; Schema: odm2; Owner: -; Tablespace:
 --
 
 CREATE INDEX idx_samplingfeature_featuregeom ON samplingfeatures USING gist (featuregeometry);
