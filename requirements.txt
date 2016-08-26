@@ -1,7 +1,7 @@
 pyodbc
 six
 sqlalchemy
--e git+https://github.com/ODM2/geoalchemy.git@v0.7.4#egg=geoalchemy-0.7.4
+#-e git+https://github.com/ODM2/geoalchemy.git@v0.7.4#egg=geoalchemy-0.7.4
 shapely
 pandas
 #psycopg2  # Commented out because I could not pip install it.

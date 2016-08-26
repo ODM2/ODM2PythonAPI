@@ -1,15 +1,9 @@
-from sqlalchemy import BigInteger, Column, Date, DateTime, Float, ForeignKey, Integer, String, Boolean, BLOB, case
+from sqlalchemy import BigInteger, Column, Date, DateTime, Float, ForeignKey, Integer, String, Boolean, case
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects import postgresql, mysql, sqlite
-# from sqlalchemy.dialects.sqlite import BIT
 
-
-from geoalchemy import GeometryDDL, GeometryColumn
-from geoalchemy.geometry import Geometry
-from shapely import wkb, wkt
 
 from odm2api.base import modelBase
-# from apiCustomType import Geometry
 
 Base = modelBase.Base
 
@@ -18,8 +12,8 @@ BigIntegerType = BigIntegerType.with_variant(sqlite.INTEGER(), 'sqlite')
 BigIntegerType = BigIntegerType.with_variant(postgresql.BIGINT(), 'postgresql')
 BigIntegerType = BigIntegerType.with_variant(mysql.BIGINT(), 'mysql')
 
-# BooleanType = Boolean()
-# BooleanType =BooleanType.with_variant(sqlite.BIT(), 'sqlite')
+
+
 
 
 def is_hex(s):
@@ -279,9 +273,8 @@ class SamplingFeatures(Base):
                                       index=True)
     Elevation_m = Column('elevation_m', Float(53))
     ElevationDatumCV = Column('elevationdatumcv', ForeignKey(CVElevationDatum.Name), index=True)
-    FeatureGeometry = Column('featuregeometry',  String(50))#Geometry)  #
+    #FeatureGeometry = Column('featuregeometry',  String(50))
     FeatureGeometryWKT = Column('featuregeometrywkt', String(50))
-    # FeatureGeometry = Column('featuregeometry', BLOB)  # custom geometry queries
     __mapper_args__ = {
         # 'polymorphic_on': SamplingFeatureTypeCV,
         "polymorphic_on":case([
@@ -293,41 +286,13 @@ class SamplingFeatures(Base):
     }
 
 
-
-    # def shape(self):
-    #     """
-    #     Method name based on shapely shapely.geometry.shape() function.
-    #     Returns a shapely geometry object
-    #     :return geomshape:
-    #     """
-    #     _FeatureGeometry = self.FeatureGeometry
-    #     geomshape = None
-    #     if _FeatureGeometry is not None:
-    #         print _FeatureGeometry
-    #         print _FeatureGeometry.geom_wkb
-    #         if is_hex(_FeatureGeometry.geom_wkb):
-    #             # to parse wkb hex string directly
-    #             geomshape = wkb.loads(_FeatureGeometry.geom_wkb, hex=True)
-    #             # _FeatureGeometry = GeometryColumn('featuregeometry', Geometry)
-    #         else:
-    #             geomshape = wkt.loads(str(_FeatureGeometry.geom_wkb))
-    #
-    #     return geomshape
-
     def __repr__(self):
-        # geom = self.shape()
-        # if geom is not None:
-        #     geomkt = geom.wkt
-        # else:
-        #     geomkt = None
 
         return "<SamplingFeatures('%s', '%s', '%s', '%s', '%s')>" % (
             self.SamplingFeatureCode, self.SamplingFeatureName, self.SamplingFeatureDescription,
             # self.Elevation_m, geomkt)
             self.Elevation_m, self.FeatureGeometryWKT)
 
-
-# GeometryDDL(SamplingFeatures.__table__)  # Geoalchemy1
 
 
 class FeatureActions(Base):
