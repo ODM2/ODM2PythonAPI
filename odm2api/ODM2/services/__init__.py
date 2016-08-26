@@ -38,9 +38,9 @@ __all__ = [
     'updateExtensionProperties'
 ]
 '''
-from createService import CreateODM2
-from deleteService import DeleteODM2
-from readService import ReadODM2
-from updateService import UpdateODM2
+from odm2api.ODM2.services.createService import CreateODM2
+from odm2api.ODM2.services.deleteService import DeleteODM2
+from odm2api.ODM2.services.readService import ReadODM2
+from odm2api.ODM2.services.updateService import UpdateODM2
 
 __all__= ['CreateODM2', 'DeleteODM2', 'ReadODM2', 'UpdateODM2' ]

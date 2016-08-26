@@ -1,7 +1,7 @@
 import sqlite3
 
 #from ...versionSwitcher import ODM
-from series_service import SeriesService
+from odm2api.ODM1_1_1.services import SeriesService
 
 #from odmtools.odmdata import series as series_module
 
