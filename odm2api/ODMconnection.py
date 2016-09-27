@@ -3,9 +3,9 @@ from sqlalchemy.exc import SQLAlchemyError, DBAPIError
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from .ODM2.models import Variables as Variable2, setSchema
+from odm2api.ODM2.models import Variables as Variable2, setSchema
 #from .versionSwitcher import ODM, refreshDB #import Variable as Variable1
-from .ODM1_1_1.services import ODM#, refreshDB
+from odm2api.ODM1_1_1.services import ODM#, refreshDB
 import urllib
 import sys
 import os

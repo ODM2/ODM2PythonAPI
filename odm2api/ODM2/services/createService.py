@@ -151,7 +151,7 @@ class CreateODM2(serviceBase):
     def createTimeSeriesResultValues(self, datavalues):
         try:
             tablename = TimeSeriesResultValues.__tablename__
-            print "I am TS saving name the table name"+ tablename
+            #print ("I am TS saving name the table name", tablename)
             datavalues.to_sql(name="TimeSeriesResultValues",
                               schema=TimeSeriesResultValues.__table_args__['schema'],
                               if_exists='append',

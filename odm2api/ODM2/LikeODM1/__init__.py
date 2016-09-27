@@ -31,7 +31,7 @@ from memory_database import MemoryDatabase
 from series import copy_series
 from data_value import copy_data_value
 '''
-import models
+import odm2api.ODM1_1_1.models
 
 __all__ = [
     'Base',

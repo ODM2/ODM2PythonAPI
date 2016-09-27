@@ -1,15 +1,9 @@
-from sqlalchemy import BigInteger, Column, Date, DateTime, Float, ForeignKey, Integer, String, Boolean, BLOB, case
+from sqlalchemy import BigInteger, Column, Date, DateTime, Float, ForeignKey, Integer, String, Boolean, case
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects import postgresql, mysql, sqlite
-# from sqlalchemy.dialects.sqlite import BIT
 
-
-from geoalchemy import GeometryDDL, GeometryColumn
-from geoalchemy.geometry import Geometry
-from shapely import wkb, wkt
 
 from odm2api.base import modelBase
-# from apiCustomType import Geometry
 
 Base = modelBase.Base
 
@@ -18,8 +12,8 @@ BigIntegerType = BigIntegerType.with_variant(sqlite.INTEGER(), 'sqlite')
 BigIntegerType = BigIntegerType.with_variant(postgresql.BIGINT(), 'postgresql')
 BigIntegerType = BigIntegerType.with_variant(mysql.BIGINT(), 'mysql')
 
-# BooleanType = Boolean()
-# BooleanType =BooleanType.with_variant(sqlite.BIT(), 'sqlite')
+
+
 
 
 def is_hex(s):
@@ -279,9 +273,8 @@ class SamplingFeatures(Base):
                                       index=True)
     Elevation_m = Column('elevation_m', Float(53))
     ElevationDatumCV = Column('elevationdatumcv', ForeignKey(CVElevationDatum.Name), index=True)
-    FeatureGeometry = Column('featuregeometry',  String(50))#Geometry)  #
+    #FeatureGeometry = Column('featuregeometry',  String(50))
     FeatureGeometryWKT = Column('featuregeometrywkt', String(50))
-    # FeatureGeometry = Column('featuregeometry', BLOB)  # custom geometry queries
     __mapper_args__ = {
         # 'polymorphic_on': SamplingFeatureTypeCV,
         "polymorphic_on":case([
@@ -293,41 +286,13 @@ class SamplingFeatures(Base):
     }
 
 
-
-    # def shape(self):
-    #     """
-    #     Method name based on shapely shapely.geometry.shape() function.
-    #     Returns a shapely geometry object
-    #     :return geomshape:
-    #     """
-    #     _FeatureGeometry = self.FeatureGeometry
-    #     geomshape = None
-    #     if _FeatureGeometry is not None:
-    #         print _FeatureGeometry
-    #         print _FeatureGeometry.geom_wkb
-    #         if is_hex(_FeatureGeometry.geom_wkb):
-    #             # to parse wkb hex string directly
-    #             geomshape = wkb.loads(_FeatureGeometry.geom_wkb, hex=True)
-    #             # _FeatureGeometry = GeometryColumn('featuregeometry', Geometry)
-    #         else:
-    #             geomshape = wkt.loads(str(_FeatureGeometry.geom_wkb))
-    #
-    #     return geomshape
-
     def __repr__(self):
-        # geom = self.shape()
-        # if geom is not None:
-        #     geomkt = geom.wkt
-        # else:
-        #     geomkt = None
 
         return "<SamplingFeatures('%s', '%s', '%s', '%s', '%s')>" % (
             self.SamplingFeatureCode, self.SamplingFeatureName, self.SamplingFeatureDescription,
             # self.Elevation_m, geomkt)
             self.Elevation_m, self.FeatureGeometryWKT)
 
-
-# GeometryDDL(SamplingFeatures.__table__)  # Geoalchemy1
 
 
 class FeatureActions(Base):
@@ -1523,10 +1488,10 @@ class PointCoverageResults(Results):
     TimeAggregationInterval = Column('timeaggregationinterval', Float(53), nullable=False)
     TimeAggregationIntervalUnitsID = Column('timeaggregationintervalunitsid', Integer, nullable=False)
 
-    XUnitObj = relationship(Units, primaryjoin='PointCoverageResults.IntendedXSpacingUnitsID == Units.UnitsID')
-    YUnitObj = relationship(Units, primaryjoin='PointCoverageResults.IntendedYSpacingUnitsID == Units.UnitsID')
+    IntendedXSpacingUnitsObj = relationship(Units, primaryjoin='PointCoverageResults.IntendedXSpacingUnitsID == Units.UnitsID')
+    IntendedYSpacingUnitsObj = relationship(Units, primaryjoin='PointCoverageResults.IntendedYSpacingUnitsID == Units.UnitsID')
     SpatialReferenceObj = relationship(SpatialReferences)
-    ZUnitObj = relationship(Units, primaryjoin='PointCoverageResults.ZLocationUnitsID == Units.UnitsID')
+    ZLocationUnitsObj = relationship(Units, primaryjoin='PointCoverageResults.ZLocationUnitsID == Units.UnitsID')
     # ResultObj = relationship(Results, primaryjoin='PointCoverageResults.ResultID == Results.ResultID')
     __mapper_args__ = {'polymorphic_identity':'Point coverage'}
 
@@ -1549,11 +1514,11 @@ class ProfileResults(Results):
     AggregationStatisticCV = Column('aggregationstatisticcv', ForeignKey(CVAggregationStatistic.Name),
                                     nullable=False, index=True)
 
-    TimeUnitObj = relationship(Units, primaryjoin='ProfileResults.IntendedTimeSpacingUnitsID == Units.UnitsID')
-    ZUnitObj = relationship(Units, primaryjoin='ProfileResults.IntendedZSpacingUnitsID == Units.UnitsID')
+    IntendedTimeSpacingUnitsObj = relationship(Units, primaryjoin='ProfileResults.IntendedTimeSpacingUnitsID == Units.UnitsID')
+    IntendedZSpacingUnitsObj = relationship(Units, primaryjoin='ProfileResults.IntendedZSpacingUnitsID == Units.UnitsID')
     SpatialReferenceObj = relationship(SpatialReferences)
-    XUnitObj = relationship(Units, primaryjoin='ProfileResults.XLocationUnitsID == Units.UnitsID')
-    YUnitObj = relationship(Units, primaryjoin='ProfileResults.YLocationUnitsID == Units.UnitsID')
+    XLocationUnitsObj = relationship(Units, primaryjoin='ProfileResults.XLocationUnitsID == Units.UnitsID')
+    YLocationUnitsObj = relationship(Units, primaryjoin='ProfileResults.YLocationUnitsID == Units.UnitsID')
     # ResultObj = relationship(Results, primaryjoin='ProfileResults.ResultID == Results.ResultID')
     __mapper_args__ = {'polymorphic_identity':'Profile Coverage'}
 
@@ -1564,15 +1529,19 @@ class CategoricalResults(Results):
 
     ResultID = Column('resultid', ForeignKey(Results.ResultID), primary_key=True)
     XLocation = Column('xlocation', Float(53))
-    XLocationUnitsID = Column('xlocationunitsid', Integer)
+    XLocationUnitsID = Column('xlocationunitsid', Integer, ForeignKey(Units.UnitsID))
     YLocation = Column('ylocation', Float(53))
-    YLocationUnitsID = Column('ylocationunitsid', Integer)
+    YLocationUnitsID = Column('ylocationunitsid', Integer, ForeignKey(Units.UnitsID))
     ZLocation = Column('zlocation', Float(53))
-    ZLocationUnitsID = Column('zlocationunitsid', Integer)
+    ZLocationUnitsID = Column('zlocationunitsid', Integer, ForeignKey(Units.UnitsID))
     SpatialReferenceID = Column('spatialreferenceid', ForeignKey(SpatialReferences.SpatialReferenceID))
     QualityCodeCV = Column('qualitycodecv', ForeignKey(CVQualityCode.Name), nullable=False, index=True)
 
     SpatialReferenceObj = relationship(SpatialReferences)
+    XLocationUnitsObj = relationship(Units, primaryjoin='CategoricalResults.XLocationUnitsID == Units.UnitsID')
+    YLocationUnitsObj = relationship(Units, primaryjoin='CategoricalResults.YLocationUnitsID == Units.UnitsID')
+    ZLocationUnitsObj = relationship(Units, primaryjoin='CategoricalResults.ZLocationUnitsID == Units.UnitsID')
+
     # ResultObj = relationship(Results, primaryjoin='CategoricalResults.ResultID == Results.ResultID')
     __mapper_args__ = {'polymorphic_identity':'Category coverage'}
 
@@ -1592,10 +1561,10 @@ class TransectResults(Results):
     AggregationStatisticCV = Column('aggregationstatisticcv', ForeignKey(CVAggregationStatistic.Name),
                                     nullable=False, index=True)
 
-    TimeUnitObj = relationship(Units, primaryjoin='TransectResults.IntendedTimeSpacingUnitsID == Units.UnitsID')
-    TransectUnitObj = relationship(Units, primaryjoin='TransectResults.IntendedTransectSpacingUnitsID == Units.UnitsID')
+    IntendedTimeSpacingUnitsObj = relationship(Units, primaryjoin='TransectResults.IntendedTimeSpacingUnitsID == Units.UnitsID')
+    IntendedTransectSpacingUnitsObj = relationship(Units, primaryjoin='TransectResults.IntendedTransectSpacingUnitsID == Units.UnitsID')
     SpatialReferenceObj = relationship(SpatialReferences)
-    ZUnitObj = relationship(Units, primaryjoin='TransectResults.ZLocationUnitsID == Units.UnitsID')
+    ZLocationUnitsObj = relationship(Units, primaryjoin='TransectResults.ZLocationUnitsID == Units.UnitsID')
     # ResultObj = relationship(Results, primaryjoin='TransectResults.ResultID == Results.ResultID')
     __mapper_args__ = {'polymorphic_identity':'Transect Coverage'}
 
@@ -1617,11 +1586,11 @@ class SpectraResults(Results):
     AggregationStatisticCV = Column('aggregationstatisticcv', ForeignKey(CVAggregationStatistic.Name),
                                     nullable=False, index=True)
 
-    WaveUnitObj = relationship(Units, primaryjoin='SpectraResults.IntendedWavelengthSpacingUnitsID == Units.UnitsID')
+    IntendedWavelengthSpacingUnitsObj = relationship(Units, primaryjoin='SpectraResults.IntendedWavelengthSpacingUnitsID == Units.UnitsID')
     SpatialReferenceObj = relationship(SpatialReferences)
-    XUnitObj = relationship(Units, primaryjoin='SpectraResults.XLocationUnitsID == Units.UnitsID')
-    YUnitObj = relationship(Units, primaryjoin='SpectraResults.YLocationUnitsID == Units.UnitsID')
-    ZUnitObj = relationship(Units, primaryjoin='SpectraResults.ZLocationUnitsID == Units.UnitsID')
+    XLocationUnitsObj = relationship(Units, primaryjoin='SpectraResults.XLocationUnitsID == Units.UnitsID')
+    YLocationUnitsObj = relationship(Units, primaryjoin='SpectraResults.YLocationUnitsID == Units.UnitsID')
+    ZLocationUnitsObj = relationship(Units, primaryjoin='SpectraResults.ZLocationUnitsID == Units.UnitsID')
     # ResultObj = relationship(Results, primaryjoin='SpectraResults.ResultID == Results.ResultID')
     __mapper_args__ = {'polymorphic_identity':'Spectra coverage'}
 
@@ -1653,12 +1622,11 @@ class TimeSeriesResults(Results):
     # ResultObj = relationship(Results, primaryjoin='TimeSeriesResults.ResultID == Results.ResultID')
     __mapper_args__ = {'polymorphic_identity':'Time series coverage'}
 
-    def __repr__(self):
-        return "<TimeSeriesResult('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')>" % \
-               ( self.FeatureActionID, self.ProcessingLevelID, self.VariableID, self.ProcessinglevelID,
-                 self.self.XLocation, self.YLocation,
-                self.ResultTypeCV,
-                self.IntendedTimeSpacing, self.AggregationStatisticCV)
+    # def __repr__(self):
+    #     return "<TimeSeriesResults('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')>" % \
+    #            ( self.FeatureActionID, self.ProcessingLevelID, self.VariableID,
+    #              self.self.XLocation, self.YLocation, self.ResultTypeCV,
+    #             self.IntendedTimeSpacing, self.AggregationStatisticCV)
 
 
 class SectionResults(Results):
@@ -1678,11 +1646,11 @@ class SectionResults(Results):
     AggregationStatisticCV = Column('aggregationstatisticcv', ForeignKey(CVAggregationStatistic.Name),
                                     nullable=False, index=True)
 
-    TimeUnitObj = relationship(Units, primaryjoin='SectionResults.IntendedTimeSpacingUnitsID == Units.UnitsID')
-    XUnitObj = relationship(Units, primaryjoin='SectionResults.IntendedXSpacingUnitsID == Units.UnitsID')
-    ZUnitObj = relationship(Units, primaryjoin='SectionResults.IntendedZSpacingUnitsID == Units.UnitsID')
+    IntendedTimeSpacingUnitsObj = relationship(Units, primaryjoin='SectionResults.IntendedTimeSpacingUnitsID == Units.UnitsID')
+    IntendedXSpacingUnitsObj = relationship(Units, primaryjoin='SectionResults.IntendedXSpacingUnitsID == Units.UnitsID')
+    IntendedZSpacingUnitsObj = relationship(Units, primaryjoin='SectionResults.IntendedZSpacingUnitsID == Units.UnitsID')
     SpatialReferenceObj = relationship(SpatialReferences)
-    YUnitObj = relationship(Units, primaryjoin='SectionResults.YLocationUnitsID == Units.UnitsID')
+    YLocationUnitsObj = relationship(Units, primaryjoin='SectionResults.YLocationUnitsID == Units.UnitsID')
     # ResultObj = relationship(Results, primaryjoin='SectionResults.ResultID == Results.ResultID')
     __mapper_args__ = {'polymorphic_identity':'Section coverage'}
 
@@ -1700,8 +1668,8 @@ class TrajectoryResults(Results):
     AggregationStatisticCV = Column('aggregationstatisticcv', ForeignKey(CVAggregationStatistic.Name),
                                     nullable=False, index=True)
 
-    TimeUnitObj = relationship(Units, primaryjoin='TrajectoryResults.IntendedTimeSpacingUnitsID == Units.UnitsID')
-    TrajectoryUnitObj = relationship(Units,
+    IntendedTimeSpacingUnitsObj = relationship(Units, primaryjoin='TrajectoryResults.IntendedTimeSpacingUnitsID == Units.UnitsID')
+    IntendedTrajectorySpacingUnitsObj = relationship(Units,
                                      primaryjoin='TrajectoryResults.IntendedTrajectorySpacingUnitsID == Units.UnitsID')
     SpatialReferenceObj = relationship(SpatialReferences)
     # ResultObj = relationship(Results, primaryjoin='TrajectoryResults.ResultID == Results.ResultID')
@@ -1729,7 +1697,7 @@ class MeasurementResults(Results):
                                             nullable=False)
 
     SpatialReferenceObj = relationship(SpatialReferences)
-    TimeUnitObj = relationship(Units, primaryjoin='MeasurementResults.TimeAggregationIntervalUnitsID == Units.UnitsID')
+    TimeAggregationIntervalUnitsObj = relationship(Units, primaryjoin='MeasurementResults.TimeAggregationIntervalUnitsID == Units.UnitsID')
     XLocationUnitsObj = relationship(Units, primaryjoin='MeasurementResults.XLocationUnitsID == Units.UnitsID')
     YLocationUnitsObj = relationship(Units, primaryjoin='MeasurementResults.YLocationUnitsID == Units.UnitsID')
     ZLocationUnitsObj = relationship(Units, primaryjoin='MeasurementResults.ZLocationUnitsID == Units.UnitsID')
@@ -1753,7 +1721,7 @@ class CategoricalResultValues(Base):
     ValueDateTime = Column('valuedatetime', DateTime, nullable=False)
     ValueDateTimeUTCOffset = Column('valuedatetimeutcoffset', Integer, nullable=False)
 
-    CategoricalResultObj = relationship(CategoricalResults)
+    ResultObj = relationship(CategoricalResults)
 
 
 class MeasurementResultValues(Base):
@@ -1766,7 +1734,7 @@ class MeasurementResultValues(Base):
     ValueDateTime = Column('valuedatetime', DateTime, nullable=False)
     ValueDateTimeUTCOffset = Column('valuedatetimeutcoffset', Integer, nullable=False)
 
-    MeasurementResultObj = relationship(MeasurementResults)
+    ResultObj = relationship(MeasurementResults)
 
     def __repr__(self):
         return "<MeasValues('%s', '%s', '%s')>" % (self.DataValue, self.ValueDateTime, self.ResultID)
@@ -1788,9 +1756,9 @@ class PointCoverageResultValues(Base):
     CensorCodeCV = Column('censorcodecv', ForeignKey(CVCensorCode.Name), nullable=False, index=True)
     QualityCodeCV = Column('qualitycodecv', ForeignKey(CVQualityCode.Name), nullable=False, index=True)
 
-    PointCoverageResultObj = relationship(PointCoverageResults)
-    XUnitObj = relationship(Units, primaryjoin='PointCoverageResultValues.XLocationUnitsID == Units.UnitsID')
-    YUnitObj = relationship(Units, primaryjoin='PointCoverageResultValues.YLocationUnitsID == Units.UnitsID')
+    ResultObj = relationship(PointCoverageResults)
+    XLocationUnitsObj = relationship(Units, primaryjoin='PointCoverageResultValues.XLocationUnitsID == Units.UnitsID')
+    YLocationUnitsobj = relationship(Units, primaryjoin='PointCoverageResultValues.YLocationUnitsID == Units.UnitsID')
 
 
 class ProfileResultValues(Base):
@@ -1811,9 +1779,9 @@ class ProfileResultValues(Base):
     TimeAggregationIntervalUnitsID = Column('timeaggregationintervalunitsid', ForeignKey(Units.UnitsID),
                                             nullable=False)
 
-    ProfileResultObj = relationship(ProfileResults)
-    TimeUnitObj = relationship(Units, primaryjoin='ProfileResultValues.TimeAggregationIntervalUnitsID == Units.UnitsID')
-    ZUnitObj = relationship(Units, primaryjoin='ProfileResultValues.ZLocationUnitsID == Units.UnitsID')
+    ResultObj = relationship(ProfileResults)
+    TimeAggregationIntervalUnitsObj = relationship(Units, primaryjoin='ProfileResultValues.TimeAggregationIntervalUnitsID == Units.UnitsID')
+    ZLocationUnitsObj = relationship(Units, primaryjoin='ProfileResultValues.ZLocationUnitsID == Units.UnitsID')
 
 
 class SectionResultValues(Base):
@@ -1839,10 +1807,10 @@ class SectionResultValues(Base):
     TimeAggregationIntervalUnitsID = Column('timeaggregationintervalunitsid', ForeignKey(Units.UnitsID),
                                             nullable=False)
 
-    SectionResultObj = relationship(SectionResults)
-    TimeUnitObj = relationship(Units, primaryjoin='SectionResultValues.TimeAggregationIntervalUnitsID == Units.UnitsID')
-    XUnitObj = relationship(Units, primaryjoin='SectionResultValues.XLocationUnitsID == Units.UnitsID')
-    ZUnitObj = relationship(Units, primaryjoin='SectionResultValues.ZLocationUnitsID == Units.UnitsID')
+    ResultObj = relationship(SectionResults)
+    TimeAggregationIntervalUnitsObj = relationship(Units, primaryjoin='SectionResultValues.TimeAggregationIntervalUnitsID == Units.UnitsID')
+    XLocationUnitsObj = relationship(Units, primaryjoin='SectionResultValues.XLocationUnitsID == Units.UnitsID')
+    ZLocationUnitsObj = relationship(Units, primaryjoin='SectionResultValues.ZLocationUnitsID == Units.UnitsID')
 
 
 class SpectraResultValues(Base):
@@ -1863,9 +1831,9 @@ class SpectraResultValues(Base):
     TimeAggregationIntervalUnitsID = Column('timeaggregationintervalunitsid', ForeignKey(Units.UnitsID),
                                             nullable=False)
 
-    SpectraResultObj = relationship(SpectraResults)
-    TimeUnitObj = relationship(Units, primaryjoin='SpectraResultValues.TimeAggregationIntervalUnitsID == Units.UnitsID')
-    WavelengthUnitObj = relationship(Units, primaryjoin='SpectraResultValues.WavelengthUnitsID == Units.UnitsID')
+    ResultObj = relationship(SpectraResults)
+    TimeAggregationIntervalUnitsObj = relationship(Units, primaryjoin='SpectraResultValues.TimeAggregationIntervalUnitsID == Units.UnitsID')
+    WavelengthUnitsObj = relationship(Units, primaryjoin='SpectraResultValues.WavelengthUnitsID == Units.UnitsID')
 
 
 class TimeSeriesResultValues(Base):
@@ -1883,8 +1851,8 @@ class TimeSeriesResultValues(Base):
     TimeAggregationIntervalUnitsID = Column('timeaggregationintervalunitsid', ForeignKey(Units.UnitsID),
                                             nullable=False)
 
-    TimeSeriesResultObj = relationship(TimeSeriesResults)
-    TimeUnitObj = relationship(Units)
+    ResultObj = relationship(TimeSeriesResults)
+    TimeAggregationIntervalUnitsObj = relationship(Units)
 
     def get_columns(self):
         return ["ValueID", "ResultID", "DataValue", "ValueDateTime", "ValueDateTimeUTCOffset",
@@ -1924,12 +1892,12 @@ class TrajectoryResultValues(Base):
     TimeAggregationIntervalUnitsID = Column('timeaggregationintervalunitsid', ForeignKey(Units.UnitsID),
                                             nullable=False)
 
-    TrajectoryResultObj = relationship(TrajectoryResults)
-    TimeUnitObj = relationship(Units,
+    ResultObj = relationship(TrajectoryResults)
+    TimeAggregationIntervalUnitsObj = relationship(Units,
                                primaryjoin='TrajectoryResultValues.TimeAggregationIntervalUnitsID == Units.UnitsID')
-    XUnitObj = relationship(Units, primaryjoin='TrajectoryResultValues.XLocationUnitsID == Units.UnitsID')
-    YUnitObj = relationship(Units, primaryjoin='TrajectoryResultValues.YLocationUnitsID == Units.UnitsID')
-    ZUnitObj = relationship(Units, primaryjoin='TrajectoryResultValues.ZLocationUnitsID == Units.UnitsID')
+    XLocationUnitsObj = relationship(Units, primaryjoin='TrajectoryResultValues.XLocationUnitsID == Units.UnitsID')
+    YLocationUnitsObj = relationship(Units, primaryjoin='TrajectoryResultValues.YLocationUnitsID == Units.UnitsID')
+    ZLocationUnitsObj = relationship(Units, primaryjoin='TrajectoryResultValues.ZLocationUnitsID == Units.UnitsID')
 
 
 class TransectResultValues(Base):
@@ -1942,20 +1910,25 @@ class TransectResultValues(Base):
     ValueDateTime = Column('valuedatetime', DateTime, nullable=False)
     ValueDateTimeUTCOffset = Column('valuedatetimeutcoffset', DateTime, nullable=False)
     XLocation = Column('xlocation', Float(53), nullable=False)
-    XLocationUnitsID = Column('xlocationunitsid', Integer, nullable=False)
+    XLocationUnitsID = Column('xlocationunitsid', ForeignKey(Units.UnitsID), nullable=False)
     YLocation = Column('ylocation', Float(53), nullable=False)
-    YLocationUnitsID = Column('ylocationunitsid', Integer, nullable=False)
+    YLocationUnitsID = Column('ylocationunitsid', ForeignKey(Units.UnitsID), nullable=False)
     TransectDistance = Column('transectdistance', Float(53), nullable=False)
     TransectDistanceAggregationInterval = Column('transectdistanceaggregationinterval', Float(53), nullable=False)
-    TransectDistanceUnitsID = Column('transectdistanceunitsid', Integer, nullable=False)
+    TransectDistanceUnitsID = Column('transectdistanceunitsid', ForeignKey(Units.UnitsID), nullable=False)
     CensorCodeCV = Column('censorcodecv', ForeignKey(CVCensorCode.Name), nullable=False, index=True)
     QualityCodeCV = Column('qualitycodecv', ForeignKey(CVQualityCode.Name), nullable=False, index=True)
     AggregationStatisticCV = Column('aggregationstatisticcv', ForeignKey(CVAggregationStatistic.Name),
                                     nullable=False, index=True)
     TimeAggregationInterval = Column('timeaggregationinterval', Float(53), nullable=False)
-    TimeAggregationIntervalUnitsID = Column('timeaggregationintervalunitsid', Integer, nullable=False)
+    TimeAggregationIntervalUnitsID = Column('timeaggregationintervalunitsid', ForeignKey(Units.UnitsID), nullable=False)
 
-    TransectResultObj = relationship(TransectResults)
+    ResultObj = relationship(TransectResults)
+    TimeAggregationIntervalUnitsObj = relationship(Units,
+                                                   primaryjoin='TransectResultValues.TimeAggregationIntervalUnitsID == Units.UnitsID')
+    XLocationUnitsObj = relationship(Units, primaryjoin='TransectResultValues.XLocationUnitsID == Units.UnitsID')
+    YLocationUnitsObj = relationship(Units, primaryjoin='TransectResultValues.YLocationUnitsID == Units.UnitsID')
+    TransectDistanceUnitsObj = relationship(Units, primaryjoin='TransectResultValues.TransectDistanceUnitsID == Units.UnitsID')
 
 
 class CategoricalResultValueAnnotations(Base):
