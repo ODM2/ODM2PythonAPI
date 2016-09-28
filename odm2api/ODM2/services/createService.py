@@ -103,6 +103,12 @@ class CreateODM2(serviceBase):
         self._session.commit()
         return action
 
+    def createAnnotations(self, anno):
+        self._session.add(anno)
+        self._session.commit()
+
+        return anno
+    
     def createRelatedAction(self, relatedaction):
         self._session.add(relatedaction)
         self._session.commit()
