@@ -50,7 +50,7 @@ before_install:
   - export PYMSSQL_BUILD_WITH_BUNDLED_FREETDS=1;sudo python -m  pip install pymssql
 #  - python -m  pip install mysql-python
 install: # now just our code
-  - pip install -e git+https://github.com/ODM2/geoalchemy.git@v0.7.4#egg=geoalchemy-0.7.4
+  - sudo pip install -e git+https://github.com/ODM2/geoalchemy.git@v0.7.4#egg=geoalchemy-0.7.4
   - pip install   .
   - pip install  -r requirements_tests.txt  --allow-external pyodbc --allow-unverified pyodbc
     # pysqlite
