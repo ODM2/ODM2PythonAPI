@@ -12,31 +12,31 @@ import odm2api.ODM1_1_1.models as ODM1
 import odm2api.ODM2.LikeODM1.models as ODM2
 
 #Set Default
-global ODM
-ODM = ODM1
+
 
 
 
 class SeriesService(serviceBase):
     # Accepts a string for creating a SessionFactory, default uses odmdata/connection.cfg
 
+    ODM = ODM1
     def refreshDB(self, ver):
         self._version= ver
         if ver == 1.1:
             #global ODM
-            ODM = ODM1
+            self.ODM = ODM1
         elif ver == 2.0:
             #global ODM
-            ODM = ODM2
+            self.ODM = ODM2
         else:
             #global ODM
-            ODM = ODM1
+            self.ODM = ODM1
 
     def reset_session(self):
         self._session = self._session_factory.getSession()  # Reset the session in order to prevent memory leaks
 
     # def get_db_version(self):
-    #     return self._session.query(ODM.ODMVersion).first().version_number
+    #     return self._session.query(self.ODM.ODMVersion).first().version_number
 
 #####################
 #
@@ -50,7 +50,7 @@ class SeriesService(serviceBase):
 
         :return: List[Sites]
         """
-        return self._session.query(ODM.Site).order_by(ODM.Site.code).all()
+        return self._session.query(self.ODM.Site).order_by(self.ODM.Site.code).all()
 
     def get_used_sites(self):
         """
@@ -58,7 +58,7 @@ class SeriesService(serviceBase):
         :return: List[Sites]
         """
         try:
-            site_ids = [x[0] for x in self._session.query(distinct(ODM.Series.site_id)).all()]
+            site_ids = [x[0] for x in self._session.query(distinct(self.ODM.Series.site_id)).all()]
         except:
             site_ids = None
 
@@ -67,7 +67,7 @@ class SeriesService(serviceBase):
 
         Sites = []
         for site_id in site_ids:
-            Sites.append(self._session.query(ODM.Site).filter_by(id=site_id).first())
+            Sites.append(self._session.query(self.ODM.Site).filter_by(id=site_id).first())
 
         return Sites
 
@@ -79,7 +79,7 @@ class SeriesService(serviceBase):
         :return: Sites
         """
         try:
-            return self._session.query(ODM.Site).filter_by(id=site_id).first()
+            return self._session.query(self.ODM.Site).filter_by(id=site_id).first()
         except:
             return None
 
@@ -91,7 +91,7 @@ class SeriesService(serviceBase):
         """
 
         try:
-            var_ids = [x[0] for x in self._session.query(distinct(ODM.Series.variable_id)).all()]
+            var_ids = [x[0] for x in self._session.query(distinct(self.ODM.Series.variable_id)).all()]
         except:
             var_ids = None
 
@@ -102,7 +102,7 @@ class SeriesService(serviceBase):
 
         #create list of variables from the list of ids
         for var_id in var_ids:
-            Variables.append(self._session.query(ODM.Variable).filter_by(id=var_id).first())
+            Variables.append(self._session.query(self.ODM.Variable).filter_by(id=var_id).first())
 
         return Variables
 
@@ -111,7 +111,7 @@ class SeriesService(serviceBase):
 
         :return: List[Variables]
         """
-        return self._session.query(ODM.Variable).all()
+        return self._session.query(self.ODM.Variable).all()
 
     def get_variable_by_id(self, variable_id):
         """
@@ -120,7 +120,7 @@ class SeriesService(serviceBase):
         :return: Variables
         """
         try:
-            return self._session.query(ODM.Variable).filter_by(id=variable_id).first()
+            return self._session.query(self.ODM.Variable).filter_by(id=variable_id).first()
         except:
             return None
 
@@ -131,7 +131,7 @@ class SeriesService(serviceBase):
         :return: Variables
         """
         try:
-            return self._session.query(ODM.Variable).filter_by(code=variable_code).first()
+            return self._session.query(self.ODM.Variable).filter_by(code=variable_code).first()
         except:
             return None
 
@@ -142,14 +142,14 @@ class SeriesService(serviceBase):
         :return: List[Variables]
         """
         try:
-            var_ids = [x[0] for x in self._session.query(distinct(ODM.Series.variable_id)).filter_by(
+            var_ids = [x[0] for x in self._session.query(distinct(self.ODM.Series.variable_id)).filter_by(
                 site_code=site_code).all()]
         except:
             var_ids = None
 
         variables = []
         for var_id in var_ids:
-            variables.append(self._session.query(ODM.Variable).filter_by(id=var_id).first())
+            variables.append(self._session.query(self.ODM.Variable).filter_by(id=var_id).first())
 
         return variables
 
@@ -159,7 +159,7 @@ class SeriesService(serviceBase):
 
         :return: List[Units]
         """
-        return self._session.query(ODM.Unit).all()
+        return self._session.query(self.ODM.Unit).all()
 
     def get_unit_by_name(self, unit_name):
         """
@@ -168,7 +168,7 @@ class SeriesService(serviceBase):
         :return: Units
         """
         try:
-            return self._session.query(ODM.Unit).filter_by(name=unit_name).first()
+            return self._session.query(self.ODM.Unit).filter_by(name=unit_name).first()
         except:
             return None
 
@@ -179,7 +179,7 @@ class SeriesService(serviceBase):
         :return: Units
         """
         try:
-            return self._session.query(ODM.Unit).filter_by(id=unit_id).first()
+            return self._session.query(self.ODM.Unit).filter_by(id=unit_id).first()
         except:
             return None
 
@@ -188,7 +188,7 @@ class SeriesService(serviceBase):
 
         :return: List[Qualifiers]
         """
-        result = self._session.query(ODM.Qualifier).order_by(ODM.Qualifier.code).all()
+        result = self._session.query(self.ODM.Qualifier).order_by(self.ODM.Qualifier.code).all()
         return result
 
     def get_qualifiers_by_series_id(self, series_id):
@@ -197,40 +197,40 @@ class SeriesService(serviceBase):
         :param series_id:
         :return:
         """
-        subquery = self._session.query(ODM.DataValue.qualifier_id).outerjoin(
-            ODM.Series.data_values).filter(ODM.Series.id == series_id, ODM.DataValue.qualifier_id != None).distinct().subquery()
-        return self._session.query(ODM.Qualifier).join(subquery).distinct().all()
+        subquery = self._session.query(self.ODM.DataValue.qualifier_id).outerjoin(
+            ODM.Series.data_values).filter(self.ODM.Series.id == series_id, ODM.DataValue.qualifier_id != None).distinct().subquery()
+        return self._session.query(self.ODM.Qualifier).join(subquery).distinct().all()
 
     #QCL methods
     def get_all_qcls(self):
-        return self._session.query(ODM.QualityControlLevel).all()
+        return self._session.query(self.ODM.QualityControlLevel).all()
 
     def get_qcl_by_id(self, qcl_id):
         try:
-            return self._session.query(ODM.QualityControlLevel).filter_by(id=qcl_id).first()
+            return self._session.query(self.ODM.QualityControlLevel).filter_by(id=qcl_id).first()
         except:
             return None
 
     def get_qcl_by_code(self, qcl_code):
         try:
-            return self._session.query(ODM.QualityControlLevel).filter_by(code=qcl_code).first()
+            return self._session.query(self.ODM.QualityControlLevel).filter_by(code=qcl_code).first()
         except:
             return None
 
     # Method methods
     def get_all_methods(self):
-        return self._session.query(ODM.Method).all()
+        return self._session.query(self.ODM.Method).all()
 
     def get_method_by_id(self, method_id):
         try:
-            result = self._session.query(ODM.Method).filter_by(id=method_id).first()
+            result = self._session.query(self.ODM.Method).filter_by(id=method_id).first()
         except:
             result = None
         return result
 
     def get_method_by_description(self, method_code):
         try:
-            result = self._session.query(ODM.Method).filter_by(description=method_code).first()
+            result = self._session.query(self.ODM.Method).filter_by(description=method_code).first()
         except:
             result = None
         return result
@@ -241,9 +241,9 @@ class SeriesService(serviceBase):
         :param series_id:
         :return:
         """
-        subquery = self._session.query(ODM.DataValue.offset_type_id).outerjoin(
-            ODM.Series.data_values).filter(ODM.Series.id == series_id, ODM.DataValue.offset_type_id != None).distinct().subquery()
-        return self._session.query(ODM.OffsetType).join(subquery).distinct().all()
+        subquery = self._session.query(self.ODM.DataValue.offset_type_id).outerjoin(
+            ODM.Series.data_values).filter(self.ODM.Series.id == series_id, ODM.DataValue.offset_type_id != None).distinct().subquery()
+        return self._session.query(self.ODM.OffsetType).join(subquery).distinct().all()
 
     def get_samples_by_series_id(self, series_id):
         """
@@ -252,8 +252,8 @@ class SeriesService(serviceBase):
         :return:
         """
 
-        subquery = self._session.query(ODM.DataValue.sample_id).outerjoin(ODM.Series.data_values).filter(ODM.Series.id == series_id, ODM.DataValue.sample_id != None).distinct().subquery()
-        return self._session.query(ODM.Sample).join(subquery).distinct().all()
+        subquery = self._session.query(self.ODM.DataValue.sample_id).outerjoin(self.ODM.Series.data_values).filter(self.ODM.Series.id == series_id, ODM.DataValue.sample_id != None).distinct().subquery()
+        return self._session.query(self.ODM.Sample).join(subquery).distinct().all()
 
     # Series Catalog methods
     def get_all_series(self):
@@ -263,7 +263,7 @@ class SeriesService(serviceBase):
         """
 
         #logger.debug("%s" % self._session.query(Series).order_by(Series.id).all())
-        return self._session.query(ODM.Series).order_by(ODM.Series.id).all()
+        return self._session.query(self.ODM.Series).order_by(self.ODM.Series.id).all()
 
     def get_series_by_site(self , site_id):
         """
@@ -272,7 +272,7 @@ class SeriesService(serviceBase):
         :return: List[Series]
         """
         try:
-            selectedSeries = self._session.query(ODM.Series).filter_by(site_id=site_id).order_by(ODM.Series.id).all()
+            selectedSeries = self._session.query(self.ODM.Series).filter_by(site_id=site_id).order_by(self.ODM.Series.id).all()
             return selectedSeries
         except:
             return None
@@ -284,7 +284,7 @@ class SeriesService(serviceBase):
         :return: Series
         """
         try:
-            return self._session.query(ODM.Series).filter_by(id=series_id).first()
+            return self._session.query(self.ODM.Series).filter_by(id=series_id).first()
         except Exception as e:
             print(e)
             return None
@@ -300,7 +300,7 @@ class SeriesService(serviceBase):
         :return: Series
         """
         try:
-            return self._session.query(ODM.Series).filter_by(
+            return self._session.query(self.ODM.Series).filter_by(
                 site_id=site_id, variable_id=var_id, method_id=method_id,
                 source_id=source_id, quality_control_level_id=qcl_id).first()
         except:
@@ -319,7 +319,7 @@ class SeriesService(serviceBase):
         '''
         series= self.get_series_by_id(series_id)
         if series:
-            q = self._session.query(ODM.DataValue).filter_by(
+            q = self._session.query(self.ODM.DataValue).filter_by(
                     site_id=series.site_id,
                     variable_id=series.variable_id,
                     method_id=series.method_id,
@@ -340,7 +340,7 @@ class SeriesService(serviceBase):
 
         :return: Pandas DataFrame object
         """
-        q = self._session.query(ODM.DataValue).order_by(ODM.DataValue.local_date_time)
+        q = self._session.query(self.ODM.DataValue).order_by(self.ODM.DataValue.local_date_time)
         query = q.statement.compile(dialect=self._session_factory.engine.dialect)
         data = pd.read_sql_query(sql=query, con=self._session_factory.engine,
                           params=query.params)
@@ -358,11 +358,11 @@ class SeriesService(serviceBase):
 
         :return:
         """
-        result = self._session.query(ODM.DataValue).order_by(ODM.DataValue.local_date_time).all()
+        result = self._session.query(self.ODM.DataValue).order_by(self.ODM.DataValue.local_date_time).all()
         return [x.list_repr() for x in result]
 
     def get_all_values(self):
-        return self._session.query(ODM.DataValue).order_by(ODM.DataValue.local_date_time).all()
+        return self._session.query(self.ODM.DataValue).order_by(self.ODM.DataValue.local_date_time).all()
 
     @staticmethod
     def calcSeason(row):
@@ -383,14 +383,14 @@ class SeriesService(serviceBase):
 
         :return:
         """
-        q = self._session.query(ODM.DataValue.data_value.label('DataValue'),
+        q = self._session.query(self.ODM.DataValue.data_value.label('DataValue'),
                                    ODM.DataValue.local_date_time.label('LocalDateTime'),
                                    ODM.DataValue.censor_code.label('CensorCode'),
                                    func.strftime('%m', ODM.DataValue.local_date_time).label('Month'),
                                    func.strftime('%Y',ODM.DataValue.local_date_time).label('Year')
                                    #DataValue.local_date_time.strftime('%m'),
                                    #DataValue.local_date_time.strftime('%Y'))
-        ).order_by(ODM.DataValue.local_date_time)
+        ).order_by(self.ODM.DataValue.local_date_time)
         query = q.statement.compile(dialect=self._session_factory.engine.dialect)
         data = pd.read_sql_query(sql=query,
                                  con=self._session_factory.engine,
@@ -430,13 +430,13 @@ class SeriesService(serviceBase):
         :return:
         """
         try:
-            return self._session.query(ODM.DataValue).filter_by(id=id).first()
+            return self._session.query(self.ODM.DataValue).filter_by(id=id).first()
         except:
             return None
 
     def get_all_sources(self):
         try:
-            return self._session.query(ODM.Source).all()
+            return self._session.query(self.ODM.Source).all()
         except:
             return None
 
@@ -663,26 +663,41 @@ class SeriesService(serviceBase):
         :param series:
         :return:
         """
-        self.delete_values_by_series(series)
+        try:
+            self.delete_values_by_series(series)
 
-        delete_series = self._session.merge(series)
-        self._session.delete(delete_series)
-        self._session.commit()
+            delete_series = self._session.merge(series)
+            self._session.delete(delete_series)
+            self._session.commit()
 
-    def delete_values_by_series(self, series):
+        except Exception as e:
+            message = "series was not successfully deleted: %s" % e
+            print message
+            raise e
+
+    def delete_values_by_series(self, series, startdate = None):
         """
 
         :param series:
         :return:
         """
         try:
-            return self._session.query(ODM.DataValue).filter_by(site_id = series.site_id,
+            q=self._session.query(self.ODM.DataValue).filter_by(site_id = series.site_id,
                                                                  variable_id = series.variable_id,
                                                                  method_id = series.method_id,
                                                                  source_id = series.source_id,
-                                                                 quality_control_level_id = series.quality_control_level_id).delete()
-        except:
-            return None
+                                                                 quality_control_level_id = series.quality_control_level_id)
+
+            if startdate is not None:
+                # start date indicates what day you should start deleting values. the values will delete to the end of the series
+                return q.filter(self.ODM.DataValue.local_date_time >= startdate).delete()
+            else:
+                return q.delete()
+        except Exception as ex:
+            message = "Values were not successfully deleted: %s" % ex
+            print message
+            
+            raise ex
 
     def delete_dvs(self, id_list):
         """
@@ -690,7 +705,15 @@ class SeriesService(serviceBase):
         :param id_list: list of ids
         :return:
         """
-        self._session.query(ODM.DataValue).filter(ODM.DataValue.id.in_(id_list)).delete(False)
+        try:
+
+        #self._session.query(self.ODM.DataValue).filter(self.ODM.DataValue.id.in_(id_list)).delete(False)
+            self._edit_session.query(self.ODM.DataValue).filter(self.ODM.DataValue.local_date_time.in_(id_list)).delete(False)
+        except Exception as ex:
+            message = "Values were not successfully deleted: %s" % ex
+            print message
+
+            raise ex
 
 #####################
 #
@@ -724,7 +747,7 @@ class SeriesService(serviceBase):
         :return:
         """
         try:
-            result = self._session.query(ODM.Series).filter_by(
+            result = self._session.query(self.ODM.Series).filter_by(
                 site_id=site_id,
                 variable_id=var_id,
                 method_id=method_id,
@@ -743,7 +766,7 @@ class SeriesService(serviceBase):
         :return:
         """
         try:
-            result = self._session.query(ODM.QualityControlLevel).filter_by(code=q.code, definition=q.definition).one()
+            result = self._session.query(self.ODM.QualityControlLevel).filter_by(code=q.code, definition=q.definition).one()
             return True
         except:
 
@@ -756,7 +779,7 @@ class SeriesService(serviceBase):
         :return:
         """
         try:
-            result = self._session.query(ODM.Method).filter_by(description=m.description).one()
+            result = self._session.query(self.ODM.Method).filter_by(description=m.description).one()
             return True
         except:
             return False
@@ -768,7 +791,7 @@ class SeriesService(serviceBase):
         :return:
         """
         try:
-            result = self._session.query(ODM.Variable).filter_by(code=v.code,
+            result = self._session.query(self.ODM.Variable).filter_by(code=v.code,
                                                                   name=v.name, speciation=v.speciation,
                                                                   variable_unit_id=v.variable_unit_id,
                                                                   sample_medium=v.sample_medium,
@@ -785,72 +808,72 @@ class SeriesService(serviceBase):
 ####CV_Service
 
     def get_vertical_datum_cvs(self):
-        result = self._session.query(ODM.VerticalDatumCV).order_by(ODM.VerticalDatumCV.term).all()
+        result = self._session.query(self.ODM.VerticalDatumCV).order_by(self.ODM.VerticalDatumCV.term).all()
         return result
 
     def get_samples(self):
-        result = self._session.query(ODM.Sample).order_by(ODM.Sample.lab_sample_code).all()
+        result = self._session.query(self.ODM.Sample).order_by(self.ODM.Sample.lab_sample_code).all()
         return result
 
     def get_site_type_cvs(self):
-        result = self._session.query(ODM.SiteTypeCV).order_by(ODM.SiteTypeCV.term).all()
+        result = self._session.query(self.ODM.SiteTypeCV).order_by(self.ODM.SiteTypeCV.term).all()
         return result
 
     def get_variable_name_cvs(self):
-        result = self._session.query(ODM.VariableNameCV).order_by(ODM.VariableNameCV.term).all()
+        result = self._session.query(self.ODM.VariableNameCV).order_by(self.ODM.VariableNameCV.term).all()
         return result
 
     def get_offset_type_cvs(self):
-        result = self._session.query(ODM.OffsetType).order_by(ODM.OffsetType.id).all()
+        result = self._session.query(self.ODM.OffsetType).order_by(self.ODM.OffsetType.id).all()
         return result
 
     def get_speciation_cvs(self):
-        result = self._session.query(ODM.SpeciationCV).order_by(ODM.SpeciationCV.term).all()
+        result = self._session.query(self.ODM.SpeciationCV).order_by(self.ODM.SpeciationCV.term).all()
         return result
 
     def get_sample_medium_cvs(self):
-        result = self._session.query(ODM.SampleMediumCV).order_by(ODM.SampleMediumCV.term).all()
+        result = self._session.query(self.ODM.SampleMediumCV).order_by(self.ODM.SampleMediumCV.term).all()
         return result
 
     def get_value_type_cvs(self):
-        result = self._session.query(ODM.ValueTypeCV).order_by(ODM.ValueTypeCV.term).all()
+        result = self._session.query(self.ODM.ValueTypeCV).order_by(self.ODM.ValueTypeCV.term).all()
         return result
 
     def get_data_type_cvs(self):
-        result = self._session.query(ODM.DataTypeCV).order_by(ODM.DataTypeCV.term).all()
+        result = self._session.query(self.ODM.DataTypeCV).order_by(self.ODM.DataTypeCV.term).all()
         return result
 
     def get_general_category_cvs(self):
-        result = self._session.query(ODM.GeneralCategoryCV).order_by(ODM.GeneralCategoryCV.term).all()
+        result = self._session.query(self.ODM.GeneralCategoryCV).order_by(self.ODM.GeneralCategoryCV.term).all()
         return result
 
     def get_censor_code_cvs(self):
-        result = self._session.query(ODM.CensorCodeCV).order_by(ODM.CensorCodeCV.term).all()
+        result = self._session.query(self.ODM.CensorCodeCV).order_by(self.ODM.CensorCodeCV.term).all()
         return result
 
     def get_sample_type_cvs(self):
-        result = self._session.query(ODM.SampleTypeCV).order_by(ODM.SampleTypeCV.term).all()
+        result = self._session.query(self.ODM.SampleTypeCV).order_by(self.ODM.SampleTypeCV.term).all()
         return result
 
     def get_units(self):
-        result = self._session.query(ODM.Unit).all()
+        result = self._session.query(self.ODM.Unit).all()
         return result
 
     def get_units_not_uni(self):
-        result = self._session.query(ODM.Unit).filter(not_(ODM.Unit.name.contains('angstrom'))).all()
+        result = self._session.query(self.ODM.Unit).filter(not_(self.ODM.Unit.name.contains('angstrom'))).all()
         return result
 
     def get_units_names(self):
-        result = self._session.query(ODM.Unit.name).all()
+        result = self._session.query(self.ODM.Unit.name).all()
         return result
 
     # return a single cv
     def get_unit_by_name(self, unit_name):
-        result = self._session.query(ODM.Unit).filter_by(name=unit_name).first()
+        result = self._session.query(self.ODM.Unit).filter_by(name=unit_name).first()
         return result
 
     def get_unit_by_id(self, unit_id):
-        result = self._session.query(ODM.Unit).filter_by(id=unit_id).first()
+        result = self._session.query(self.ODM.Unit).filter_by(id=unit_id).first()
         return result
 
     def copy_series(from_series):

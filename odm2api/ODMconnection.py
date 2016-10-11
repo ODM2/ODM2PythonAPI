@@ -14,7 +14,7 @@ import os
 # LIBSPATIALITE_PATH = './libspatialite.so.5.1.0'
 
 class SessionFactory():
-    def __init__(self, connection_string, echo=True, version = 1.1):
+    def __init__(self, connection_string, echo=True, version = 2.0):
         if 'sqlite' in connection_string:
 
             self.engine = create_engine(connection_string,  encoding='utf-8', echo=echo)
@@ -86,7 +86,7 @@ class dbconnection():
 
     @classmethod
     def testEngine(self, connection_string, echo = False ):
-        s = SessionFactory(connection_string, echo=echo)
+        s = SessionFactory(connection_string, echo=echo, version = 2.0)
         try:
             setSchema(s.test_engine)
             s.test_Session().query(Variable2.VariableCode).limit(1).first()
@@ -98,7 +98,7 @@ class dbconnection():
 
     @classmethod
     def testEngine1_1(self, connection_string, echo = False ):
-        s = SessionFactory(connection_string, echo=echo)
+        s = SessionFactory(connection_string, echo=echo, version = 1.1)
         try:
             # s.ms_test_Session().query(Variable1).limit(1).first()
             s.test_Session().query(ODM.Variable.code).limit(1).first()
