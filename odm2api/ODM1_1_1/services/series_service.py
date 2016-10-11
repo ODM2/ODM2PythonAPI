@@ -20,6 +20,10 @@ class SeriesService(serviceBase):
     # Accepts a string for creating a SessionFactory, default uses odmdata/connection.cfg
 
     ODM = ODM1
+    def __init__(self,  session_factory, debug=False):
+        serviceBase.__init__(self, session_factory, debug)
+        self.refreshDB(session_factory.version)
+
     def refreshDB(self, ver):
         self._version= ver
         if ver == 1.1:
@@ -198,7 +202,7 @@ class SeriesService(serviceBase):
         :return:
         """
         subquery = self._session.query(self.ODM.DataValue.qualifier_id).outerjoin(
-            ODM.Series.data_values).filter(self.ODM.Series.id == series_id, ODM.DataValue.qualifier_id != None).distinct().subquery()
+            self.ODM.Series.data_values).filter(self.ODM.Series.id == series_id, self.ODM.DataValue.qualifier_id != None).distinct().subquery()
         return self._session.query(self.ODM.Qualifier).join(subquery).distinct().all()
 
     #QCL methods
@@ -242,7 +246,7 @@ class SeriesService(serviceBase):
         :return:
         """
         subquery = self._session.query(self.ODM.DataValue.offset_type_id).outerjoin(
-            ODM.Series.data_values).filter(self.ODM.Series.id == series_id, ODM.DataValue.offset_type_id != None).distinct().subquery()
+            self.ODM.Series.data_values).filter(self.ODM.Series.id == series_id, self.ODM.DataValue.offset_type_id != None).distinct().subquery()
         return self._session.query(self.ODM.OffsetType).join(subquery).distinct().all()
 
     def get_samples_by_series_id(self, series_id):
@@ -252,7 +256,7 @@ class SeriesService(serviceBase):
         :return:
         """
 
-        subquery = self._session.query(self.ODM.DataValue.sample_id).outerjoin(self.ODM.Series.data_values).filter(self.ODM.Series.id == series_id, ODM.DataValue.sample_id != None).distinct().subquery()
+        subquery = self._session.query(self.ODM.DataValue.sample_id).outerjoin(self.ODM.Series.data_values).filter(self.ODM.Series.id == series_id, self.ODM.DataValue.sample_id != None).distinct().subquery()
         return self._session.query(self.ODM.Sample).join(subquery).distinct().all()
 
     # Series Catalog methods
@@ -384,10 +388,10 @@ class SeriesService(serviceBase):
         :return:
         """
         q = self._session.query(self.ODM.DataValue.data_value.label('DataValue'),
-                                   ODM.DataValue.local_date_time.label('LocalDateTime'),
-                                   ODM.DataValue.censor_code.label('CensorCode'),
-                                   func.strftime('%m', ODM.DataValue.local_date_time).label('Month'),
-                                   func.strftime('%Y',ODM.DataValue.local_date_time).label('Year')
+                                   self.ODM.DataValue.local_date_time.label('LocalDateTime'),
+                                   self.ODM.DataValue.censor_code.label('CensorCode'),
+                                   func.strftime('%m', self.ODM.DataValue.local_date_time).label('Month'),
+                                   func.strftime('%Y',self.ODM.DataValue.local_date_time).label('Year')
                                    #DataValue.local_date_time.strftime('%m'),
                                    #DataValue.local_date_time.strftime('%Y'))
         ).order_by(self.ODM.DataValue.local_date_time)
@@ -538,7 +542,7 @@ class SeriesService(serviceBase):
         :return:
         """
         self.update_dvs(data_values)
-        series = ODM.Series()
+        series = self.ODM.Series()
         series.site_id = site_id
         series.variable_id = variable_id
         series.method_id = method_id
@@ -556,7 +560,7 @@ class SeriesService(serviceBase):
         :param link:
         :return:
         """
-        meth = ODM.Method()
+        meth = self.ODM.Method()
         meth.description = description
         if link is not None:
             meth.link = link
@@ -598,7 +602,7 @@ class SeriesService(serviceBase):
         :param no_data_value:
         :return:
         """
-        var = ODM.Variable()
+        var = self.ODM.Variable()
         var.code = code
         var.name = name
         var.speciation = speciation
@@ -624,7 +628,7 @@ class SeriesService(serviceBase):
         :param explanation:
         :return:
         """
-        qcl = ODM.QualityControlLevel()
+        qcl = self.ODM.QualityControlLevel()
         qcl.code = code
         qcl.definition = definition
         qcl.explanation = explanation
@@ -645,7 +649,7 @@ class SeriesService(serviceBase):
         :param description:
         :return:
         """
-        qual = ODM.Qualifier()
+        qual = self.ODM.Qualifier()
         qual.code = code
         qual.description = description
 
@@ -877,7 +881,7 @@ class SeriesService(serviceBase):
         return result
 
     def copy_series(from_series):
-        new = ODM.Series()
+        new = self.ODM.Series()
         new.site_id = from_series.site_id
         new.site_code = from_series.site_code
         new.site_name = from_series.site_name

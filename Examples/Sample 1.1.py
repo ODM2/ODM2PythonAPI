@@ -29,7 +29,7 @@ for conn in conns:
     print
 
     odm1service = SeriesService(conn)
-    odm1service.refreshDB(conn.version)
+
     pp.pprint(conn)
 
     print
