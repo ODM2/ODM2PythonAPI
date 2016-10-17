@@ -1,4 +1,4 @@
-__author__ = 'jmeline'
+__author__ = 'sree'
 
 from sqlalchemy import func
 import pandas as pd
@@ -14,26 +14,31 @@ class DetailedResult:
                  processingLevel,
                  unit):
         # result.result_id etc.
-        self.resultID = result.ResultID
-        self.samplingFeatureCode = sc#.SamplingFeatureCode
-        self.methodCode = method.MethodCode
-        self.variableCode = variable.VariableCode
-        self.processingLevelCode = processingLevel.ProcessingLevelCode
-        self.unitsName = unit.UnitsName
+        self.ResultID = result.ResultID
+        self.SamplingFeatureCode = sc#.SamplingFeatureCode
+        self.MethodCode = method.MethodCode
+        self.VariableCode = variable.VariableCode
+        self.ProcessingLevelCode = processingLevel.ProcessingLevelCode
+        self.UnitsName = unit.UnitsName
 
-        self.samplingFeatureName = sn#.SamplingFeatureName
-        self.methodName = method.MethodName
-        self.variableNameCV = variable.VariableNameCV
-        self.processingLevelDef = processingLevel.Definition
+        self.SamplingFeatureName = sn#.SamplingFeatureName
+        self.MethodName = method.MethodName
+        self.VariableNameCV = variable.VariableNameCV
+        self.ProcessingLevelDefinition = processingLevel.Definition
+        self.ResultDateTime = result.ResultDateTime
+        self.ValueCount = result.ValueCount
+        # self.ValidDateTime = result.ValidDateTime
+
+
 
 
 class DetailedAffiliation:
     def __init__(self, affiliation, person, org):
-        self.affiliationID = affiliation.AffiliationID
-        self.name = person.PersonFirstName + \
+        self.AffiliationID = affiliation.AffiliationID
+        self.Name = person.PersonFirstName + \
                     " " + \
                     person.PersonLastName
-        self.organization = "(" + org.OrganizationCode + ") " + \
+        self.Organization = "(" + org.OrganizationCode + ") " + \
                             org.OrganizationName
 
         # def __repr__(self):
@@ -169,7 +174,7 @@ class ReadODM2(serviceBase):
             affiliationList.append(detailedAffiliation)
         return affiliationList
 
-    def getDetailedResultInfo(self, resultTypeCV, resultID=None):
+    def getDetailedResultInfo(self, resultTypeCV=None, resultID=None):
         q = self._session.query(Results, SamplingFeatures.SamplingFeatureCode, SamplingFeatures.SamplingFeatureName, Methods, Variables,
                                 ProcessingLevels, Units).filter(Results.VariableID == Variables.VariableID) \
             .filter(Results.UnitsID == Units.UnitsID) \
@@ -178,7 +183,8 @@ class ReadODM2(serviceBase):
             .filter(FeatureActions.ActionID == Actions.ActionID) \
             .filter(Actions.MethodID == Methods.MethodID) \
             .filter(Results.ProcessingLevelID == ProcessingLevels.ProcessingLevelID) \
-            .filter(Results.ResultTypeCV == resultTypeCV)
+            .filter(Results.ResultTypeCV == resultTypeCV) \
+            .order_by(Results.ResultID)
         resultList = []
         if resultID:
             for r, sc, sn, m, v, p, u in q.filter_by(ResultID=resultID).all():

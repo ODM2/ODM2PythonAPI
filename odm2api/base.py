@@ -33,7 +33,8 @@ class serviceBase(object):
 
         return self._session
 
-
+    def reset_session(self):
+        self._session =self._session_factory.getSession() #reset the session in order to prevent memory leaks
 
 
 
