@@ -450,7 +450,7 @@ class ReadODM2(serviceBase):
     Results
     """
 
-    def getResults(self, ids=None, uuids= None,  actionid=None, simulationid = None):
+    def getResults(self, ids=None, type= None, uuids= None,  actionid=None, simulationid = None):
 
         # TODO what if user sends in both type and actionid vs just actionid
         """
@@ -463,6 +463,7 @@ class ReadODM2(serviceBase):
         query = self._session.query(Results)
 
         if actionid: query = query.join(FeatureActions).filter_by(ActionID=actionid)
+        if type: query = query.filter_by(CVResultType= type)
         if simulationid: query = query.join(FeatureActions)\
             .join(Actions)\
             .join(Simulations)\
