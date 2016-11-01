@@ -463,7 +463,7 @@ class ReadODM2(serviceBase):
         query = self._session.query(Results)
 
         if actionid: query = query.join(FeatureActions).filter_by(ActionID=actionid)
-        if type: query = query.filter_by(CVResultType= type)
+        if type: query = query.filter_by(ResultTypeCV= type)
         if simulationid: query = query.join(FeatureActions)\
             .join(Actions)\
             .join(Simulations)\
