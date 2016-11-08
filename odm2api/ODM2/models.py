@@ -2050,21 +2050,22 @@ def _changeSchema(schema):
 
         if isinstance(Tbl, api.DeclarativeMeta):
             Tbl.__table__.schema = schema
+            Tbl.__table_args__["schema"]=schema
 
 
 def _getSchema(engine):
     from sqlalchemy.engine import reflection
 
     insp = reflection.Inspector.from_engine(engine)
-
     for name in insp.get_schema_names():
         if 'odm2' == name.lower():
             return name
-    else:
-        return insp.default_schema_name
 
+    return insp.default_schema_name
 
 def setSchema(engine):
     s = _getSchema(engine)
+    if s is None:
+        s = ''
     _changeSchema(s)
 

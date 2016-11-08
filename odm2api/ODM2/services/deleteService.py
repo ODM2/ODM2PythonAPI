@@ -90,6 +90,14 @@ class DeleteODM2(serviceBase):
 
 
 # ################################################################################
-# ODM2
+# Result Values
 # ################################################################################
 
+    def deleteTSRValues(self, ids=None, dates=None):
+
+        q = self._session.query(TimeSeriesResultValues)
+        if ids:
+            q = q.filter(TimeSeriesResultValues.ResultID.in_(ids))
+        if dates:
+            q = q.filter(TimeSeriesResultValues.ValueDateTime.in_(dates))
+        return q.delete(False)

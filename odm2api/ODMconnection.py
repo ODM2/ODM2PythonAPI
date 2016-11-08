@@ -30,6 +30,7 @@ class SessionFactory():
         # Create session maker
         self.Session = sessionmaker(bind=self.engine)
         self.test_Session = sessionmaker(bind=self.test_engine)
+        setSchema(self.engine)
         self.version=version
 
     def getSession(self):
@@ -65,7 +66,6 @@ class dbconnection():
     @classmethod
     def createConnectionFromString(self, conn_string, dbtype= 2.0, echo = False):
         s = SessionFactory(conn_string, echo=echo, version=dbtype)
-        setSchema(s.engine)
         return s
 
     @classmethod
