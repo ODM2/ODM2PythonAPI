@@ -1,4 +1,4 @@
-__author__ = 'sree'
+__author__ = 'sreeder'
 
 from sqlalchemy import func
 import pandas as pd
@@ -80,7 +80,7 @@ class ReadODM2(serviceBase):
             a = SectionResultValueAnnotations
         elif type == "spectraresultvalue":
             a = SpectraResultValueAnnotations
-        elif type == "timeSeriesresultvalue":
+        elif type == "timeseriesresultvalue":
             a = TimeSeriesResultValueAnnotations
         elif type == "trajectoryresultvalue":
             a = TrajectoryResultValueAnnotations

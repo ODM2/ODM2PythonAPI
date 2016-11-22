@@ -17,10 +17,15 @@ from odm2api.ODM2.services import CreateODM2
 #connect to database
 # createconnection (dbtype, servername, dbname, username, password)
 # session_factory = dbconnection.createConnection('connection type: sqlite|mysql|mssql|postgresql', '/your/path/to/db/goes/here', 2.0)#sqlite
-session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')#mysql
+# session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')#mysql
 # session_factory= dbconnection.createConnection('mssql', "(local)", "ODM2", "ODM", "odm")#win MSSQL
 # session_factory= dbconnection.createConnection('mssql', "arroyoodm2", "", "ODM", "odm")#mac/linux MSSQL
-# session_factory = dbconnection.createConnection('sqlite', '/Users/stephanie/DEV/ODM2/usecases/WOF_to_ODM2/ODM2.sqlite', 2.0)
+
+
+session_factory = dbconnection.createConnection('mysql', 'iutahmysql.uwrl.usu.edu', 'wofpy', 'webuser', 'W3bUs3r123!!')
+
+
+
 
 
 
