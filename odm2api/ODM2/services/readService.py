@@ -8,7 +8,7 @@ from odm2api.ODM2.models import *
 
 
 class DetailedResult:
-    def __init__(self, result,
+    def __init__(self, action, result,
                  sc, sn,
                  method, variable,
                  processingLevel,
@@ -25,10 +25,9 @@ class DetailedResult:
         self.MethodName = method.MethodName
         self.VariableNameCV = variable.VariableNameCV
         self.ProcessingLevelDefinition = processingLevel.Definition
-        self.ResultDateTime = result.ResultDateTime
         self.ValueCount = result.ValueCount
-        # self.ValidDateTime = result.ValidDateTime
-
+        self.BeginDateTime = action.BeginDateTime
+        self.EndDateTime = action.EndDateTime
 
 
 
@@ -175,7 +174,7 @@ class ReadODM2(serviceBase):
         return affiliationList
 
     def getDetailedResultInfo(self, resultTypeCV=None, resultID=None):
-        q = self._session.query(Results, SamplingFeatures.SamplingFeatureCode, SamplingFeatures.SamplingFeatureName, Methods, Variables,
+        q = self._session.query(Actions, Results, SamplingFeatures.SamplingFeatureCode, SamplingFeatures.SamplingFeatureName, Methods, Variables,
                                 ProcessingLevels, Units).filter(Results.VariableID == Variables.VariableID) \
             .filter(Results.UnitsID == Units.UnitsID) \
             .filter(Results.FeatureActionID == FeatureActions.FeatureActionID) \
@@ -187,14 +186,14 @@ class ReadODM2(serviceBase):
             .order_by(Results.ResultID)
         resultList = []
         if resultID:
-            for r, sc, sn, m, v, p, u in q.filter_by(ResultID=resultID).all():
+            for a, r, sc, sn, m, v, p, u in q.filter_by(ResultID=resultID).all():
                 detailedResult = DetailedResult( \
-                    r, sc, sn, m, v, p, u)
+                    a, r, sc, sn, m, v, p, u)
                 resultList.append(detailedResult)
         else:
-            for r, sc, sn, m, v, p, u in q.all():
+            for a, r, sc, sn, m, v, p, u in q.all():
                 detailedResult = DetailedResult( \
-                    r, sc, sn, m, v, p, u)
+                    a, r, sc, sn, m, v, p, u)
                 resultList.append(detailedResult)
         return resultList
 
