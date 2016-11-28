@@ -54,40 +54,45 @@ class ReadODM2(serviceBase):
     # Annotations
     # ################################################################################
 
-    def getAnnotations(self, type=None):
+    def getAnnotations(self, type=None, codes = None):
 
         # TODO What keywords do I use for type
         a = Annotations
-        if type == "action":
-            a = ActionAnnotations
-        elif type == "categoricalresultvalue":
-            a = CategoricalResultValueAnnotations
-        elif type == "equipmentannotation":
-            a = EquipmentAnnotations
-        elif type == "measurementresultvalue":
-            a = MeasurementResultValueAnnotations
-        elif type == "method":
-            a = MethodAnnotations
-        elif type == "pointcoverageresultvalue":
-            a = PointCoverageResultValueAnnotations
-        elif type == "profileresultvalue":
-            a = ProfileResultValueAnnotations
-        elif type == "result":
-            a = ResultAnnotations
-        elif type == "samplingfeature":
-            a = SamplingFeatureAnnotations
-        elif type == "sectionresultvalue":
-            a = SectionResultValueAnnotations
-        elif type == "spectraresultvalue":
-            a = SpectraResultValueAnnotations
-        elif type == "timeseriesresultvalue":
-            a = TimeSeriesResultValueAnnotations
-        elif type == "trajectoryresultvalue":
-            a = TrajectoryResultValueAnnotations
-        elif type == "transectresultvalue":
-            a = TransectResultValueAnnotations
+        if type:
+            if type == "action":
+                a = ActionAnnotations
+            elif type == "categoricalresultvalue":
+                a = CategoricalResultValueAnnotations
+            elif type == "equipmentannotation":
+                a = EquipmentAnnotations
+            elif type == "measurementresultvalue":
+                a = MeasurementResultValueAnnotations
+            elif type == "method":
+                a = MethodAnnotations
+            elif type == "pointcoverageresultvalue":
+                a = PointCoverageResultValueAnnotations
+            elif type == "profileresultvalue":
+                a = ProfileResultValueAnnotations
+            elif type == "result":
+                a = ResultAnnotations
+            elif type == "samplingfeature":
+                a = SamplingFeatureAnnotations
+            elif type == "sectionresultvalue":
+                a = SectionResultValueAnnotations
+            elif type == "spectraresultvalue":
+                a = SpectraResultValueAnnotations
+            elif type == "timeseriesresultvalue":
+                a = TimeSeriesResultValueAnnotations
+            elif type == "trajectoryresultvalue":
+                a = TrajectoryResultValueAnnotations
+            elif type == "transectresultvalue":
+                a = TransectResultValueAnnotations
         try:
-            return self._session.query(a).all()
+            query=self._session.query(a)
+            if codes:
+                query = query.filter(Annotations.AnnotationCode.in_(codes))
+            return query.all()
+
         except:
             return None
 
