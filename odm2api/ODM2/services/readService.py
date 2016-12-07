@@ -55,7 +55,7 @@ class ReadODM2(serviceBase):
     # Annotations
     # ################################################################################
 
-    def getAnnotations(self, type=None, codes = None):
+    def getAnnotations(self, type=None, codes = None, ids = None):
 
         # TODO What keywords do I use for type
         a = Annotations
@@ -92,6 +92,8 @@ class ReadODM2(serviceBase):
             query=self._session.query(a)
             if codes:
                 query = query.filter(Annotations.AnnotationCode.in_(codes))
+            if ids:
+                query = query.filter(Annotations.AnnotationID.in_(ids))
             return query.all()
 
         except:
