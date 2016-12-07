@@ -28,6 +28,7 @@ class DetailedResult:
         self.ValueCount = result.ValueCount
         self.BeginDateTime = action.BeginDateTime
         self.EndDateTime = action.EndDateTime
+        self.ResultObj = result
 
 
 
