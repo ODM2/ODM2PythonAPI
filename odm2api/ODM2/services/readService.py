@@ -178,7 +178,7 @@ class ReadODM2(serviceBase):
             affiliationList.append(detailedAffiliation)
         return affiliationList
 
-    def getDetailedResultInfo(self, resultTypeCV=None, resultID=None):
+    def getDetailedResultInfo(self, resultTypeCV=None, resultID=None, sfID=None):
         q = self._session.query(Actions, Results, SamplingFeatures.SamplingFeatureCode, SamplingFeatures.SamplingFeatureName, Methods, Variables,
                                 ProcessingLevels, Units).filter(Results.VariableID == Variables.VariableID) \
             .filter(Results.UnitsID == Units.UnitsID) \
@@ -190,16 +190,15 @@ class ReadODM2(serviceBase):
             .filter(Results.ResultTypeCV == resultTypeCV) \
             .order_by(Results.ResultID)
         resultList = []
+        if sfID:
+                q= q.filter(SamplingFeatures.SamplingFeatureID == sfID)
         if resultID:
-            for a, r, sc, sn, m, v, p, u in q.filter_by(ResultID=resultID).all():
-                detailedResult = DetailedResult( \
-                    a, r, sc, sn, m, v, p, u)
-                resultList.append(detailedResult)
-        else:
-            for a, r, sc, sn, m, v, p, u in q.all():
-                detailedResult = DetailedResult( \
-                    a, r, sc, sn, m, v, p, u)
-                resultList.append(detailedResult)
+            q= q.q.filter_by(ResultID=resultID)
+
+        for a, r, sc, sn, m, v, p, u in q.all():
+            detailedResult = DetailedResult( \
+                a, r, sc, sn, m, v, p, u)
+            resultList.append(detailedResult)
         return resultList
 
     """

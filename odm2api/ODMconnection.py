@@ -28,7 +28,7 @@ class SessionFactory():
             self.test_engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600, pool_timeout=5, max_overflow=0, connect_args={'connect_timeout': 1})
 
         # Create session maker
-        self.Session = sessionmaker(bind=self.engine)
+        self.Session = sessionmaker(bind=self.engine, autoflush=True)
         self.test_Session = sessionmaker(bind=self.test_engine)
         setSchema(self.engine)
         self.version=version

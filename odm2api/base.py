@@ -23,6 +23,7 @@ class serviceBase(object):
         self._session = self._session_factory.getSession()
         self._version = session_factory.version
         self._debug = debug
+
         #self._sessiona
 
     #self._session_factory=""
