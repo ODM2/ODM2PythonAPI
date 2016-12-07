@@ -36,6 +36,7 @@ class UpdateODM2(serviceBase):
 
         self._session.commit()
 
+
     def updateAction(self, actionID, begin=None, end=None):
         q = self._session.query(Actions).filter(Actions.ActionID == int(actionID))
         if begin:

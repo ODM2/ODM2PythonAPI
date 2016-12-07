@@ -117,6 +117,8 @@ class CreateODM2(serviceBase):
 
     #send in any type of result object
     def createResult(self, result):
+        if result.UUID is None:
+            result.UUID = str(uuid.uuid1())
         self._session.add(result)
         self._session.commit()
         return result
