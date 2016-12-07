@@ -29,6 +29,22 @@ class UpdateODM2(serviceBase):
         q = self._session.query(Results).filter(Results.ResultID==int(resultId)).update({'ValidDateTime':dateTime.to_datetime()})
         self._session.commit()
 
+    def updateResult(self, resultID, valuecount = None):
+        q = self._session.query(Results).filter(Results.ResultID ==int(resultID))
+        if valuecount:
+            q.update({"ValueCount":valuecount})
+
+        self._session.commit()
+
+    def updateAction(self, actionID, begin=None, end=None):
+        q = self._session.query(Actions).filter(Actions.ActionID == int(actionID))
+        if begin:
+            q.update({"BeginDateTime": begin.to_datetime()})
+        if end:
+            q.update({"EndDateTime": end.to_datetime()})
+
+        self._session.commit()
+
 
 # ################################################################################
 # Data Quality
