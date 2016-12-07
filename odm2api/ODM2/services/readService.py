@@ -180,6 +180,7 @@ class ReadODM2(serviceBase):
         return affiliationList
 
     def getDetailedResultInfo(self, resultTypeCV=None, resultID=None, sfID=None):
+        #TODO can this be done by just getting the result object and drilling down? what is the performance comparison
         q = self._session.query(Actions, Results, SamplingFeatures.SamplingFeatureCode, SamplingFeatures.SamplingFeatureName, Methods, Variables,
                                 ProcessingLevels, Units).filter(Results.VariableID == Variables.VariableID) \
             .filter(Results.UnitsID == Units.UnitsID) \
@@ -194,7 +195,7 @@ class ReadODM2(serviceBase):
         if sfID:
                 q= q.filter(SamplingFeatures.SamplingFeatureID == sfID)
         if resultID:
-            q= q.q.filter_by(ResultID=resultID)
+            q= q.filter_by(ResultID=resultID)
 
         for a, r, sc, sn, m, v, p, u in q.all():
             detailedResult = DetailedResult( \
