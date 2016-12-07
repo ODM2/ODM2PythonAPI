@@ -228,7 +228,6 @@ class Methods(Base):
 
 class Actions(Base):
 
-
     ActionID = Column('actionid', Integer, primary_key=True, nullable=False)
     ActionTypeCV = Column('actiontypecv', ForeignKey(CVActionType.Name), nullable=False, index=True)
     MethodID = Column('methodid', ForeignKey(Methods.MethodID), nullable=False)
