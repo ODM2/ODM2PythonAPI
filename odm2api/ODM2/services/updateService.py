@@ -40,9 +40,9 @@ class UpdateODM2(serviceBase):
     def updateAction(self, actionID, begin=None, end=None):
         q = self._session.query(Actions).filter(Actions.ActionID == int(actionID))
         if begin:
-            q.update({"BeginDateTime": begin.to_datetime()})
+            q.update({"BeginDateTime": begin})
         if end:
-            q.update({"EndDateTime": end.to_datetime()})
+            q.update({"EndDateTime": end})
 
         self._session.commit()
 
