@@ -26,8 +26,17 @@ class UpdateODM2(serviceBase):
 # Core
 # ################################################################################
     def updateResultValidDateTime(self, resultId, dateTime):
-        q = self._session.query(Results).filter(Results.ResultID==int(resultId)).update({'ValidDateTime':dateTime.to_datetime()})
-        self._session.commit()
+
+        #check type of "validdatetime'
+        #if not datetime do this:
+        # dt = dateTime.to_datetime()
+        #else dt = dateTime
+        if (type(dateTime) != datetime):
+            dt = dateTime.to_datetime()
+        else:
+            dt = dateTime
+            q = self._session.query(Results).filter(Results.ResultID==int(resultId)).update({'ValidDateTime':dt})
+            self._session.commit()
 
     def updateResult(self, resultID, valuecount = None):
         q = self._session.query(Results).filter(Results.ResultID ==int(resultID))
