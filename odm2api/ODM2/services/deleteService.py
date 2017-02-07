@@ -93,11 +93,16 @@ class DeleteODM2(serviceBase):
 # Result Values
 # ################################################################################
 
-    def deleteTSRValues(self, ids=None, dates=None):
+    def deleteTSRValues(self, ids=None, startdate = None, dates=None):
 
         q = self._session.query(TimeSeriesResultValues)
         if ids:
             q = q.filter(TimeSeriesResultValues.ResultID.in_(ids))
+        if startdate:
+            #delete all values on or after the startdate
+            q = q.filter(TimeSeriesResultValues.ValueDateTime >= startdate)
         if dates:
             q = q.filter(TimeSeriesResultValues.ValueDateTime.in_(dates))
-        return q.delete(False)
+        numvals = q.count()
+        q.delete(False)
+        return numvals

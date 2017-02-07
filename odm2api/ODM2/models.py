@@ -2048,6 +2048,9 @@ def _changeSchema(schema):
         import sqlalchemy.ext.declarative.api as api
 
         if isinstance(Tbl, api.DeclarativeMeta):
+            #check to see if the schema is already set correctly
+            if Tbl.__table__.schema ==schema:
+                return
             Tbl.__table__.schema = schema
             Tbl.__table_args__["schema"]=schema
 
@@ -2063,8 +2066,12 @@ def _getSchema(engine):
     return insp.default_schema_name
 
 def setSchema(engine):
+    # import datetime
+    # start = datetime.datetime.now()
     s = _getSchema(engine)
     if s is None:
         s = ''
     _changeSchema(s)
+    # end = datetime.datetime.now()
+    # print end-start, ": elapsed time to change schema"
 

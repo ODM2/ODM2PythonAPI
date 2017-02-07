@@ -48,6 +48,8 @@ class CreateODM2(serviceBase):
 
     #send in any type of sampling feature
     def createSamplingFeature(self, samplingfeature):
+        if samplingfeature.SamplingFeatureUUID is None:
+            samplingfeature.SamplingFeatureUUID = str(uuid.uuid1())
         self._session.add(samplingfeature)
         self._session.commit()
 
@@ -117,8 +119,8 @@ class CreateODM2(serviceBase):
 
     #send in any type of result object
     def createResult(self, result):
-        if result.UUID is None:
-            result.UUID = str(uuid.uuid1())
+        if result.ResultUUID is None:
+            result.ResultUUID = str(uuid.uuid1())
         self._session.add(result)
         self._session.commit()
         return result
