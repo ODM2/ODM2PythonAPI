@@ -195,9 +195,9 @@ class ReadODM2(serviceBase):
             .order_by(Results.ResultID)
         resultList = []
         if sfID:
-                q= q.filter(SamplingFeatures.SamplingFeatureID == sfID)
+            q = q.filter(SamplingFeatures.SamplingFeatureID == sfID)
         if resultID:
-            q= q.filter_by(ResultID=resultID)
+            q = q.filter(Results.ResultID==resultID)
 
         for a, r, sc, sn, m, v, p, u in q.all():
             detailedResult = DetailedResult( \
