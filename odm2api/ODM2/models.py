@@ -2069,8 +2069,8 @@ def setSchema(engine):
     # import datetime
     # start = datetime.datetime.now()
     s = _getSchema(engine)
-    if s is None:
-        s = ''
+    # if s is None:
+    #     s = ''
     _changeSchema(s)
     # end = datetime.datetime.now()
     # print end-start, ": elapsed time to change schema"
