@@ -9,7 +9,7 @@ services:
 addons:
   apt:
     packages:
-      # FIXME: When activating the services above I don't think these are needed.
+      # FIXME: when activating the services above I don't think these are needed.
       - odbcinst1debian2
       - odbcinst
       - tdsodbc
@@ -32,14 +32,22 @@ matrix:
   include:
   - python: 2.7
     env: TEST_TARGET=default
+  - python: 3.4
+    env: TEST_TARGET=default
   - python: 3.5
+    env: TEST_TARGET=default
+  - python: 3.6
     env: TEST_TARGET=default
   - python: 2.7
     env: TEST_TARGET=coding_standards
   allow_failures:
   - python: 2.7
     env: TEST_TARGET=coding_standards
+  - python: 3.4
+    env: TEST_TARGET=default
   - python: 3.5
+    env: TEST_TARGET=default
+  - python: 3.6
     env: TEST_TARGET=default
 
 before_script:
