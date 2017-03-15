@@ -1,5 +1,7 @@
 ODM2 Python API
-====
+===============
+
+[![Build Status](https://travis-ci.org/ODM2/ODM2PythonAPI.svg?branch=master)](https://travis-ci.org/ODM2/ODM2PythonAPI)
 
 A Python-based application programmer's interface for the [Observations Data Model 2 (ODM2)](http://odm2.org).
 
