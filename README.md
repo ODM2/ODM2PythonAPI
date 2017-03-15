@@ -2,7 +2,6 @@ ODM2 Python API
 ===============
 
 [![Build Status](https://travis-ci.org/ODM2/ODM2PythonAPI.svg?branch=master)](https://travis-ci.org/ODM2/ODM2PythonAPI)
-
 [![Build status](https://ci.appveyor.com/api/projects/status/47pry4brcrlls6hd/branch/master?svg=true)](https://ci.appveyor.com/project/sreeder/odm2pythonapi/branch/master)
 
 
