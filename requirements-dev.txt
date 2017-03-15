@@ -9,3 +9,5 @@ pymssql
 psycopg2
 #pyspatialite
 #mysql-python
+pymssql
+psycopg2
