@@ -15,10 +15,10 @@ globals = {}
 
 def rawSql2Alchemy(rawsqlresult, sqlalchemyClass):
     """
-    converts the results of a raw sql select query into SqlAlchemy Model Object
+    converts the results of a raw sql select query into SqlAlchemy converter Object
     :param rawsqlresult: array of values, sql select results
-    :param sqlalchemyModelObj: model object to convert into
-    :return: populated model object
+    :param sqlalchemyModelObj: converter object to convert into
+    :return: populated converter object
     """
 
     map = {}
@@ -127,12 +127,12 @@ class TestReadService:
 
     def test_getModelByCode(self):
 
-        # get a model from the database
+        # get a converter from the database
         res = self.engine.execute('SELECT * FROM Models').fetchone()
         modelCode = res[1]
 
 
-        # get the model using the api
+        # get the converter using the api
         resapi = self.reader.getModels(codes=[modelCode])
 
         assert resapi is not None
@@ -176,7 +176,7 @@ class TestReadService:
         print resapi[0].ModelCode
         assert resapi[0].ModelCode == 'swat'
         assert resapi[0].RelatedModelObj.ModelCode == 'swmm'
-        # test model code that doesn't exist
+        # test converter code that doesn't exist
         resapi= self.reader.getRelatedModels(code = 'None')
 
         assert resapi is not None

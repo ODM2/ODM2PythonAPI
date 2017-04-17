@@ -1,6 +1,6 @@
 __author__ = 'sreeder'
 
-from sqlalchemy import func
+from sqlalchemy import func ,not_, bindparam, distinct, exists
 import pandas as pd
 
 from odm2api.ODM2 import serviceBase
@@ -31,7 +31,6 @@ class DetailedResult:
         self.ResultObj = result
 
 
-
 class DetailedAffiliation:
     def __init__(self, affiliation, person, org):
         self.AffiliationID = affiliation.AffiliationID
@@ -50,6 +49,84 @@ class ReadODM2(serviceBase):
     def __init__(self, session):
         self._session = session
     '''
+
+    # ################################################################################
+    # Higher level functions
+    # ################################################################################
+    def getUsedSites(self):
+        """
+        Return a list of all sites that are being referenced in the Series Catalog Table
+        :return: List[Sites]
+        """
+        try:
+            fas = [x[0] for x in self._session.query(distinct(Results.FeatureActionID)).all()]
+        except:
+            return None
+
+        sf = [x[0] for x in self._session.query(distinct(FeatureActions.SamplingFeatureID))
+            .filter(FeatureActions.FeatureActionID.in_(fas)).all()]
+
+        sites = self.read.getSamplingFeatures(type="site", ids=sf)
+        return sites
+
+    def getUsedVariables(self):
+        """
+        #get list of used variable ids
+        :return: List[Variables]
+        """
+        try:
+            ids= [x[0] for x in self._session.query(distinct(Results.VariableID)).all()]
+        except:
+            return None
+
+        vars= self.read.getVariables(ids = ids)
+        return vars
+
+    def getVariablesBySiteCode(self, site_code):
+        """
+            Finds all of variables at a site
+            :param site_code: str
+            :return: List[Variables]
+        """
+        try:
+            var_ids = [x[0] for x in
+                       self._session.query(distinct(Results.VariableID))
+                       .filter(Results.FeatureActionID == FeatureActions.FeatureActionID)
+                       .filter(FeatureActions.SamplingFeatureID == SamplingFeatures.SamplingFeatureID)
+                       .filter(SamplingFeatures.SamplingFeatureCode == site_code).all()
+            ]
+        except:
+            var_ids = None
+
+        q = self._session.query(Variables).filter(Variables.VariableID.in_(var_ids))
+        return q.all()
+
+    # ################################################################################
+    # Exists functions
+    # ################################################################################
+
+    def resultExists(self, result):
+        """
+
+        :param result
+        :return: Series
+        """
+        # unique Result
+        # FeatureActionID, ResultTypeCV, VariableID, UnitsID, ProcessingLevelID, SampledMediumCV
+
+        try:
+
+            ret = self._session.query(exists().where(Results.ResultTypeCV == result.ResultTypeCV)
+                                      .where(Results.VariableID == result.VariableID)
+                                      .where(Results.UnitsID == result.UnitsID)
+                                      .where(Results.ProcessingLevelID == result.ProcessingLevelID)
+                                      .where(Results.SampledMediumCV == result.SampledMediumCV)
+                                      )
+            # where(Results.FeatureActionID == result.FeatureActionID).
+            return ret.scalar()
+
+        except:
+            return None
 
     # ################################################################################
     # Annotations
@@ -756,8 +833,13 @@ class ReadODM2(serviceBase):
         if endtime: q = q.filter(Result.ValueDateTime <= endtime)
         try:
             vals = q.order_by(Result.ValueDateTime)
-            df = pd.DataFrame([dv.list_repr() for dv in vals.all()])
-            df.columns = vals[0].get_columns()
+            # df = pd.DataFrame([dv.list_repr() for dv in vals.all()])
+            # df.columns = vals[0].get_columns()
+
+            query = q.statement.compile(dialect=self._session_factory.engine.dialect)
+            df = pd.read_sql_query(sql=query,
+                                     con=self._session_factory.engine,
+                                     params=query.params)
             return df
         except Exception as e:
             print("Error running Query: %s" % e)
@@ -793,7 +875,7 @@ class ReadODM2(serviceBase):
     def getSimulations(self, name=None, actionid=None):
         """
         getSimulations()
-        * Pass nothing - get a list of all model simuation objects
+        * Pass nothing - get a list of all converter simuation objects
         * Pass a SimulationName - get a single simulation object
         * Pass an ActionID - get a single simulation object
 
@@ -821,8 +903,8 @@ class ReadODM2(serviceBase):
     def getRelatedModels(self, id=None, code=None):
         """
         getRelatedModels()
-        * Pass a ModelID - get a list of model objects related to the model having ModelID
-        * Pass a ModelCode - get a list of model objects related to the model having ModeCode
+        * Pass a ModelID - get a list of converter objects related to the converter having ModelID
+        * Pass a ModelCode - get a list of converter objects related to the converter having ModeCode
         :param id:
         :type id:
         :param code:

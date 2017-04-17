@@ -78,6 +78,7 @@ class CVElevationDatum(Base, CV):
 class CVEquipmentType(Base, CV):
     __tablename__ = 'cv_equipmenttype'
 
+
 class CVMediumType(Base, CV):
     __tablename__ = 'cv_medium'
 
@@ -97,6 +98,7 @@ class CVPropertyDataType(Base, CV):
 class CVQualityCode(Base, CV):
     __tablename__ = 'cv_qualitycode'
 
+
 class CVResultType(Base, CV):
     __tablename__ = 'cv_resulttype'
 
@@ -115,6 +117,7 @@ class CVSamplingFeatureType(Base, CV):
 
 class CVSpatialOffsetType(Base, CV):
     __tablename__ = 'cv_spatialoffsettype'
+
 
 class CVSpeciation(Base, CV):
     __tablename__ = 'cv_speciation'
@@ -157,7 +160,6 @@ class CVReferenceMaterialMedium(Base, CV):
 # ################################################################################
 class People(Base):
 
-
     PersonID = Column('personid', Integer, primary_key=True, nullable=False)
     PersonFirstName = Column('personfirstname', String(255), nullable=False)
     PersonMiddleName = Column('personmiddlename', String(255))
@@ -169,7 +171,6 @@ class People(Base):
 
 
 class Organizations(Base):
-
 
     OrganizationID = Column('organizationid', Integer, primary_key=True, nullable=False)
     OrganizationTypeCV = Column('organizationtypecv', ForeignKey(CVOrganizationType.Name), nullable=False,
@@ -191,7 +192,6 @@ class Organizations(Base):
 
 class Affiliations(Base):
 
-
     AffiliationID = Column('affiliationid', Integer, primary_key=True, nullable=False)
     PersonID = Column('personid', ForeignKey(People.PersonID), nullable=False)
     OrganizationID = Column('organizationid', ForeignKey(Organizations.OrganizationID))
@@ -208,7 +208,6 @@ class Affiliations(Base):
 
 
 class Methods(Base):
-
 
     MethodID = Column('methodid', Integer, primary_key=True, nullable=False)
     MethodTypeCV = Column('methodtypecv', ForeignKey(CVMethodType.Name), nullable=False, index=True)
@@ -247,7 +246,6 @@ class Actions(Base):
 
 class ActionBy(Base):
 
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     ActionID = Column('actionid', Integer, ForeignKey(Actions.ActionID), nullable=False)
     AffiliationID = Column('affiliationid', ForeignKey(Affiliations.AffiliationID), nullable=False)
@@ -259,7 +257,6 @@ class ActionBy(Base):
 
 
 class SamplingFeatures(Base):
-
 
     SamplingFeatureID = Column('samplingfeatureid', Integer, primary_key=True, nullable=False)
     SamplingFeatureUUID = Column('samplingfeatureuuid', String(36), nullable=False)
@@ -284,14 +281,11 @@ class SamplingFeatures(Base):
 
     }
 
-
     def __repr__(self):
-
         return "<SamplingFeatures('%s', '%s', '%s', '%s', '%s')>" % (
             self.SamplingFeatureCode, self.SamplingFeatureName, self.SamplingFeatureDescription,
             # self.Elevation_m, geomkt)
             self.Elevation_m, self.FeatureGeometryWKT)
-
 
 
 class FeatureActions(Base):
@@ -509,7 +503,6 @@ class EquipmentModels(Base):
     OrganizationObj = relationship(Organizations)
 
 
-
 class InstrumentOutputVariables(Base):
     __tablename__ = u'instrumentoutputvariables'
     __table_args__ = {u'schema': 'odm2'}
@@ -527,7 +520,6 @@ class InstrumentOutputVariables(Base):
     OutputUnitObj = relationship(Units)
     EquipmentModelObj = relationship(EquipmentModels)
     VariableObj = relationship(Variables)
-
 
 
 class DataLoggerFileColumns(Base):
@@ -557,6 +549,7 @@ class DataLoggerFileColumns(Base):
     ScanIntervalUnitsObj = relationship(Units, primaryjoin='DataLoggerFileColumns.ScanIntervalUnitsID == Units.UnitsID')
     RecordingIntervalUnitsObj = relationship(Units, primaryjoin='DataLoggerFileColumns.RecordingIntervalUnitsID == Units.UnitsID')
 
+
 class Equipment(Base):
     __tablename__ = u'equipment'
     __table_args__ = {u'schema': 'odm2'}
@@ -581,6 +574,7 @@ class Equipment(Base):
 
     # parent = relationship(u'Equipment', remote_side=[EquipmentID])
 
+
 class CalibrationReferenceEquipment(Base):
     __tablename__ = u'calibrationreferenceequipment'
     __table_args__ = {u'schema': 'odm2'}
@@ -591,6 +585,7 @@ class CalibrationReferenceEquipment(Base):
 
     ActionObj = relationship(Actions)
     EquipmentObj = relationship(Equipment)
+
 
 class EquipmentActions(Base):
     __tablename__ = u'equipmentactions'
@@ -659,6 +654,8 @@ class CalibrationActions(Base):
 # ################################################################################
 # Lab Analyses
 # ################################################################################
+
+
 class Directives(Base):
     __tablename__ = u'directives'
     __table_args__ = {u'schema': 'odm2'}
@@ -678,6 +675,7 @@ class ActionDirectives(Base):
 
     ActionObj = relationship(Actions)
     DirectiveObj = relationship(Directives)
+
 
 class SpecimenBatchPositions(Base):
     #todo fix misspelling
@@ -723,9 +721,11 @@ class Specimens(SamplingFeatures):
     __mapper_args__ = {
         'polymorphic_identity':'Specimen',
     }
+
     def __repr__(self):
         return "<Specimens('%s', '%s', '%s',  '%s',)>" \
                % (self.SamplingFeatureID, self.SamplingFeatureCode, self.SpecimenTypeCV,self.SamplingFeatureCode)
+
 
 class SpatialOffsets(Base):
     __tablename__ = u'spatialoffsets'
@@ -958,8 +958,6 @@ class SamplingFeatureAnnotations(Base):
     SamplingFeatureObj = relationship(SamplingFeatures)
 
 
-
-
 # ################################################################################
 # Data Quality
 # ################################################################################
@@ -1009,6 +1007,7 @@ class ReferenceMaterials(Base):
 
     OrganizationObj = relationship(Organizations)
     SamplingFeatureObj = relationship(SamplingFeatures)
+
 
 class CalibrationStandards(Base):
     __tablename__ = u'calibrationstandards'
@@ -1403,7 +1402,7 @@ class MethodCitations(Base):
     MethodObj = relationship(Methods)
 
 
-# from odm2.Annotations.model import Annotation
+# from odm2.Annotations.converter import Annotation
 class RelatedAnnotations(Base):
     __tablename__ = u'relatedannotations'
     __table_args__ = {u'schema': 'odm2'}
@@ -1468,8 +1467,6 @@ class RelatedResults(Base):
 # ################################################################################
 # Results
 # ################################################################################
-
-
 class PointCoverageResults(Results):
     __tablename__ = u'pointcoverageresults'
     __table_args__ = {u'schema': 'odm2'}
@@ -1493,7 +1490,6 @@ class PointCoverageResults(Results):
     ZLocationUnitsObj = relationship(Units, primaryjoin='PointCoverageResults.ZLocationUnitsID == Units.UnitsID')
     # ResultObj = relationship(Results, primaryjoin='PointCoverageResults.ResultID == Results.ResultID')
     __mapper_args__ = {'polymorphic_identity':'Point coverage'}
-
 
 
 class ProfileResults(Results):
@@ -2037,6 +2033,7 @@ class TransectResultValueAnnotations(Base):
     AnnotationObj = relationship(Annotations)
     ValueObj = relationship(TransectResultValues)
 
+
 def _changeSchema(schema):
     import inspect
     import sys
@@ -2065,13 +2062,12 @@ def _getSchema(engine):
 
     return insp.default_schema_name
 
+
 def setSchema(engine):
-    # import datetime
-    # start = datetime.datetime.now()
+
     s = _getSchema(engine)
     # if s is None:
     #     s = ''
     _changeSchema(s)
-    # end = datetime.datetime.now()
-    # print end-start, ": elapsed time to change schema"
+
 

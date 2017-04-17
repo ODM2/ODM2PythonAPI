@@ -3,7 +3,7 @@ __author__ = 'sreeder'
 import datetime as dt
 import uuid
 
-# from src.api.ODM2.LikeODM1.model import Site
+# from src.api.ODM2.LikeODM1.converter import Site
 from odm2api.ODM2.models import *
 from odm2api.ODM2 import serviceBase
 
