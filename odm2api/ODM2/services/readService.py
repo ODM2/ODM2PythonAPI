@@ -50,56 +50,6 @@ class ReadODM2(serviceBase):
         self._session = session
     '''
 
-    # ################################################################################
-    # Higher level functions
-    # ################################################################################
-    def getUsedSites(self):
-        """
-        Return a list of all sites that are being referenced in the Series Catalog Table
-        :return: List[Sites]
-        """
-        try:
-            fas = [x[0] for x in self._session.query(distinct(Results.FeatureActionID)).all()]
-        except:
-            return None
-
-        sf = [x[0] for x in self._session.query(distinct(FeatureActions.SamplingFeatureID))
-            .filter(FeatureActions.FeatureActionID.in_(fas)).all()]
-
-        sites = self.read.getSamplingFeatures(type="site", ids=sf)
-        return sites
-
-    def getUsedVariables(self):
-        """
-        #get list of used variable ids
-        :return: List[Variables]
-        """
-        try:
-            ids= [x[0] for x in self._session.query(distinct(Results.VariableID)).all()]
-        except:
-            return None
-
-        vars= self.read.getVariables(ids = ids)
-        return vars
-
-    def getVariablesBySiteCode(self, site_code):
-        """
-            Finds all of variables at a site
-            :param site_code: str
-            :return: List[Variables]
-        """
-        try:
-            var_ids = [x[0] for x in
-                       self._session.query(distinct(Results.VariableID))
-                       .filter(Results.FeatureActionID == FeatureActions.FeatureActionID)
-                       .filter(FeatureActions.SamplingFeatureID == SamplingFeatures.SamplingFeatureID)
-                       .filter(SamplingFeatures.SamplingFeatureCode == site_code).all()
-            ]
-        except:
-            var_ids = None
-
-        q = self._session.query(Variables).filter(Variables.VariableID.in_(var_ids))
-        return q.all()
 
     # ################################################################################
     # Exists functions
@@ -293,13 +243,33 @@ class ReadODM2(serviceBase):
     Variable
     """
 
-    def getVariables(self, ids=None, codes=None):
+    def getVariables(self, ids=None, codes=None, sitecode=None, results= False):
         """
         getVariables()
         * Pass nothing - returns full list of variable objects
         * Pass a list of VariableID - returns a single variable object
         * Pass a list of VariableCode - returns a single variable object
+        * Pass a SiteCode - returns a list of Variable objects that are collected at the given site.
+        * Pass whether or not you want to return the sampling features that have results associated with them
         """
+
+        if sitecode:
+            try:
+                ids = [x[0] for x in
+                           self._session.query(distinct(Results.VariableID))
+                               .filter(Results.FeatureActionID == FeatureActions.FeatureActionID)
+                               .filter(FeatureActions.SamplingFeatureID == SamplingFeatures.SamplingFeatureID)
+                               .filter(SamplingFeatures.SamplingFeatureCode == sitecode).all()
+                           ]
+            except:
+                ids = None
+
+
+        if results:
+            try:
+                ids = [x[0] for x in self._session.query(distinct(Results.VariableID)).all()]
+            except:
+                ids = None
 
         query = self._session.query(Variables)
         if ids: query = query.filter(Variables.VariableID.in_(ids))
@@ -359,7 +329,7 @@ class ReadODM2(serviceBase):
     Sampling Feature
     """
 
-    def getSamplingFeatures(self, ids=None, codes=None, uuids=None, type=None, wkt=None):
+    def getSamplingFeatures(self, ids=None, codes=None, uuids=None, type=None, wkt=None, results=False):
         """
         getSamplingFeatures
         * Pass nothing - returns a list of all sampling feature objects with each object of type specific to that sampling feature
@@ -367,8 +337,18 @@ class ReadODM2(serviceBase):
         * Pass a list of SamplingFeatureCode - returns a single sampling feature object
         * Pass a SamplingFeatureType - returns a list of sampling feature objects of the type passed in
         * Pass a SamplingFeatureGeometry(TYPE????) - return a list of sampling feature objects
+        * Pass whether or not you want to return the sampling features that have results associated with them
         """
+        if results:
+            try:
+                fas = [x[0] for x in self._session.query(distinct(Results.FeatureActionID)).all()]
+            except:
+                return None
 
+            sf = [x[0] for x in self._session.query(distinct(FeatureActions.SamplingFeatureID))
+                                                    .filter(FeatureActions.FeatureActionID.in_(fas)).all()]
+
+            ids = sf
         q = self._session.query(SamplingFeatures)
 
         if type: q = q.filter_by(SamplingFeatureTypeCV=type)
