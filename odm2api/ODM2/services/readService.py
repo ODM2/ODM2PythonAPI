@@ -514,7 +514,7 @@ class ReadODM2(serviceBase):
     Results
     """
 
-    def getResults(self, ids=None, type= None, uuids= None, actionid=None, simulationid = None, sfid= None, variableid = None):
+    def getResults(self, ids=None, type=None, uuids=None, actionid=None, simulationid = None, sfid= None, variableid = None):
 
         # TODO what if user sends in both type and actionid vs just actionid
         """
@@ -529,16 +529,18 @@ class ReadODM2(serviceBase):
 
         query = self._session.query(Results)
 
-        if actionid: query = query.join(FeatureActions).filter_by(ActionID=actionid)
-        if type: query = query.filter_by(ResultTypeCV= type)
+
+        if type: query = query.filter_by(ResultTypeCV=type)
+        if variableid: query = query.filter_by(VariableID=variableid)
+        if ids: query = query.filter(Results.ResultID.in_(ids))
+        if uuids: query = query.filter(Results.ResultUUID.in_(uuids))
         if simulationid: query = query.join(FeatureActions)\
             .join(Actions)\
             .join(Simulations)\
             .filter_by(SimulationID=simulationid)
-        if ids: query = query.filter(Results.ResultID.in_(ids))
-        if uuids: query =query.filter(Results.ResultUUID.in_(uuids))
+        if actionid: query = query.join(FeatureActions).filter_by(ActionID=actionid)
         if sfid: query = query.join(FeatureActions).filter_by(SamplingFeatureID=sfid)
-        if variableid: query = query.filter_by(VariableID=variableid)
+
 
         try:
             return query.all()
