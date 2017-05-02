@@ -8,6 +8,7 @@ from odm2api.ODM2.services.readService import  ReadODM2
 from odm2api.ODM2.services.createService import CreateODM2
 from odm2api.ODM2.services.updateService import UpdateODM2
 from odm2api.ODM2.services.deleteService import DeleteODM2
+from odm2api.ODM2.models import People
 
 from tests import test_connection as testConnection
 import pytest
@@ -118,15 +119,21 @@ def test_SessionNotFailed(setup):
 def test_createPerson(setup):
 
     # create some people
-    setup.odmcreate.createPerson(firstName="tony",
-                                lastName='castronova',
-                                middleName='michael')
-
-    setup.odmcreate.createPerson(firstName="tony",
-                                lastName='castronova',
-                                middleName=None)
-    setup.odmcreate.createPerson(firstName="john",
-                                lastName='doe')
+    p1 = People(PersonFirstName="tony", PersonLastName='castronova', PersonMiddleName='Michael')
+    p2 = People(PersonFirstName="tony", PersonLastName='castronova')
+    p3 = People(PersonFirstName="john", PersonLastName='doe')
+    setup.odmcreate.createPerson(p1)
+    setup.odmcreate.createPerson(p2)
+    setup.odmcreate.createPerson(p3)
+    # setup.odmcreate.createPerson(firstName="tony",
+    #                             lastName='castronova',
+    #                             middleName='michael')
+    #
+    # setup.odmcreate.createPerson(firstName="tony",
+    #                             lastName='castronova',
+    #                             middleName=None)
+    # setup.odmcreate.createPerson(firstName="john",
+    #                             lastName='doe')
 
     people = setup.odmread.getPeople()
     assert len(people) == 3, "People should have been 3"
@@ -134,9 +141,12 @@ def test_createPerson(setup):
 def test_personFail(setup):
    with pytest.raises(Exception) as excinfo:
         # this one should fail due to a not null constraint
-        setup.odmcreate.createPerson(firstName=None,
-                                lastName='castronova',
-                                middleName='michael')
+
+        # setup.odmcreate.createPerson(firstName=None,
+        #                         lastName='castronova',
+        #                         middleName='michael')
+       p1 = People(PersonFirstName=None, PersonLastName='doe', PersonMiddleName='john')
+       setup.odmcreate.createPerson(p1)
 
    assert 'null' in str(excinfo.value).lower()
 

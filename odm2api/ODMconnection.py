@@ -14,7 +14,7 @@ import os
 # LIBSPATIALITE_PATH = './libspatialite.so.5.1.0'
 
 class SessionFactory():
-    def __init__(self, connection_string, echo=True, version = 2.0):
+    def __init__(self, connection_string, echo=True, version=2.0):
 
         if 'sqlite' in connection_string:
             self.engine = create_engine(connection_string,  encoding='utf-8', echo=echo, pool_recycle=100)#, pool_pre_ping=True)
@@ -26,6 +26,7 @@ class SessionFactory():
             self.engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=100)# , pool_pre_ping=True)
             self.test_engine = create_engine(connection_string, encoding='utf-8', echo=echo,
                                               max_overflow=0, connect_args={'connect_timeout': 1})
+
 
         # Create session maker
         self.Session = scoped_session(sessionmaker(bind=self.engine, autoflush=True))

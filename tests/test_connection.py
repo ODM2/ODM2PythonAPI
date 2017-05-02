@@ -55,4 +55,11 @@ def test_connection(setup):
     assert len(results) > 0
 
 
+def test_create_all_schema():
+    pass
+
+def test_create_all_no_schema():
+    pass
+
+
 
