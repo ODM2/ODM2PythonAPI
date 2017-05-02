@@ -362,7 +362,7 @@ class ReadODM2(serviceBase):
             print("Error running Query: %s" % e)
             return None
 
-    def getRelatedSamplingFeatures(self, sfid=None, relationshiptype=None, code=None):
+    def getRelatedSamplingFeatures(self, sfid=None, rfid = None, relationshiptype=None):
         #TODO: add functionality to filter by code
         """
 
@@ -374,16 +374,23 @@ class ReadODM2(serviceBase):
         #     join(User.addresses). \
         #     filter(User.name == 'ed')
         #throws an error when joining entire samplingfeature, works fine when just getting an element. this is being caused by the sampling feature inheritance
-        sf = self._session.query(SamplingFeatures.SamplingFeatureID).select_from(RelatedFeatures).join(RelatedFeatures.SamplingFeatureObj)
-        if sfid: sf = sf.filter(RelatedFeatures.SamplingFeatureID == sfid)
+
+        sf = self._session.query(distinct(SamplingFeatures.SamplingFeatureID))\
+                                .select_from(RelatedFeatures)
+
+
+        if sfid: sf = sf.join(RelatedFeatures.RelatedFeatureObj).filter(RelatedFeatures.SamplingFeatureID == sfid)
+        if rfid: sf = sf.join(RelatedFeatures.SamplingFeatureObj).filter(RelatedFeatures.RelatedFeatureID == rfid)
         if relationshiptype: sf = sf.filter(RelatedFeatures.RelationshipTypeCV == relationshiptype)
-        # if code: sf = sf.filter(RelatedFeatures.RelatedFeatureObj.Sampling)
         try:
-            sfids =[x for x in sf.all()]
-            return self.getSamplingFeatures(ids = sfids)
+            sfids =[x[0] for x in sf.all()]
+            if len(sfids)>0:
+                sflist= self.getSamplingFeatures(ids=sfids)
+                return sflist
+
         except Exception as e:
             print("Error running Query: %s" % e)
-            return None
+        return None
 
     """
     Action
@@ -554,8 +561,10 @@ class ReadODM2(serviceBase):
         if siteid:
             sfids = [x[0] for x in self._session.query(distinct(SamplingFeatures.SamplingFeatureID))
                                                     .select_from(RelatedFeatures)
-                                                    .join(RelatedFeatures.RelatedFeatureObj)
-                                                    .filter(RelatedFeatures.RelatedFeatureID == siteid).all()]
+                                                    .join(RelatedFeatures.SamplingFeatureObj)
+                                                    .filter(RelatedFeatures.RelatedFeatureID == siteid)
+                                                    #.filter(RelatedFeatures.RelationshipTypeCV == "Was Collected at")
+                                                    .all()]
             query = query.join(FeatureActions).filter(SamplingFeatures.SamplingFeatureID.in_(sfids))
 
         try:

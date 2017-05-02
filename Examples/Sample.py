@@ -36,9 +36,10 @@ session_factory = dbconnection.createConnection('sqlite', '/Users/stephanie/DEV/
 #_session = session_factory.getSession()
 read = ReadODM2(session_factory)
 create = CreateODM2(session_factory)
-results = read.getResults(siteid=1)
-resultValues = read.getResultValues(resultids=[1, 2, 3, 4, 5, 6])
-related = read.getRelatedSamplingFeatures(sfid = 1)
+results = read.getResults(siteid=1, variableid=2, type = "Measurement")
+resultValues = read.getResultValues(resultids=[2, 3, 4, 5, 6])
+relatedEmpty = read.getRelatedSamplingFeatures(sfid=1)
+related = read.getRelatedSamplingFeatures(sfid=2)
 
 # Run some basic sample queries.
 # ------------------------------
