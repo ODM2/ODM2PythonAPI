@@ -4,7 +4,7 @@
 
 class serviceBase(object):
 
-    #__metaclass__ = SingletonByConn
+    # __metaclass__ = SingletonByConn
 
     '''
     def __init__(self, session):

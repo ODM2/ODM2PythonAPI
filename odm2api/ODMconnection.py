@@ -17,17 +17,15 @@ class SessionFactory():
     def __init__(self, connection_string, echo=True, version = 2.0):
 
         if 'sqlite' in connection_string:
-            self.engine = create_engine(connection_string,  encoding='utf-8', echo=echo)
+            self.engine = create_engine(connection_string,  encoding='utf-8', echo=echo, pool_recycle=100)#, pool_pre_ping=True)
             self.test_engine = self.engine
         elif 'mssql' in connection_string:
-            self.engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600)
-            self.test_engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600,
-                                             connect_args={'timeout': 1})
+            self.engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=100)#, pool_pre_ping =True)
+            self.test_engine = create_engine(connection_string, encoding='utf-8', echo=echo, connect_args={'timeout': 1})
         elif 'postgresql' in connection_string or 'mysql' in connection_string:
-            self.engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600,
-                                        pool_timeout=1000, pool_size=20, max_overflow=0)
-            self.test_engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=3600,
-                                             pool_timeout=5, max_overflow=0, connect_args={'connect_timeout': 1})
+            self.engine = create_engine(connection_string, encoding='utf-8', echo=echo, pool_recycle=100)# , pool_pre_ping=True)
+            self.test_engine = create_engine(connection_string, encoding='utf-8', echo=echo,
+                                              max_overflow=0, connect_args={'connect_timeout': 1})
 
         # Create session maker
         self.Session = scoped_session(sessionmaker(bind=self.engine, autoflush=True))
@@ -87,8 +85,8 @@ class dbconnection():
         s = SessionFactory(connection_string, echo=echo, version=2.0)
         try:
             setSchema(s.test_engine)
-            s.test_Session().query(Variable2.VariableCode).limit(1).first()
-
+            # s.test_Session().query(Variable2.VariableCode).limit(1).first()
+            s.test_Session().execute("Select 1")
         except Exception as e:
             print("Connection was unsuccessful ", e.message)
             return False
@@ -100,7 +98,8 @@ class dbconnection():
     def testEngine1_1(self, connection_string, echo=False):
         s = SessionFactory(connection_string, echo=echo, version=1.1)
         try:
-            s.test_Session().query(ODM.Variable.code).limit(1).first()
+            # s.test_Session().query(ODM.Variable.code).limit(1).first()
+            s.test_Session().execute("Select 1")
 
         except Exception as e:
             print("Connection was unsuccessful ", e.message)
@@ -117,6 +116,7 @@ class dbconnection():
     @classmethod
     def closeConnection(self, session):
         session.remove()
+
     # ####################
     # private variables
     # # ###################

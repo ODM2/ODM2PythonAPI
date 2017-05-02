@@ -444,6 +444,12 @@ class SeriesService(serviceBase):
         except:
             return None
 
+    def get_source_by_organization(self):
+        try:
+            return self._session.query(sour)
+        except:
+            return None
+
 
 #####################
 #

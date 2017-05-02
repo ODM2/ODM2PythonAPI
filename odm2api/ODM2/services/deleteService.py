@@ -9,8 +9,8 @@ from odm2api.ODM2.models import *
 
 class DeleteODM2(serviceBase):
 
-    def test(self):
-        return None
+    def remove(self, obj):
+        self._session.delete(obj)
 
 # ################################################################################
 # CV

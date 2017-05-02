@@ -11,16 +11,11 @@ from odm2api.ODM2.models import *
 # ################################################################################
 
 class UpdateODM2(serviceBase):
-    def test(self):
-        return None
 
-
-# ################################################################################
-# CV
-# ################################################################################
-
-
-
+    def update(self, value):
+        self._session.add(value)
+        self._session.commit()
+        return value
 
 # ################################################################################
 # Core
@@ -35,7 +30,7 @@ class UpdateODM2(serviceBase):
             dt = dateTime.to_datetime()
         else:
             dt = dateTime
-            q = self._session.query(Results).filter(Results.ResultID == int(resultId)).update({'ValidDateTime':dt})
+            q = self._session.query(Results).filter(Results.ResultID == int(resultId)).update({'ValidDateTime': dt})
             self._session.commit()
 
     def updateResult(self, resultID=None, valuecount=None, result=None):

@@ -1,6 +1,6 @@
 __author__ = 'sreeder'
 
-from sqlalchemy import func
+from sqlalchemy import func ,not_, bindparam, distinct, exists
 import pandas as pd
 
 from odm2api.ODM2 import serviceBase
@@ -31,7 +31,6 @@ class DetailedResult:
         self.ResultObj = result
 
 
-
 class DetailedAffiliation:
     def __init__(self, affiliation, person, org):
         self.AffiliationID = affiliation.AffiliationID
@@ -50,6 +49,34 @@ class ReadODM2(serviceBase):
     def __init__(self, session):
         self._session = session
     '''
+
+
+    # ################################################################################
+    # Exists functions
+    # ################################################################################
+
+    def resultExists(self, result):
+        """
+
+        :param result
+        :return: Series
+        """
+        # unique Result
+        # FeatureActionID, ResultTypeCV, VariableID, UnitsID, ProcessingLevelID, SampledMediumCV
+
+        try:
+
+            ret = self._session.query(exists().where(Results.ResultTypeCV == result.ResultTypeCV)
+                                      .where(Results.VariableID == result.VariableID)
+                                      .where(Results.UnitsID == result.UnitsID)
+                                      .where(Results.ProcessingLevelID == result.ProcessingLevelID)
+                                      .where(Results.SampledMediumCV == result.SampledMediumCV)
+                                      )
+            # where(Results.FeatureActionID == result.FeatureActionID).
+            return ret.scalar()
+
+        except:
+            return None
 
     # ################################################################################
     # Annotations
@@ -216,13 +243,33 @@ class ReadODM2(serviceBase):
     Variable
     """
 
-    def getVariables(self, ids=None, codes=None):
+    def getVariables(self, ids=None, codes=None, sitecode=None, results= False):
         """
         getVariables()
         * Pass nothing - returns full list of variable objects
         * Pass a list of VariableID - returns a single variable object
         * Pass a list of VariableCode - returns a single variable object
+        * Pass a SiteCode - returns a list of Variable objects that are collected at the given site.
+        * Pass whether or not you want to return the sampling features that have results associated with them
         """
+
+        if sitecode:
+            try:
+                ids = [x[0] for x in
+                           self._session.query(distinct(Results.VariableID))
+                               .filter(Results.FeatureActionID == FeatureActions.FeatureActionID)
+                               .filter(FeatureActions.SamplingFeatureID == SamplingFeatures.SamplingFeatureID)
+                               .filter(SamplingFeatures.SamplingFeatureCode == sitecode).all()
+                           ]
+            except:
+                ids = None
+
+
+        if results:
+            try:
+                ids = [x[0] for x in self._session.query(distinct(Results.VariableID)).all()]
+            except:
+                ids = None
 
         query = self._session.query(Variables)
         if ids: query = query.filter(Variables.VariableID.in_(ids))
@@ -282,7 +329,7 @@ class ReadODM2(serviceBase):
     Sampling Feature
     """
 
-    def getSamplingFeatures(self, ids=None, codes=None, uuids=None, type=None, wkt=None):
+    def getSamplingFeatures(self, ids=None, codes=None, uuids=None, type=None, wkt=None, results=False):
         """
         getSamplingFeatures
         * Pass nothing - returns a list of all sampling feature objects with each object of type specific to that sampling feature
@@ -290,8 +337,18 @@ class ReadODM2(serviceBase):
         * Pass a list of SamplingFeatureCode - returns a single sampling feature object
         * Pass a SamplingFeatureType - returns a list of sampling feature objects of the type passed in
         * Pass a SamplingFeatureGeometry(TYPE????) - return a list of sampling feature objects
+        * Pass whether or not you want to return the sampling features that have results associated with them
         """
+        if results:
+            try:
+                fas = [x[0] for x in self._session.query(distinct(Results.FeatureActionID)).all()]
+            except:
+                return None
 
+            sf = [x[0] for x in self._session.query(distinct(FeatureActions.SamplingFeatureID))
+                                                    .filter(FeatureActions.FeatureActionID.in_(fas)).all()]
+
+            ids = sf
         q = self._session.query(SamplingFeatures)
 
         if type: q = q.filter_by(SamplingFeatureTypeCV=type)
@@ -457,7 +514,7 @@ class ReadODM2(serviceBase):
     Results
     """
 
-    def getResults(self, ids=None, type= None, uuids= None,  actionid=None, simulationid = None):
+    def getResults(self, ids=None, type=None, uuids=None, actionid=None, simulationid = None, sfid= None, variableid = None):
 
         # TODO what if user sends in both type and actionid vs just actionid
         """
@@ -465,18 +522,25 @@ class ReadODM2(serviceBase):
         * Pass nothing - returns a list of all Results objects
         * Pass a list of ResultID - returns a single Results object
         * Pass an ActionID - returns a single Results object
+        * Pass a Sampling Feature ID- returns a list of objects with that Sampling Feature ID
+        * Pass a Variable ID - returns a list of results with that Variable ID
+        * Pass a Simulation ID - return a list of results that were generated by that simulation
         """
 
         query = self._session.query(Results)
 
-        if actionid: query = query.join(FeatureActions).filter_by(ActionID=actionid)
-        if type: query = query.filter_by(ResultTypeCV= type)
+
+        if type: query = query.filter_by(ResultTypeCV=type)
+        if variableid: query = query.filter_by(VariableID=variableid)
+        if ids: query = query.filter(Results.ResultID.in_(ids))
+        if uuids: query = query.filter(Results.ResultUUID.in_(uuids))
         if simulationid: query = query.join(FeatureActions)\
             .join(Actions)\
             .join(Simulations)\
-            .filter_by(SimulationID = simulationid)
-        if ids: query = query.filter(Results.ResultID.in_(ids))
-        if uuids: query =query.filter(Results.ResultUUID.in_(uuids))
+            .filter_by(SimulationID=simulationid)
+        if actionid: query = query.join(FeatureActions).filter_by(ActionID=actionid)
+        if sfid: query = query.join(FeatureActions).filter_by(SamplingFeatureID=sfid)
+
 
         try:
             return query.all()
@@ -756,8 +820,13 @@ class ReadODM2(serviceBase):
         if endtime: q = q.filter(Result.ValueDateTime <= endtime)
         try:
             vals = q.order_by(Result.ValueDateTime)
-            df = pd.DataFrame([dv.list_repr() for dv in vals.all()])
-            df.columns = vals[0].get_columns()
+            # df = pd.DataFrame([dv.list_repr() for dv in vals.all()])
+            # df.columns = vals[0].get_columns()
+
+            query = q.statement.compile(dialect=self._session_factory.engine.dialect)
+            df = pd.read_sql_query(sql=query,
+                                     con=self._session_factory.engine,
+                                     params=query.params)
             return df
         except Exception as e:
             print("Error running Query: %s" % e)
@@ -793,7 +862,7 @@ class ReadODM2(serviceBase):
     def getSimulations(self, name=None, actionid=None):
         """
         getSimulations()
-        * Pass nothing - get a list of all model simuation objects
+        * Pass nothing - get a list of all converter simuation objects
         * Pass a SimulationName - get a single simulation object
         * Pass an ActionID - get a single simulation object
 
@@ -821,8 +890,8 @@ class ReadODM2(serviceBase):
     def getRelatedModels(self, id=None, code=None):
         """
         getRelatedModels()
-        * Pass a ModelID - get a list of model objects related to the model having ModelID
-        * Pass a ModelCode - get a list of model objects related to the model having ModeCode
+        * Pass a ModelID - get a list of converter objects related to the converter having ModelID
+        * Pass a ModelCode - get a list of converter objects related to the converter having ModeCode
         :param id:
         :type id:
         :param code:
