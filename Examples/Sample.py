@@ -22,7 +22,7 @@ from odm2api.ODM2.services import CreateODM2
 # session_factory= dbconnection.createConnection('mssql', "(local)", "ODM2", "ODM", "odm")#win MSSQL
 
 # session_factory= dbconnection.createConnection('mssql', "arroyoodm2", "", "ODM", "odm")#mac/linux MSSQL
-session_factory = dbconnection.createConnection('sqlite', '/Users/stephanie/DEV/YODA-Tools/tests/test_files/ODM2_ts_specimen.sqlite', 2.0)
+session_factory = dbconnection.createConnection('sqlite', '/Users/stephanie/DEV/YODA-Tools/tests/test_files/XL_specimen.sqlite', 2.0)
 
 
 
@@ -36,7 +36,10 @@ session_factory = dbconnection.createConnection('sqlite', '/Users/stephanie/DEV/
 #_session = session_factory.getSession()
 read = ReadODM2(session_factory)
 create = CreateODM2(session_factory)
-results = read.getResults(siteid=1, variableid=2, type = "Measurement")
+
+
+results = read.getResults(siteid=1, variableid=2, type="measurement")
+#sfids [26, 30, 32, 37, 63, 66, 84, 92, 99, 106, 110, 148, 160, 167, 210, 236, 244, 245, 250, 264, 266, 267, 330, 343, 353, 363, 364, 372, 405, 409, 419, 420, 421, 423, 424, 436, 469, 502, 513, 543, 547, 562, 574, 586, 587, 592, 594, 596, 597, 598, 599, 600, 601, 602, 603, 604, 605, 606, 607, 608, 609, 610, 611, 612, 613, 614, 615, 616, 617, 618, 619, 620, 621, 622, 623, 624, 625, 626, 627, 628, 629, 996, 1005, 1007, 1013, 1014]
 resultValues = read.getResultValues(resultids=[2, 3, 4, 5, 6])
 relatedEmpty = read.getRelatedSamplingFeatures(sfid=1)
 related = read.getRelatedSamplingFeatures(sfid=2)

@@ -565,7 +565,7 @@ class ReadODM2(serviceBase):
                                                     .filter(RelatedFeatures.RelatedFeatureID == siteid)
                                                     #.filter(RelatedFeatures.RelationshipTypeCV == "Was Collected at")
                                                     .all()]
-            query = query.join(FeatureActions).filter(SamplingFeatures.SamplingFeatureID.in_(sfids))
+            query = query.join(FeatureActions).filter(FeatureActions.SamplingFeatureID.in_(sfids))
 
         try:
             return query.all()
