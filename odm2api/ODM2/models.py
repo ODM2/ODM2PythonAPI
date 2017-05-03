@@ -1803,31 +1803,31 @@ class TransectResultValueAnnotations(Base):
     ValueObj = relationship(TransectResultValues)
 
 
-# def _changeSchema(schema):
-#     import inspect
-#     import sys
-#     #get a list of all of the classes in the module
-#     clsmembers = inspect.getmembers(sys.modules[__name__],
-#                                     lambda member: inspect.isclass(member) and member.__module__ == __name__)
-#
-#     for name, Tbl in clsmembers:
-#         import sqlalchemy.ext.declarative.api as api
-#
-#         if isinstance(Tbl, api.DeclarativeMeta):
-#             #check to see if the schema is already set correctly
-#             if Tbl.__table__.schema ==schema:
-#                 return
-#             Tbl.__table__.schema = schema
-#             Tbl.__table_args__["schema"]=schema
-
-
 def _changeSchema(schema):
-    # check to see if the schema is already set correctly
-    # if Base.__table__.schema == schema:
-    #     return
-    # Base.__table__.schema = schema
-    Base.__table_args__["schema"] = schema
-    print schema
+    import inspect
+    import sys
+    #get a list of all of the classes in the module
+    clsmembers = inspect.getmembers(sys.modules[__name__],
+                                    lambda member: inspect.isclass(member) and member.__module__ == __name__)
+
+    for name, Tbl in clsmembers:
+        import sqlalchemy.ext.declarative.api as api
+
+        if isinstance(Tbl, api.DeclarativeMeta):
+            #check to see if the schema is already set correctly
+            if Tbl.__table__.schema ==schema:
+                return
+            Tbl.__table__.schema = schema
+            Tbl.__table_args__["schema"]=schema
+
+
+# def _changeSchema(schema):
+#     # check to see if the schema is already set correctly
+#     # if Base.__table__.schema == schema:
+#     #     return
+#     # Base.__table__.schema = schema
+#     Base.__table_args__["schema"] = schema
+#     print schema
 
 
 def _getSchema(engine):
