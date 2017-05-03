@@ -22,7 +22,7 @@ from odm2api.ODM2.services import CreateODM2
 # session_factory= dbconnection.createConnection('mssql', "(local)", "ODM2", "ODM", "odm")#win MSSQL
 
 # session_factory= dbconnection.createConnection('mssql', "arroyoodm2", "", "ODM", "odm")#mac/linux MSSQL
-session_factory = dbconnection.createConnection('sqlite', '/Users/stephanie/DEV/YODA-Tools/tests/test_files/ODM2_ts_specimen.sqlite', 2.0)
+session_factory = dbconnection.createConnection('sqlite', '/Users/stephanie/DEV/YODA-Tools/tests/test_files/XL_specimen.sqlite', 2.0)
 
 
 
@@ -37,9 +37,6 @@ session_factory = dbconnection.createConnection('sqlite', '/Users/stephanie/DEV/
 read = ReadODM2(session_factory)
 create = CreateODM2(session_factory)
 
-results = read.getResults(siteid=1)
-resultValues = read.getResultValues(resultids=[1, 2, 3, 4, 5, 6])
-related = read.getRelatedSamplingFeatures(sfid = 1)
 
 # Run some basic sample queries.
 # ------------------------------
