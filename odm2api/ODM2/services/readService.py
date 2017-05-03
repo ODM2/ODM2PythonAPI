@@ -380,10 +380,11 @@ class ReadODM2(serviceBase):
         # if code: sf = sf.filter(RelatedFeatures.RelatedFeatureObj.Sampling)
         try:
             sfids =[x for x in sf.all()]
-            return self.getSamplingFeatures(ids = sfids)
+            if len(sfids)>0:
+                return self.getSamplingFeatures(ids = sfids)
         except Exception as e:
             print("Error running Query: %s" % e)
-            return None
+        return None
 
     """
     Action
