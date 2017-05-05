@@ -316,7 +316,7 @@ class ReadODM2(serviceBase):
         * Pass a list of ProcessingLevelCode - returns a single processingLevel object
         """
         q = self._session.query(ProcessingLevels)
-        if ids: q = q.filter(ProcessingLevels.ProcessingLevels.in_(ids))
+        if ids: q = q.filter(ProcessingLevels.ProcessingLevelsID.in_(ids))
         if codes: q = q.filter(ProcessingLevels.ProcessingLevelCode.in_(codes))
 
         try:
