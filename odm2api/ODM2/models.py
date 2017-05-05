@@ -777,7 +777,8 @@ class Annotations(Base):
     AnnotatorID = Column('annotatorid', ForeignKey(People.PersonID))
     CitationID = Column('citationid', ForeignKey(Citations.CitationID))
 
-    PersonObj = relationship(People)
+    # PersonObj = relationship(People)
+    AnnotatorObj = relationship(People)
     CitationObj = relationship(Citations)
 
 
@@ -889,7 +890,6 @@ class ReferenceMaterials(Base):
 
 class CalibrationStandards(Base):
 
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     ActionID = Column('actionid', Integer, ForeignKey(Actions.ActionID), nullable=False)
     ReferenceMaterialID = Column('referencematerialid', Integer, ForeignKey(ReferenceMaterials.ReferenceMaterialID),
@@ -898,17 +898,8 @@ class CalibrationStandards(Base):
     ActionObj = relationship(Actions)
     ReferenceMaterialObj = relationship(ReferenceMaterials)
 
-# ResultNormalizationValues = Table(
-# u'resultnormalizationvalues', Base.metadata,
-# Column(u'resultid', ForeignKey(Results.ResultID), primary_key=True),
-#     Column(u'normalizedbyreferencematerialvalueid', ForeignKey('odm2.referencematerialvalues.referencematerialvalueid'),
-#            nullable=False),
-#     schema='odm2'
-# )
-
 
 class ReferenceMaterialValues(Base):
-
 
     ReferenceMaterialValueID = Column('referencematerialvalueid', Integer, primary_key=True, nullable=False)
     ReferenceMaterialID = Column('referencematerialid', ForeignKey(ReferenceMaterials.ReferenceMaterialID),
@@ -923,11 +914,9 @@ class ReferenceMaterialValues(Base):
     ReferenceMaterialObj = relationship(ReferenceMaterials)
     UnitObj = relationship(Units)
     VariableObj = relationship(Variables)
-    #ResultsObj = relationship(Results, secondary=ResultNormalizationValues)
 
 
 class ResultNormalizationValues(Base):
-
 
     ResultID = Column(u'resultid', ForeignKey(Results.ResultID), primary_key=True)
     ReferenceMaterialValueID = Column(u'referencematerialvalueid',
@@ -939,7 +928,6 @@ class ResultNormalizationValues(Base):
 
 
 class ResultsDataQuality(Base):
-
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     ResultID = Column('resultid', ForeignKey(Results.ResultID), nullable=False)
@@ -953,7 +941,6 @@ class ResultsDataQuality(Base):
 # Extension Properties
 # ################################################################################
 class ExtensionProperties(Base):
-
 
     PropertyID = Column('propertyid', Integer, primary_key=True, nullable=False)
     PropertyName = Column('propertyname', String(255), nullable=False)
@@ -977,7 +964,6 @@ class ActionExtensionPropertyValues(Base):
 
 
 class CitationExtensionPropertyValues(Base):
-
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     CitationID = Column('citationid', ForeignKey(Citations.CitationID), nullable=False)
