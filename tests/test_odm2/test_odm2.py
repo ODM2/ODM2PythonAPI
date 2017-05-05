@@ -8,6 +8,7 @@ from odm2api.ODM2.services.readService import  ReadODM2
 from odm2api.ODM2.services.createService import CreateODM2
 from odm2api.ODM2.services.updateService import UpdateODM2
 from odm2api.ODM2.services.deleteService import DeleteODM2
+from odm2api.ODM2.models import People
 
 from tests import test_connection as testConnection
 import pytest
@@ -118,15 +119,21 @@ def test_SessionNotFailed(setup):
 def test_createPerson(setup):
 
     # create some people
-    setup.odmcreate.createPerson(firstName="tony",
-                                lastName='castronova',
-                                middleName='michael')
-
-    setup.odmcreate.createPerson(firstName="tony",
-                                lastName='castronova',
-                                middleName=None)
-    setup.odmcreate.createPerson(firstName="john",
-                                lastName='doe')
+    p1 = People(PersonFirstName="tony", PersonLastName='castronova', PersonMiddleName='Michael')
+    p2 = People(PersonFirstName="tony", PersonLastName='castronova')
+    p3 = People(PersonFirstName="john", PersonLastName='doe')
+    setup.odmcreate.createPerson(p1)
+    setup.odmcreate.createPerson(p2)
+    setup.odmcreate.createPerson(p3)
+    # setup.odmcreate.createPerson(firstName="tony",
+    #                             lastName='castronova',
+    #                             middleName='michael')
+    #
+    # setup.odmcreate.createPerson(firstName="tony",
+    #                             lastName='castronova',
+    #                             middleName=None)
+    # setup.odmcreate.createPerson(firstName="john",
+    #                             lastName='doe')
 
     people = setup.odmread.getPeople()
     assert len(people) == 3, "People should have been 3"
@@ -134,9 +141,12 @@ def test_createPerson(setup):
 def test_personFail(setup):
    with pytest.raises(Exception) as excinfo:
         # this one should fail due to a not null constraint
-        setup.odmcreate.createPerson(firstName=None,
-                                lastName='castronova',
-                                middleName='michael')
+
+        # setup.odmcreate.createPerson(firstName=None,
+        #                         lastName='castronova',
+        #                         middleName='michael')
+       p1 = People(PersonFirstName=None, PersonLastName='doe', PersonMiddleName='john')
+       setup.odmcreate.createPerson(p1)
 
    assert 'null' in str(excinfo.value).lower()
 
@@ -299,10 +309,10 @@ def test_createDeploymentAction(setup):
 
 def test_createModel(setup):
 
-    # create model  (expected: record inserted)
-    setup.odmcreate.createModel(code='model',
+    # create converter  (expected: record inserted)
+    setup.odmcreate.createModel(code='converter',
                                name='mymodel',
-                               description='my test model')
+                               description='my test converter')
 
     # create with no description (expected: record inserted)
     setup.odmcreate.createModel(code='model2',
@@ -314,13 +324,13 @@ def test_createModel(setup):
 
     assert len(res) == 2
 
-    res = setup.odmread.getModelByCode('model')
+    res = setup.odmread.getModelByCode('converter')
     assert res is not None
-    assert res.ModelCode == 'model'
+    assert res.ModelCode == 'converter'
 
     with pytest.raises(Exception) as excinfo:
-        # create model with duplicate code (expected: fail to insert record)
-        setup.odmcreate.createModel(code='model',
+        # create converter with duplicate code (expected: fail to insert record)
+        setup.odmcreate.createModel(code='converter',
                                     name='mymodel2',
                                     description='my test model2')
     assert 'unique' in str(excinfo.value).lower()
@@ -329,12 +339,12 @@ def test_createModel(setup):
 def test_createRelatedModel(setup):
     # create a relationship type
     setup.odmcreate.getSession().execute(
-        "insert into cv_relationshiptype values ('coupled', 'coupled model', 'models that have been coupled together', 'modeling', NULL)")
-    # create model  (expected: record inserted)
-    m1 = setup.odmcreate.createModel(code='model',
+        "insert into cv_relationshiptype values ('coupled', 'coupled converter', 'models that have been coupled together', 'modeling', NULL)")
+    # create converter  (expected: record inserted)
+    m1 = setup.odmcreate.createModel(code='converter',
                                      name='mymodel',
-                                     description='my test model')
-    # create model  (expected: record inserted)
+                                     description='my test converter')
+    # create converter  (expected: record inserted)
     m2 = setup.odmcreate.createModel(code='model2',
                                      name='mymodel2',
                                      description='my test model2')
@@ -344,15 +354,15 @@ def test_createRelatedModel(setup):
                                        relatedModelID=m2.ModelID,
                                        relationshipType='coupled')
 
-    m1r = setup.odmread.getModelByCode('model')
+    m1r = setup.odmread.getModelByCode('converter')
     assert m1r is not None
-    assert m1r.ModelCode == 'model'
+    assert m1r.ModelCode == 'converter'
 
     m2r = setup.odmread.getModelByCode('model2')
     assert m2r is not None
     assert m2r.ModelCode == 'model2'
 
-    m1rel = setup.odmread.getRelatedModelsByCode('model')
+    m1rel = setup.odmread.getRelatedModelsByCode('converter')
     assert len(m1rel) == 1
 
     m2rel = setup.odmread.getRelatedModelsByCode('model2')

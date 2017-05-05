@@ -3,7 +3,7 @@ __author__ = 'sreeder'
 import datetime as dt
 import uuid
 
-# from src.api.ODM2.LikeODM1.model import Site
+# from src.api.ODM2.LikeODM1.converter import Site
 from odm2api.ODM2.models import *
 from odm2api.ODM2 import serviceBase
 
@@ -48,6 +48,8 @@ class CreateODM2(serviceBase):
 
     #send in any type of sampling feature
     def createSamplingFeature(self, samplingfeature):
+        if samplingfeature.SamplingFeatureUUID is None:
+            samplingfeature.SamplingFeatureUUID = str(uuid.uuid1())
         self._session.add(samplingfeature)
         self._session.commit()
 
@@ -117,6 +119,8 @@ class CreateODM2(serviceBase):
 
     #send in any type of result object
     def createResult(self, result):
+        if result.ResultUUID is None:
+            result.ResultUUID = str(uuid.uuid1())
         self._session.add(result)
         self._session.commit()
         return result

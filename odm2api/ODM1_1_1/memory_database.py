@@ -66,6 +66,7 @@ class MemoryDatabase(object):
     def getEditColumns(self):
         columns = []
         tmp_columns = self.df.columns.tolist()
+        print tmp_columns
         tmp_columns.remove('DataValue')
         tmp_columns.remove('LocalDateTime')
         tmp_columns.remove('QualifierID')

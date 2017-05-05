@@ -72,7 +72,7 @@ class Site(Base):
     comments = None
 
     # relationships
-    # TODO @sreeder, Please take a look at this line as it throws: sqlalchemy.exc.InvalidRequestError: Class <class 'ODM2.LikeODM1.model.Site2'> does not have a mapped column named 'lat_long_datum_id'
+    # TODO @sreeder, Please take a look at this line as it throws: sqlalchemy.exc.InvalidRequestError: Class <class 'ODM2.LikeODM1.converter.Site2'> does not have a mapped column named 'lat_long_datum_id'
     # :)
     # spatial_ref = relationship(SpatialReference, primaryjoin=("SpatialReference.id==Site2.lat_long_datum_id"))
     # spatial_ref = relationship(SpatialReference)

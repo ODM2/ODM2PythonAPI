@@ -16,7 +16,7 @@ conns = [
     #connection to the ODM1 database
     dbconnection.createConnection('mysql', 'jws.uwrl.usu.edu', 'odm', "ODM", "ODM123!!", 1.1),
     #connection to the ODM2 database
-    dbconnection.createConnection('mysql', 'jws.uwrl.usu.edu', 'odm2', 'ODM', 'ODM123!!', 2.0)]
+    dbconnection.createConnection('mssql', '(local)', 'odm2', 'ODM', 'odm', 2.0)]
 
 
 for conn in conns:
@@ -29,7 +29,7 @@ for conn in conns:
     print
 
     odm1service = SeriesService(conn)
-    odm1service.refreshDB(conn.version)
+
     pp.pprint(conn)
 
     print

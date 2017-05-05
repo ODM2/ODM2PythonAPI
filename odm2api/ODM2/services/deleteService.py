@@ -9,8 +9,8 @@ from odm2api.ODM2.models import *
 
 class DeleteODM2(serviceBase):
 
-    def test(self):
-        return None
+    def remove(self, obj):
+        self._session.delete(obj)
 
 # ################################################################################
 # CV
@@ -90,6 +90,19 @@ class DeleteODM2(serviceBase):
 
 
 # ################################################################################
-# ODM2
+# Result Values
 # ################################################################################
 
+    def deleteTSRValues(self, ids=None, startdate = None, dates=None):
+
+        q = self._session.query(TimeSeriesResultValues)
+        if ids:
+            q = q.filter(TimeSeriesResultValues.ResultID.in_(ids))
+        if startdate:
+            #delete all values on or after the startdate
+            q = q.filter(TimeSeriesResultValues.ValueDateTime >= startdate)
+        if dates:
+            q = q.filter(TimeSeriesResultValues.ValueDateTime.in_(dates))
+        numvals = q.count()
+        q.delete(False)
+        return numvals

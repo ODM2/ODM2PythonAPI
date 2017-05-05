@@ -34,7 +34,7 @@ setup(
     # https://packaging.python.org/en/latest/single_source_version.html
     version='0.5.2',
 
-    description='A Python-based application programmers interface for the Observations Data Model 2 (ODM2) ',
+    description='A Python-based application programmers interface for the Observations Data converter 2 (ODM2) ',
     long_description=long_description,
 
     # The project's main homepage.
@@ -75,12 +75,12 @@ setup(
     ],
 
     # What does your project relate to?
-    keywords='Observations Data Model ODM2',
+    keywords='Observations Data converter ODM2',
 
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
 
-    packages=find_packages(exclude=['Examples', 'setup', 'tests*', 'Forms']),
+    packages=find_packages(exclude=['samplefiles', 'setup', 'tests*', 'Forms']),
 
     # List run-time dependencies here.  These will be installed by pip when
     # your project is installed. For an analysis of "install_requires" vs pip's
