@@ -13,9 +13,6 @@ BigIntegerType = BigIntegerType.with_variant(postgresql.BIGINT(), 'postgresql')
 BigIntegerType = BigIntegerType.with_variant(mysql.BIGINT(), 'mysql')
 
 
-
-
-
 def is_hex(s):
     try:
         int(s, base=16)
@@ -1212,6 +1209,7 @@ class MethodCitations(Base):
     RelationshipTypeCV = Column('relationshiptypecv', ForeignKey(CVRelationshipType.Name), nullable=False,
                                 index=True)
     CitationID = Column('citationid', ForeignKey(Citations.CitationID), nullable=False)
+
     CitationObj = relationship(Citations)
     MethodObj = relationship(Methods)
 
@@ -1278,7 +1276,6 @@ class RelatedResults(Base):
 # ################################################################################
 class PointCoverageResults(Results):
 
-
     ResultID = Column('resultid', ForeignKey(Results.ResultID), primary_key=True)
     ZLocation = Column('zlocation', Float(53))
     ZLocationUnitsID = Column('zlocationunitsid', ForeignKey(Units.UnitsID))
@@ -1296,12 +1293,11 @@ class PointCoverageResults(Results):
     IntendedYSpacingUnitsObj = relationship(Units, primaryjoin='PointCoverageResults.IntendedYSpacingUnitsID == Units.UnitsID')
     SpatialReferenceObj = relationship(SpatialReferences)
     ZLocationUnitsObj = relationship(Units, primaryjoin='PointCoverageResults.ZLocationUnitsID == Units.UnitsID')
-    # ResultObj = relationship(Results, primaryjoin='PointCoverageResults.ResultID == Results.ResultID')
-    __mapper_args__ = {'polymorphic_identity':'Point coverage'}
+
+    __mapper_args__ = {'polymorphic_identity': 'Point coverage'}
 
 
 class ProfileResults(Results):
-
 
     ResultID = Column('resultid', ForeignKey(Results.ResultID), primary_key=True)
     XLocation = Column('xlocation', Float(53))
@@ -1321,12 +1317,11 @@ class ProfileResults(Results):
     SpatialReferenceObj = relationship(SpatialReferences)
     XLocationUnitsObj = relationship(Units, primaryjoin='ProfileResults.XLocationUnitsID == Units.UnitsID')
     YLocationUnitsObj = relationship(Units, primaryjoin='ProfileResults.YLocationUnitsID == Units.UnitsID')
-    # ResultObj = relationship(Results, primaryjoin='ProfileResults.ResultID == Results.ResultID')
-    __mapper_args__ = {'polymorphic_identity':'Profile Coverage'}
+
+    __mapper_args__ = {'polymorphic_identity': 'Profile Coverage'}
 
 
 class CategoricalResults(Results):
-
 
     ResultID = Column('resultid', ForeignKey(Results.ResultID), primary_key=True)
     XLocation = Column('xlocation', Float(53))
@@ -1343,8 +1338,7 @@ class CategoricalResults(Results):
     YLocationUnitsObj = relationship(Units, primaryjoin='CategoricalResults.YLocationUnitsID == Units.UnitsID')
     ZLocationUnitsObj = relationship(Units, primaryjoin='CategoricalResults.ZLocationUnitsID == Units.UnitsID')
 
-    # ResultObj = relationship(Results, primaryjoin='CategoricalResults.ResultID == Results.ResultID')
-    __mapper_args__ = {'polymorphic_identity':'Category coverage'}
+    __mapper_args__ = {'polymorphic_identity':' Category coverage'}
 
 
 class TransectResults(Results):
@@ -1365,12 +1359,11 @@ class TransectResults(Results):
     IntendedTransectSpacingUnitsObj = relationship(Units, primaryjoin='TransectResults.IntendedTransectSpacingUnitsID == Units.UnitsID')
     SpatialReferenceObj = relationship(SpatialReferences)
     ZLocationUnitsObj = relationship(Units, primaryjoin='TransectResults.ZLocationUnitsID == Units.UnitsID')
-    # ResultObj = relationship(Results, primaryjoin='TransectResults.ResultID == Results.ResultID')
-    __mapper_args__ = {'polymorphic_identity':'Transect Coverage'}
+
+    __mapper_args__ = {'polymorphic_identity': 'Transect Coverage'}
 
 
 class SpectraResults(Results):
-
 
     ResultID = Column('resultid', ForeignKey(Results.ResultID), primary_key=True)
     XLocation = Column('xlocation', Float(53))
@@ -1390,7 +1383,7 @@ class SpectraResults(Results):
     XLocationUnitsObj = relationship(Units, primaryjoin='SpectraResults.XLocationUnitsID == Units.UnitsID')
     YLocationUnitsObj = relationship(Units, primaryjoin='SpectraResults.YLocationUnitsID == Units.UnitsID')
     ZLocationUnitsObj = relationship(Units, primaryjoin='SpectraResults.ZLocationUnitsID == Units.UnitsID')
-    # ResultObj = relationship(Results, primaryjoin='SpectraResults.ResultID == Results.ResultID')
+
     __mapper_args__ = {'polymorphic_identity':'Spectra coverage'}
 
 
@@ -1409,14 +1402,13 @@ class TimeSeriesResults(Results):
     AggregationStatisticCV = Column('aggregationstatisticcv', ForeignKey(CVAggregationStatistic.Name),
                                     nullable=False, index=True)
 
-    # ResultObj = relationship(Results)
     IntendedTimeSpacingUnitsObj = relationship(Units,
-                                               primaryjoin='TimeSeriesResults.IntendedTimeSpacingUnitsID == Units.UnitsID')
+                                        primaryjoin='TimeSeriesResults.IntendedTimeSpacingUnitsID == Units.UnitsID')
     SpatialReferenceObj = relationship(SpatialReferences)
     XLocationUnitsObj = relationship(Units, primaryjoin='TimeSeriesResults.XLocationUnitsID == Units.UnitsID')
     YLocationUnitsObj = relationship(Units, primaryjoin='TimeSeriesResults.YLocationUnitsID == Units.UnitsID')
     ZLocationUnitsObj = relationship(Units, primaryjoin='TimeSeriesResults.ZLocationUnitsID == Units.UnitsID')
-    # ResultObj = relationship(Results, primaryjoin='TimeSeriesResults.ResultID == Results.ResultID')
+
     __mapper_args__ = {'polymorphic_identity':'Time series coverage'}
 
 
@@ -1440,12 +1432,11 @@ class SectionResults(Results):
     IntendedZSpacingUnitsObj = relationship(Units, primaryjoin='SectionResults.IntendedZSpacingUnitsID == Units.UnitsID')
     SpatialReferenceObj = relationship(SpatialReferences)
     YLocationUnitsObj = relationship(Units, primaryjoin='SectionResults.YLocationUnitsID == Units.UnitsID')
-    # ResultObj = relationship(Results, primaryjoin='SectionResults.ResultID == Results.ResultID')
+
     __mapper_args__ = {'polymorphic_identity':'Section coverage'}
 
 
 class TrajectoryResults(Results):
-
 
     ResultID = Column('resultid', ForeignKey(Results.ResultID), primary_key=True)
     SpatialReferenceID = Column('spatialreferenceid', ForeignKey(SpatialReferences.SpatialReferenceID))
@@ -1460,12 +1451,11 @@ class TrajectoryResults(Results):
     IntendedTrajectorySpacingUnitsObj = relationship(Units,
                                      primaryjoin='TrajectoryResults.IntendedTrajectorySpacingUnitsID == Units.UnitsID')
     SpatialReferenceObj = relationship(SpatialReferences)
-    # ResultObj = relationship(Results, primaryjoin='TrajectoryResults.ResultID == Results.ResultID')
+
     __mapper_args__ = {'polymorphic_identity':'Trajectory coverage'}
 
 
 class MeasurementResults(Results):
-
 
     ResultID = Column('resultid', ForeignKey(Results.ResultID), primary_key=True)
     XLocation = Column('xlocation', Float(53))
@@ -1488,7 +1478,7 @@ class MeasurementResults(Results):
     XLocationUnitsObj = relationship(Units, primaryjoin='MeasurementResults.XLocationUnitsID == Units.UnitsID')
     YLocationUnitsObj = relationship(Units, primaryjoin='MeasurementResults.YLocationUnitsID == Units.UnitsID')
     ZLocationUnitsObj = relationship(Units, primaryjoin='MeasurementResults.ZLocationUnitsID == Units.UnitsID')
-    # ResultObj = relationship(Results, primaryjoin='MeasurementResults.ResultID == Results.ResultID')
+
     __mapper_args__ = {'polymorphic_identity':'Measurement'}
 
 
@@ -1516,7 +1506,6 @@ class MeasurementResultValues(Base):
 
 
 class PointCoverageResultValues(Base):
-
 
     ValueID = Column('valueid', BigIntegerType, primary_key=True)
     ResultID = Column('resultid', ForeignKey(PointCoverageResults.ResultID), nullable=False)
@@ -1634,7 +1623,6 @@ class TimeSeriesResultValues(Base):
 
 class TrajectoryResultValues(Base):
 
-
     ValueID = Column('valueid', BigIntegerType, primary_key=True)
     ResultID = Column('resultid', ForeignKey(TrajectoryResults.ResultID), nullable=False)
     DataValue = Column('datavalue', Float(53), nullable=False)
@@ -1665,7 +1653,6 @@ class TrajectoryResultValues(Base):
 
 class TransectResultValues(Base):
 
-
     ValueID = Column('valueid', BigIntegerType, primary_key=True)
     ResultID = Column('resultid', ForeignKey(TransectResults.ResultID), nullable=False)
     DataValue = Column('datavalue', Float(53), nullable=False)
@@ -1695,7 +1682,6 @@ class TransectResultValues(Base):
 
 class CategoricalResultValueAnnotations(Base):
 
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     ValueID = Column('valueid', BigInteger, ForeignKey(CategoricalResultValues.ValueID), nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
@@ -1706,7 +1692,6 @@ class CategoricalResultValueAnnotations(Base):
 
 class MeasurementResultValueAnnotations(Base):
 
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     ValueID = Column('valueid', BigInteger, ForeignKey(MeasurementResultValues.ValueID), nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
@@ -1716,7 +1701,6 @@ class MeasurementResultValueAnnotations(Base):
 
 
 class PointCoverageResultValueAnnotations(Base):
-
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     ValueID = Column('valueid', BigInteger, ForeignKey(PointCoverageResultValues.ValueID), nullable=False)
@@ -1738,7 +1722,6 @@ class ProfileResultValueAnnotations(Base):
 
 class SectionResultValueAnnotations(Base):
 
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     ValueID = Column('valueid', BigInteger, ForeignKey(SectionResultValues.ValueID), nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
@@ -1749,7 +1732,6 @@ class SectionResultValueAnnotations(Base):
 
 class SpectraResultValueAnnotations(Base):
 
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     ValueID = Column('valueid', BigInteger, ForeignKey(SpectraResultValues.ValueID), nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
@@ -1759,7 +1741,6 @@ class SpectraResultValueAnnotations(Base):
 
 
 class TimeSeriesResultValueAnnotations(Base):
-
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     ValueID = Column('valueid', BigInteger, ForeignKey(TimeSeriesResultValues.ValueID), nullable=False)
@@ -1792,7 +1773,7 @@ class TransectResultValueAnnotations(Base):
 def _changeSchema(schema):
     import inspect
     import sys
-    #get a list of all of the classes in the module
+    # get a list of all of the classes in the module
     clsmembers = inspect.getmembers(sys.modules[__name__],
                                     lambda member: inspect.isclass(member) and member.__module__ == __name__)
 
@@ -1800,20 +1781,11 @@ def _changeSchema(schema):
         import sqlalchemy.ext.declarative.api as api
 
         if isinstance(Tbl, api.DeclarativeMeta):
-            #check to see if the schema is already set correctly
-            if Tbl.__table__.schema ==schema:
+            # check to see if the schema is already set correctly
+            if Tbl.__table__.schema == schema:
                 return
             Tbl.__table__.schema = schema
-            Tbl.__table_args__["schema"]=schema
-
-
-# def _changeSchema(schema):
-#     # check to see if the schema is already set correctly
-#     # if Base.__table__.schema == schema:
-#     #     return
-#     # Base.__table__.schema = schema
-#     Base.__table_args__["schema"] = schema
-#     print schema
+            Tbl.__table_args__["schema"]= schema
 
 
 def _getSchema(engine):
@@ -1830,8 +1802,6 @@ def _getSchema(engine):
 def setSchema(engine):
 
     s = _getSchema(engine)
-    # if s is None:
-    #     s = ''
     _changeSchema(s)
 
 
