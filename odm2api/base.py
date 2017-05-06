@@ -55,7 +55,11 @@ class Base(object):
         return self.__dict__ == other.__dict__
 
     def __repr__(self):
-        return "<%s(%s)>" % (self.__class__.__name__, str(self.__dict__))
+        valuedict = self.__dict__.copy()
+        for v in valuedict.keys():
+            if "obj" in v.lower():
+                del valuedict[v]
+        return "<%s(%s)>" % (self.__class__.__name__, str(valuedict))
 
 
 from sqlalchemy.ext.declarative import declarative_base
