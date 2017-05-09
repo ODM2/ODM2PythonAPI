@@ -833,8 +833,7 @@ class ReadODM2(serviceBase):
     def getSpatialReferences(self, srsCodes=None):
         """
         getSpatialReference()
-        * Pass a ResultID - Returns a result values object of type that is specific to the result type
-        * Pass a ResultID and a date range - returns a result values object of type that is specific to the result type with values between the input date range
+        *
         """
         q = self._session.query(SpatialReferences)
         if srsCodes: q.filter(SpatialReferences.SRSCode.in_(srsCodes))

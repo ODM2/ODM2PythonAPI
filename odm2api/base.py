@@ -59,6 +59,7 @@ class Base(object):
         for v in valuedict.keys():
             if "obj" in v.lower():
                 del valuedict[v]
+        # del valuedict["_sa_instance_state"]
         return "<%s(%s)>" % (self.__class__.__name__, str(valuedict))
 
 
