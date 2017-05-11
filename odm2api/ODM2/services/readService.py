@@ -747,32 +747,32 @@ class ReadODM2(serviceBase):
 
     # TODO functions for Provenance
     def getAuthorLists(self):
-        self._session.query(AuthorLists).all()
+        return self._session.query(AuthorLists).all()
 
     def getDatasetCitations(self):
-        self._session.query(DataSetCitations).all()
+        return self._session.query(DataSetCitations).all()
 
     def getDerivationEquations(self):
-        self._session.query(DerivationEquations).all()
+        return self._session.query(DerivationEquations).all()
 
     def getMethodCitations(self):
-        self._session.query(MethodCitations).all()
+        return self._session.query(MethodCitations).all()
 
     def getRelatedAnnotations(self):
         # q= read._session.query(Actions).select_from(RelatedActions).join(RelatedActions.RelatedActionObj)
-        self._session.query(RelatedAnnotations).all()
+        return self._session.query(RelatedAnnotations).all()
 
     def getRelatedCitations(self):
-        self._session.query(RelatedCitations).all()
+        return self._session.query(RelatedCitations).all()
 
     def getRelatedDatasets(self):
-        self._session.query(RelatedDataSets).all()
+        return self._session.query(RelatedDataSets).all()
 
     def getRelatedResults(self):
-        self._session.query(RelatedResults).all()
+        return self._session.query(RelatedResults).all()
 
     def getResultDerivationEquations(self):
-        self._session.query(ResultDerivationEquations).all()
+        return self._session.query(ResultDerivationEquations).all()
 
     # ################################################################################
     # Results
