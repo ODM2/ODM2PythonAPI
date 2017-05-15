@@ -78,7 +78,7 @@ class ReadODM2(serviceBase):
     # Annotations
     # ################################################################################
 
-    def getAnnotations(self, type=None, codes = None, ids = None):
+    def getAnnotations(self, type=None, codes=None, ids=None):
         """
         def getAnnotations(self, type=None, codes = None, ids = None):
 
@@ -279,21 +279,30 @@ class ReadODM2(serviceBase):
 
         if sitecode:
             try:
-                ids = [x[0] for x in
+                vars = [x[0] for x in
                            self._session.query(distinct(Results.VariableID))
                                .filter(Results.FeatureActionID == FeatureActions.FeatureActionID)
                                .filter(FeatureActions.SamplingFeatureID == SamplingFeatures.SamplingFeatureID)
                                .filter(SamplingFeatures.SamplingFeatureCode == sitecode).all()
                            ]
+
+                if ids:
+                    ids = list(set(ids).intersection(vars))
+                else:
+                    ids = vars
             except:
-                ids = None
+                pass
 
 
         if results:
             try:
-                ids = [x[0] for x in self._session.query(distinct(Results.VariableID)).all()]
+                vars = [x[0] for x in self._session.query(distinct(Results.VariableID)).all()]
+                if ids:
+                    ids = list(set(ids).intersection(vars))
+                else:
+                    ids = vars
             except:
-                ids = None
+                pass
 
         query = self._session.query(Variables)
         if ids: query = query.filter(Variables.VariableID.in_(ids))
@@ -362,18 +371,20 @@ class ReadODM2(serviceBase):
         * Pass a list of SamplingFeatureUUID - returns a single sampling feature object for the given UUID's
         * Pass a SamplingFeatureType - returns a list of sampling feature objects of the type passed in
         * Pass a SamplingFeature Well Known Text - return a list of sampling feature objects
-        * Pass whether or not you want to return the sampling features that have results associated with them
+        * Pass whether or not you want to return only the sampling features that have results associated with them
         """
         if results:
             try:
                 fas = [x[0] for x in self._session.query(distinct(Results.FeatureActionID)).all()]
             except:
                 return None
-
             sf = [x[0] for x in self._session.query(distinct(FeatureActions.SamplingFeatureID))
-                                                    .filter(FeatureActions.FeatureActionID.in_(fas)).all()]
+                                    .filter(FeatureActions.FeatureActionID.in_(fas)).all()]
+            if ids:
+                ids = list(set(ids).intersection(sf))
+            else:
+                ids = sf
 
-            ids = sf
         q = self._session.query(SamplingFeatures)
 
         if type: q = q.filter_by(SamplingFeatureTypeCV=type)
@@ -391,7 +402,7 @@ class ReadODM2(serviceBase):
         #TODO: add functionality to filter by code
         """
         getRelatedSamplingFeatures(self, sfid=None, rfid = None, relationshiptype=None):
-        * Pass a SamplingFeatureID - get a list of sampling feature objects related to the input sampling feature along with the relationship type
+        * Pass a SamplingFeatureID - get a list of sampling feature objects related to the input sampling feature
         * Pass a RelatedFeatureID - get a list of Sampling features objects through the related feature
         * Pass a RelationshipTypeCV - get a list of sampling feature objects with the given type
 
@@ -400,19 +411,19 @@ class ReadODM2(serviceBase):
         # q = session.query(Address).select_from(User). \
         #     join(User.addresses). \
         #     filter(User.name == 'ed')
-        #throws an error when joining entire samplingfeature, works fine when just getting an element. this is being caused by the sampling feature inheritance
+        #throws an error when joining entire samplingfeature, works fine when just getting an element. this is being
+        # caused by the sampling feature inheritance
 
         sf = self._session.query(distinct(SamplingFeatures.SamplingFeatureID))\
-                                .select_from(RelatedFeatures)
-
+                 .select_from(RelatedFeatures)
 
         if sfid: sf = sf.join(RelatedFeatures.RelatedFeatureObj).filter(RelatedFeatures.SamplingFeatureID == sfid)
         if rfid: sf = sf.join(RelatedFeatures.SamplingFeatureObj).filter(RelatedFeatures.RelatedFeatureID == rfid)
         if relationshiptype: sf = sf.filter(RelatedFeatures.RelationshipTypeCV == relationshiptype)
         try:
-            sfids =[x[0] for x in sf.all()]
-            if len(sfids)>0:
-                sflist= self.getSamplingFeatures(ids=sfids)
+            sfids = [x[0] for x in sf.all()]
+            if len(sfids) > 0:
+                sflist = self.getSamplingFeatures(ids=sfids)
                 return sflist
 
         except Exception as e:
@@ -577,7 +588,6 @@ class ReadODM2(serviceBase):
 
         query = self._session.query(Results)
 
-
         if type: query = query.filter_by(ResultTypeCV=type)
         if variableid: query = query.filter_by(VariableID=variableid)
         if ids: query = query.filter(Results.ResultID.in_(ids))
@@ -624,7 +634,7 @@ class ReadODM2(serviceBase):
         try:
             return q.all()
         except Exception as e:
-            print("Error running Query %s"%e)
+            print("Error running Query %s" % e)
             return None
 
     # ################################################################################
