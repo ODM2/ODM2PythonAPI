@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 
 from odm2api.ODM2.models import Variables as Variable2, setSchema
 
-from odm2api.ODM1_1_1.services import ODM#, refreshDB
+
 import urllib
 import sys
 import os

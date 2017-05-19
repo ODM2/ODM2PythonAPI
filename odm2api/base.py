@@ -24,10 +24,9 @@ class serviceBase(object):
         self._version = session_factory.version
         self._debug = debug
 
-        #self._sessiona
 
-    #self._session_factory=""
-   # def getSessionFactory( session = None):
+
+
     def getSession(self):
         if self._session is None:
             self._session = self._session_factory.getSession()
@@ -39,9 +38,11 @@ class serviceBase(object):
 
 
 
-from sqlalchemy.ext.declarative import declared_attr
+
 
 class Base(object):
+    from sqlalchemy.ext.declarative import declared_attr
+
     @declared_attr
     def __tablename__(cls):
         return cls.__name__.lower()
@@ -59,11 +60,12 @@ class Base(object):
         for v in valuedict.keys():
             if "obj" in v.lower():
                 del valuedict[v]
+        # del valuedict["_sa_instance_state"]
         return "<%s(%s)>" % (self.__class__.__name__, str(valuedict))
 
 
-from sqlalchemy.ext.declarative import declarative_base
 class modelBase():
+    from sqlalchemy.ext.declarative import declarative_base
     Base = declarative_base(cls=Base)
 
 

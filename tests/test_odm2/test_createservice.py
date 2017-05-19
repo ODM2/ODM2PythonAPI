@@ -249,7 +249,7 @@ class TestCreateService:
         
 
         # create most basic time series result record possible
-        r = models.TimeSeriesResults(FeatureActionID = 1,
+        r = models.TimeSeriesResults(FeatureActionID= 1,
                 VariableID=1,
                 UnitsID =1,
                 ProcessingLevelID = 1,
@@ -260,7 +260,6 @@ class TestCreateService:
                 AggregationStatisticCV = 'unknown'
 
         )
-
 
         newres=self.writer.createResult(r)
 

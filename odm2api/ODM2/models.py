@@ -1800,7 +1800,6 @@ def _getSchema(engine):
 
 
 def setSchema(engine):
-
     s = _getSchema(engine)
     _changeSchema(s)
 
