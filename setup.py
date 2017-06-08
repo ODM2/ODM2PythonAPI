@@ -16,6 +16,8 @@ from setuptools import setup, find_packages
 from codecs import open
 from os import path
 
+import versioneer
+
 here = path.abspath(path.dirname(__file__))
 
 from pip.req import parse_requirements
@@ -32,7 +34,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='0.6.0.a0',
+    version=versioneer.get_version(),
 
     description='A Python-based application programmers interface for the Observations Data converter 2 (ODM2) ',
     long_description=long_description,
