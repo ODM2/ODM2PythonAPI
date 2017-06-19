@@ -133,4 +133,5 @@ setup(
     #         'sample=sample:main',
     #     ],
     # },
+    cmdclass=versioneer.get_cmdclass(),
 )
