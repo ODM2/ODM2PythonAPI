@@ -2,9 +2,6 @@ language: python
 
 sudo: false
 
-python:
-  - "2.7"
-
 services:
   - mysql
   - postgresql
@@ -30,11 +27,25 @@ addons:
       - libgeos-dev
       - libspatialite-dev
 
+matrix:
+  fast_finish: true
+  include:
+  - python: 2.7
+    env: TEST_TARGET=default
+  - python: 3.6
+    env: TEST_TARGET=default
+  - python: 2.7
+    env: TEST_TARGET=coding_standards
+  allow_failures:
+  - python: 2.7
+    env: TEST_TARGET=coding_standards
+  - python: 3.6
+    env: TEST_TARGET=default
+
 before_script:
   - ./ci-helpers/mysql_setup.sh
   - ./ci-helpers/postgres_setup.sh
   - ./ci-helpers/travis/freetds.sh
-
 
 before_install:
   - wget http://bit.ly/miniconda -O miniconda.sh
