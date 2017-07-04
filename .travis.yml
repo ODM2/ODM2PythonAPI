@@ -4,6 +4,16 @@ sudo: required
 
 dist: precise
 
+cache:
+  directories:
+    - $HOME/miniconda
+
+# Removing the directory will remove the env but leave the cached packages
+# at $HOME/miniconda/pkgs. That is a win-win because when re-creating the
+# env we will download only the new packages.
+before_cache:
+  - rm -rf $HOME/miniconda/envs/TEST
+
 services:
   - mysql
   - postgresql
@@ -50,8 +60,15 @@ before_script:
   - ./ci-helpers/travis/freetds.sh
 
 before_install:
-  - wget http://bit.ly/miniconda -O miniconda.sh
-  - bash miniconda.sh -b -p $HOME/miniconda
+  - |
+    URL="http://bit.ly/miniconda"
+    echo ""
+    if [ ! -f $HOME/miniconda/bin/conda ] ; then
+      echo "Fresh miniconda installation."
+      wget $URL -O miniconda.sh
+      rm -rf $HOME/miniconda
+      bash miniconda.sh -b -p $HOME/miniconda
+    fi
   - export PATH="$HOME/miniconda/bin:$PATH"
   - conda update --yes --all
   - conda config --add channels odm2 --force
