@@ -3,22 +3,17 @@ language: python
 sudo: false
 
 python:
-#  - "2.6"
   - "2.7"
-#  - "3.2"
-#  - "3.3"
-#  - "3.4"
-#  - "3.5"
-#  - "3.5-dev" # 3.5 development branch
-#  - "nightly" # currently points to 3.6-dev
-# command to install dependencies
+
 cache:
   directories:
     - $HOME/.cache/pip/wheels
     - $HOME/virtualenv/python2.7.9
+
 services:
   - mysql
   - postgresql
+
 addons:
   apt:
     packages:
@@ -36,7 +31,7 @@ addons:
       - libproj-dev
       - libgeos-dev
       - libspatialite-dev
-#  mariadb: '10.1'
+
 before_script:
   - ./ci-helpers/mysql_setup.sh
   - ./ci-helpers/postgres_setup.sh
@@ -44,23 +39,15 @@ before_script:
 
 
 before_install:
-# python -m pip makes the install go into the virtualenv
   - sudo pip install --upgrade pip
   - sudo python -m pip install pandas
   - export PYMSSQL_BUILD_WITH_BUNDLED_FREETDS=1;sudo python -m  pip install pymssql
-#  - python -m  pip install mysql-python
-install: # now just our code
+
+install:
   - sudo pip  install -e git+https://github.com/ODM2/geoalchemy.git@v0.7.4#egg=geoalchemy-0.7.4
   - python -m pip install   .
   - python -m pip install  -r requirements_tests.txt  --allow-external pyodbc --allow-unverified pyodbc
-    # pysqlite
-#  - pip install pysqlite
   - pip list
 
-# don't forget to open up the azure mssql server to these addreses
-# https://docs.travis-ci.com/user/ip-addresses/
-
-# command to run tests
 script:
-
   - py.test
