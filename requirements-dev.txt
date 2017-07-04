@@ -1,0 +1,14 @@
+pytest
+pytest-cov
+mock
+pymysql
+pymssql
+psycopg2
+pymssql
+psycopg2
+flake8
+# FIXME: I am not sure these are needed.
+# pysqlite
+# sqlite
+# pyspatialite
+# mysql-python

@@ -1,5 +1,3 @@
 pyodbc
-six
 sqlalchemy
 pandas
-#psycopg2  # Commented out because I could not pip install it.
