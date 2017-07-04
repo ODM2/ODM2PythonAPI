@@ -12,17 +12,20 @@ services:
 addons:
   apt:
     packages:
-      - cmake
-      - unixodbc
-      - unixodbc-dev
+      # FIXME: when activating the services above I don't think these are needed.
       - odbcinst1debian2
       - odbcinst
+      - tdsodbc
+      - e2fsprogs
+      # FIXME: the dependencies below can probably be replaced by conda.
+      - libc6
       - freetds-dev
       - freetds-bin
-      - tdsodbc
-      - libc6
-      - e2fsprogs
+      - unixodbc
+      - unixodbc-dev
       - mysql-client
+      # FIXME: I don't see the need for these anywhere.
+      - cmake
       - libproj-dev
       - libgeos-dev
       - libspatialite-dev
