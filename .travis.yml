@@ -5,11 +5,6 @@ sudo: false
 python:
   - "2.7"
 
-cache:
-  directories:
-    - $HOME/.cache/pip/wheels
-    - $HOME/virtualenv/python2.7.9
-
 services:
   - mysql
   - postgresql
