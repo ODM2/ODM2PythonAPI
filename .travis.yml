@@ -70,9 +70,10 @@ before_install:
       bash miniconda.sh -b -p $HOME/miniconda
     fi
   - export PATH="$HOME/miniconda/bin:$PATH"
-  - conda update --yes --all
+  - conda config --set always_yes yes --set changeps1 no --set show_channel_urls true
+  - conda update conda
   - conda config --add channels odm2 --force
-  - conda create --yes -n TEST python=$TRAVIS_PYTHON_VERSION --file requirements.txt --file requirements-dev.txt
+  - conda create --name TEST python=$TRAVIS_PYTHON_VERSION --file requirements.txt --file requirements-dev.txt
   - source activate TEST
 
 # Test source distribution.
