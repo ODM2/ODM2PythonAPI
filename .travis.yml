@@ -1,8 +1,7 @@
 language: python
 
-sudo: required
-# if the https://travis-ci.org/ODM2/ODM2PythonAPI/requests ever says: missing config
-# validate at: http://lint.travis-ci.org/
+sudo: false
+
 python:
 #  - "2.6"
   - "2.7"
