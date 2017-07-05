@@ -25,7 +25,7 @@ with open(os.path.join(here, 'README.md'), encoding='utf-8') as f:
 setup(
     name='odm2api',
     version=versioneer.get_version(),
-    description='Python interface for the Observations Data converter 2 (ODM2)',
+    description='Python interface for the Observations Data Model 2 (ODM2)',
     long_description=long_description,
     url='https://github.com/ODM2/ODM2PythonAPI',
     author='ODM2 team-Stephanie Reeder',
@@ -43,7 +43,7 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Scientific/Engineering'
     ],
-    keywords='Observations Data converter ODM2',
+    keywords='Observations Data Model ODM2',
     packages=find_packages(exclude=['samplefiles', 'setup', 'tests*', 'Forms']),
     install_requires=install_requires,
     extras_require={
