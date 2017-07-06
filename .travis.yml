@@ -1,67 +1,71 @@
-git blanguage: python
-sudo: required
-# if the https://travis-ci.org/ODM2/ODM2PythonAPI/requests ever says: missing config
-# validate at: http://lint.travis-ci.org/
-python:
-#  - "2.6"
-  - "2.7"
-#  - "3.2"
-#  - "3.3"
-#  - "3.4"
-#  - "3.5"
-#  - "3.5-dev" # 3.5 development branch
-#  - "nightly" # currently points to 3.6-dev
-# command to install dependencies
-cache:
-  directories:
-    - $HOME/.cache/pip/wheels
-    - $HOME/virtualenv/python2.7.9
+language: python
+
+sudo: false
+
 services:
   - mysql
   - postgresql
+
 addons:
   apt:
     packages:
-      - cmake
-      - unixodbc
-      - unixodbc-dev
+      # FIXME: when activating the services above I don't think these are needed.
       - odbcinst1debian2
       - odbcinst
+      - tdsodbc
+      - e2fsprogs
+      # FIXME: the dependencies below can probably be replaced by conda.
+      - libc6
       - freetds-dev
       - freetds-bin
-      - tdsodbc
-      - libc6
-      - e2fsprogs
+      - unixodbc
+      - unixodbc-dev
       - mysql-client
+      # FIXME: I don't see the need for these anywhere.
+      - cmake
       - libproj-dev
       - libgeos-dev
       - libspatialite-dev
-#  mariadb: '10.1'
+
+matrix:
+  fast_finish: true
+  include:
+  - python: 2.7
+    env: TEST_TARGET=default
+  - python: 3.6
+    env: TEST_TARGET=default
+  - python: 2.7
+    env: TEST_TARGET=coding_standards
+  allow_failures:
+  - python: 2.7
+    env: TEST_TARGET=coding_standards
+  - python: 3.6
+    env: TEST_TARGET=default
+
 before_script:
   - ./ci-helpers/mysql_setup.sh
   - ./ci-helpers/postgres_setup.sh
   - ./ci-helpers/travis/freetds.sh
 
-
 before_install:
-# python -m pip makes the install go into the virtualenv
-  - sudo pip install --upgrade pip
-  - sudo python -m pip install pandas
-  - export PYMSSQL_BUILD_WITH_BUNDLED_FREETDS=1;sudo python -m  pip install pymssql
-#  - python -m  pip install mysql-python
-install: # now just our code
-  - sudo pip  install -e git+https://github.com/ODM2/geoalchemy.git@v0.7.4#egg=geoalchemy-0.7.4
-  - python -m pip install   .
-  - python -m pip install  -r requirements_tests.txt  --allow-external pyodbc --allow-unverified pyodbc
-    # pysqlite
-#  - pip install pysqlite
-  - pip list
+  - wget http://bit.ly/miniconda -O miniconda.sh
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - export PATH="$HOME/miniconda/bin:$PATH"
+  - conda update --yes --all
+  - conda config --add channels odm2 --force
+  - conda create --yes -n TEST python=$TRAVIS_PYTHON_VERSION --file requirements.txt --file requirements-dev.txt
+  - source activate TEST
 
-# don't forget to open up the azure mssql server to these addreses
-# https://docs.travis-ci.com/user/ip-addresses/
+# Test source distribution.
+install:
+  - python setup.py sdist && version=$(python setup.py --version) && pushd dist  && pip install odm2api-${version}.tar.gz && popd
 
-# command to run tests
 script:
+  - if [[ $TEST_TARGET == 'default' ]]; then
+      cp -r tests /tmp && cd /tmp ;
+      py.test -vv tests ;
+    fi
 
-  - py.test
-
+  - if [[ $TEST_TARGET == 'coding_standards' ]]; then
+      find . -type f -name "*.py" ! -name 'conf.py' | xargs flake8 --max-line-length=100 ;
+    fi
