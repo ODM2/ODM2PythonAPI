@@ -1,12 +1,9 @@
+flake8
+mock
+psycopg2
+pymysql
 pytest
 pytest-cov
-mock
-pymysql
-pymssql
-psycopg2
-pymssql
-psycopg2
-flake8
 # FIXME: I am not sure these are needed.
 # pysqlite
 # sqlite
