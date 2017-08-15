@@ -185,7 +185,7 @@ class TestReadService:
         assert len(resapi) == 0
 
         # test invalid argument
-        resapi = self.reader.getRelatedModels(code = models.ActionBy().ActionID)
+        resapi = self.reader.getRelatedModels(code = models.Actions().ActionTypeCV)
         assert resapi is None
 
 

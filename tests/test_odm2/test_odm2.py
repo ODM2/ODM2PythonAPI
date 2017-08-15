@@ -11,7 +11,8 @@ from odm2api.ODM2.models import (People,
                                  Variables,
                                  Methods,
                                  ProcessingLevels,
-                                 Models)
+                                 Models,
+                                 RelatedModels)
 
 from tests import test_connection as testConnection
 import pytest
@@ -184,7 +185,14 @@ def test_createVariable(setup):
 
     with pytest.raises(Exception) as excinfo:
         # insert duplicate
-        setup.odmcreate.createVariable(v1)
+        setup.odmcreate.createVariable(
+            Variables(VariableCode='Phos_TOT',
+                   VariableNameCV='Phosphorus, total dissolved',
+                   VariableTypeCV='Hydrology',
+                   NoDataValue=-999,
+                   SpeciationCV=None,
+                   VariableDefinition=None)
+        )
 
     assert 'unique' in str(excinfo.value).lower()
 
@@ -223,7 +231,7 @@ def test_createMethod(setup):
 def test_ProcessingLevel(setup):
     pl = ProcessingLevels(ProcessingLevelCode='testlevel',
                           Definition='this is a test processing level',
-                          explanation=None)
+                          Explanation=None)
     setup.odmcreate.createProcessingLevel(pl)
     res = setup.odmread.getProcessingLevels()
 
@@ -333,7 +341,7 @@ def test_createModel(setup):
     setup.odmcreate.createModel(mod2)
 
 
-    res = setup.odmread.getAllModels()
+    res = setup.odmread.getModels()
 
     assert len(res) == 2
 
@@ -362,10 +370,11 @@ def test_createRelatedModel(setup):
     # create converter  (expected: record inserted)
     m2 = setup.odmcreate.createModel(mod2)
 
+    rm = RelatedModels(ModelID=m1.ModelID,
+                       RelatedModelID=m2.ModelID,
+                       RelationshipTypeCV='Is part of')
     # create related records
-    setup.odmcreate.createRelatedModel(modelid=m1.ModelID,
-                                       relatedModelID=m2.ModelID,
-                                       relationshipType='coupled')
+    setup.odmcreate.createRelatedModel(rm)
 
     m1r = setup.odmread.getModelByCode('converter')
     assert m1r is not None
