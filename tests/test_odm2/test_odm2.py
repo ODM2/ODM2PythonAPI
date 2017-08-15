@@ -183,6 +183,10 @@ def test_createVariable(setup):
     setup.odmcreate.createVariable(v2)
     setup.odmcreate.createVariable(v3)
 
+    variables = setup.odmread.getVariables()
+    print(variables)
+    assert len(variables) == 3
+
     with pytest.raises(Exception) as excinfo:
         # insert duplicate
         setup.odmcreate.createVariable(
@@ -195,10 +199,6 @@ def test_createVariable(setup):
         )
 
     assert 'unique' in str(excinfo.value).lower()
-
-    vars = setup.odmread.getVariables()
-
-    assert len(vars) == 3
 
 
 def test_createMethod(setup):
@@ -345,7 +345,7 @@ def test_createModel(setup):
 
     assert len(res) == 2
 
-    res = setup.odmread.getModelByCode('converter')
+    res = setup.odmread.getModels(codes=['converter'])
     assert res is not None
     assert res.ModelCode == 'converter'
 
@@ -376,18 +376,18 @@ def test_createRelatedModel(setup):
     # create related records
     setup.odmcreate.createRelatedModel(rm)
 
-    m1r = setup.odmread.getModelByCode('converter')
+    m1r = setup.odmread.getModels(codes=['converter'])
     assert m1r is not None
     assert m1r.ModelCode == 'converter'
 
-    m2r = setup.odmread.getModelByCode('model2')
+    m2r = setup.odmread.getModels(codes=['model2'])
     assert m2r is not None
     assert m2r.ModelCode == 'model2'
 
-    m1rel = setup.odmread.getRelatedModelsByCode('converter')
+    m1rel = setup.odmread.getRelatedModels(code='converter')
     assert len(m1rel) == 1
 
-    m2rel = setup.odmread.getRelatedModelsByCode('model2')
+    m2rel = setup.odmread.getRelatedModels(code='model2')
     assert len(m2rel) == 0
 
 @skipif(True, reason="Needs data")
