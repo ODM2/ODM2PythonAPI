@@ -186,7 +186,10 @@ class TestReadService:
 
         # test invalid argument
         resapi = self.reader.getRelatedModels(code = 234123)
-        assert resapi is None
+        assert resapi is []
+        # MySQL is very relaxed about this,
+        # should be `resapi is None` if PostgreSQL,
+        # because code type is not string
 
 
 

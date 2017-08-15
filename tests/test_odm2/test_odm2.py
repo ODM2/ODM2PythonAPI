@@ -347,7 +347,7 @@ def test_createModel(setup):
 
     res = setup.odmread.getModels(codes=['converter'])
     assert res is not None
-    assert res.ModelCode == 'converter'
+    assert res[0].ModelCode == 'converter'
 
     with pytest.raises(Exception) as excinfo:
         # create converter with duplicate code (expected: fail to insert record)
@@ -378,11 +378,11 @@ def test_createRelatedModel(setup):
 
     m1r = setup.odmread.getModels(codes=['converter'])
     assert m1r is not None
-    assert m1r.ModelCode == 'converter'
+    assert m1r[0].ModelCode == 'converter'
 
     m2r = setup.odmread.getModels(codes=['model2'])
     assert m2r is not None
-    assert m2r.ModelCode == 'model2'
+    assert m2r[0].ModelCode == 'model2'
 
     m1rel = setup.odmread.getRelatedModels(code='converter')
     assert len(m1rel) == 1
