@@ -1,3 +1,5 @@
+from __future__ import (absolute_import, division, print_function)
+
 import pytest
 import datetime
 from os.path import *
@@ -59,7 +61,7 @@ class TestReadService:
             try:
                 db.engine.execute(line + ');')
             except Exception as e:
-                print e
+                print(e)
 
         self.reader = ReadODM2(db)
         self.engine= db.engine
@@ -173,7 +175,7 @@ class TestReadService:
 
         assert resapi is not None
         assert len(resapi) > 0
-        print resapi[0].ModelCode
+        print(resapi[0].ModelCode)
         assert resapi[0].ModelCode == 'swat'
         # assert resapi[0].RelatedModelObj.ModelCode == 'swmm'
         # test converter code that doesn't exist
@@ -183,8 +185,11 @@ class TestReadService:
         assert len(resapi) == 0
 
         # test invalid argument
-        resapi = self.reader.getRelatedModels(code = models.ActionBy)
-        assert resapi is None
+        resapi = self.reader.getRelatedModels(code = 234123)
+        assert resapi == []
+        # MySQL is very relaxed about this,
+        # should be `resapi is None` if PostgreSQL,
+        # because code type is not string
 
 
 
@@ -213,7 +218,7 @@ class TestReadService:
 
         # get all results from the database
         res = self.engine.execute('SELECT * FROM Results').fetchall()
-        print res
+        print(res)
         # get all results using the api
         resapi = self.reader.getResults()
 
@@ -297,7 +302,7 @@ class TestReadService:
                 'where s.SimulationID = 1').first()
         assert len(res) > 0
         res = rawSql2Alchemy(res, models.Results)
-        print res
+        print(res)
 
         # get simulation by id using the api
         # resapi = self.reader.getResultsBySimulationID(simulation.SimulationID)
