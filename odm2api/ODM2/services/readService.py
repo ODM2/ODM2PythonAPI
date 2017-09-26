@@ -554,9 +554,11 @@ class ReadODM2(serviceBase):
         q = self._session.query(Affiliations)
 
         if ids: q = q.filter(Affiliations.AffiliationID.in_(ids))
-        if orgcode: q = q.filter(Organizations.OrganizationCode.ilike(orgcode))
-        if personfirst: q = q.filter(People.PersonFirstName.ilike(personfirst))
-        if personlast: q = q.filter(People.PersonLastName.ilike(personlast))
+        if orgcode: q = q.join(Organizations).filter(Organizations.OrganizationCode.ilike(orgcode))
+        if personfirst or personlast:
+            q = q.join(People)
+            if personfirst: q = q.filter(People.PersonFirstName.ilike(personfirst))
+            if personlast: q = q.filter(People.PersonLastName.ilike(personlast))
 
         try:
             return q.all()
