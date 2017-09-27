@@ -544,12 +544,30 @@ class ReadODM2(serviceBase):
 
     def getAffiliations(self, ids=None, personfirst=None, personlast=None, orgcode=None):
         """
-        getAffiliations(self, ids=None, personfirst=None, personlast=None, orgcode=None)
-        * Pass nothing - returns a list of all Affiliation objects
-        * Pass a list of AffiliationID - returns a single Affiliation object
-        * Pass a First Name - returns a single Affiliation object
-        * Pass a Last Name - returns a single Affiliation object
-        * Pass an OrganizationCode - returns a Affiliation object
+        Retrieve a list of ODM2 Affiliation objects.
+
+        Parameters
+        ----------
+        ids: list, default None
+            List of AffiliationIDs
+        personfirst: str, default None
+            Person First Name
+        personlast: str, default None
+            Person Last Name
+        orgcode: str, default None
+            Organization Code
+
+        Returns
+        -------
+        List of Affiliation objects
+
+        Examples
+        --------
+        >>> read.getAffiliations(ids=[39,40])
+        >>> read.getAffiliations(personfirst='Anthony',
+        ...                      personlast='Aufdenkampe')
+        >>> read.getAffiliations(orgcode='LimnoTech')
+
         """
         q = self._session.query(Affiliations)
 
