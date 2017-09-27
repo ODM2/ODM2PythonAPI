@@ -543,13 +543,26 @@ class ReadODM2(serviceBase):
             return None
 
     def getAffiliations(self, ids=None, personfirst=None, personlast=None, orgcode=None):
-        """
-        getAffiliations(self, ids=None, personfirst=None, personlast=None, orgcode=None)
-        * Pass nothing - returns a list of all Affiliation objects
-        * Pass a list of AffiliationID - returns a single Affiliation object
-        * Pass a First Name - returns a single Affiliation object
-        * Pass a Last Name - returns a single Affiliation object
-        * Pass an OrganizationCode - returns a Affiliation object
+        """Retrieve a list of Affiliation objects.
+
+        If no arguments are passed to the function, or their values are None,
+        all Affiliation objects in the database will be returned.
+
+        Args:
+            ids (:obj:`list`, optional): List of AffiliationIDs. Defaults to None.
+            personfirst (:obj:`str`, optional): Person First Name. Defaults to None.
+            personlast (:obj:`str`, optional): Person Last Name. Defaults to None.
+            orgcode (:obj:`str`, optional): Organization Code. Defaults to None.
+
+        Returns:
+            list: List of Affiliation objects
+
+        Examples:
+            >>> read.getAffiliations(ids=[39,40])
+            >>> read.getAffiliations(personfirst='John',
+            ...                      personlast='Smith')
+            >>> read.getAffiliations(orgcode='Acme')
+
         """
         q = self._session.query(Affiliations)
 
