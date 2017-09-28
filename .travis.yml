@@ -1,3 +1,5 @@
+# use http://lint.travis-ci.org/ to check the file.
+
 language: python
 
 sudo: required
@@ -48,6 +50,8 @@ matrix:
     env: TEST_TARGET=default
   - python: 2.7
     env: TEST_TARGET=coding_standards
+  - python: 3.6
+    env: TEST_TARGET=docs
   allow_failures:
   - python: 2.7
     env: TEST_TARGET=coding_standards
@@ -88,4 +92,14 @@ script:
 
   - if [[ $TEST_TARGET == 'coding_standards' ]]; then
       find . -type f -name "*.py" ! -name 'conf.py' | xargs flake8 --max-line-length=100 ;
+    fi
+
+  - if [[ $TEST_TARGET == 'docs' ]]; then
+      set -e ;
+      conda install doctr ;
+      pushd docs ;
+      make clean html linkcheck ;
+      popd ;
+      # python -m doctr deploy --sync .;
+      # python -m doctr deploy --sync --no-require-master  --built-docs docs/_build/html "docs-$TRAVIS_BRANCH" ;
     fi
