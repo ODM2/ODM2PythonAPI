@@ -93,8 +93,12 @@ html_theme = 'alabaster'
 #
 html_theme_options = {
     'logo': 'logo.png',
-    'github_repo': 'ODM2',
+    'logo_name': 'ODM2',
+    'github_user': 'ODM2',
     'github_repo': 'ODM2PythonAPI',
+    'github_banner': True,
+    'travis_button': True,
+    'fixed_sidebar': True,
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
