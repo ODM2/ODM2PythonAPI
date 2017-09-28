@@ -1,3 +1,5 @@
+# use http://lint.travis-ci.org/ to check the file.
+
 language: python
 
 sudo: required
@@ -7,6 +9,10 @@ dist: precise
 cache:
   directories:
     - $HOME/miniconda
+
+env:
+  global:
+    - secure:` "yxu/J/VNed5R6Fs1D5YJZ9hN3bMFAOBxFOkVyoxSfzTsDWeJ0rNLMljn7TTFeBBFpNI6PG3RFIzeOd3AAbtZKr4dQ/aL70woQ2nF7lNDbofudE+bdc/K0fKhS4dZZeMKyeRI3LItQgGJ1vSOYDGfpq0EhOd17d1oo9pqjDli+pTzjJ6qvDQ41e5mmRPVXIqJ2mLpnf+jZdvHJTzog0d4kS+BQOqhLYe1AATyYyHFrs95kroAVkLbuPhQ0KVQX3h8NV3OD+x+qQjmM2Zl6mygoABh8jbkAv2/Kx/WcBR/rLO6WG2z+ZBwdP/2R7/Gh0Tac9An+Kvf8L1GCdyeMoS55XlUTwyqbpOQydASs8PlGnQuNFk3QaeJcjWJgFJjoYUDC8yQt/avkjkiPPa6kraUQalEYD66t5dKrL2UICCUUJ4lXkHGD532tLOFS2dJTRRgUQD/d8q4cNzdNY9X4LaHYDJxhFWi+sV/gOYrSSc1uF4pxlpU8naBR/eaJHN1+eGb5h76LC1uF7zcjYLFmsP+YmMVwyVKU3bbcPmHNsoDgrtAY0bF4gDVLDeqmZzt4OLz9ATtHNRST9yEjmiyjUXX9O+kXYFGOd14XMw+S0vdqwSPeobavFTaUmz0+AUQiPkJf0FpLbHmUHfY/0m3PvlwQYFyskgYzjjhNtR362fCtgg="
 
 # Removing the directory will remove the env but leave the cached packages
 # at $HOME/miniconda/pkgs. That is a win-win because when re-creating the
@@ -48,6 +54,8 @@ matrix:
     env: TEST_TARGET=default
   - python: 2.7
     env: TEST_TARGET=coding_standards
+  - python: 3.6
+    env: TEST_TARGET=docs
   allow_failures:
   - python: 2.7
     env: TEST_TARGET=coding_standards
@@ -72,6 +80,7 @@ before_install:
   - export PATH="$HOME/miniconda/bin:$PATH"
   - conda config --set always_yes yes --set changeps1 no --set show_channel_urls true
   - conda update conda
+  - conda config --add channels conda-forge --force
   - conda config --add channels odm2 --force
   - conda create --name TEST python=$TRAVIS_PYTHON_VERSION --file requirements.txt --file requirements-dev.txt
   - source activate TEST
@@ -89,3 +98,17 @@ script:
   - if [[ $TEST_TARGET == 'coding_standards' ]]; then
       find . -type f -name "*.py" ! -name 'conf.py' | xargs flake8 --max-line-length=100 ;
     fi
+
+  - if [[ $TEST_TARGET == 'docs' ]]; then
+      set -e ;
+      conda install doctr ;
+      pushd docs ;
+      make clean html linkcheck ;
+      popd ;
+      python -m doctr deploy --sync .;
+      python -m doctr deploy --sync --no-require-master  --built-docs docs/build/html "docs-$TRAVIS_BRANCH" ;
+    fi
+
+doctr:
+  require-master: true
+  sync: False

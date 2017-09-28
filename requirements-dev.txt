@@ -1,9 +1,19 @@
+alabaster
 flake8
+flake8-builtins
+flake8-comprehensions
+flake8-import-order
+flake8-mutable
+flake8-print
+flake8-quotes
 mock
+nbsphinx
 psycopg2
+pycodestyle
 pymysql
 pytest
 pytest-cov
+sphinx
 # FIXME: I am not sure these are needed.
 # pysqlite
 # sqlite
