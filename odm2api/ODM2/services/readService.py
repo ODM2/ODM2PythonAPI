@@ -549,10 +549,10 @@ class ReadODM2(serviceBase):
         all Affiliation objects in the database will be returned.
 
         Args:
-            ids (list, optional): List of AffiliationIDs. Defaults to None.
-            personfirst (str, optional): Person First Name. Defaults to None.
-            personlast (str, optional): Person Last Name. Defaults to None.
-            orgcode (str, optional): Organization Code. Defaults to None.
+            ids (list, optional): List of AffiliationIDs.
+            personfirst (str, optional): Person First Name.
+            personlast (str, optional): Person Last Name.
+            orgcode (str, optional): Organization Code.
 
         Returns:
             list: List of Affiliation objects
@@ -594,16 +594,15 @@ class ReadODM2(serviceBase):
         all Result objects in the database will be returned.
 
         Args:
-            ids (list, optional): List of ResultIDs. Defaults to None.
+            ids (list, optional): List of ResultIDs.
             type (str, optional): Type of Result from
                 `controlled vocabulary name <http://vocabulary.odm2.org/resulttype/>`_.
-                Defaults to None.
-            uuids (list, optional): List of UUIDs string. Defaults to None.
-            actionid (int, optional): ActionID. Defaults to None.
-            simulationid (int, optional): SimulationID. Defaults to None.
-            sfid (int, optional): SamplingFeatureID. Defaults to None.
-            variableid (int, optional): VariableID. Defaults to None.
-            siteid (int, optional): SiteID. Defaults to None.
+            uuids (list, optional): List of UUIDs string.
+            actionid (int, optional): ActionID.
+            simulationid (int, optional): SimulationID.
+            sfid (int, optional): SamplingFeatureID.
+            variableid (int, optional): VariableID.
+            siteid (int, optional): SiteID.
 
         Returns:
             list: List of Result objects
