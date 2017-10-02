@@ -9,6 +9,7 @@ A Python-based application programmer's interface for the `Observations Data Mod
 
    installing
    modules
+   models
    credits
 
 Indices and tables
