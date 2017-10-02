@@ -14,7 +14,7 @@
    :undoc-members:
    :show-inheritance:
 
-mod:`Create Services`
+:mod:`Create Services`
 ---------------------
 
 .. automodule:: odm2api.ODM2.services.createService
@@ -22,7 +22,7 @@ mod:`Create Services`
    :undoc-members:
    :show-inheritance:
 
-mod:`Delete Services`
+:mod:`Delete Services`
 ---------------------
 
 .. automodule:: odm2api.ODM2.services.deleteService
@@ -30,7 +30,7 @@ mod:`Delete Services`
    :undoc-members:
    :show-inheritance:
 
-mod:`Update Services`
+:mod:`Update Services`
 ---------------------
 
 .. automodule:: odm2api.ODM2.services.updateService
