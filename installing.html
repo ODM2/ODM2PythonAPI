@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Installation &#8212; ODM2PythonAPI 0.6.0-alpha+70.gf6e5859 documentation</title>
+    <title>Installation &#8212; ODM2PythonAPI 0.6.0-alpha+74.gbc75796 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.6.0-alpha+70.gf6e5859',
+        VERSION:     '0.6.0-alpha+74.gbc75796',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="ODMconnection" href="modules.html" />
+    <link rel="next" title="Developer Interface" href="modules.html" />
     <link rel="prev" title="ODM2 Python API" href="index.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -73,11 +73,13 @@
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#latest-release-from-odm2-anaconda-org-channel">Latest release, from ODM2 anaconda.org channel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#installing-the-development-version">Installing the development version</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html"><code class="docutils literal"><span class="pre">ODMconnection</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html#module-odm2api.ODM2.services.readService"><code class="docutils literal"><span class="pre">Read</span> <span class="pre">Services</span></code></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#latest-release-from-odm2-anaconda-org-channel">Latest release, from ODM2 anaconda.org channel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-the-development-version">Installing the development version</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Developer Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">ODM2 Models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
 </ul>
 
@@ -86,7 +88,7 @@
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
       <li>Previous: <a href="index.html" title="previous chapter">ODM2 Python API</a></li>
-      <li>Next: <a href="modules.html" title="next chapter"><code class="docutils literal"><span class="pre">ODMconnection</span></code></a></li>
+      <li>Next: <a href="modules.html" title="next chapter">Developer Interface</a></li>
   </ul></li>
 </ul>
 </div>
@@ -124,9 +126,8 @@ OS X and Linux, it’s something like
 <p><strong>Note:</strong> <code class="docutils literal"><span class="pre">odm2api</span></code> currently is only tested on Python 2.7. Some
 changes have been made to support Python 3.x, but they haven’t been
 tested thoroughly.</p>
-</div>
 <div class="section" id="latest-release-from-odm2-anaconda-org-channel">
-<h1>Latest release, from ODM2 anaconda.org channel<a class="headerlink" href="#latest-release-from-odm2-anaconda-org-channel" title="Permalink to this headline">¶</a></h1>
+<h2>Latest release, from ODM2 anaconda.org channel<a class="headerlink" href="#latest-release-from-odm2-anaconda-org-channel" title="Permalink to this headline">¶</a></h2>
 <p>The <a class="reference external" href="https://github.com/ODM2/ODM2PythonAPI/releases">latest release</a> is available
 on the <a class="reference external" href="https://anaconda.org/odm2/odm2api">ODM2 anaconda.org channel</a>
 for all major OS platforms (linux, OS X, win32/win64). To install it on
@@ -142,7 +143,7 @@ an existing conda environment:</p>
 </div>
 </div>
 <div class="section" id="installing-the-development-version">
-<h1>Installing the development version<a class="headerlink" href="#installing-the-development-version" title="Permalink to this headline">¶</a></h1>
+<h2>Installing the development version<a class="headerlink" href="#installing-the-development-version" title="Permalink to this headline">¶</a></h2>
 <p>To create a new environment “myenv” with <code class="docutils literal"><span class="pre">odm2api</span></code>, first clone the repository.
 Then, on a terminal shell:</p>
 <div class="code bash highlight-default"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">--</span><span class="n">name</span> <span class="n">myenv</span> <span class="n">python</span><span class="o">=</span><span class="mf">2.7</span> <span class="o">--</span><span class="n">file</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span> <span class="o">--</span><span class="n">file</span> <span class="n">requirements</span><span class="o">-</span><span class="n">dev</span><span class="o">.</span><span class="n">txt</span> <span class="o">-</span><span class="n">c</span> <span class="n">odm2</span>
@@ -153,6 +154,7 @@ environment:</p>
 <div class="code bash highlight-default"><div class="highlight"><pre><span></span><span class="n">activate</span> <span class="n">myenv</span>  <span class="c1"># On Windows</span>
 <span class="n">source</span> <span class="n">activate</span> <span class="n">myenv</span>  <span class="c1"># On OS X or Linux</span>
 </pre></div>
+</div>
 </div>
 </div>
 

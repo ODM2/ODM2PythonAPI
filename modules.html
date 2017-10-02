@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ODMconnection &#8212; ODM2PythonAPI 0.6.0-alpha+70.gf6e5859 documentation</title>
+    <title>Developer Interface &#8212; ODM2PythonAPI 0.6.0-alpha+74.gbc75796 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.6.0-alpha+70.gf6e5859',
+        VERSION:     '0.6.0-alpha+74.gbc75796',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Credits" href="credits.html" />
+    <link rel="next" title="ODM2 Models" href="models.html" />
     <link rel="prev" title="Installation" href="installing.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -74,10 +74,15 @@
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installing.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installing.html#latest-release-from-odm2-anaconda-org-channel">Latest release, from ODM2 anaconda.org channel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installing.html#installing-the-development-version">Installing the development version</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="docutils literal"><span class="pre">ODMconnection</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="#module-odm2api.ODM2.services.readService"><code class="docutils literal"><span class="pre">Read</span> <span class="pre">Services</span></code></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Developer Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-odm2api.ODMconnection"><code class="docutils literal"><span class="pre">Database</span> <span class="pre">Connection</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-odm2api.ODM2.services.readService"><code class="docutils literal"><span class="pre">Read</span> <span class="pre">Services</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-odm2api.ODM2.services.createService"><code class="docutils literal"><span class="pre">Create</span> <span class="pre">Services</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-odm2api.ODM2.services.deleteService"><code class="docutils literal"><span class="pre">Delete</span> <span class="pre">Services</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-odm2api.ODM2.services.updateService"><code class="docutils literal"><span class="pre">Update</span> <span class="pre">Services</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">ODM2 Models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
 </ul>
 
@@ -86,7 +91,7 @@
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
       <li>Previous: <a href="installing.html" title="previous chapter">Installation</a></li>
-      <li>Next: <a href="credits.html" title="next chapter">Credits</a></li>
+      <li>Next: <a href="models.html" title="next chapter">ODM2 Models</a></li>
   </ul></li>
 </ul>
 </div>
@@ -106,8 +111,11 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="module-odm2api.ODMconnection">
-<span id="odmconnection"></span><h1><code class="xref py py-mod docutils literal"><span class="pre">ODMconnection</span></code><a class="headerlink" href="#module-odm2api.ODMconnection" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-odm2api">
+<span id="developer-interface"></span><h1>Developer Interface<a class="headerlink" href="#module-odm2api" title="Permalink to this headline">¶</a></h1>
+<p>This part of the documentation covers all the interfaces of ODM2PythonAPI.</p>
+<div class="section" id="module-odm2api.ODMconnection">
+<span id="database-connection"></span><h2><code class="xref py py-mod docutils literal"><span class="pre">Database</span> <span class="pre">Connection</span></code><a class="headerlink" href="#module-odm2api.ODMconnection" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="odm2api.ODMconnection.SessionFactory">
 <em class="property">class </em><code class="descclassname">odm2api.ODMconnection.</code><code class="descname">SessionFactory</code><span class="sig-paren">(</span><em>connection_string</em>, <em>echo=True</em>, <em>version=2.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODMconnection.html#SessionFactory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODMconnection.SessionFactory" title="Permalink to this definition">¶</a></dt>
@@ -165,9 +173,202 @@
 
 </dd></dl>
 
+<span class="target" id="module-odm2api.base"></span><dl class="class">
+<dt id="odm2api.base.Base">
+<em class="property">class </em><code class="descclassname">odm2api.base.</code><code class="descname">Base</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/base.html#Base"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.base.Base" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="class">
+<dt id="odm2api.base.Base.declared_attr">
+<em class="property">class </em><code class="descname">declared_attr</code><span class="sig-paren">(</span><em>fget</em>, <em>cascading=False</em><span class="sig-paren">)</span><a class="headerlink" href="#odm2api.base.Base.declared_attr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">sqlalchemy.orm.base._MappedAttribute</span></code>, <code class="xref py py-class docutils literal"><span class="pre">property</span></code></p>
+<p>Mark a class-level method as representing the definition of
+a mapped property or special declarative member name.</p>
+<p>&#64;declared_attr turns the attribute into a scalar-like
+property that can be invoked from the uninstantiated class.
+Declarative treats attributes specifically marked with
+&#64;declared_attr as returning a construct that is specific
+to mapping or declarative table configuration.  The name
+of the attribute is that of what the non-dynamic version
+of the attribute would be.</p>
+<p>&#64;declared_attr is more often than not applicable to mixins,
+to define relationships that are to be applied to different
+implementors of the class:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ProvidesUser</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="s2">&quot;A mixin that adds a &#39;user&#39; relationship to classes.&quot;</span>
+
+    <span class="nd">@declared_attr</span>
+    <span class="k">def</span> <span class="nf">user</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">relationship</span><span class="p">(</span><span class="s2">&quot;User&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It also can be applied to mapped classes, such as to provide
+a “polymorphic” scheme for inheritance:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Employee</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="nb">type</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="nd">@declared_attr</span>
+    <span class="k">def</span> <span class="nf">__tablename__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="nd">@declared_attr</span>
+    <span class="k">def</span> <span class="nf">__mapper_args__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;Employee&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span>
+                    <span class="s2">&quot;polymorphic_on&quot;</span><span class="p">:</span><span class="bp">cls</span><span class="o">.</span><span class="n">type</span><span class="p">,</span>
+                    <span class="s2">&quot;polymorphic_identity&quot;</span><span class="p">:</span><span class="s2">&quot;Employee&quot;</span>
+            <span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;polymorphic_identity&quot;</span><span class="p">:</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">}</span>
+</pre></div>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.8: </span><a class="reference internal" href="#odm2api.base.Base.declared_attr" title="odm2api.base.Base.declared_attr"><code class="xref py py-class docutils literal"><span class="pre">declared_attr</span></code></a> can be used with
+non-ORM or extension attributes, such as user-defined attributes
+or <code class="xref py py-func docutils literal"><span class="pre">association_proxy()</span></code> objects, which will be assigned
+to the class at class construction time.</p>
+</div>
+<dl class="attribute">
+<dt id="odm2api.base.Base.declared_attr.cascading">
+<code class="descname">cascading</code><a class="headerlink" href="#odm2api.base.Base.declared_attr.cascading" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mark a <a class="reference internal" href="#odm2api.base.Base.declared_attr" title="odm2api.base.Base.declared_attr"><code class="xref py py-class docutils literal"><span class="pre">declared_attr</span></code></a> as cascading.</p>
+<p>This is a special-use modifier which indicates that a column
+or MapperProperty-based declared attribute should be configured
+distinctly per mapped subclass, within a mapped-inheritance scenario.</p>
+<p>Below, both MyClass as well as MySubClass will have a distinct
+<code class="docutils literal"><span class="pre">id</span></code> Column object established:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">HasIdMixin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="nd">@declared_attr</span><span class="o">.</span><span class="n">cascading</span>
+    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">has_inherited_table</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">Column</span><span class="p">(</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;myclass.id&#39;</span><span class="p">),</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">MyClass</span><span class="p">(</span><span class="n">HasIdMixin</span><span class="p">,</span> <span class="n">Base</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s1">&#39;myclass&#39;</span>
+    <span class="c1"># ...</span>
+
+<span class="k">class</span> <span class="nc">MySubClass</span><span class="p">(</span><span class="n">MyClass</span><span class="p">):</span>
+    <span class="s2">&quot;&quot;</span>
+    <span class="c1"># ...</span>
+</pre></div>
+</div>
+<p>The behavior of the above configuration is that <code class="docutils literal"><span class="pre">MySubClass</span></code>
+will refer to both its own <code class="docutils literal"><span class="pre">id</span></code> column as well as that of
+<code class="docutils literal"><span class="pre">MyClass</span></code> underneath the attribute named <code class="docutils literal"><span class="pre">some_id</span></code>.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p><span class="xref std std-ref">declarative_inheritance</span></p>
+<p class="last"><span class="xref std std-ref">mixin_inheritance_columns</span></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="odm2api.base.modelBase">
+<em class="property">class </em><code class="descclassname">odm2api.base.</code><code class="descname">modelBase</code><a class="reference internal" href="_modules/odm2api/base.html#modelBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.base.modelBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="class">
+<dt id="odm2api.base.modelBase.Base">
+<em class="property">class </em><code class="descname">Base</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#odm2api.base.modelBase.Base" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#odm2api.base.Base" title="odm2api.base.Base"><code class="xref py py-class docutils literal"><span class="pre">odm2api.base.Base</span></code></a></p>
+<dl class="attribute">
+<dt id="odm2api.base.modelBase.Base.metadata">
+<code class="descname">metadata</code><em class="property"> = MetaData(bind=None)</em><a class="headerlink" href="#odm2api.base.modelBase.Base.metadata" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="method">
+<dt id="odm2api.base.modelBase.declarative_base">
+<code class="descname">declarative_base</code><span class="sig-paren">(</span><em>bind=None</em>, <em>metadata=None</em>, <em>mapper=None</em>, <em>cls=&lt;class 'object'&gt;</em>, <em>name='Base'</em>, <em>constructor=&lt;function _declarative_constructor&gt;</em>, <em>class_registry=None</em>, <em>metaclass=&lt;class 'sqlalchemy.ext.declarative.api.DeclarativeMeta'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#odm2api.base.modelBase.declarative_base" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a base class for declarative class definitions.</p>
+<p>The new base class will be given a metaclass that produces
+appropriate <code class="xref py py-class docutils literal"><span class="pre">Table</span></code> objects and makes
+the appropriate <code class="xref py py-func docutils literal"><span class="pre">mapper()</span></code> calls based on the
+information provided declaratively in the class and any subclasses
+of the class.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>bind</strong> – An optional
+<code class="xref py py-class docutils literal"><span class="pre">Connectable</span></code>, will be assigned
+the <code class="docutils literal"><span class="pre">bind</span></code> attribute on the <code class="xref py py-class docutils literal"><span class="pre">MetaData</span></code>
+instance.</li>
+<li><strong>metadata</strong> – An optional <code class="xref py py-class docutils literal"><span class="pre">MetaData</span></code> instance.  All
+<code class="xref py py-class docutils literal"><span class="pre">Table</span></code> objects implicitly declared by
+subclasses of the base will share this MetaData.  A MetaData instance
+will be created if none is provided.  The
+<code class="xref py py-class docutils literal"><span class="pre">MetaData</span></code> instance will be available via the
+<cite>metadata</cite> attribute of the generated declarative base class.</li>
+<li><strong>mapper</strong> – An optional callable, defaults to <code class="xref py py-func docutils literal"><span class="pre">mapper()</span></code>. Will
+be used to map subclasses to their Tables.</li>
+<li><strong>cls</strong> – Defaults to <code class="xref py py-class docutils literal"><span class="pre">object</span></code>. A type to use as the base for the generated
+declarative base class. May be a class or tuple of classes.</li>
+<li><strong>name</strong> – Defaults to <code class="docutils literal"><span class="pre">Base</span></code>.  The display name for the generated
+class.  Customizing this is not required, but can improve clarity in
+tracebacks and debugging.</li>
+<li><strong>constructor</strong> – Defaults to
+<code class="xref py py-func docutils literal"><span class="pre">_declarative_constructor()</span></code>, an
+__init__ implementation that assigns **kwargs for declared
+fields and relationships to an instance.  If <code class="docutils literal"><span class="pre">None</span></code> is supplied,
+no __init__ will be provided and construction will fall back to
+cls.__init__ by way of the normal Python semantics.</li>
+<li><strong>class_registry</strong> – optional dictionary that will serve as the
+registry of class names-&gt; mapped classes when string names
+are used to identify classes inside of <code class="xref py py-func docutils literal"><span class="pre">relationship()</span></code>
+and others.  Allows two or more declarative base classes
+to share the same registry of class names for simplified
+inter-base relationships.</li>
+<li><strong>metaclass</strong> – Defaults to <code class="xref py py-class docutils literal"><span class="pre">DeclarativeMeta</span></code>.  A metaclass or __metaclass__
+compatible callable to use as the meta type of the generated
+declarative base class.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 1.1: </span>if <a href="#id1"><span class="problematic" id="id2">:paramref:`.declarative_base.cls`</span></a> is a single class (rather
+than a tuple), the constructed base class will inherit its docstring.</p>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><code class="xref py py-func docutils literal"><span class="pre">as_declarative()</span></code></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="odm2api.base.serviceBase">
+<em class="property">class </em><code class="descclassname">odm2api.base.</code><code class="descname">serviceBase</code><span class="sig-paren">(</span><em>session_factory</em>, <em>debug=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/base.html#serviceBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.base.serviceBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="docutils">
+<dt>def __init__(self, session):</dt>
+<dd>self._session = session</dd>
+</dl>
+<dl class="method">
+<dt id="odm2api.base.serviceBase.getSession">
+<code class="descname">getSession</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/base.html#serviceBase.getSession"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.base.serviceBase.getSession" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="odm2api.base.serviceBase.reset_session">
+<code class="descname">reset_session</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/base.html#serviceBase.reset_session"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.base.serviceBase.reset_session" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-odm2api.ODM2.services.readService">
-<span id="read-services"></span><h1><code class="xref py py-mod docutils literal"><span class="pre">Read</span> <span class="pre">Services</span></code><a class="headerlink" href="#module-odm2api.ODM2.services.readService" title="Permalink to this headline">¶</a></h1>
+<span id="read-services"></span><h2><code class="xref py py-mod docutils literal"><span class="pre">Read</span> <span class="pre">Services</span></code><a class="headerlink" href="#module-odm2api.ODM2.services.readService" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="odm2api.ODM2.services.readService.DetailedAffiliation">
 <em class="property">class </em><code class="descclassname">odm2api.ODM2.services.readService.</code><code class="descname">DetailedAffiliation</code><span class="sig-paren">(</span><em>affiliation</em>, <em>person</em>, <em>org</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#DetailedAffiliation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.DetailedAffiliation" title="Permalink to this definition">¶</a></dt>
@@ -183,7 +384,7 @@
 <dl class="class">
 <dt id="odm2api.ODM2.services.readService.ReadODM2">
 <em class="property">class </em><code class="descclassname">odm2api.ODM2.services.readService.</code><code class="descname">ReadODM2</code><span class="sig-paren">(</span><em>session_factory</em>, <em>debug=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">odm2api.base.serviceBase</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="#odm2api.base.serviceBase" title="odm2api.base.serviceBase"><code class="xref py py-class docutils literal"><span class="pre">odm2api.base.serviceBase</span></code></a></p>
 <dl class="method">
 <dt id="odm2api.ODM2.services.readService.ReadODM2.CalibrationReferenceEquipment">
 <code class="descname">CalibrationReferenceEquipment</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.CalibrationReferenceEquipment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.CalibrationReferenceEquipment" title="Permalink to this definition">¶</a></dt>
@@ -726,6 +927,188 @@ Check to see if a Result Object exists
 
 </dd></dl>
 
+</div>
+<div class="section" id="module-odm2api.ODM2.services.createService">
+<span id="create-services"></span><h2><code class="xref py py-mod docutils literal"><span class="pre">Create</span> <span class="pre">Services</span></code><a class="headerlink" href="#module-odm2api.ODM2.services.createService" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="odm2api.ODM2.services.createService.CreateODM2">
+<em class="property">class </em><code class="descclassname">odm2api.ODM2.services.createService.</code><code class="descname">CreateODM2</code><span class="sig-paren">(</span><em>session_factory</em>, <em>debug=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/createService.html#CreateODM2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.createService.CreateODM2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#odm2api.base.serviceBase" title="odm2api.base.serviceBase"><code class="xref py py-class docutils literal"><span class="pre">odm2api.base.serviceBase</span></code></a></p>
+<dl class="docutils">
+<dt>def __init__(self, session):</dt>
+<dd>self._session = session</dd>
+</dl>
+<dl class="method">
+<dt id="odm2api.ODM2.services.createService.CreateODM2.create">
+<code class="descname">create</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/createService.html#CreateODM2.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.createService.CreateODM2.create" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="odm2api.ODM2.services.createService.CreateODM2.createAction">
+<code class="descname">createAction</code><span class="sig-paren">(</span><em>action</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/createService.html#CreateODM2.createAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.createService.CreateODM2.createAction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="odm2api.ODM2.services.createService.CreateODM2.createActionby">
+<code class="descname">createActionby</code><span class="sig-paren">(</span><em>actionby</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/createService.html#CreateODM2.createActionby"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.createService.CreateODM2.createActionby" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="odm2api.ODM2.services.createService.CreateODM2.createAffiliation">
+<code class="descname">createAffiliation</code><span class="sig-paren">(</span><em>affiliation</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/createService.html#CreateODM2.createAffiliation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.createService.CreateODM2.createAffiliation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="odm2api.ODM2.services.createService.CreateODM2.createAll">
+<code class="descname">createAll</code><span class="sig-paren">(</span><em>values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/createService.html#CreateODM2.createAll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.createService.CreateODM2.createAll" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="odm2api.ODM2.services.createService.CreateODM2.createAnnotations">
+<code class="descname">createAnnotations</code><span class="sig-paren">(</span><em>anno</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/createService.html#CreateODM2.createAnnotations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.createService.CreateODM2.createAnnotations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="odm2api.ODM2.services.createService.CreateODM2.createDataset">
+<code class="descname">createDataset</code><span class="sig-paren">(</span><em>dataset</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/createService.html#CreateODM2.createDataset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.createService.CreateODM2.createDataset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="odm2api.ODM2.services.createService.CreateODM2.createDatasetResults">
+<code class="descname">createDatasetResults</code><span class="sig-paren">(</span><em>datasetresult</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/createService.html#CreateODM2.createDatasetResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.createService.CreateODM2.createDatasetResults" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="odm2api.ODM2.services.createService.CreateODM2.createFeatureAction">
+<code class="descname">createFeatureAction</code><span class="sig-paren">(</span><em>action</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/createService.html#CreateODM2.createFeatureAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.createService.CreateODM2.createFeatureAction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="odm2api.ODM2.services.createService.CreateODM2.createMethod">
+<code class="descname">createMethod</code><span class="sig-paren">(</span><em>method</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/createService.html#CreateODM2.createMethod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.createService.CreateODM2.createMethod" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="odm2api.ODM2.services.createService.CreateODM2.createModel">
+<code class="descname">createModel</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/createService.html#CreateODM2.createModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.createService.CreateODM2.createModel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="odm2api.ODM2.services.createService.CreateODM2.createOrganization">
+<code class="descname">createOrganization</code><span class="sig-paren">(</span><em>org</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/createService.html#CreateODM2.createOrganization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.createService.CreateODM2.createOrganization" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="odm2api.ODM2.services.createService.CreateODM2.createPerson">
+<code class="descname">createPerson</code><span class="sig-paren">(</span><em>person</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/createService.html#CreateODM2.createPerson"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.createService.CreateODM2.createPerson" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="odm2api.ODM2.services.createService.CreateODM2.createProcessingLevel">
+<code class="descname">createProcessingLevel</code><span class="sig-paren">(</span><em>proclevel</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/createService.html#CreateODM2.createProcessingLevel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.createService.CreateODM2.createProcessingLevel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="odm2api.ODM2.services.createService.CreateODM2.createRelatedAction">
+<code class="descname">createRelatedAction</code><span class="sig-paren">(</span><em>relatedaction</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/createService.html#CreateODM2.createRelatedAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.createService.CreateODM2.createRelatedAction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="odm2api.ODM2.services.createService.CreateODM2.createRelatedModel">
+<code class="descname">createRelatedModel</code><span class="sig-paren">(</span><em>relatedmodel</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/createService.html#CreateODM2.createRelatedModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.createService.CreateODM2.createRelatedModel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="odm2api.ODM2.services.createService.CreateODM2.createResult">
+<code class="descname">createResult</code><span class="sig-paren">(</span><em>result</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/createService.html#CreateODM2.createResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.createService.CreateODM2.createResult" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="odm2api.ODM2.services.createService.CreateODM2.createResultValue">
+<code class="descname">createResultValue</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/createService.html#CreateODM2.createResultValue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.createService.CreateODM2.createResultValue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="odm2api.ODM2.services.createService.CreateODM2.createSamplingFeature">
+<code class="descname">createSamplingFeature</code><span class="sig-paren">(</span><em>samplingfeature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/createService.html#CreateODM2.createSamplingFeature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.createService.CreateODM2.createSamplingFeature" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="odm2api.ODM2.services.createService.CreateODM2.createSimulation">
+<code class="descname">createSimulation</code><span class="sig-paren">(</span><em>simulation</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/createService.html#CreateODM2.createSimulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.createService.CreateODM2.createSimulation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="odm2api.ODM2.services.createService.CreateODM2.createSpatialReference">
+<code class="descname">createSpatialReference</code><span class="sig-paren">(</span><em>spatialref</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/createService.html#CreateODM2.createSpatialReference"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.createService.CreateODM2.createSpatialReference" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="odm2api.ODM2.services.createService.CreateODM2.createTimeSeriesResultValues">
+<code class="descname">createTimeSeriesResultValues</code><span class="sig-paren">(</span><em>datavalues</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/createService.html#CreateODM2.createTimeSeriesResultValues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.createService.CreateODM2.createTimeSeriesResultValues" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="odm2api.ODM2.services.createService.CreateODM2.createUnit">
+<code class="descname">createUnit</code><span class="sig-paren">(</span><em>unit</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/createService.html#CreateODM2.createUnit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.createService.CreateODM2.createUnit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="odm2api.ODM2.services.createService.CreateODM2.createVariable">
+<code class="descname">createVariable</code><span class="sig-paren">(</span><em>var</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/createService.html#CreateODM2.createVariable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.createService.CreateODM2.createVariable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-odm2api.ODM2.services.deleteService">
+<span id="delete-services"></span><h2><code class="xref py py-mod docutils literal"><span class="pre">Delete</span> <span class="pre">Services</span></code><a class="headerlink" href="#module-odm2api.ODM2.services.deleteService" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="odm2api.ODM2.services.deleteService.DeleteODM2">
+<em class="property">class </em><code class="descclassname">odm2api.ODM2.services.deleteService.</code><code class="descname">DeleteODM2</code><span class="sig-paren">(</span><em>session_factory</em>, <em>debug=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/deleteService.html#DeleteODM2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.deleteService.DeleteODM2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#odm2api.base.serviceBase" title="odm2api.base.serviceBase"><code class="xref py py-class docutils literal"><span class="pre">odm2api.base.serviceBase</span></code></a></p>
+<dl class="method">
+<dt id="odm2api.ODM2.services.deleteService.DeleteODM2.deleteTSRValues">
+<code class="descname">deleteTSRValues</code><span class="sig-paren">(</span><em>ids=None</em>, <em>startdate=None</em>, <em>dates=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/deleteService.html#DeleteODM2.deleteTSRValues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.deleteService.DeleteODM2.deleteTSRValues" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="odm2api.ODM2.services.deleteService.DeleteODM2.remove">
+<code class="descname">remove</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/deleteService.html#DeleteODM2.remove"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.deleteService.DeleteODM2.remove" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-odm2api.ODM2.services.updateService">
+<span id="update-services"></span><h2><code class="xref py py-mod docutils literal"><span class="pre">Update</span> <span class="pre">Services</span></code><a class="headerlink" href="#module-odm2api.ODM2.services.updateService" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="odm2api.ODM2.services.updateService.UpdateODM2">
+<em class="property">class </em><code class="descclassname">odm2api.ODM2.services.updateService.</code><code class="descname">UpdateODM2</code><span class="sig-paren">(</span><em>session_factory</em>, <em>debug=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/updateService.html#UpdateODM2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.updateService.UpdateODM2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#odm2api.base.serviceBase" title="odm2api.base.serviceBase"><code class="xref py py-class docutils literal"><span class="pre">odm2api.base.serviceBase</span></code></a></p>
+<dl class="method">
+<dt id="odm2api.ODM2.services.updateService.UpdateODM2.update">
+<code class="descname">update</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/updateService.html#UpdateODM2.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.updateService.UpdateODM2.update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="odm2api.ODM2.services.updateService.UpdateODM2.updateAction">
+<code class="descname">updateAction</code><span class="sig-paren">(</span><em>actionID=None</em>, <em>begin=None</em>, <em>end=None</em>, <em>action=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/updateService.html#UpdateODM2.updateAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.updateService.UpdateODM2.updateAction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="odm2api.ODM2.services.updateService.UpdateODM2.updateResult">
+<code class="descname">updateResult</code><span class="sig-paren">(</span><em>resultID=None</em>, <em>valuecount=None</em>, <em>result=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/updateService.html#UpdateODM2.updateResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.updateService.UpdateODM2.updateResult" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="odm2api.ODM2.services.updateService.UpdateODM2.updateResultValidDateTime">
+<code class="descname">updateResultValidDateTime</code><span class="sig-paren">(</span><em>resultId</em>, <em>dateTime</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/updateService.html#UpdateODM2.updateResultValidDateTime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.updateService.UpdateODM2.updateResultValidDateTime" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
 </div>
 
 

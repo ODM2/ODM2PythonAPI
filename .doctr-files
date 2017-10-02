@@ -1,9 +1,18 @@
 ./_modules/index.html
+./_modules/odm2api/ODM2/models.html
+./_modules/odm2api/ODM2/services/createService.html
+./_modules/odm2api/ODM2/services/deleteService.html
 ./_modules/odm2api/ODM2/services/readService.html
+./_modules/odm2api/ODM2/services/updateService.html
 ./_modules/odm2api/ODMconnection.html
+./_modules/odm2api/base.html
+./_modules/sqlalchemy/ext/declarative/api.html
+./_modules/sqlalchemy/orm/attributes.html
+./_modules/sqlalchemy/sql/schema.html
 ./_sources/credits.rst.txt
 ./_sources/index.rst.txt
 ./_sources/installing.rst.txt
+./_sources/models.rst.txt
 ./_sources/modules.rst.txt
 ./_static/ajax-loader.gif
 ./_static/alabaster.css
@@ -32,6 +41,7 @@
 ./genindex.html
 ./index.html
 ./installing.html
+./models.html
 ./modules.html
 ./objects.inv
 ./py-modindex.html
