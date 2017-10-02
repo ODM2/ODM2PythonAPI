@@ -1,5 +1,5 @@
 Installation
-------------
+============
 
 The easiest and most reliable way to install the ODM2 Python API
 (``odm2api``) is using the `Conda package management
