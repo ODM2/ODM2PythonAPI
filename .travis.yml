@@ -4,8 +4,6 @@ language: python
 
 sudo: required
 
-dist: precise
-
 cache:
   directories:
     - $HOME/miniconda
@@ -26,25 +24,10 @@ services:
   - postgresql
 
 addons:
+  postgresql: "9.5"
   apt:
     packages:
-      # FIXME: when activating the services above I don't think these are needed.
-      - odbcinst1debian2
-      - odbcinst
-      - tdsodbc
-      - e2fsprogs
-      # FIXME: the dependencies below can probably be replaced by conda.
-      - libc6
-      - freetds-dev
-      - freetds-bin
-      - unixodbc
-      - unixodbc-dev
-      - mysql-client
-      # FIXME: I don't see the need for these anywhere.
-      - cmake
-      - libproj-dev
-      - libgeos-dev
-      - libspatialite-dev
+      - postgresql-9.5-postgis-2.3
 
 matrix:
   fast_finish: true
@@ -63,12 +46,9 @@ matrix:
   - python: 3.6
     env: TEST_TARGET=default
 
-before_script:
+before_install:
   - ./ci-helpers/mysql_setup.sh
   - ./ci-helpers/postgres_setup.sh
-  - ./ci-helpers/travis/freetds.sh
-
-before_install:
   - |
     URL="http://bit.ly/miniconda"
     echo ""
