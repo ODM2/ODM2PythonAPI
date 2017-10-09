@@ -14,6 +14,7 @@
 ./_sources/installing.rst.txt
 ./_sources/models.rst.txt
 ./_sources/modules.rst.txt
+./_sources/odm2models.rst.txt
 ./_static/ajax-loader.gif
 ./_static/alabaster.css
 ./_static/basic.css
@@ -44,6 +45,7 @@
 ./models.html
 ./modules.html
 ./objects.inv
+./odm2models.html
 ./py-modindex.html
 ./search.html
 ./searchindex.js
