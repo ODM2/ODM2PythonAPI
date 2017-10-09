@@ -154,7 +154,9 @@ class CVReferenceMaterialMedium(Base, CV):
 # Core
 # ################################################################################
 class People(Base):
-
+    """
+    Individuals that perform actions.
+    """
     PersonID = Column('personid', Integer, primary_key=True, nullable=False)
     PersonFirstName = Column('personfirstname', String(255), nullable=False)
     PersonMiddleName = Column('personmiddlename', String(255))
@@ -162,7 +164,9 @@ class People(Base):
 
 
 class Organizations(Base):
-
+    """
+    A group of people.
+    """
     OrganizationID = Column('organizationid', Integer, primary_key=True, nullable=False)
     OrganizationTypeCV = Column('organizationtypecv', ForeignKey(CVOrganizationType.Name), nullable=False,
                                 index=True)
@@ -194,7 +198,9 @@ class Affiliations(Base):
 
 
 class Methods(Base):
-
+    """
+    The procedure used to perform an action.
+    """
     MethodID = Column('methodid', Integer, primary_key=True, nullable=False)
     MethodTypeCV = Column('methodtypecv', ForeignKey(CVMethodType.Name), nullable=False, index=True)
     MethodCode = Column('methodcode', String(50), nullable=False)
@@ -208,7 +214,9 @@ class Methods(Base):
 
 
 class Actions(Base):
-
+    """
+    Actions are performed by people and may have a result.
+    """
     ActionID = Column('actionid', Integer, primary_key=True, nullable=False)
     ActionTypeCV = Column('actiontypecv', ForeignKey(CVActionType.Name), nullable=False, index=True)
     MethodID = Column('methodid', ForeignKey(Methods.MethodID), nullable=False)
@@ -236,7 +244,9 @@ class ActionBy(Base):
 
 
 class SamplingFeatures(Base):
-
+    """
+    Where or on what an action was performed.
+    """
     SamplingFeatureID = Column('samplingfeatureid', Integer, primary_key=True, nullable=False)
     SamplingFeatureUUID = Column('samplingfeatureuuid', String(36), nullable=False)
     SamplingFeatureTypeCV = Column('samplingfeaturetypecv', ForeignKey(CVSamplingFeatureType.Name),
@@ -262,7 +272,10 @@ class SamplingFeatures(Base):
 
 
 class FeatureActions(Base):
-
+    """
+    Provides flexible linkage between Actions and the SamplingFeatures
+    on which or at which they were performed.
+    """
     FeatureActionID = Column('featureactionid', Integer, primary_key=True, nullable=False)
     SamplingFeatureID = Column('samplingfeatureid', ForeignKey(SamplingFeatures.SamplingFeatureID),
                                nullable=False)
@@ -273,7 +286,9 @@ class FeatureActions(Base):
 
 
 class DataSets(Base):
-
+    """
+    Enables grouping of results into a larger dataset.
+    """
     DataSetID = Column('datasetid', Integer, primary_key=True, nullable=False)
 
     # This has been changed to String to support multiple database uuid types
@@ -285,7 +300,9 @@ class DataSets(Base):
 
 
 class ProcessingLevels(Base):
-
+    """
+    Levels to which data have been quality controlled.
+    """
     ProcessingLevelID = Column('processinglevelid', Integer, primary_key=True, nullable=False)
     ProcessingLevelCode = Column('processinglevelcode', String(50), nullable=False)
     Definition = Column('definition', String(500))
@@ -293,7 +310,9 @@ class ProcessingLevels(Base):
 
 
 class RelatedActions(Base):
-
+    """
+    Enables specifying relationships among Actions (e.g., workflows, etc.)
+    """
     RelationID = Column('relationid', Integer, primary_key=True, nullable=False)
     ActionID = Column('actionid', ForeignKey(Actions.ActionID), nullable=False)
     RelationshipTypeCV = Column('relationshiptypecv', ForeignKey(CVRelationshipType.Name), nullable=False,
@@ -305,7 +324,9 @@ class RelatedActions(Base):
 
 
 class TaxonomicClassifiers(Base):
-
+    """
+    Terms for classifying results.
+    """
     TaxonomicClassifierID = Column('taxonomicclassifierid', Integer, primary_key=True, nullable=False)
     TaxonomicClassifierTypeCV = Column('taxonomicclassifiertypecv', ForeignKey(CVTaxonomicClassifierType.Name),
                                        nullable=False, index=True)
@@ -320,7 +341,9 @@ class TaxonomicClassifiers(Base):
 
 
 class Units(Base):
-
+    """
+    Units of measure.
+    """
     UnitsID = Column('unitsid', Integer, primary_key=True, nullable=False)
     UnitsTypeCV = Column('unitstypecv', ForeignKey(CVUnitsType.Name), nullable=False, index=True)
     UnitsAbbreviation = Column('unitsabbreviation', String(255), nullable=False)
@@ -329,7 +352,9 @@ class Units(Base):
 
 
 class Variables(Base):
-
+    """
+    What was observed.
+    """
     VariableID = Column('variableid', Integer, primary_key=True, nullable=False)
     VariableTypeCV = Column('variabletypecv', ForeignKey(CVVariableType.Name), nullable=False, index=True)
     VariableCode = Column('variablecode', String(50), nullable=False)
@@ -341,7 +366,9 @@ class Variables(Base):
 
 
 class Results(Base):
-
+    """
+    The result of an action.
+    """
     ResultID = Column('resultid', BigIntegerType, primary_key=True)
 
     # This has been changed to String to support multiple database uuid types
