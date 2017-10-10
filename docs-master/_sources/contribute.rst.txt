@@ -10,16 +10,21 @@ Conventions
 There are a few conventions that should be followed
 when writing docstrings within the code:
 
-- Docstrings should follow `Google Style Documentation
-<http://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html>`__.
+- Docstrings should follow
+  `Google Style Documentation
+  <http://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html>`__.
+
 - Do not say "**defaults to ____**" for any arguments,
-unless the argument needs further explanation.
-The default value is already available in the method/function definition.
-- If function needs to be instantiated, explicitly show in example. See
-`here <https://stackoverflow.com/questions/17134653/difference-between-class-and-instance-methods>`__
-for discussion of class vs instance methods.
+  unless the argument needs further explanation.
+  The default value is already available in the method/function definition.
+
+- If function needs to be instantiated, explicitly show in example.
+  See
+  `here <https://stackoverflow.com/questions/17134653/difference-between-class-and-instance-methods>`__
+  for discussion of class vs instance methods.
+
 - Provide link to `Controlled Vocabulary <http://vocabulary.odm2.org/>`__
-if an argument needs a CV as value.
+  if an argument needs a CV as value.
 
 Please add any additional conventions that you think should be in place
 within `the github issue #106 <https://github.com/ODM2/ODM2PythonAPI/issues/106>`__.
