@@ -9,6 +9,7 @@
 ./_modules/sqlalchemy/ext/declarative/api.html
 ./_modules/sqlalchemy/orm/attributes.html
 ./_modules/sqlalchemy/sql/schema.html
+./_sources/contribute.rst.txt
 ./_sources/credits.rst.txt
 ./_sources/index.rst.txt
 ./_sources/installing.rst.txt
@@ -38,6 +39,7 @@
 ./_static/up-pressed.png
 ./_static/up.png
 ./_static/websupport.js
+./contribute.html
 ./credits.html
 ./genindex.html
 ./index.html
