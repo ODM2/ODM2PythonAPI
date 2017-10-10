@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>odm2api.ODM2.models &#8212; ODM2PythonAPI 0.6.0-alpha+84.g599d055 documentation</title>
+    <title>odm2api.ODM2.models &#8212; ODM2PythonAPI 0.6.0-alpha+87.g1010c1e documentation</title>
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.6.0-alpha+84.g599d055',
+        VERSION:     '0.6.0-alpha+87.g1010c1e',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -357,18 +357,37 @@
 <span class="sd">    Where or on what an action was performed.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">SamplingFeatureID</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;samplingfeatureid&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;int: Primary key identifier.&quot;&quot;&quot;</span>
     <span class="n">SamplingFeatureUUID</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;samplingfeatureuuid&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">36</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;str: A universally unique identifier for the sampling feature.&quot;&quot;&quot;</span>
     <span class="n">SamplingFeatureTypeCV</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;samplingfeaturetypecv&#39;</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">CVSamplingFeatureType</span><span class="o">.</span><span class="n">Name</span><span class="p">),</span>
                                    <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;str: CV term describing the type of sampling feature.&quot;&quot;&quot;</span>
     <span class="n">SamplingFeatureCode</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;samplingfeaturecode&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;str: A short but meaningful text identifier for the sampling feature.&quot;&quot;&quot;</span>
     <span class="n">SamplingFeatureName</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;samplingfeaturename&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">255</span><span class="p">))</span>
+    <span class="sd">&quot;&quot;&quot;str: Sampling Feature name (free text).&quot;&quot;&quot;</span>
     <span class="n">SamplingFeatureDescription</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;samplingfeaturedescription&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
+    <span class="sd">&quot;&quot;&quot;str: Text describing the sampling feature.&quot;&quot;&quot;</span>
     <span class="n">SamplingFeatureGeotypeCV</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;samplingfeaturegeotypecv&#39;</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">CVSamplingFeatureGeoType</span><span class="o">.</span><span class="n">Name</span><span class="p">),</span>
                                       <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;str: Dimensionality of SamplingFeature; point2d, line2d, etc.&quot;&quot;&quot;</span>
     <span class="n">Elevation_m</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;elevation_m&#39;</span><span class="p">,</span> <span class="n">Float</span><span class="p">(</span><span class="mi">53</span><span class="p">))</span>
+    <span class="sd">&quot;&quot;&quot;float: The elevation of the sampling feature in meters, or in the case of Specimen, </span>
+<span class="sd">              the elevation from where the SamplingFeature.Specimen was collected&quot;&quot;&quot;</span>
     <span class="n">ElevationDatumCV</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;elevationdatumcv&#39;</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">CVElevationDatum</span><span class="o">.</span><span class="n">Name</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="c1">#FeatureGeometry = Column(&#39;featuregeometry&#39;,  String(50))</span>
+    <span class="sd">&quot;&quot;&quot;str: The code for the vertical geodetic datum that specifies the zero point for </span>
+<span class="sd">            the Sampling Feature Elevation&quot;&quot;&quot;</span>
+    <span class="c1"># FeatureGeometry = Column(&#39;featuregeometry&#39;,  String(50))</span>
+    <span class="sd">&quot;&quot;&quot;object: The location geometry of the sampling feature on the Earth expressed using a </span>
+<span class="sd">                 geometry data type. Can be a Point, Curve (profile, trajectory, etc), </span>
+<span class="sd">                 Surface (flat polygons, etc) or Solid/Volume (although often limited to </span>
+<span class="sd">                 2D geometries). &quot;&quot;&quot;</span>
     <span class="n">FeatureGeometryWKT</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;featuregeometrywkt&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">))</span>
+    <span class="sd">&quot;&quot;&quot;str: The location geometry of the sampling feature on the Earth expressed as </span>
+<span class="sd">              well known text (WKT). Can be a Point, Curve (profile, trajectory, etc.), </span>
+<span class="sd">              Surface (flat polygons, etc.), or Solid/Volume (although often limited to </span>
+<span class="sd">              2D geometries).&quot;&quot;&quot;</span>
     <span class="n">__mapper_args__</span> <span class="o">=</span> <span class="p">{</span>
         <span class="c1"># &#39;polymorphic_on&#39;: SamplingFeatureTypeCV,</span>
         <span class="s2">&quot;polymorphic_on&quot;</span><span class="p">:</span> <span class="n">case</span><span class="p">([</span>

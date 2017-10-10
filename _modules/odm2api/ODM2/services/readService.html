@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+84.g599d055 documentation</title>
+    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+87.g1010c1e documentation</title>
     <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.6.0-alpha+84.g599d055',
+        VERSION:     '0.6.0-alpha+87.g1010c1e',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -472,15 +472,35 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="ReadODM2.getSamplingFeatures"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getSamplingFeatures">[docs]</a>    <span class="k">def</span> <span class="nf">getSamplingFeatures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">wkt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">results</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        getSamplingFeatures(self, ids=None, codes=None, uuids=None, type=None, wkt=None, results=False):</span>
-<span class="sd">        * Pass nothing - returns a list of all sampling feature objects with each object of type specific to that sampling feature</span>
-<span class="sd">        * Pass a list of SamplingFeatureID - returns a single sampling feature object for the given ids</span>
-<span class="sd">        * Pass a list of SamplingFeatureCode - returns a single sampling feature object for the given code</span>
-<span class="sd">        * Pass a list of SamplingFeatureUUID - returns a single sampling feature object for the given UUID&#39;s</span>
-<span class="sd">        * Pass a SamplingFeatureType - returns a list of sampling feature objects of the type passed in</span>
-<span class="sd">        * Pass a SamplingFeature Well Known Text - return a list of sampling feature objects</span>
-<span class="sd">        * Pass whether or not you want to return only the sampling features that have results associated with them</span>
+        <span class="sd">&quot;&quot;&quot;Retrieve a list of Sampling Feature objects.</span>
+
+<span class="sd">        If no arguments are passed to the function, or their values are None,</span>
+<span class="sd">        all Sampling Feature objects in the database will be returned.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ids (list, optional): List of SamplingFeatureIDs.</span>
+<span class="sd">            codes (list, optional): List of SamplingFeature Codes.</span>
+<span class="sd">            uuids (list, optional): List of UUIDs string.</span>
+<span class="sd">            type (str, optional): Type of Sampling Feature from</span>
+<span class="sd">                `controlled vocabulary name &lt;http://vocabulary.odm2.org/samplingfeaturetype/&gt;`_.</span>
+<span class="sd">            wkt (str, optional): SamplingFeature Well Known Text.</span>
+<span class="sd">            results (bool, optional): Whether or not you want to return only the</span>
+<span class="sd">                sampling features that have results associated with them.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: List of Sampling Feature objects</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; READ = ReadODM2(SESSION_FACTORY)</span>
+<span class="sd">            &gt;&gt;&gt; READ.getSamplingFeatures(ids=[39, 40])</span>
+<span class="sd">            &gt;&gt;&gt; READ.getSamplingFeatures(codes=[&#39;HOME&#39;, &#39;FIELD&#39;])</span>
+<span class="sd">            &gt;&gt;&gt; READ.getSamplingFeatures(uuids=[&#39;a6f114f1-5416-4606-ae10-23be32dbc202&#39;,</span>
+<span class="sd">            ...                                 &#39;5396fdf3-ceb3-46b6-aaf9-454a37278bb4&#39;])</span>
+<span class="sd">            &gt;&gt;&gt; READ.getSamplingFeatures(type=&#39;Site&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; READ.getSamplingFeatures(wkt=&#39;POINT (30 10)&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; READ.getSamplingFeatures(results=True)</span>
+<span class="sd">            &gt;&gt;&gt; READ.getSamplingFeatures(type=&#39;Site&#39;, results=True)</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">results</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
