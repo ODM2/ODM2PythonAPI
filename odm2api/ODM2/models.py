@@ -248,18 +248,37 @@ class SamplingFeatures(Base):
     Where or on what an action was performed.
     """
     SamplingFeatureID = Column('samplingfeatureid', Integer, primary_key=True, nullable=False)
+    """int: Primary key identifier."""
     SamplingFeatureUUID = Column('samplingfeatureuuid', String(36), nullable=False)
+    """str: A universally unique identifier for the sampling feature."""
     SamplingFeatureTypeCV = Column('samplingfeaturetypecv', ForeignKey(CVSamplingFeatureType.Name),
                                    nullable=False, index=True)
+    """str: CV term describing the type of sampling feature."""
     SamplingFeatureCode = Column('samplingfeaturecode', String(50), nullable=False)
+    """str: A short but meaningful text identifier for the sampling feature."""
     SamplingFeatureName = Column('samplingfeaturename', String(255))
+    """str: Sampling Feature name (free text)."""
     SamplingFeatureDescription = Column('samplingfeaturedescription', String(500))
+    """str: Text describing the sampling feature."""
     SamplingFeatureGeotypeCV = Column('samplingfeaturegeotypecv', ForeignKey(CVSamplingFeatureGeoType.Name),
                                       index=True)
+    """str: Dimensionality of SamplingFeature; point2d, line2d, etc."""
     Elevation_m = Column('elevation_m', Float(53))
+    """float: The elevation of the sampling feature in meters, or in the case of Specimen, 
+              the elevation from where the SamplingFeature.Specimen was collected"""
     ElevationDatumCV = Column('elevationdatumcv', ForeignKey(CVElevationDatum.Name), index=True)
-    #FeatureGeometry = Column('featuregeometry',  String(50))
+    """str: The code for the vertical geodetic datum that specifies the zero point for 
+            the Sampling Feature Elevation"""
+    # FeatureGeometry = Column('featuregeometry',  String(50))
+    """object: The location geometry of the sampling feature on the Earth expressed using a 
+                 geometry data type. Can be a Point, Curve (profile, trajectory, etc), 
+                 Surface (flat polygons, etc) or Solid/Volume (although often limited to 
+                 2D geometries). """
     FeatureGeometryWKT = Column('featuregeometrywkt', String(50))
+    """str: The location geometry of the sampling feature on the Earth expressed as 
+              well known text (WKT). Can be a Point, Curve (profile, trajectory, etc.), 
+              Surface (flat polygons, etc.), or Solid/Volume (although often limited to 
+              2D geometries)."""
     __mapper_args__ = {
         # 'polymorphic_on': SamplingFeatureTypeCV,
         "polymorphic_on": case([
