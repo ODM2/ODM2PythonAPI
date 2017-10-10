@@ -9,6 +9,7 @@ docs-master/_modules/odm2api/base.html
 docs-master/_modules/sqlalchemy/ext/declarative/api.html
 docs-master/_modules/sqlalchemy/orm/attributes.html
 docs-master/_modules/sqlalchemy/sql/schema.html
+docs-master/_sources/contribute.rst.txt
 docs-master/_sources/credits.rst.txt
 docs-master/_sources/index.rst.txt
 docs-master/_sources/installing.rst.txt
@@ -38,6 +39,7 @@ docs-master/_static/underscore.js
 docs-master/_static/up-pressed.png
 docs-master/_static/up.png
 docs-master/_static/websupport.js
+docs-master/contribute.html
 docs-master/credits.html
 docs-master/genindex.html
 docs-master/index.html

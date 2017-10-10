@@ -11,6 +11,7 @@ A Python-based application programmer's interface for the `Observations Data Mod
    modules
    odm2models
    credits
+   contribute
 
 Indices and tables
 ==================
