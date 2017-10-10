@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ODM2 Models &#8212; ODM2PythonAPI 0.6.0-alpha+84.g599d055 documentation</title>
+    <title>ODM2 Models &#8212; ODM2PythonAPI 0.6.0-alpha+87.g1010c1e documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.6.0-alpha+84.g599d055',
+        VERSION:     '0.6.0-alpha+87.g1010c1e',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -4688,52 +4688,67 @@ on which or at which they were performed.</p>
 <dl class="attribute">
 <dt id="odm2api.ODM2.models.SamplingFeatures.ElevationDatumCV">
 <code class="descname">ElevationDatumCV</code><a class="headerlink" href="#odm2api.ODM2.models.SamplingFeatures.ElevationDatumCV" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p><em>str</em> – The code for the vertical geodetic datum that specifies the zero point for
+the Sampling Feature Elevation</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="odm2api.ODM2.models.SamplingFeatures.Elevation_m">
 <code class="descname">Elevation_m</code><a class="headerlink" href="#odm2api.ODM2.models.SamplingFeatures.Elevation_m" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p><em>float</em> – The elevation of the sampling feature in meters, or in the case of Specimen,
+the elevation from where the SamplingFeature.Specimen was collected</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="odm2api.ODM2.models.SamplingFeatures.FeatureGeometryWKT">
 <code class="descname">FeatureGeometryWKT</code><a class="headerlink" href="#odm2api.ODM2.models.SamplingFeatures.FeatureGeometryWKT" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p><em>str</em> – The location geometry of the sampling feature on the Earth expressed as
+well known text (WKT). Can be a Point, Curve (profile, trajectory, etc.),
+Surface (flat polygons, etc.), or Solid/Volume (although often limited to
+2D geometries).</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="odm2api.ODM2.models.SamplingFeatures.SamplingFeatureCode">
 <code class="descname">SamplingFeatureCode</code><a class="headerlink" href="#odm2api.ODM2.models.SamplingFeatures.SamplingFeatureCode" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p><em>str</em> – A short but meaningful text identifier for the sampling feature.</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="odm2api.ODM2.models.SamplingFeatures.SamplingFeatureDescription">
 <code class="descname">SamplingFeatureDescription</code><a class="headerlink" href="#odm2api.ODM2.models.SamplingFeatures.SamplingFeatureDescription" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p><em>str</em> – Text describing the sampling feature.</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="odm2api.ODM2.models.SamplingFeatures.SamplingFeatureGeotypeCV">
 <code class="descname">SamplingFeatureGeotypeCV</code><a class="headerlink" href="#odm2api.ODM2.models.SamplingFeatures.SamplingFeatureGeotypeCV" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p><em>str</em> – Dimensionality of SamplingFeature; point2d, line2d, etc.</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="odm2api.ODM2.models.SamplingFeatures.SamplingFeatureID">
 <code class="descname">SamplingFeatureID</code><a class="headerlink" href="#odm2api.ODM2.models.SamplingFeatures.SamplingFeatureID" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p><em>int</em> – Primary key identifier.</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="odm2api.ODM2.models.SamplingFeatures.SamplingFeatureName">
 <code class="descname">SamplingFeatureName</code><a class="headerlink" href="#odm2api.ODM2.models.SamplingFeatures.SamplingFeatureName" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p><em>str</em> – Sampling Feature name (free text).</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="odm2api.ODM2.models.SamplingFeatures.SamplingFeatureTypeCV">
 <code class="descname">SamplingFeatureTypeCV</code><a class="headerlink" href="#odm2api.ODM2.models.SamplingFeatures.SamplingFeatureTypeCV" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p><em>str</em> – CV term describing the type of sampling feature.</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="odm2api.ODM2.models.SamplingFeatures.SamplingFeatureUUID">
 <code class="descname">SamplingFeatureUUID</code><a class="headerlink" href="#odm2api.ODM2.models.SamplingFeatures.SamplingFeatureUUID" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p><em>str</em> – A universally unique identifier for the sampling feature.</p>
+</dd></dl>
 
 </dd></dl>
 
