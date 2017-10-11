@@ -373,16 +373,34 @@ class ReadODM2(serviceBase):
 
     # Sampling Feature
     def getSamplingFeatures(self, ids=None, codes=None, uuids=None, type=None, wkt=None, results=False):
-        """
-        * Pass nothing - returns a list of all sampling feature objects with
-          each object of type specific to that sampling feature
-        * Pass a list of SamplingFeatureID - returns a single sampling feature object for the given ids
-        * Pass a list of SamplingFeatureCode - returns a single sampling feature object for the given code
-        * Pass a list of SamplingFeatureUUID - returns a single sampling feature object for the given UUID's
-        * Pass a SamplingFeatureType - returns a list of sampling feature objects of the type passed in
-        * Pass a SamplingFeature Well Known Text - return a list of sampling feature objects
-        * Pass whether or not you want to return only the sampling features
-          that have results associated with them
+        """Retrieve a list of Sampling Feature objects.
+
+        If no arguments are passed to the function, or their values are None,
+        all Sampling Feature objects in the database will be returned.
+
+        Args:
+            ids (list, optional): List of SamplingFeatureIDs.
+            codes (list, optional): List of SamplingFeature Codes.
+            uuids (list, optional): List of UUIDs string.
+            type (str, optional): Type of Sampling Feature from
+                `controlled vocabulary name <http://vocabulary.odm2.org/samplingfeaturetype/>`_.
+            wkt (str, optional): SamplingFeature Well Known Text.
+            results (bool, optional): Whether or not you want to return only the
+                sampling features that have results associated with them.
+
+        Returns:
+            list: List of Sampling Feature objects
+
+        Examples:
+            >>> READ = ReadODM2(SESSION_FACTORY)
+            >>> READ.getSamplingFeatures(ids=[39, 40])
+            >>> READ.getSamplingFeatures(codes=['HOME', 'FIELD'])
+            >>> READ.getSamplingFeatures(uuids=['a6f114f1-5416-4606-ae10-23be32dbc202',
+            ...                                 '5396fdf3-ceb3-46b6-aaf9-454a37278bb4'])
+            >>> READ.getSamplingFeatures(type='Site')
+            >>> READ.getSamplingFeatures(wkt='POINT (30 10)')
+            >>> READ.getSamplingFeatures(results=True)
+            >>> READ.getSamplingFeatures(type='Site', results=True)
 
         """
         if results:

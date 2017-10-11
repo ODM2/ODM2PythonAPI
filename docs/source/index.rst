@@ -9,11 +9,17 @@ A Python-based application programmer's interface for the `Observations Data Mod
 
    installing
    modules
-   models
+   odm2models
    credits
+   contribute
 
 Indices and tables
 ==================
+
+.. toctree::
+   :maxdepth: 2
+
+   models
 
 * :ref:`genindex`
 * :ref:`modindex`

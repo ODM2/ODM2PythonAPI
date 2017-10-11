@@ -34,6 +34,7 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
     'sphinx.ext.napoleon',
+    'sphinx.ext.autosummary'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -176,3 +177,6 @@ texinfo_documents = [
      author, 'ODM2PythonAPI', 'One line description of project.',
      'Miscellaneous'),
 ]
+
+
+autosummary_generate = True
