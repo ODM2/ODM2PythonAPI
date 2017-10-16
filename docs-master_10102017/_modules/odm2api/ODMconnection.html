@@ -1,0 +1,294 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>odm2api.ODMconnection &#8212; ODM2PythonAPI 0.6.0-alpha+87.g1010c1e documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.6.0-alpha+87.g1010c1e',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../../index.html">
+    <img class="logo" src="../../_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=ODM2&repo=ODM2PythonAPI&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+    
+
+<p>
+<a href="https://travis-ci.org/ODM2/ODM2PythonAPI">
+    <img
+        alt="https://secure.travis-ci.org/ODM2/ODM2PythonAPI.svg?branch=master"
+        src="https://secure.travis-ci.org/ODM2/ODM2PythonAPI.svg?branch=master"
+    />
+</a>
+</p>
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Developer Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../odm2models.html">ODM2 Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute.html">Contribute to Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../models.html">ODM2 Models Index</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for odm2api.ODMconnection</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.exc</span> <span class="k">import</span> <span class="n">SQLAlchemyError</span><span class="p">,</span> <span class="n">DBAPIError</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="k">import</span> <span class="n">create_engine</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="k">import</span> <span class="n">sessionmaker</span><span class="p">,</span> <span class="n">scoped_session</span>
+
+<span class="kn">from</span> <span class="nn">odm2api.ODM2.models</span> <span class="k">import</span> <span class="n">Variables</span> <span class="k">as</span> <span class="n">Variable2</span><span class="p">,</span> <span class="n">setSchema</span>
+
+
+<span class="kn">import</span> <span class="nn">urllib</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+
+<span class="c1"># LIBSPATIALITE_PATH = &#39;./libspatialite.so.5.1.0&#39;</span>
+
+<div class="viewcode-block" id="SessionFactory"><a class="viewcode-back" href="../../modules.html#odm2api.ODMconnection.SessionFactory">[docs]</a><span class="k">class</span> <span class="nc">SessionFactory</span><span class="p">():</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection_string</span><span class="p">,</span> <span class="n">echo</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="mf">2.0</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="s1">&#39;sqlite&#39;</span> <span class="ow">in</span> <span class="n">connection_string</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="n">connection_string</span><span class="p">,</span>  <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="n">echo</span><span class="o">=</span><span class="n">echo</span><span class="p">,</span> <span class="n">pool_recycle</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span><span class="c1">#, pool_pre_ping=True)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">test_engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span>
+        <span class="k">elif</span> <span class="s1">&#39;mssql&#39;</span> <span class="ow">in</span> <span class="n">connection_string</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="n">connection_string</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="n">echo</span><span class="o">=</span><span class="n">echo</span><span class="p">,</span> <span class="n">pool_recycle</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span><span class="c1">#, pool_pre_ping =True)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">test_engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="n">connection_string</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="n">echo</span><span class="o">=</span><span class="n">echo</span><span class="p">,</span> <span class="n">connect_args</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;timeout&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+        <span class="k">elif</span> <span class="s1">&#39;postgresql&#39;</span> <span class="ow">in</span> <span class="n">connection_string</span> <span class="ow">or</span> <span class="s1">&#39;mysql&#39;</span> <span class="ow">in</span> <span class="n">connection_string</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="n">connection_string</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="n">echo</span><span class="o">=</span><span class="n">echo</span><span class="p">,</span> <span class="n">pool_recycle</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span><span class="c1"># , pool_pre_ping=True)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">test_engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="n">connection_string</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="n">echo</span><span class="o">=</span><span class="n">echo</span><span class="p">,</span>
+                                              <span class="n">max_overflow</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">connect_args</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;connect_timeout&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+
+
+        <span class="c1"># Create session maker</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Session</span> <span class="o">=</span> <span class="n">scoped_session</span><span class="p">(</span><span class="n">sessionmaker</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span> <span class="n">autoflush</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test_Session</span> <span class="o">=</span> <span class="n">scoped_session</span><span class="p">(</span><span class="n">sessionmaker</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">test_engine</span><span class="p">))</span>
+        <span class="n">setSchema</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="o">=</span><span class="n">version</span>
+
+<div class="viewcode-block" id="SessionFactory.getSession"><a class="viewcode-back" href="../../modules.html#odm2api.ODMconnection.SessionFactory.getSession">[docs]</a>    <span class="k">def</span> <span class="nf">getSession</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;SessionFactory(&#39;</span><span class="si">%s</span><span class="s2">&#39;)&gt;&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span></div>
+
+
+<div class="viewcode-block" id="dbconnection"><a class="viewcode-back" href="../../modules.html#odm2api.ODMconnection.dbconnection">[docs]</a><span class="k">class</span> <span class="nc">dbconnection</span><span class="p">():</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="n">debug</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_connection_format</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">+</span><span class="si">%s</span><span class="s2">://</span><span class="si">%s</span><span class="s2">:</span><span class="si">%s</span><span class="s2">@</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_connection_format_nopassword</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">+</span><span class="si">%s</span><span class="s2">://</span><span class="si">%s</span><span class="s2">@</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">&quot;</span>
+
+<div class="viewcode-block" id="dbconnection.createConnection"><a class="viewcode-back" href="../../modules.html#odm2api.ODMconnection.dbconnection.createConnection">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">createConnection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dbtype</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">echo</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">engine</span> <span class="o">==</span> <span class="s1">&#39;sqlite&#39;</span><span class="p">:</span>
+            <span class="n">connection_string</span> <span class="o">=</span> <span class="n">engine</span> <span class="o">+</span> <span class="s1">&#39;:///&#39;</span> <span class="o">+</span> <span class="n">address</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">createConnectionFromString</span><span class="p">(</span><span class="n">connection_string</span><span class="p">,</span> <span class="n">dbtype</span><span class="p">,</span> <span class="n">echo</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">connection_string</span> <span class="o">=</span> <span class="n">dbconnection</span><span class="o">.</span><span class="n">__buildConnectionString</span><span class="p">(</span><span class="n">dbconnection</span><span class="p">(),</span> <span class="n">engine</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isValidConnection</span><span class="p">(</span><span class="n">connection_string</span><span class="p">,</span> <span class="n">dbtype</span><span class="p">):</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">createConnectionFromString</span><span class="p">(</span><span class="n">connection_string</span><span class="p">,</span> <span class="n">dbtype</span><span class="p">,</span> <span class="n">echo</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="dbconnection.createConnectionFromString"><a class="viewcode-back" href="../../modules.html#odm2api.ODMconnection.dbconnection.createConnectionFromString">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">createConnectionFromString</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn_string</span><span class="p">,</span> <span class="n">dbtype</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">echo</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">SessionFactory</span><span class="p">(</span><span class="n">conn_string</span><span class="p">,</span> <span class="n">echo</span><span class="o">=</span><span class="n">echo</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">dbtype</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">s</span></div>
+
+<div class="viewcode-block" id="dbconnection.isValidConnection"><a class="viewcode-back" href="../../modules.html#odm2api.ODMconnection.dbconnection.isValidConnection">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">isValidConnection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection_string</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="n">dbtype</span><span class="o">=</span><span class="mf">2.0</span><span class="p">):</span>
+        <span class="c1"># refreshDB(dbtype)</span>
+        <span class="k">if</span> <span class="n">dbtype</span> <span class="o">==</span> <span class="mf">2.0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">testEngine</span><span class="p">(</span><span class="n">connection_string</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">testEngine1_1</span><span class="p">(</span><span class="n">connection_string</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="dbconnection.testEngine"><a class="viewcode-back" href="../../modules.html#odm2api.ODMconnection.dbconnection.testEngine">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">testEngine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection_string</span><span class="p">,</span> <span class="n">echo</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">SessionFactory</span><span class="p">(</span><span class="n">connection_string</span><span class="p">,</span> <span class="n">echo</span><span class="o">=</span><span class="n">echo</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">setSchema</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">test_engine</span><span class="p">)</span>
+            <span class="c1"># s.test_Session().query(Variable2.VariableCode).limit(1).first()</span>
+            <span class="n">s</span><span class="o">.</span><span class="n">test_Session</span><span class="p">()</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;Select 1&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Connection was unsuccessful &quot;</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">dbconnection</span><span class="o">.</span><span class="n">closeConnection</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">test_Session</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="dbconnection.testEngine1_1"><a class="viewcode-back" href="../../modules.html#odm2api.ODMconnection.dbconnection.testEngine1_1">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">testEngine1_1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection_string</span><span class="p">,</span> <span class="n">echo</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">SessionFactory</span><span class="p">(</span><span class="n">connection_string</span><span class="p">,</span> <span class="n">echo</span><span class="o">=</span><span class="n">echo</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="mf">1.1</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># s.test_Session().query(ODM.Variable.code).limit(1).first()</span>
+            <span class="n">s</span><span class="o">.</span><span class="n">test_Session</span><span class="p">()</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;Select 1&quot;</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Connection was unsuccessful &quot;</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">dbconnection</span><span class="o">.</span><span class="n">closeConnection</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">test_Session</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="dbconnection.buildConnectionString"><a class="viewcode-back" href="../../modules.html#odm2api.ODMconnection.dbconnection.buildConnectionString">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">buildConnectionString</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">dbconnection</span><span class="o">.</span><span class="n">__buildConnectionString</span><span class="p">(</span><span class="n">dbconnection</span><span class="p">(),</span> <span class="n">engine</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="dbconnection.closeConnection"><a class="viewcode-back" href="../../modules.html#odm2api.ODMconnection.dbconnection.closeConnection">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">closeConnection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">session</span><span class="p">):</span>
+        <span class="n">session</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span></div>
+
+    <span class="c1"># ####################</span>
+    <span class="c1"># private variables</span>
+    <span class="c1"># # ###################</span>
+
+    <span class="k">def</span> <span class="nf">__buildConnectionString</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">engine</span> <span class="o">==</span> <span class="s1">&#39;mssql&#39;</span> <span class="ow">and</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">!=</span> <span class="s1">&#39;win32&#39;</span><span class="p">:</span>
+            <span class="n">driver</span> <span class="o">=</span> <span class="s2">&quot;pyodbc&quot;</span>
+            <span class="n">quoted</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">quote_plus</span><span class="p">(</span><span class="s1">&#39;DRIVER=</span><span class="si">{FreeTDS}</span><span class="s1">;DSN=</span><span class="si">%s</span><span class="s1">;UID=</span><span class="si">%s</span><span class="s1">;PWD=</span><span class="si">%s</span><span class="s1">;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">))</span>
+            <span class="n">conn_string</span> <span class="o">=</span> <span class="s1">&#39;mssql+pyodbc:///?odbc_connect=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">quoted</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">engine</span> <span class="o">==</span> <span class="s1">&#39;sqlite&#39;</span><span class="p">:</span>
+            <span class="n">driver</span> <span class="o">=</span> <span class="s1">&#39;sqlite&#39;</span>
+            <span class="n">conn_string</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">:///</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">driver</span><span class="p">,</span> <span class="n">address</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">engine</span> <span class="o">==</span> <span class="s1">&#39;mssql&#39;</span><span class="p">:</span>
+                <span class="n">driver</span> <span class="o">=</span> <span class="s2">&quot;pyodbc&quot;</span>
+                <span class="n">conn</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">+</span><span class="si">%s</span><span class="s2">://</span><span class="si">%s</span><span class="s2">:</span><span class="si">%s</span><span class="s2">@</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">?driver=SQL+Server&quot;</span>
+                <span class="k">if</span> <span class="s2">&quot;sqlncli11.dll&quot;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s2">&quot;C:</span><span class="se">\\</span><span class="s2">Windows</span><span class="se">\\</span><span class="s2">System32&quot;</span><span class="p">):</span>
+                    <span class="n">conn</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">+</span><span class="si">%s</span><span class="s2">://</span><span class="si">%s</span><span class="s2">:</span><span class="si">%s</span><span class="s2">@</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">?driver=SQL+Server+Native+Client+11.0&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_connection_format</span> <span class="o">=</span> <span class="n">conn</span>
+                <span class="n">conn_string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection_format</span> <span class="o">%</span> <span class="p">(</span><span class="n">engine</span><span class="p">,</span> <span class="n">driver</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">db</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">engine</span> <span class="o">==</span> <span class="s1">&#39;mysql&#39;</span><span class="p">:</span>
+                    <span class="n">driver</span> <span class="o">=</span> <span class="s2">&quot;pymysql&quot;</span>
+                <span class="k">elif</span> <span class="n">engine</span> <span class="o">==</span> <span class="s1">&#39;postgresql&#39;</span><span class="p">:</span>
+                    <span class="n">driver</span> <span class="o">=</span> <span class="s2">&quot;psycopg2&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">driver</span> <span class="o">=</span> <span class="s2">&quot;None&quot;</span>
+                <span class="n">conn_string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">constringBuilder</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">driver</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">conn_string</span>
+
+<div class="viewcode-block" id="dbconnection.constringBuilder"><a class="viewcode-back" href="../../modules.html#odm2api.ODMconnection.dbconnection.constringBuilder">[docs]</a>    <span class="k">def</span> <span class="nf">constringBuilder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">driver</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">password</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">password</span><span class="p">:</span>
+            <span class="n">conn_string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection_format_nopassword</span> <span class="o">%</span> <span class="p">(</span>
+                <span class="n">engine</span><span class="p">,</span> <span class="n">driver</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">db</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">conn_string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection_format</span> <span class="o">%</span> <span class="p">(</span>
+                <span class="n">engine</span><span class="p">,</span> <span class="n">driver</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">db</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">conn_string</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2017, Stephanie Reeder.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+    <a href="https://github.com/ODM2/ODM2PythonAPI" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>
