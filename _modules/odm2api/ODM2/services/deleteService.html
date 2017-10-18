@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>odm2api.ODM2.services.deleteService &#8212; ODM2PythonAPI 0.6.0-alpha+87.g1010c1e documentation</title>
+    <title>odm2api.ODM2.services.deleteService &#8212; ODM2PythonAPI 0.6.0-alpha+90.g1cdf2e2 documentation</title>
     <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.6.0-alpha+87.g1010c1e',
+        VERSION:     '0.6.0-alpha+90.g1cdf2e2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -107,108 +107,42 @@
           <div class="body" role="main">
             
   <h1>Source code for odm2api.ODM2.services.deleteService</h1><div class="highlight"><pre>
-<span></span><span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;jmeline&#39;</span>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="p">(</span><span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">odm2api.ODM2</span> <span class="k">import</span> <span class="n">serviceBase</span>
-<span class="kn">from</span> <span class="nn">odm2api.ODM2.models</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">odm2api.ODM2.models</span> <span class="k">import</span> <span class="n">TimeSeriesResultValues</span>
 
-<span class="c1"># ################################################################################</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;jmeline&#39;</span>
+
 <span class="c1"># Annotations</span>
-<span class="c1"># ################################################################################</span>
+
 
 <div class="viewcode-block" id="DeleteODM2"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.deleteService.DeleteODM2">[docs]</a><span class="k">class</span> <span class="nc">DeleteODM2</span><span class="p">(</span><span class="n">serviceBase</span><span class="p">):</span>
 
 <div class="viewcode-block" id="DeleteODM2.remove"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.deleteService.DeleteODM2.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></div>
 
-<span class="c1"># ################################################################################</span>
 <span class="c1"># CV</span>
-<span class="c1"># ################################################################################</span>
-
-
-
-
-
-<span class="c1"># ################################################################################</span>
 <span class="c1"># Core</span>
-<span class="c1"># ################################################################################</span>
-
-
-
-
-<span class="c1"># ################################################################################</span>
 <span class="c1"># Data Quality</span>
-<span class="c1"># ################################################################################</span>
-
-
-
-<span class="c1"># ################################################################################</span>
 <span class="c1"># Equipment</span>
-<span class="c1"># ################################################################################</span>
-
-
-
-
-<span class="c1"># ################################################################################</span>
 <span class="c1"># Extension Properties</span>
-<span class="c1"># ################################################################################</span>
-
-
-
-
-<span class="c1"># ################################################################################</span>
 <span class="c1"># External Identifiers</span>
-<span class="c1"># ################################################################################</span>
-
-
-
-
-<span class="c1"># ################################################################################</span>
 <span class="c1"># Lab Analyses</span>
-<span class="c1"># ################################################################################</span>
-
-
-
-
-<span class="c1"># ################################################################################</span>
 <span class="c1"># Provenance</span>
-<span class="c1"># ################################################################################</span>
-
-
-
-
-<span class="c1"># ################################################################################</span>
 <span class="c1"># Annotations</span>
-<span class="c1"># ################################################################################</span>
-
-
-
-
-<span class="c1"># ################################################################################</span>
 <span class="c1"># Sampling Features</span>
-<span class="c1"># ################################################################################</span>
-
-
-
-
-<span class="c1"># ################################################################################</span>
 <span class="c1"># Sensors</span>
-<span class="c1"># ################################################################################</span>
-
-
-
-
-<span class="c1"># ################################################################################</span>
 <span class="c1"># Result Values</span>
-<span class="c1"># ################################################################################</span>
 
-<div class="viewcode-block" id="DeleteODM2.deleteTSRValues"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.deleteService.DeleteODM2.deleteTSRValues">[docs]</a>    <span class="k">def</span> <span class="nf">deleteTSRValues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">startdate</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dates</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="DeleteODM2.deleteTSRValues"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.deleteService.DeleteODM2.deleteTSRValues">[docs]</a>    <span class="k">def</span> <span class="nf">deleteTSRValues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">startdate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dates</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">TimeSeriesResultValues</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">ids</span><span class="p">:</span>
             <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">TimeSeriesResultValues</span><span class="o">.</span><span class="n">ResultID</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">ids</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">startdate</span><span class="p">:</span>
-            <span class="c1">#delete all values on or after the startdate</span>
+            <span class="c1"># delete all values on or after the startdate.</span>
             <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">TimeSeriesResultValues</span><span class="o">.</span><span class="n">ValueDateTime</span> <span class="o">&gt;=</span> <span class="n">startdate</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">dates</span><span class="p">:</span>
             <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">TimeSeriesResultValues</span><span class="o">.</span><span class="n">ValueDateTime</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">dates</span><span class="p">))</span>

@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>odm2api.base &#8212; ODM2PythonAPI 0.6.0-alpha+87.g1010c1e documentation</title>
+    <title>odm2api.base &#8212; ODM2PythonAPI 0.6.0-alpha+90.g1cdf2e2 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.6.0-alpha+87.g1010c1e',
+        VERSION:     '0.6.0-alpha+90.g1cdf2e2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -107,34 +107,17 @@
           <div class="body" role="main">
             
   <h1>Source code for odm2api.base</h1><div class="highlight"><pre>
-<span></span>
-
-
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="p">(</span><span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">)</span>
 
 <div class="viewcode-block" id="serviceBase"><a class="viewcode-back" href="../../modules.html#odm2api.base.serviceBase">[docs]</a><span class="k">class</span> <span class="nc">serviceBase</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-
-    <span class="c1"># __metaclass__ = SingletonByConn</span>
-
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    def __init__(self, session):</span>
-<span class="sd">        self._session = session</span>
-<span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>  <span class="n">session_factory</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">         must send in either a session_factory #TODO  or a connection, exclusive or</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="sd">&quot;&quot;&quot;Must send in either a session_factory.&quot;&quot;&quot;</span>
 
-        <span class="c1"># if connection is  None:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session_factory</span> <span class="o">=</span> <span class="n">session_factory</span>
-        <span class="c1"># else:</span>
-        <span class="c1">#     self._session_factory = SessionFactory(connection)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session_factory</span><span class="o">.</span><span class="n">getSession</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_version</span> <span class="o">=</span> <span class="n">session_factory</span><span class="o">.</span><span class="n">version</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_debug</span> <span class="o">=</span> <span class="n">debug</span>
-
-
-
 
 <div class="viewcode-block" id="serviceBase.getSession"><a class="viewcode-back" href="../../modules.html#odm2api.base.serviceBase.getSession">[docs]</a>    <span class="k">def</span> <span class="nf">getSession</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -143,10 +126,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span></div>
 
 <div class="viewcode-block" id="serviceBase.reset_session"><a class="viewcode-back" href="../../modules.html#odm2api.base.serviceBase.reset_session">[docs]</a>    <span class="k">def</span> <span class="nf">reset_session</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_session</span> <span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_session_factory</span><span class="o">.</span><span class="n">getSession</span><span class="p">()</span> <span class="c1">#reset the session in order to prevent memory leaks</span></div></div>
-
-
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">_session</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session_factory</span><span class="o">.</span><span class="n">getSession</span><span class="p">()</span></div></div>
 
 
 <div class="viewcode-block" id="Base"><a class="viewcode-back" href="../../modules.html#odm2api.base.Base">[docs]</a><span class="k">class</span> <span class="nc">Base</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -159,7 +139,8 @@
     <span class="n">__table_args__</span> <span class="o">=</span> <span class="p">{</span><span class="sa">u</span><span class="s1">&#39;schema&#39;</span><span class="p">:</span> <span class="s1">&#39;odm2&#39;</span><span class="p">}</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
@@ -167,26 +148,15 @@
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">valuedict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">valuedict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="k">if</span> <span class="s2">&quot;obj&quot;</span> <span class="ow">in</span> <span class="n">v</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="k">if</span> <span class="s1">&#39;obj&#39;</span> <span class="ow">in</span> <span class="n">v</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
                 <span class="k">del</span> <span class="n">valuedict</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
         <span class="c1"># del valuedict[&quot;_sa_instance_state&quot;]</span>
-        <span class="k">return</span> <span class="s2">&quot;&lt;</span><span class="si">%s</span><span class="s2">(</span><span class="si">%s</span><span class="s2">)&gt;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">valuedict</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="s1">&#39;&lt;</span><span class="si">%s</span><span class="s1">(</span><span class="si">%s</span><span class="s1">)&gt;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">valuedict</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="modelBase"><a class="viewcode-back" href="../../modules.html#odm2api.base.modelBase">[docs]</a><span class="k">class</span> <span class="nc">modelBase</span><span class="p">():</span>
     <span class="kn">from</span> <span class="nn">sqlalchemy.ext.declarative</span> <span class="k">import</span> <span class="n">declarative_base</span>
     <span class="n">Base</span> <span class="o">=</span> <span class="n">declarative_base</span><span class="p">(</span><span class="bp">cls</span><span class="o">=</span><span class="n">Base</span><span class="p">)</span></div>
-
-
-
-
-
-
-
-
-
-
-
 </pre></div>
 
           </div>
