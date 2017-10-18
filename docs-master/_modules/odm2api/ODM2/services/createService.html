@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>odm2api.ODM2.services.createService &#8212; ODM2PythonAPI 0.6.0-alpha+87.g1010c1e documentation</title>
+    <title>odm2api.ODM2.services.createService &#8212; ODM2PythonAPI 0.6.0-alpha+90.g1cdf2e2 documentation</title>
     <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.6.0-alpha+87.g1010c1e',
+        VERSION:     '0.6.0-alpha+90.g1cdf2e2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -107,24 +107,18 @@
           <div class="body" role="main">
             
   <h1>Source code for odm2api.ODM2.services.createService</h1><div class="highlight"><pre>
-<span></span><span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;sreeder&#39;</span>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="p">(</span><span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">)</span>
 
-<span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">dt</span>
 <span class="kn">import</span> <span class="nn">uuid</span>
 
-<span class="c1"># from src.api.ODM2.LikeODM1.converter import Site</span>
-<span class="kn">from</span> <span class="nn">odm2api.ODM2.models</span> <span class="k">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">odm2api.ODM2</span> <span class="k">import</span> <span class="n">serviceBase</span>
+<span class="kn">from</span> <span class="nn">odm2api.ODM2.models</span> <span class="k">import</span> <span class="n">TimeSeriesResultValues</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;sreeder&#39;</span>
 
 
 <div class="viewcode-block" id="CreateODM2"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.createService.CreateODM2">[docs]</a><span class="k">class</span> <span class="nc">CreateODM2</span><span class="p">(</span><span class="n">serviceBase</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    def __init__(self, session):</span>
-<span class="sd">        self._session = session</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="c1"># ################################################################################</span>
     <span class="c1"># Annotations</span>
-    <span class="c1"># ################################################################################</span>
 
 <div class="viewcode-block" id="CreateODM2.create"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.createService.CreateODM2.create">[docs]</a>    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
@@ -136,7 +130,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">values</span></div>
 
-
 <div class="viewcode-block" id="CreateODM2.createVariable"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.createService.CreateODM2.createVariable">[docs]</a>    <span class="k">def</span> <span class="nf">createVariable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
@@ -146,22 +139,18 @@
 <div class="viewcode-block" id="CreateODM2.createMethod"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.createService.CreateODM2.createMethod">[docs]</a>    <span class="k">def</span> <span class="nf">createMethod</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-
         <span class="k">return</span> <span class="n">method</span></div>
 
 <div class="viewcode-block" id="CreateODM2.createProcessingLevel"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.createService.CreateODM2.createProcessingLevel">[docs]</a>    <span class="k">def</span> <span class="nf">createProcessingLevel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">proclevel</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">proclevel</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-
         <span class="k">return</span> <span class="n">proclevel</span></div>
 
-    <span class="c1">#send in any type of sampling feature</span>
 <div class="viewcode-block" id="CreateODM2.createSamplingFeature"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.createService.CreateODM2.createSamplingFeature">[docs]</a>    <span class="k">def</span> <span class="nf">createSamplingFeature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samplingfeature</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">samplingfeature</span><span class="o">.</span><span class="n">SamplingFeatureUUID</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">samplingfeature</span><span class="o">.</span><span class="n">SamplingFeatureUUID</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid1</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">samplingfeature</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-
         <span class="k">return</span> <span class="n">samplingfeature</span></div>
 
 <div class="viewcode-block" id="CreateODM2.createUnit"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.createService.CreateODM2.createUnit">[docs]</a>    <span class="k">def</span> <span class="nf">createUnit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unit</span><span class="p">):</span>
@@ -177,25 +166,21 @@
 <div class="viewcode-block" id="CreateODM2.createPerson"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.createService.CreateODM2.createPerson">[docs]</a>    <span class="k">def</span> <span class="nf">createPerson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">person</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-
         <span class="k">return</span> <span class="n">person</span></div>
 
 <div class="viewcode-block" id="CreateODM2.createAffiliation"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.createService.CreateODM2.createAffiliation">[docs]</a>    <span class="k">def</span> <span class="nf">createAffiliation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">affiliation</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">affiliation</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-
         <span class="k">return</span> <span class="n">affiliation</span></div>
 
 <div class="viewcode-block" id="CreateODM2.createDataset"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.createService.CreateODM2.createDataset">[docs]</a>    <span class="k">def</span> <span class="nf">createDataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-
         <span class="k">return</span> <span class="n">dataset</span></div>
 
 <div class="viewcode-block" id="CreateODM2.createDatasetResults"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.createService.CreateODM2.createDatasetResults">[docs]</a>    <span class="k">def</span> <span class="nf">createDatasetResults</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datasetresult</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">datasetresult</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-
         <span class="k">return</span> <span class="n">datasetresult</span></div>
 
 <div class="viewcode-block" id="CreateODM2.createAction"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.createService.CreateODM2.createAction">[docs]</a>    <span class="k">def</span> <span class="nf">createAction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
@@ -217,16 +202,13 @@
 <div class="viewcode-block" id="CreateODM2.createAnnotations"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.createService.CreateODM2.createAnnotations">[docs]</a>    <span class="k">def</span> <span class="nf">createAnnotations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">anno</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">anno</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-
         <span class="k">return</span> <span class="n">anno</span></div>
-    
+
 <div class="viewcode-block" id="CreateODM2.createRelatedAction"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.createService.CreateODM2.createRelatedAction">[docs]</a>    <span class="k">def</span> <span class="nf">createRelatedAction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">relatedaction</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">relatedaction</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-
         <span class="k">return</span> <span class="n">relatedaction</span></div>
 
-    <span class="c1">#send in any type of result object</span>
 <div class="viewcode-block" id="CreateODM2.createResult"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.createService.CreateODM2.createResult">[docs]</a>    <span class="k">def</span> <span class="nf">createResult</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">ResultUUID</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">result</span><span class="o">.</span><span class="n">ResultUUID</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid1</span><span class="p">())</span>
@@ -234,19 +216,15 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">result</span></div>
 
-
-
 <div class="viewcode-block" id="CreateODM2.createResultValue"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.createService.CreateODM2.createResultValue">[docs]</a>    <span class="k">def</span> <span class="nf">createResultValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">value</span></div>
 
-
 <div class="viewcode-block" id="CreateODM2.createSpatialReference"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.createService.CreateODM2.createSpatialReference">[docs]</a>    <span class="k">def</span> <span class="nf">createSpatialReference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spatialref</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">spatialref</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-
         <span class="k">return</span> <span class="n">spatialref</span></div>
 
 <div class="viewcode-block" id="CreateODM2.createModel"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.createService.CreateODM2.createModel">[docs]</a>    <span class="k">def</span> <span class="nf">createModel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
@@ -258,115 +236,31 @@
 <div class="viewcode-block" id="CreateODM2.createRelatedModel"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.createService.CreateODM2.createRelatedModel">[docs]</a>    <span class="k">def</span> <span class="nf">createRelatedModel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">relatedmodel</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">relatedmodel</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-
         <span class="k">return</span> <span class="n">relatedmodel</span></div>
 
 <div class="viewcode-block" id="CreateODM2.createSimulation"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.createService.CreateODM2.createSimulation">[docs]</a>    <span class="k">def</span> <span class="nf">createSimulation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simulation</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">simulation</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-
         <span class="k">return</span> <span class="n">simulation</span></div>
 
 <div class="viewcode-block" id="CreateODM2.createTimeSeriesResultValues"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.createService.CreateODM2.createTimeSeriesResultValues">[docs]</a>    <span class="k">def</span> <span class="nf">createTimeSeriesResultValues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datavalues</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">tablename</span> <span class="o">=</span> <span class="n">TimeSeriesResultValues</span><span class="o">.</span><span class="n">__tablename__</span>
-            <span class="c1">#print (&quot;I am TS saving name the table name&quot;, tablename)</span>
-            <span class="n">datavalues</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;TimeSeriesResultValues&quot;</span><span class="p">,</span>
-                              <span class="n">schema</span><span class="o">=</span><span class="n">TimeSeriesResultValues</span><span class="o">.</span><span class="n">__table_args__</span><span class="p">[</span><span class="s1">&#39;schema&#39;</span><span class="p">],</span>
-                              <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;append&#39;</span><span class="p">,</span>
-                              <span class="n">chunksize</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
-                              <span class="n">con</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_session_factory</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span>
-                              <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="c1"># FXIME: F841 local variable &#39;tablename&#39; is assigned to but never used.</span>
+            <span class="c1"># tablename = TimeSeriesResultValues.__tablename__</span>
+            <span class="n">datavalues</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;TimeSeriesResultValues&#39;</span><span class="p">,</span>
+                <span class="n">schema</span><span class="o">=</span><span class="n">TimeSeriesResultValues</span><span class="o">.</span><span class="n">__table_args__</span><span class="p">[</span><span class="s1">&#39;schema&#39;</span><span class="p">],</span>
+                <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;append&#39;</span><span class="p">,</span>
+                <span class="n">chunksize</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+                <span class="n">con</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_session_factory</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span>
+                <span class="n">index</span><span class="o">=</span><span class="kc">False</span>
+            <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
 
             <span class="k">return</span> <span class="n">datavalues</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span></div></div>
-
-
-<span class="c1">#     def createTimeSeriesResultValues(self, resultid, datavalues, datetimes, datetimeoffsets, censorcodecv,</span>
-<span class="c1">#                                      qualitycodecv,</span>
-<span class="c1">#                                      timeaggregationinterval, timeaggregationunit):</span>
-<span class="c1">#</span>
-<span class="c1">#</span>
-<span class="c1">#         try:</span>
-<span class="c1">#             values = TimeSeriesResultValues()</span>
-<span class="c1">#             for i in range(len(datavalues)):</span>
-<span class="c1">#                 values.ResultID = resultid</span>
-<span class="c1">#                 values.CensorCodeCV = censorcodecv</span>
-<span class="c1">#                 values.QualityCodeCV = qualitycodecv</span>
-<span class="c1">#                 values.TimeAggregationInterval = timeaggregationinterval</span>
-<span class="c1">#                 values.TimeAggregationIntervalUnitsID = timeaggregationunit</span>
-<span class="c1">#                 values.DataValue = datavalues[i]</span>
-<span class="c1">#                 values.ValueDateTime = datetimes[i]</span>
-<span class="c1">#                 values.ValueDateTimeUTCOffset = datetimeoffsets[i]</span>
-<span class="c1">#                 self._session.add(values)</span>
-<span class="c1">#             self._session.commit()</span>
-<span class="c1">#             return values</span>
-<span class="c1">#         except Exception, e:</span>
-<span class="c1">#             print e</span>
-<span class="c1">#             return None</span>
-<span class="c1">#     &#39;&#39;&#39;</span>
-<span class="c1">#</span>
-<span class="c1">#     def createTimeSeriesResultValues(self, datavalues):</span>
-<span class="c1">#         try:</span>
-<span class="c1">#             #using Pandas built-in  --slow</span>
-<span class="c1">#             #changing way values sent --unknown error on insert</span>
-<span class="c1">#             #cols = datavalues.columns.tolist()</span>
-<span class="c1">#             #[&#39;ValueDateTime&#39;, &#39;DataValue&#39;, &#39;TimeAggregationInterval&#39;, &#39;TimeAggregationIntervalUnitsID&#39;, &#39;QualityCodeCV&#39;, &#39;CensorCodeCV&#39;, &#39;ResultID&#39;, &#39;ValueDateTimeUTCOffset&#39;]</span>
-<span class="c1">#             #cols = [&#39;ResultID&#39;,&#39;DataValue&#39;,&#39;ValueDateTime&#39;,&#39;ValueDateTimeUTCOffset&#39;,&#39;CensorCodeCV&#39;,&#39;QualityCodeCV&#39;,&#39;TimeAggregationInterval&#39;,&#39;TimeAggregationIntervalUnitsID&#39;]</span>
-<span class="c1">#             #datavalues = datavalues[cols]</span>
-<span class="c1">#             #print datavalues</span>
-<span class="c1">#             #datavalues.to_sql(name=TimeSeriesResultValues.__tablename__,</span>
-<span class="c1">#             datavalues.to_sql(name=&quot;TimeSeriesResultValues&quot;,</span>
-<span class="c1">#                               schema=TimeSeriesResultValues.__table_args__[&#39;schema&#39;],</span>
-<span class="c1">#                               if_exists=&#39;append&#39;,</span>
-<span class="c1">#                               chunksize= 1000,</span>
-<span class="c1">#                               con=self._session_factory.engine,</span>
-<span class="c1">#                               index=False)</span>
-<span class="c1">#             self._session.commit()</span>
-<span class="c1">#</span>
-<span class="c1">#</span>
-<span class="c1">#             #using sqlalchemy core --sending empty parameters</span>
-<span class="c1">#             # data = datavalues.to_dict(&#39;records&#39;)</span>
-<span class="c1">#             # self._session.execute(TimeSeriesResultValues.__table__.insert(data))</span>
-<span class="c1">#</span>
-<span class="c1">#             #using cursor and StringIO --not all cursors have the copy_from function</span>
-<span class="c1">#             # print &quot;using cursor&quot;</span>
-<span class="c1">#             # import cStringIO</span>
-<span class="c1">#             # #stream the data using &#39;to_csv&#39; and StringIO(); then use sql&#39;s &#39;copy_from&#39; function</span>
-<span class="c1">#             # output = cStringIO.StringIO()</span>
-<span class="c1">#             # #ignore the index</span>
-<span class="c1">#             # datavalues.to_csv(output, sep=&#39;\t&#39;, header=False, index=False)</span>
-<span class="c1">#             # #jump to start of stream</span>
-<span class="c1">#             # output.seek(0)</span>
-<span class="c1">#             # contents = output.getvalue()</span>
-<span class="c1">#             # connection = self._session_factory.engine.raw_connection()</span>
-<span class="c1">#             # cur = connection.cursor()</span>
-<span class="c1">#             # #null values become &#39;&#39;</span>
-<span class="c1">#             # cur.copy_from(output, &#39;ODM2.TimeSeriesResultValues&#39;, null=&quot;&quot;)</span>
-<span class="c1">#             # connection.commit()</span>
-<span class="c1">#             # cur.close()</span>
-<span class="c1">#</span>
-<span class="c1">#             #using Bulk Insert  * user must have permissions --file created locally code running remote</span>
-<span class="c1">#            #  datavalues.to_csv(&#39;C:\\Users\\Stephanie\\temp.csv&#39;)</span>
-<span class="c1">#            #  sql = &quot;&quot;&quot;</span>
-<span class="c1">#            #     BULK INSERT ODM2.TimeSeriesResultValues</span>
-<span class="c1">#            #     FROM &#39;C:\\Users\\Stephanie\\temp.csv&#39; WITH (</span>
-<span class="c1">#            #     FIELDTERMINATOR=&#39;,&#39;,</span>
-<span class="c1">#            #     ROWTERMINATOR=&#39;\\n&#39;);</span>
-<span class="c1">#            # &quot;&quot;&quot;</span>
-<span class="c1">#            #  self._session.execute(sql)</span>
-<span class="c1">#</span>
-<span class="c1">#</span>
-<span class="c1">#</span>
-<span class="c1">#</span>
-<span class="c1">#             return datavalues</span>
-<span class="c1">#         except Exception, e:</span>
-<span class="c1">#             print e</span>
-<span class="c1">#             return None</span>
-<span class="c1">#</span>
 </pre></div>
 
           </div>
