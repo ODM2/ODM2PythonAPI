@@ -1,10 +1,44 @@
-__author__ = 'sreeder'
-
-from sqlalchemy import func ,not_, bindparam, distinct, exists
-import pandas as pd
+from __future__ import (absolute_import, division, print_function)
 
 from odm2api.ODM2 import serviceBase
-from odm2api.ODM2.models import *
+from odm2api.ODM2.models import (
+    ActionAnnotations, ActionDirectives, ActionExtensionPropertyValues, Actions,
+    Affiliations, Annotations, AuthorLists, CVActionType, CVAggregationStatistic,
+    CVAnnotationType, CVCensorCode, CVDataQualityType, CVDataSetType, CVDirectiveType,
+    CVElevationDatum, CVEquipmentType, CVMediumType, CVMethodType, CVOrganizationType,
+    CVPropertyDataType, CVQualityCode, CVRelationshipType, CVResultType, CVSamplingFeatureGeoType,
+    CVSamplingFeatureType, CVSiteType, CVSpatialOffsetType, CVSpeciation, CVSpecimenType,
+    CVStatus, CVTaxonomicClassifierType, CVUnitsType, CVVariableName, CVVariableType,
+    CalibrationActions, CalibrationReferenceEquipment, CalibrationStandards,
+    CategoricalResultValueAnnotations, CategoricalResultValues, CitationExtensionPropertyValues,
+    CitationExternalIdentifiers, DataLoggerFileColumns, DataLoggerFiles, DataLoggerProgramFiles,
+    DataQuality, DataSetCitations, DataSets, DerivationEquations, Directives, Equipment,
+    EquipmentActions, EquipmentAnnotations, EquipmentModels, EquipmentUsed, ExtensionProperties,
+    ExternalIdentifierSystems, FeatureActions, InstrumentOutputVariables, MaintenanceActions,
+    MeasurementResultValueAnnotations, MeasurementResultValues, MethodAnnotations,
+    MethodCitations, MethodExtensionPropertyValues, MethodExternalIdentifiers,
+    Methods, Models, Organizations, People, PersonExternalIdentifiers,
+    PointCoverageResultValueAnnotations, PointCoverageResultValues, ProcessingLevels,
+    ProfileResultValueAnnotations, ProfileResultValues, ReferenceMaterialExternalIdentifiers,
+    ReferenceMaterialValues, ReferenceMaterials, RelatedActions, RelatedAnnotations,
+    RelatedCitations, RelatedDataSets, RelatedEquipment, RelatedFeatures, RelatedModels,
+    RelatedResults, ResultAnnotations, ResultDerivationEquations, ResultExtensionPropertyValues,
+    ResultNormalizationValues, Results, ResultsDataQuality, SamplingFeatureAnnotations,
+    SamplingFeatureExtensionPropertyValues, SamplingFeatureExternalIdentifiers,
+    SamplingFeatures, SectionResultValueAnnotations, SectionResults, Simulations,
+    SpatialReferenceExternalIdentifiers, SpatialReferences, SpecimenBatchPositions,
+    SpectraResultValueAnnotations, SpectraResultValues, TaxonomicClassifierExternalIdentifiers,
+    TaxonomicClassifiers, TimeSeriesResultValueAnnotations, TimeSeriesResultValues,
+    TimeSeriesResults, TrajectoryResultValueAnnotations, TrajectoryResultValues,
+    TransectResultValueAnnotations, TransectResultValues, Units, VariableExtensionPropertyValues,
+    VariableExternalIdentifiers, Variables,
+)
+
+import pandas as pd
+
+from sqlalchemy import distinct, exists
+
+__author__ = 'sreeder'
 
 
 class DetailedResult:
@@ -15,13 +49,13 @@ class DetailedResult:
                  unit):
         # result.result_id etc.
         self.ResultID = result.ResultID
-        self.SamplingFeatureCode = sc#.SamplingFeatureCode
+        self.SamplingFeatureCode = sc
         self.MethodCode = method.MethodCode
         self.VariableCode = variable.VariableCode
         self.ProcessingLevelCode = processingLevel.ProcessingLevelCode
         self.UnitsName = unit.UnitsName
 
-        self.SamplingFeatureName = sn#.SamplingFeatureName
+        self.SamplingFeatureName = sn
         self.MethodName = method.MethodName
         self.VariableNameCV = variable.VariableNameCV
         self.ProcessingLevelDefinition = processingLevel.Definition
@@ -34,32 +68,18 @@ class DetailedResult:
 class DetailedAffiliation:
     def __init__(self, affiliation, person, org):
         self.AffiliationID = affiliation.AffiliationID
-        self.Name = person.PersonFirstName + \
-                    " " + \
-                    person.PersonLastName
-        self.Organization = "(" + org.OrganizationCode + ") " + \
-                            org.OrganizationName
-
-        # def __repr__(self):
-        #    return str(self.name) + " " + str(self.organization)
+        self.Name = person.PersonFirstName + ' ' + person.PersonLastName
+        self.Organization = '(' + org.OrganizationCode + ') ' + org.OrganizationName
 
 
 class ReadODM2(serviceBase):
-
-
-    # ################################################################################
     # Exists functions
-    # ################################################################################
-
     def resultExists(self, result):
         """
-        resultExists(self, result):
         Check to see if a Result Object exists
         * Pass Result Object - return a boolean value of wether the given object exists
-        """
-        # unique Result
-        # FeatureActionID, ResultTypeCV, VariableID, UnitsID, ProcessingLevelID, SampledMediumCV
 
+        """
         try:
 
             ret = self._session.query(exists().where(Results.ResultTypeCV == result.ResultTypeCV)
@@ -68,59 +88,53 @@ class ReadODM2(serviceBase):
                                       .where(Results.ProcessingLevelID == result.ProcessingLevelID)
                                       .where(Results.SampledMediumCV == result.SampledMediumCV)
                                       )
-            # where(Results.FeatureActionID == result.FeatureActionID).
             return ret.scalar()
 
         except:
             return None
 
-    # ################################################################################
     # Annotations
-    # ################################################################################
-
     def getAnnotations(self, type=None, codes=None, ids=None):
         """
-        def getAnnotations(self, type=None, codes = None, ids = None):
-
         * Pass Nothing - return a list of all objects
         * Pass AnnotationTypeCV - return a list of all objects of the fiven type
         * Pass a list of codes - return a list of objects, one for each of the given codes
         * Pass a list of ids -return a list of objects, one for each of the given ids
 
         """
-        # TODO What keywords do I use for type
+        # TODO What keywords do I use for type.
         a = Annotations
         if type:
-            if type == "action":
+            if type == 'action':
                 a = ActionAnnotations
-            elif type == "categoricalresultvalue":
+            elif type == 'categoricalresultvalue':
                 a = CategoricalResultValueAnnotations
-            elif type == "equipmentannotation":
+            elif type == 'equipmentannotation':
                 a = EquipmentAnnotations
-            elif type == "measurementresultvalue":
+            elif type == 'measurementresultvalue':
                 a = MeasurementResultValueAnnotations
-            elif type == "method":
+            elif type == 'method':
                 a = MethodAnnotations
-            elif type == "pointcoverageresultvalue":
+            elif type == 'pointcoverageresultvalue':
                 a = PointCoverageResultValueAnnotations
-            elif type == "profileresultvalue":
+            elif type == 'profileresultvalue':
                 a = ProfileResultValueAnnotations
-            elif type == "result":
+            elif type == 'result':
                 a = ResultAnnotations
-            elif type == "samplingfeature":
+            elif type == 'samplingfeature':
                 a = SamplingFeatureAnnotations
-            elif type == "sectionresultvalue":
+            elif type == 'sectionresultvalue':
                 a = SectionResultValueAnnotations
-            elif type == "spectraresultvalue":
+            elif type == 'spectraresultvalue':
                 a = SpectraResultValueAnnotations
-            elif type == "timeseriesresultvalue":
+            elif type == 'timeseriesresultvalue':
                 a = TimeSeriesResultValueAnnotations
-            elif type == "trajectoryresultvalue":
+            elif type == 'trajectoryresultvalue':
                 a = TrajectoryResultValueAnnotations
-            elif type == "transectresultvalue":
+            elif type == 'transectresultvalue':
                 a = TransectResultValueAnnotations
         try:
-            query=self._session.query(a)
+            query = self._session.query(a)
             if codes:
                 query = query.filter(Annotations.AnnotationCode.in_(codes))
             if ids:
@@ -130,85 +144,81 @@ class ReadODM2(serviceBase):
         except:
             return None
 
-    # ################################################################################
     # CV
-    # ##############################################################################
-
     def getCVs(self, type):
         """
         getCVs(self, type):
         * Pass CVType - return a list of all objects of the given type
+
         """
         CV = CVActionType
-        if type == "actiontype":
+        if type == 'actiontype':
             CV = CVActionType
-        elif type == "aggregationstatistic":
+        elif type == 'aggregationstatistic':
             CV = CVAggregationStatistic
-        elif type == "annotationtype":
+        elif type == 'annotationtype':
             CV = CVAnnotationType
-        elif type == "censorcode":
+        elif type == 'censorcode':
             CV = CVCensorCode
-        elif type == "dataqualitytype":
+        elif type == 'dataqualitytype':
             CV = CVDataQualityType
-        elif type == "dataset type":
+        elif type == 'dataset type':
             CV = CVDataSetType
-        elif type == "Directive Type":
+        elif type == 'Directive Type':
             CV = CVDirectiveType
-        elif type == "Elevation Datum":
+        elif type == 'Elevation Datum':
             CV = CVElevationDatum
-        elif type == "Equipment Type":
+        elif type == 'Equipment Type':
             CV = CVEquipmentType
-        elif type == "Medium":
+        elif type == 'Medium':
             CV = CVMediumType
-        elif type == "Method Type":
+        elif type == 'Method Type':
             CV = CVMethodType
-        elif type == "Organization Type":
+        elif type == 'Organization Type':
             CV = CVOrganizationType
-        elif type == "Property Data Type":
+        elif type == 'Property Data Type':
             CV = CVPropertyDataType
-        elif type == "Quality Code":
+        elif type == 'Quality Code':
             CV = CVQualityCode
-        elif type == "Relationship Type":
+        elif type == 'Relationship Type':
             CV = CVRelationshipType
-        elif type == "Result Type":
+        elif type == 'Result Type':
             CV = CVResultType
-        elif type == "Sampling Feature Geo-type":
+        elif type == 'Sampling Feature Geo-type':
             CV = CVSamplingFeatureGeoType
-        elif type == "Sampling Feature Type":
+        elif type == 'Sampling Feature Type':
             CV = CVSamplingFeatureType
-        elif type == "Site Type":
+        elif type == 'Site Type':
             CV = CVSiteType
-        elif type == "Spatial Offset Type":
+        elif type == 'Spatial Offset Type':
             CV = CVSpatialOffsetType
-        elif type == "Speciation":
+        elif type == 'Speciation':
             CV = CVSpeciation
-        elif type == "Specimen Type":
+        elif type == 'Specimen Type':
             CV = CVSpecimenType
-        elif type == "Status":
+        elif type == 'Status':
             CV = CVStatus
-        elif type == "Taxonomic Classifier Type":
+        elif type == 'Taxonomic Classifier Type':
             CV = CVTaxonomicClassifierType
-        elif type == "Units Type":
+        elif type == 'Units Type':
             CV = CVUnitsType
-        elif type == "Variable Name":
+        elif type == 'Variable Name':
             CV = CVVariableName
-        elif type == "Variable Type":
+        elif type == 'Variable Type':
             CV = CVVariableType
         else:
             return None
         try:
             return self._session.query(CV).all()
         except Exception as e:
-            print("Error running Query: %s" % e)
+            print('Error running Query: {}'.format(e))
 
-    # ################################################################################
     # Core
-    # ################################################################################
-
     def getDetailedAffiliationInfo(self):
         """
-        getDetailedAffiliationInfo(self)
-        * Pass Nothing - Return a list of all Affiliations with detailed information, including Affiliation, People and Organization
+        * Pass Nothing - Return a list of all Affiliations with detailed information,
+        including Affiliation, People and Organization
+
         """
         q = self._session.query(Affiliations, People, Organizations) \
             .filter(Affiliations.PersonID == People.PersonID) \
@@ -220,18 +230,26 @@ class ReadODM2(serviceBase):
         return affiliationList
 
     def getDetailedResultInfo(self, resultTypeCV=None, resultID=None, sfID=None):
-        #TODO can this be done by just getting the result object and drilling down? what is the performance comparison
+        # TODO can this be done by just getting the result object and drilling down?
+        # What is the performance comparison.
         """
-        getDetailedResultInfo(self, resultTypeCV=None, resultID=None, sfID=None)
         Get detailed information for all selected Results including , unit info, site info,
         method info , ProcessingLevel info.
         * Pass nothing - return a list of all objects
         * Pass resultTypeCV - All objects of given type
         * Pass a result ID - single object with the given result ID
         * Pass a SamplingFeatureID - All objects associated with the given sampling feature.
+
         """
-        q = self._session.query(Actions, Results, SamplingFeatures.SamplingFeatureCode, SamplingFeatures.SamplingFeatureName, Methods, Variables,
-                                ProcessingLevels, Units).filter(Results.VariableID == Variables.VariableID) \
+        q = self._session.query(
+            Actions,
+            Results,
+            SamplingFeatures.SamplingFeatureCode,
+            SamplingFeatures.SamplingFeatureName,
+            Methods,
+            Variables,
+            ProcessingLevels,
+            Units).filter(Results.VariableID == Variables.VariableID) \
             .filter(Results.UnitsID == Units.UnitsID) \
             .filter(Results.FeatureActionID == FeatureActions.FeatureActionID) \
             .filter(FeatureActions.SamplingFeatureID == SamplingFeatures.SamplingFeatureID) \
@@ -244,124 +262,116 @@ class ReadODM2(serviceBase):
         if sfID:
             q = q.filter(SamplingFeatures.SamplingFeatureID == sfID)
         if resultID:
-            q = q.filter(Results.ResultID==resultID)
+            q = q.filter(Results.ResultID == resultID)
 
         for a, r, sc, sn, m, v, p, u in q.all():
-            detailedResult = DetailedResult( \
-                a, r, sc, sn, m, v, p, u)
+            detailedResult = DetailedResult(
+                a, r, sc, sn, m, v, p, u
+            )
             resultList.append(detailedResult)
         return resultList
 
-    """
-    Taxonomic Classifiers
-    """
-
+    # Taxonomic Classifiers
     def getTaxonomicClassifiers(self):
         """
         getTaxonomicClassifiers(self):
         * Pass nothing - return a list of all objects
+
         """
         return self._session.query(TaxonomicClassifiers).all()
 
-    """
-    Variable
-    """
-
-    def getVariables(self, ids=None, codes=None, sitecode=None, results= False):
+    # Variable
+    def getVariables(self, ids=None, codes=None, sitecode=None, results=False):
         """
-        getVariables(self, ids=None, codes=None, sitecode=None, results= False):
         * Pass nothing - returns full list of variable objects
         * Pass a list of VariableID - returns a single variable object
         * Pass a list of VariableCode - returns a single variable object
         * Pass a SiteCode - returns a list of Variable objects that are collected at the given site.
         * Pass whether or not you want to return the sampling features that have results associated with them
-        """
 
+        """
         if sitecode:
             try:
-                vars = [x[0] for x in
-                           self._session.query(distinct(Results.VariableID))
-                               .filter(Results.FeatureActionID == FeatureActions.FeatureActionID)
-                               .filter(FeatureActions.SamplingFeatureID == SamplingFeatures.SamplingFeatureID)
-                               .filter(SamplingFeatures.SamplingFeatureCode == sitecode).all()
-                           ]
-
+                variables = [
+                    x[0] for x in
+                    self._session.query(distinct(Results.VariableID))
+                    .filter(Results.FeatureActionID == FeatureActions.FeatureActionID)
+                    .filter(FeatureActions.SamplingFeatureID == SamplingFeatures.SamplingFeatureID)
+                    .filter(SamplingFeatures.SamplingFeatureCode == sitecode).all()
+                ]
                 if ids:
-                    ids = list(set(ids).intersection(vars))
+                    ids = list(set(ids).intersection(variables))
                 else:
-                    ids = vars
+                    ids = variables
             except:
                 pass
 
-
         if results:
             try:
-                vars = [x[0] for x in self._session.query(distinct(Results.VariableID)).all()]
+                variables = [x[0] for x in self._session.query(distinct(Results.VariableID)).all()]
                 if ids:
-                    ids = list(set(ids).intersection(vars))
+                    ids = list(set(ids).intersection(variables))
                 else:
-                    ids = vars
+                    ids = variables
             except:
                 pass
 
         query = self._session.query(Variables)
-        if ids: query = query.filter(Variables.VariableID.in_(ids))
-        if codes: query = query.filter(Variables.VariableCode.in_(codes))
+        if ids:
+            query = query.filter(Variables.VariableID.in_(ids))
+        if codes:
+            query = query.filter(Variables.VariableCode.in_(codes))
         try:
             return query.all()
         except Exception as e:
-            print("Error running Query: %s" % e)
+            print('Error running Query: {}'.format(e))
             return None
 
-    """
-    Method
-    """
-
+    # Method
     def getMethods(self, ids=None, codes=None, type=None):
         """
-        getMethods(self, ids=None, codes=None, type=None):
         * Pass nothing - returns full list of method objects
         * Pass a list of MethodIDs - returns a single method object for each given id
         * Pass a list of MethodCode - returns a single method object for each given code
         * Pass a MethodType - returns a list of method objects of the given MethodType
+
         """
         q = self._session.query(Methods)
-        if ids: q = q.filter(Methods.MethodID.in_(ids))
-        if codes: q = q.filter(Methods.MethodCode.in_(codes))
-        if type: q = q.filter_by(MethodTypeCV=type)
+        if ids:
+            q = q.filter(Methods.MethodID.in_(ids))
+        if codes:
+            q = q.filter(Methods.MethodCode.in_(codes))
+        if type:
+            q = q.filter_by(MethodTypeCV=type)
 
         try:
             return q.all()
         except Exception as e:
-            print("Error running Query: %s" % e)
+            print('Error running Query: {}'.format(e))
             return None
 
-    """
-    ProcessingLevel
-    """
-
+    # ProcessingLevel
     def getProcessingLevels(self, ids=None, codes=None):
         """
         getProcessingLevels(self, ids=None, codes=None)
         * Pass nothing - returns full list of ProcessingLevel objects
         * Pass a list of ProcessingLevelID - returns a single processingLevel object for each given id
         * Pass a list of ProcessingLevelCode - returns a single processingLevel object for each given code
-        """
 
+        """
         q = self._session.query(ProcessingLevels)
-        if ids: q = q.filter(ProcessingLevels.ProcessingLevelsID.in_(ids))
-        if codes: q = q.filter(ProcessingLevels.ProcessingLevelCode.in_(codes))
+        if ids:
+            q = q.filter(ProcessingLevels.ProcessingLevelsID.in_(ids))
+        if codes:
+            q = q.filter(ProcessingLevels.ProcessingLevelCode.in_(codes))
 
         try:
             return q.all()
         except Exception as e:
-            print("Error running Query: %s" % e)
+            print('Error running Query: {}'.format(e))
             return None
 
-    """
-    Sampling Feature
-    """
-
+    # Sampling Feature
     def getSamplingFeatures(self, ids=None, codes=None, uuids=None, type=None, wkt=None, results=False):
         """Retrieve a list of Sampling Feature objects.
 
@@ -407,39 +417,41 @@ class ReadODM2(serviceBase):
 
         q = self._session.query(SamplingFeatures)
 
-        if type: q = q.filter_by(SamplingFeatureTypeCV=type)
-        if ids: q = q.filter(SamplingFeatures.SamplingFeatureID.in_(ids))
-        if codes: q = q.filter(SamplingFeatures.SamplingFeatureCode.in_(codes))
-        if uuids: q = q.filter(SamplingFeatures.SamplingFeatureUUID.in_(uuids))
-        if wkt: q = q.filter_by(FeatureGeometryWKT=wkt)
+        if type:
+            q = q.filter_by(SamplingFeatureTypeCV=type)
+        if ids:
+            q = q.filter(SamplingFeatures.SamplingFeatureID.in_(ids))
+        if codes:
+            q = q.filter(SamplingFeatures.SamplingFeatureCode.in_(codes))
+        if uuids:
+            q = q.filter(SamplingFeatures.SamplingFeatureUUID.in_(uuids))
+        if wkt:
+            q = q.filter_by(FeatureGeometryWKT=wkt)
         try:
             return q.all()
         except Exception as e:
-            print("Error running Query: %s" % e)
+            print('Error running Query: {}'.format(e))
             return None
 
-    def getRelatedSamplingFeatures(self, sfid=None, rfid = None, relationshiptype=None):
-        #TODO: add functionality to filter by code
+    def getRelatedSamplingFeatures(self, sfid=None, rfid=None, relationshiptype=None):
+        # TODO: add functionality to filter by code
         """
-        getRelatedSamplingFeatures(self, sfid=None, rfid = None, relationshiptype=None):
-        * Pass a SamplingFeatureID - get a list of sampling feature objects related to the input sampling feature
+        * Pass a SamplingFeatureID - get a list of sampling feature objects
+          related to the input sampling feature
         * Pass a RelatedFeatureID - get a list of Sampling features objects through the related feature
         * Pass a RelationshipTypeCV - get a list of sampling feature objects with the given type
 
         """
 
-        # q = session.query(Address).select_from(User). \
-        #     join(User.addresses). \
-        #     filter(User.name == 'ed')
-        #throws an error when joining entire samplingfeature, works fine when just getting an element. this is being
-        # caused by the sampling feature inheritance
-
         sf = self._session.query(distinct(SamplingFeatures.SamplingFeatureID))\
                  .select_from(RelatedFeatures)
 
-        if sfid: sf = sf.join(RelatedFeatures.RelatedFeatureObj).filter(RelatedFeatures.SamplingFeatureID == sfid)
-        if rfid: sf = sf.join(RelatedFeatures.SamplingFeatureObj).filter(RelatedFeatures.RelatedFeatureID == rfid)
-        if relationshiptype: sf = sf.filter(RelatedFeatures.RelationshipTypeCV == relationshiptype)
+        if sfid:
+            sf = sf.join(RelatedFeatures.RelatedFeatureObj).filter(RelatedFeatures.SamplingFeatureID == sfid)
+        if rfid:
+            sf = sf.join(RelatedFeatures.SamplingFeatureObj).filter(RelatedFeatures.RelatedFeatureID == rfid)
+        if relationshiptype:
+            sf = sf.filter(RelatedFeatures.RelationshipTypeCV == relationshiptype)
         try:
             sfids = [x[0] for x in sf.all()]
             if len(sfids) > 0:
@@ -447,119 +459,116 @@ class ReadODM2(serviceBase):
                 return sflist
 
         except Exception as e:
-            print("Error running Query: %s" % e)
+            print('Error running Query: {}'.format(e))
         return None
 
-    """
-    Action
-    """
-
+    # Action
     def getActions(self, ids=None, type=None, sfid=None):
         """
-        getActions(self, ids=None, type=None, sfid=None)
         * Pass nothing - returns a list of all Actions
         * Pass a list of Action ids - returns a list of Action objects
         * Pass a ActionTypeCV - returns a list of Action objects of that type
-        * Pass a SamplingFeature ID - returns a list of Action objects associated with that Sampling feature ID, Found through featureAction table
-        """
+        * Pass a SamplingFeature ID - returns a list of Action objects
+          associated with that Sampling feature ID, Found through featureAction table
 
+        """
         a = Actions
-        if type == "equipment":
+        if type == 'equipment':
             a = EquipmentActions
-        elif type == "calibration":
+        elif type == 'calibration':
             a = CalibrationActions
-        elif type == "maintenance":
+        elif type == 'maintenance':
             a = MaintenanceActions
 
         q = self._session.query(a)
-        if ids: q = q.filter(a.ActionID.in_(ids))
+        if ids:
+            q = q.filter(a.ActionID.in_(ids))
         if sfid:
             q = q.join(FeatureActions).filter(FeatureActions.SamplingFeatureID == sfid)
 
         try:
             return q.all()
         except Exception as e:
-            print("Error running Query: %s" % e)
+            print('Error running Query: {}'.format(e))
             return None
 
     def getRelatedActions(self, actionid=None):
         """
-        getRelatedActions(self, actionid=None)
-        * Pass an ActionID - get a list of Action objects related to the input action along with the relatinship type
+        * Pass an ActionID - get a list of Action objects related to the input
+          action along with the relationship type
 
         """
 
         q = self._session.query(Actions).select_from(RelatedActions).join(RelatedActions.RelatedActionObj)
-        if actionid: q = q.filter(RelatedActions.ActionID == actionid)
+        if actionid:
+            q = q.filter(RelatedActions.ActionID == actionid)
         try:
             return q.all()
         except Exception as e:
-            print("Error running Query: %s" % e)
+            print('Error running Query: {}'.format(e))
             return None
 
-    """
-    Unit
-    """
-
+    # Unit
     def getUnits(self, ids=None, name=None, type=None):
         """
-        getUnits(self, ids=None, name=None, type=None)
         * Pass nothing - returns a list of all units objects
         * Pass a list of UnitsID - returns a single units object for the given id
         * Pass UnitsName - returns a single units object
         * Pass a type- returns a list of all objects of the given type
-        """
 
+        """
         q = self._session.query(Units)
-        if ids: q = q.filter(Units.UnitsID.in_(ids))
-        if name: q = q.filter(Units.UnitsName.ilike(name))
-        if type: q = q.filter(Units.UnitsTypeCV.ilike(type))
+        if ids:
+            q = q.filter(Units.UnitsID.in_(ids))
+        if name:
+            q = q.filter(Units.UnitsName.ilike(name))
+        if type:
+            q = q.filter(Units.UnitsTypeCV.ilike(type))
         try:
             return q.all()
         except Exception as e:
-            print("Error running Query: %s" % e)
+            print('Error running Query: {}'.format(e))
             return None
 
-    """
-    Organization
-    """
-
+    # Organization
     def getOrganizations(self, ids=None, codes=None):
         """
-        getOrganizations(self, ids=None, codes=None)
         * Pass nothing - returns a list of all organization objects
         * Pass a list of OrganizationID - returns a single organization object
         * Pass a list of OrganizationCode - returns a single organization object
+
         """
         q = self._session.query(Organizations)
-        if ids: q = q.filter(Organizations.OrganizationID.in_(ids))
-        if codes: q = q.filter(Organizations.OrganizationCode.in_(codes))
+        if ids:
+            q = q.filter(Organizations.OrganizationID.in_(ids))
+        if codes:
+            q = q.filter(Organizations.OrganizationCode.in_(codes))
         try:
             return q.all()
         except Exception as e:
-            print("Error running Query: %s" % e)
+            print('Error running Query: {}'.format(e))
             return None
 
-    """
-    Person
-    """
-
+    # Person
     def getPeople(self, ids=None, firstname=None, lastname=None):
         """
-        getPeople(self, ids=None, firstname=None, lastname=None)
         * Pass nothing - returns a list of all People objects
         * Pass a list of PeopleID - returns a single People object
         * Pass a First Name - returns a single People object
         * Pass a Last Name - returns a single People object
+
         """
         q = self._session.query(People)
-        if ids: q = q.filter(People.PersonID.in_(ids))
-        if firstname: q = q.filter(People.PersonFirstName.ilike(firstname))
-        if lastname: q = q.filter(People.PersonLastName.ilike(lastname))
+        if ids:
+            q = q.filter(People.PersonID.in_(ids))
+        if firstname:
+            q = q.filter(People.PersonFirstName.ilike(firstname))
+        if lastname:
+            q = q.filter(People.PersonLastName.ilike(lastname))
         try:
             return q.all()
         except Exception as e:
-            print("Error running Query: %s" % e)
+            print('Error running Query: {}'.format(e))
             return None
 
     def getAffiliations(self, ids=None, personfirst=None, personlast=None, orgcode=None):
@@ -586,24 +595,22 @@ class ReadODM2(serviceBase):
         """
         q = self._session.query(Affiliations)
 
-        if ids: q = q.filter(Affiliations.AffiliationID.in_(ids))
-        if orgcode: q = q.join(Affiliations.OrganizationObj).filter(
-            Organizations.OrganizationCode.ilike(orgcode))
-        if personfirst: q = q.join(Affiliations.PersonObj).filter(
-            People.PersonFirstName.ilike(personfirst))
-        if personlast: q = q.join(Affiliations.PersonObj).filter(
-            People.PersonLastName.ilike(personlast))
+        if ids:
+            q = q.filter(Affiliations.AffiliationID.in_(ids))
+        if orgcode:
+            q = q.join(Affiliations.OrganizationObj).filter(Organizations.OrganizationCode.ilike(orgcode))
+        if personfirst:
+            q = q.join(Affiliations.PersonObj).filter(People.PersonFirstName.ilike(personfirst))
+        if personlast:
+            q = q.join(Affiliations.PersonObj).filter(People.PersonLastName.ilike(personlast))
 
         try:
             return q.all()
         except Exception as e:
-            print("Error running Query: %s"%e)
+            print('Error running Query: {}'.format(e))
             return None
 
-    """
-    Results
-    """
-
+    # Results
     def getResults(self, ids=None, type=None, uuids=None, actionid=None, simulationid=None, sfid=None,
                    variableid=None, siteid=None):
 
@@ -639,43 +646,45 @@ class ReadODM2(serviceBase):
             >>> ReadODM2.getResults(actionid=20)
 
         """
-
         query = self._session.query(Results)
 
-        if type: query = query.filter_by(ResultTypeCV=type)
-        if variableid: query = query.filter_by(VariableID=variableid)
-        if ids: query = query.filter(Results.ResultID.in_(ids))
-        if uuids: query = query.filter(Results.ResultUUID.in_(uuids))
-        if simulationid: query = query.join(FeatureActions)\
-            .join(Actions)\
-            .join(Simulations)\
-            .filter_by(SimulationID=simulationid)
-        if actionid: query = query.join(FeatureActions).filter_by(ActionID=actionid)
-        if sfid: query = query.join(FeatureActions).filter_by(SamplingFeatureID=sfid)
+        if type:
+            query = query.filter_by(ResultTypeCV=type)
+        if variableid:
+            query = query.filter_by(VariableID=variableid)
+        if ids:
+            query = query.filter(Results.ResultID.in_(ids))
+        if uuids:
+            query = query.filter(Results.ResultUUID.in_(uuids))
+        if simulationid:
+            query = query.join(FeatureActions)\
+                    .join(Actions)\
+                    .join(Simulations)\
+                    .filter_by(SimulationID=simulationid)
+        if actionid:
+            query = query.join(FeatureActions).filter_by(ActionID=actionid)
+        if sfid:
+            query = query.join(FeatureActions).filter_by(SamplingFeatureID=sfid)
 
         if siteid:
-            sfids = [x[0] for x in self._session.query(distinct(SamplingFeatures.SamplingFeatureID))
-                                                    .select_from(RelatedFeatures)
-                                                    .join(RelatedFeatures.SamplingFeatureObj)
-                                                    .filter(RelatedFeatures.RelatedFeatureID == siteid)
-                                                    #.filter(RelatedFeatures.RelationshipTypeCV == "Was Collected at")
-                                                    .all()]
+            sfids = [x[0] for x in self._session.query(
+                distinct(SamplingFeatures.SamplingFeatureID))
+                .select_from(RelatedFeatures)
+                .join(RelatedFeatures.SamplingFeatureObj)
+                .filter(RelatedFeatures.RelatedFeatureID == siteid)
+                .all()
+            ]
             query = query.join(FeatureActions).filter(FeatureActions.SamplingFeatureID.in_(sfids))
 
         try:
             return query.all()
         except Exception as e:
-            print("Error running Query: %s" % e)
+            print('Error running Query: {}'.format(e))
             return None
 
-
-    """
-    Datasets
-    """
-
+    # Datasets
     def getDataSets(self, codes=None, uuids=None):
         """
-        getDataSets(self, codes=None, uuids=None)
         * Pass nothing - returns a list of all DataSet objects
         * Pass a list of DataSetCode - returns a single DataSet object for each code
         * Pass a list of UUIDS - returns a single DataSet object for each UUID
@@ -688,16 +697,12 @@ class ReadODM2(serviceBase):
         try:
             return q.all()
         except Exception as e:
-            print("Error running Query %s" % e)
+            print('Error running Query {}'.format(e))
             return None
 
-    # ################################################################################
     # Data Quality
-    # ################################################################################
-
     def getDataQuality(self):
         """
-        getDataQuality(self)
         * Pass nothing - return a list of all objects
         """
         return self._session.query(DataQuality).all()
@@ -705,197 +710,190 @@ class ReadODM2(serviceBase):
     # TODO DataQuality Schema Queries
     def getReferenceMaterials(self):
         """
-        getReferenceMaterials(self)
         * Pass nothing - return a list of all objects
         """
         return self._session.query(ReferenceMaterials).all()
 
     def getReferenceMaterialValues(self):
         """
-        getReferenceMaterialValues(self)
         * Pass nothing - return a list of all objects
         """
         return self._session.query(ReferenceMaterialValues).all()
 
     def getResultNormalizationValues(self):
         """
-        getResultNormalizationValues(self)
         * Pass nothing - return a list of all objects
         """
         return self._session.query(ResultNormalizationValues).all()
 
     def getResultsDataQuality(self):
         """
-        getResultsDataQuality(self)
         * Pass nothing - return a list of all objects
         """
         return self._session.query(ResultsDataQuality).all()
 
-    # ################################################################################
-    # Equipment
-    # ################################################################################
-
     # TODO Equipment Schema Queries
+    # Equipment
     def getEquipment(self, codes=None, type=None, sfid=None, actionid=None):
         """
-        getEquipment(self, codes=None, type=None, sfid=None, actionid=None)
         * Pass nothing - returns a list of all Equipment objects
         * Pass a list of EquipmentCodes- return a list of all Equipment objects that match each of the codes
         * Pass a EquipmentType - returns a single Equipment object
         * Pass a SamplingFeatureID - returns a single Equipment object
         * Pass an ActionID - returns a single Equipment object
+
         """
         e = self._session.query(Equipment)
-        if sfid: e = e.join(EquipmentUsed) \
-            .join(Actions) \
-            .join(FeatureActions) \
-            .filter(FeatureActions.SamplingFeatureID == sfid)
-        if codes: e = e.filter(Equipment.EquipmentCode.in_(codes))
-        if actionid: e = e.join(EquipmentUsed).join(Actions) \
-            .filter(Actions.ActionID == actionid)
+        if sfid:
+            e = e.join(EquipmentUsed) \
+                    .join(Actions) \
+                    .join(FeatureActions) \
+                    .filter(FeatureActions.SamplingFeatureID == sfid)
+        if codes:
+            e = e.filter(Equipment.EquipmentCode.in_(codes))
+        if actionid:
+            e = e.join(EquipmentUsed).join(Actions) \
+                    .filter(Actions.ActionID == actionid)
         return e.all()
 
     def CalibrationReferenceEquipment(self):
         """
-        CalibrationReferenceEquipment(self)
         * Pass nothing - return a list of all objects
+
         """
         return self._session.query(CalibrationReferenceEquipment).all()
 
     def CalibrationStandards(self):
         """
-        CalibrationStandards(self)
         * Pass nothing - return a list of all objects
+
         """
         return self._session.query(CalibrationStandards).all()
 
     def DataloggerFileColumns(self):
         """
-        DataloggerFileColumns(self)
         * Pass nothing - return a list of all objects
+
         """
         return self._session.query(DataLoggerFileColumns).all()
 
     def DataLoggerFiles(self):
         """
-        DataLoggerFiles(self)
         * Pass nothing - return a list of all objects
+
         """
         return self._session.query(DataLoggerFiles).all()
 
     def DataloggerProgramFiles(self):
         """
-        DataloggerProgramFiles(self)
         * Pass Nothing - return a list of all objects
+
         """
         return self._session.query(DataLoggerProgramFiles).all()
 
     def EquipmentModels(self):
         """
-        EquipmentModels(self)
         * Pass Nothing - return a list of all objects
+
         """
         return self._session.query(EquipmentModels).all()
 
     def EquipmentUsed(self):
         """
-        EquipmentUsed(self)
         * Pass Nothing - return a list of all objects
+
         """
         return self._session.query(EquipmentUsed).all()
 
     def InstrumentOutputVariables(self, modelid=None, variableid=None):
         """
-        InstrumentOutputVariables(self, modelid=None, variableid=None)
         * Pass Nothing - return a list of all objects
         * Pass ModelID
         * Pass VariableID
+
         """
         i = self._session.query(InstrumentOutputVariables)
-        if modelid: i = i.filter_by(ModelID=modelid)
-        if variableid: i = i.filter_by(VariableID=variableid)
+        if modelid:
+            i = i.filter_by(ModelID=modelid)
+        if variableid:
+            i = i.filter_by(VariableID=variableid)
         return i.all()
 
     def RelatedEquipment(self, code=None):
         """
-        RelatedEquipment(self, code=None)
         * Pass nothing - return a list of all objects
         * Pass code- return a single object with the given code
+
         """
         r = self._session.query(RelatedEquipment)
-        if code: r = r.filter_by(EquipmentCode=code)
+        if code:
+            r = r.filter_by(EquipmentCode=code)
         return r.all()
 
-    # ################################################################################
     # Extension Properties
-    # ################################################################################
-
     def getExtensionProperties(self, type=None):
         """
-        getExtensionProperties(self, type=None)
         * Pass nothing - return a list of all objects
         * Pass type- return a list of all objects of the given type
+
         """
         # Todo what values to use for extensionproperties type
         e = ExtensionProperties
-        if type == "action":
+        if type == 'action':
             e = ActionExtensionPropertyValues
-        elif type == "citation":
+        elif type == 'citation':
             e = CitationExtensionPropertyValues
-        elif type == "method":
+        elif type == 'method':
             e = MethodExtensionPropertyValues
-        elif type == "result":
+        elif type == 'result':
             e = ResultExtensionPropertyValues
-        elif type == "samplingfeature":
+        elif type == 'samplingfeature':
             e = SamplingFeatureExtensionPropertyValues
-        elif type == "variable":
+        elif type == 'variable':
             e = VariableExtensionPropertyValues
         try:
             return self._session.query(e).all()
         except Exception as e:
-            print("Error running Query: %s" % e)
+            print('Error running Query: {}'.format(e))
             return None
 
-    # ################################################################################
     # External Identifiers
-    # ################################################################################
     def getExternalIdentifiers(self, type=None):
         """
-        getExternalIdentifiers(self, type=None)
         * Pass nothing - return a list of all objects
         * Pass type- return a list of all objects of the given type
+
         """
         e = ExternalIdentifierSystems
-        if type.lowercase == "citation":
+        if type.lowercase == 'citation':
             e = CitationExternalIdentifiers
-        elif type == "method":
+        elif type == 'method':
             e = MethodExternalIdentifiers
-        elif type == "person":
+        elif type == 'person':
             e = PersonExternalIdentifiers
-        elif type == "referencematerial":
+        elif type == 'referencematerial':
             e = ReferenceMaterialExternalIdentifiers
-        elif type == "samplingfeature":
+        elif type == 'samplingfeature':
             e = SamplingFeatureExternalIdentifiers
-        elif type == "spatialreference":
+        elif type == 'spatialreference':
             e = SpatialReferenceExternalIdentifiers
-        elif type == "taxonomicclassifier":
+        elif type == 'taxonomicclassifier':
             e = TaxonomicClassifierExternalIdentifiers
-        elif type == "variable":
+        elif type == 'variable':
             e = VariableExternalIdentifiers
         try:
             return self._session.query(e).all()
         except Exception as e:
-            print("Error running Query: %s" % e)
+            print('Error running Query: {}'.format(e))
             return None
 
-    # ################################################################################
-    # Lab Analyses
-    # ################################################################################
     # TODO functions for Lab Analyses
+    # Lab Analyses
     def getDirectives(self):
         """
         getDirectives(self)
         * Pass nothing - return a list of all objects
+
         """
         return self._session.query(Directives).all()
 
@@ -903,6 +901,7 @@ class ReadODM2(serviceBase):
         """
         getActionDirectives(self)
         * Pass nothing - return a list of all objects
+
         """
         return self._session.query(ActionDirectives).all()
 
@@ -910,18 +909,17 @@ class ReadODM2(serviceBase):
         """
         getSpecimenBatchPositions(self)
         * Pass nothing - return a list of all objects
+
         """
         return self._session.query(SpecimenBatchPositions).all()
 
-    # ################################################################################
-    # Provenance
-    # ################################################################################
-
     # TODO functions for Provenance
+    # Provenance
     def getAuthorLists(self):
         """
         getAuthorLists(self)
         * Pass nothing - return a list of all objects
+
         """
         return self._session.query(AuthorLists).all()
 
@@ -929,6 +927,7 @@ class ReadODM2(serviceBase):
         """
         getDatasetCitations(self)
         * Pass nothing - return a list of all objects
+
         """
         return self._session.query(DataSetCitations).all()
 
@@ -936,6 +935,7 @@ class ReadODM2(serviceBase):
         """
         getDerivationEquations(self)
         * Pass nothing - return a list of all objects
+
         """
         return self._session.query(DerivationEquations).all()
 
@@ -943,6 +943,7 @@ class ReadODM2(serviceBase):
         """
         getMethodCitations(self)
         * Pass nothing - return a list of all objects
+
         """
         return self._session.query(MethodCitations).all()
 
@@ -950,14 +951,15 @@ class ReadODM2(serviceBase):
         """
         getRelatedAnnotations(self)
         * Pass nothing - return a list of all objects
+
         """
-        # q= read._session.query(Actions).select_from(RelatedActions).join(RelatedActions.RelatedActionObj)
         return self._session.query(RelatedAnnotations).all()
 
     def getRelatedCitations(self):
         """
         getRelatedCitations(self)
         * Pass nothing - return a list of all objects
+
         """
         return self._session.query(RelatedCitations).all()
 
@@ -965,6 +967,7 @@ class ReadODM2(serviceBase):
         """
         getRelatedDatasets(self)
         * Pass nothing - return a list of all objects
+
         """
         return self._session.query(RelatedDataSets).all()
 
@@ -972,6 +975,7 @@ class ReadODM2(serviceBase):
         """
         getRelatedResults(self)
         * Pass nothing - return a list of all objects
+
         """
         return self._session.query(RelatedResults).all()
 
@@ -979,114 +983,116 @@ class ReadODM2(serviceBase):
         """
         getResultDerivationEquations(self)
         * Pass nothing - return a list of all objects
+
         """
         return self._session.query(ResultDerivationEquations).all()
 
-    # ################################################################################
     # Results
-    # ################################################################################
-
-    """
-    ResultValues
-    """
-
+    # ResultValues
     def getResultValues(self, resultids, starttime=None, endtime=None):
         """
         getResultValues(self, resultids, starttime=None, endtime=None)
-        * Pass in a list of ResultID - Returns a pandas dataframe object of type that is specific to the result type -
-                The resultids must be associated with the same value type
-        * Pass a ResultID and a date range - returns a pandas dataframe object of type that is specific to the result type with values between the input date range
+        * Pass in a list of ResultID - Returns a pandas dataframe object of type
+          that is specific to the result type - The resultids must be associated
+          with the same value type
+        * Pass a ResultID and a date range - returns a pandas dataframe object
+          of type that is specific to the result type with values between the input date range
         * Pass a starttime - Returns a dataframe with the values after the given start time
         * Pass an endtime - Returns a dataframe with the values before the given end time
-        """
-        type= self._session.query(Results).filter_by(ResultID=resultids[0]).first().ResultTypeCV
-        ResultType = TimeSeriesResults
-        if "categorical" in type.lower():ResultType = CategoricalResultValues
-        elif "measurement" in type.lower():ResultType = MeasurementResultValues
-        elif "point" in type.lower():ResultType = PointCoverageResultValues
-        elif "profile" in type.lower():ResultType = ProfileResultValues
-        elif "section" in type.lower():ResultType = SectionResults
-        elif "spectra" in type.lower():ResultType = SpectraResultValues
-        elif "time" in type.lower():ResultType = TimeSeriesResultValues
-        elif "trajectory" in type.lower():ResultType = TrajectoryResultValues
-        elif "transect" in type.lower():ResultType = TransectResultValues
 
-        # q.filter(Affiliations.AffiliationID.in_(ids))
+        """
+        type = self._session.query(Results).filter_by(ResultID=resultids[0]).first().ResultTypeCV
+        ResultType = TimeSeriesResults
+        if 'categorical' in type.lower():
+            ResultType = CategoricalResultValues
+        elif 'measurement' in type.lower():
+            ResultType = MeasurementResultValues
+        elif 'point' in type.lower():
+            ResultType = PointCoverageResultValues
+        elif 'profile' in type.lower():
+            ResultType = ProfileResultValues
+        elif 'section' in type.lower():
+            ResultType = SectionResults
+        elif 'spectra' in type.lower():
+            ResultType = SpectraResultValues
+        elif 'time' in type.lower():
+            ResultType = TimeSeriesResultValues
+        elif 'trajectory' in type.lower():
+            ResultType = TrajectoryResultValues
+        elif 'transect' in type.lower():
+            ResultType = TransectResultValues
 
         q = self._session.query(ResultType).filter(ResultType.ResultID.in_(resultids))
-        if starttime: q = q.filter(ResultType.ValueDateTime >= starttime)
-        if endtime: q = q.filter(ResultType.ValueDateTime <= endtime)
+        if starttime:
+            q = q.filter(ResultType.ValueDateTime >= starttime)
+        if endtime:
+            q = q.filter(ResultType.ValueDateTime <= endtime)
         try:
-            vals = q.order_by(ResultType.ValueDateTime)
-            # df = pd.DataFrame([dv.list_repr() for dv in vals.all()])
-            # df.columns = vals[0].get_columns()
-
+            # F841 local variable 'vals' is assigned to but never used
+            # vals = q.order_by(ResultType.ValueDateTime)
             query = q.statement.compile(dialect=self._session_factory.engine.dialect)
-            df = pd.read_sql_query(sql=query,
-                                     con=self._session_factory.engine,
-                                     params=query.params)
+            df = pd.read_sql_query(
+                sql=query,
+                con=self._session_factory.engine,
+                params=query.params
+            )
             return df
         except Exception as e:
-            print("Error running Query: %s" % e)
+            print('Error running Query: {}'.format(e))
             return None
 
-    # ################################################################################
     # SamplingFeatures
-    # ################################################################################
-
-    """
-    Site
-    """
-
+    # Site
     def getSpatialReferences(self, srsCodes=None):
         """
         getSpatialReferences(self, srsCodes=None)
         * Pass nothing - return a list of all Spatial References
         * Pass in a list of SRS Codes-
+
         """
         q = self._session.query(SpatialReferences)
-        if srsCodes: q.filter(SpatialReferences.SRSCode.in_(srsCodes))
+        if srsCodes:
+            q.filter(SpatialReferences.SRSCode.in_(srsCodes))
         try:
             return q.all()
         except Exception as e:
-            print("Error running Query: %s" % e)
+            print('Error running Query: {}'.format(e))
             return None
 
-
-    # ################################################################################
     # Simulation
-    # ################################################################################
-
     def getSimulations(self, name=None, actionid=None):
         """
         getSimulations(self, name=None, actionid=None)
         * Pass nothing - get a list of all converter simuation objects
         * Pass a SimulationName - get a single simulation object
         * Pass an ActionID - get a single simulation object
+
         """
         s = self._session.query(Simulations)
-        if name: s = s.filter(Simulations.SimulationName.ilike(name))
-        if actionid: s = s.filter_by(ActionID=actionid)
+        if name:
+            s = s.filter(Simulations.SimulationName.ilike(name))
+        if actionid:
+            s = s.filter_by(ActionID=actionid)
         try:
             return s.all()
         except Exception as e:
-            print("Error running Query: %s" % e)
+            print('Error running Query: {}'.format(e))
             return None
-
-
 
     def getModels(self, codes=None):
         """
         getModels(self, codes=None)
         * Pass nothing - return a list of all Model Objects
         * Pass a list of ModelCodes - get a list of converter objects related to the converter having ModeCode
+
         """
         m = self._session.query(Models)
-        if codes: m = m.filter(Models.ModelCode.in_(codes))
+        if codes:
+            m = m.filter(Models.ModelCode.in_(codes))
         try:
             return m.all()
         except Exception as e:
-            print("Error running Query: %s" % e)
+            print('Error running Query: {}'.format(e))
             return None
 
     def getRelatedModels(self, id=None, code=None):
@@ -1094,25 +1100,16 @@ class ReadODM2(serviceBase):
         getRelatedModels(self, id=None, code=None)
         * Pass a ModelID - get a list of converter objects related to the converter having ModelID
         * Pass a ModelCode - get a list of converter objects related to the converter having ModeCode
+
         """
-# cdoe from master
-#+            # note this was RelatedModels.RelatedModelID == Models.ModelID which would return all Parent models of  RelatedModelID
-# +            self._session.query(RelatedModels).filter_by(ModelID=modelid).all()
-# +            self._session.query(RelatedModels).join(Models, RelatedModels.ModelID == Models.ModelID).filter(Models.ModelCode == modelcode).all()
-
         m = self._session.query(Models).select_from(RelatedModels).join(RelatedModels.ModelObj)
-        if id: m = m.filter(RelatedModels.ModelID == id)
-        if code: m = m.filter(Models.ModelCode == code)
-
-#previous version of code
-        # m = self._session.query(Models).select_from(RelatedModels).join(RelatedModels.RelatedModelObj)
-        # if id: m = m.filter(RelatedModels.ModelID == id)
-        # if code: m = m.filter(RelatedModels.ModelCode == code)
+        if id:
+            m = m.filter(RelatedModels.ModelID == id)
+        if code:
+            m = m.filter(Models.ModelCode == code)
 
         try:
             return m.all()
         except Exception as e:
-            print("Error running Query: %s" % e)
+            print('Error running Query: {}'.format(e))
             return None
-
-

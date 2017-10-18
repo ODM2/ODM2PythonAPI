@@ -1,9 +1,12 @@
-__author__ = 'stephanie'
+from __future__ import (absolute_import, division, print_function)
+
 import sys
 import os
 from odm2api.ODMconnection import dbconnection
 import pprint
 from odm2api.ODM1_1_1.services import SeriesService
+
+__author__ = 'stephanie'
 
 this_file = os.path.realpath(__file__)
 directory = os.path.dirname(this_file)
@@ -92,6 +95,3 @@ for conn in conns:
     pp.pprint(odm1service.get_values_by_series(ser[0].id))
 
     print "The end"
-
-
-

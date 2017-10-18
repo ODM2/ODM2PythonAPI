@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
+from __future__ import (absolute_import, division, print_function)
 
 ###########################################################################
 ## Python code generated with wxFormBuilder (version Jun  5 2014)

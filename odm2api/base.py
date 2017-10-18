@@ -1,31 +1,14 @@
-
-
-
+from __future__ import (absolute_import, division, print_function)
 
 class serviceBase(object):
-
-    # __metaclass__ = SingletonByConn
-
-    '''
-    def __init__(self, session):
-        self._session = session
-    '''
     def __init__(self,  session_factory, debug=False):
-        '''
-         must send in either a session_factory #TODO  or a connection, exclusive or
-        '''
+        """Must send in either a session_factory."""
 
-        # if connection is  None:
         self._session_factory = session_factory
-        # else:
-        #     self._session_factory = SessionFactory(connection)
 
         self._session = self._session_factory.getSession()
         self._version = session_factory.version
         self._debug = debug
-
-
-
 
     def getSession(self):
         if self._session is None:
@@ -34,10 +17,7 @@ class serviceBase(object):
         return self._session
 
     def reset_session(self):
-        self._session =self._session_factory.getSession() #reset the session in order to prevent memory leaks
-
-
-
+        self._session = self._session_factory.getSession()
 
 
 class Base(object):
@@ -50,7 +30,8 @@ class Base(object):
     __table_args__ = {u'schema': 'odm2'}
 
     def __init__(self, *args, **kwargs):
-        for name, value in kwargs.items(): setattr(self, name, value)
+        for name, value in kwargs.items():
+            setattr(self, name, value)
 
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
@@ -58,23 +39,12 @@ class Base(object):
     def __repr__(self):
         valuedict = self.__dict__.copy()
         for v in valuedict.keys():
-            if "obj" in v.lower():
+            if 'obj' in v.lower():
                 del valuedict[v]
         # del valuedict["_sa_instance_state"]
-        return "<%s(%s)>" % (self.__class__.__name__, str(valuedict))
+        return '<%s(%s)>' % (self.__class__.__name__, str(valuedict))
 
 
 class modelBase():
     from sqlalchemy.ext.declarative import declarative_base
     Base = declarative_base(cls=Base)
-
-
-
-
-
-
-
-
-
-
-
