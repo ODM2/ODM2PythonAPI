@@ -1773,6 +1773,7 @@ class SpectraResultValues(Base):
     )
 
 
+
 class TimeSeriesResultValues(Base):
 
     ValueID = Column('valueid', BigIntegerType, primary_key=True)

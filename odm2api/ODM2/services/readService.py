@@ -527,8 +527,13 @@ class ReadODM2(serviceBase):
         try:
             return q.all()
         except Exception as e:
+<<<<<<< Updated upstream
             print('Error running Query: {}'.format(e))
             return None
+=======
+            print("Error running Query: %s" % e)
+            return []
+>>>>>>> Stashed changes
 
     # Organization
     def getOrganizations(self, ids=None, codes=None):
