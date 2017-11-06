@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+97.gd91ddc7 documentation</title>
+    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+99.g01b1933 documentation</title>
     <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.6.0-alpha+97.gd91ddc7',
+        VERSION:     '0.6.0-alpha+99.g01b1933',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -823,11 +823,11 @@
 <span class="sd">            codes (list, optional): List of SamplingFeature Codes.</span>
 <span class="sd">            uuids (list, optional): List of UUIDs string.</span>
 <span class="sd">            type (str, optional): Type of Dataset from</span>
-<span class="sd">                `controlled vocabulary name &lt;http://vocabulary.odm2.org/samplingfeaturetype/&gt;`_.</span>
+<span class="sd">                `controlled vocabulary name &lt;http://vocabulary.odm2.org/datasettype/&gt;`_.</span>
 
 
 <span class="sd">        Returns:</span>
-<span class="sd">            list: List of sampling feature objects along with their associated datasets</span>
+<span class="sd">            list: List of DataSetsResults Objects associated with the given sampling feature</span>
 
 <span class="sd">        Examples:</span>
 <span class="sd">            &gt;&gt;&gt; READ = ReadODM2(SESSION_FACTORY)</span>
@@ -854,7 +854,7 @@
             <span class="n">sf_query</span> <span class="o">=</span> <span class="n">sf_query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">SamplingFeatures</span><span class="o">.</span><span class="n">SamplingFeatureUUID</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">uuids</span><span class="p">))</span>
         <span class="n">sf_list</span> <span class="o">=</span> <span class="n">sf_query</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
-        <span class="c1"># , DataSetsResults)\</span>
+
         <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DataSetsResults</span><span class="p">)</span>\
             <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Results</span><span class="p">)</span>\
             <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">FeatureActions</span><span class="p">)</span>\
