@@ -714,7 +714,7 @@ class ReadODM2(serviceBase):
             codes (list, optional): List of SamplingFeature Codes.
             uuids (list, optional): List of UUIDs string.
             type (str, optional): Type of Dataset from
-                `controlled vocabulary name <http://http://vocabulary.odm2.org/datasettype/>`_.
+                `controlled vocabulary name <http://vocabulary.odm2.org/datasettype/>`_.
 
 
         Returns:
