@@ -704,16 +704,16 @@ class ReadODM2(serviceBase):
             return None
 
     def getSamplingFeatureDatasets(self, ids=None, codes=None, uuids=None, dstype=None):
-        """Retrieve a list of Sampling Feature objects.
+        """
         Retrieve a list of Datasets associated with the given sampling feature data.
 
-            >>> Must specify either samplingFeatureID OR samplingFeatureUUID OR samplingFeatureCode)
+            **Must specify either samplingFeatureID OR samplingFeatureUUID OR samplingFeatureCode)**
 
         Args:
             ids (list, optional): List of SamplingFeatureIDs.
             codes (list, optional): List of SamplingFeature Codes.
             uuids (list, optional): List of UUIDs string.
-            type (str, optional): Type of Dataset from
+            dstype (str, optional): Type of Dataset from
                 `controlled vocabulary name <http://vocabulary.odm2.org/datasettype/>`_.
 
 
