@@ -703,11 +703,11 @@ class ReadODM2(serviceBase):
             print('Error running Query {}'.format(e))
             return None
 
-    def getSamplingFeatureDatasets(self, ids=None, codes=None, uuids=None, type=None):
+    def getSamplingFeatureDatasets(self, ids=None, codes=None, uuids=None, dstype=None):
         """Retrieve a list of Sampling Feature objects.
         Retrieve a list of Datasets associated with the given sampling feature data.
 
-        >>>Must specify either samplingFeatureID OR samplingFeatureUUID OR samplingFeatureCode)
+            >>> Must specify either samplingFeatureID OR samplingFeatureUUID OR samplingFeatureCode)
 
         Args:
             ids (list, optional): List of SamplingFeatureIDs.
@@ -726,7 +726,7 @@ class ReadODM2(serviceBase):
             >>> READ.getSamplingFeatureDatasets(codes=['HOME', 'FIELD'])
             >>> READ.getSamplingFeatureDatasets(uuids=['a6f114f1-5416-4606-ae10-23be32dbc202',
             ...                                 '5396fdf3-ceb3-46b6-aaf9-454a37278bb4'])
-            >>> READ.getSamplingFeatureDatasets(type='singleTimeSeries')
+            >>> READ.getSamplingFeatureDatasets(dstype='singleTimeSeries')
 
         """
 
@@ -751,8 +751,8 @@ class ReadODM2(serviceBase):
             .join(FeatureActions)\
             .filter(FeatureActions.SamplingFeatureID.in_(sf_list))
 
-        if type:
-            q = q.filter_by(DatasetTypeCV=type)
+        if dstype:
+            q = q.filter_by(DatasetTypeCV=dstype)
 
         try:
             return q.all()
