@@ -714,11 +714,11 @@ class ReadODM2(serviceBase):
             codes (list, optional): List of SamplingFeature Codes.
             uuids (list, optional): List of UUIDs string.
             type (str, optional): Type of Dataset from
-                `controlled vocabulary name <http://vocabulary.odm2.org/samplingfeaturetype/>`_.
+                `controlled vocabulary name <http://http://vocabulary.odm2.org/datasettype/>`_.
 
 
         Returns:
-            list: List of sampling feature objects along with their associated datasets
+            list: List of DataSetsResults Objects associated with the given sampling feature
 
         Examples:
             >>> READ = ReadODM2(SESSION_FACTORY)
@@ -745,7 +745,7 @@ class ReadODM2(serviceBase):
             sf_query = sf_query.filter(SamplingFeatures.SamplingFeatureUUID.in_(uuids))
         sf_list = sf_query.all()
 
-        # , DataSetsResults)\
+
         q = self._session.query(DataSetsResults)\
             .join(Results)\
             .join(FeatureActions)\
