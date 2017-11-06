@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Developer Interface &#8212; ODM2PythonAPI 0.6.0-alpha+101.g60ebf3f documentation</title>
+    <title>Developer Interface &#8212; ODM2PythonAPI 0.6.0-alpha+102.g53e9631 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.6.0-alpha+101.g60ebf3f',
+        VERSION:     '0.6.0-alpha+102.g53e9631',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -855,11 +855,9 @@ all Result objects in the database will be returned.</p>
 <dl class="method">
 <dt id="odm2api.ODM2.services.readService.ReadODM2.getSamplingFeatureDatasets">
 <code class="descname">getSamplingFeatureDatasets</code><span class="sig-paren">(</span><em>ids=None</em>, <em>codes=None</em>, <em>uuids=None</em>, <em>dstype=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getSamplingFeatureDatasets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getSamplingFeatureDatasets" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve a list of Sampling Feature objects.
-Retrieve a list of Datasets associated with the given sampling feature data.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Must</span> <span class="n">specify</span> <span class="n">either</span> <span class="n">samplingFeatureID</span> <span class="n">OR</span> <span class="n">samplingFeatureUUID</span> <span class="n">OR</span> <span class="n">samplingFeatureCode</span><span class="p">)</span>
-</pre></div>
-</div>
+<dd><p>Retrieve a list of Datasets associated with the given sampling feature data.</p>
+<blockquote>
+<div><strong>Must specify either samplingFeatureID OR samplingFeatureUUID OR samplingFeatureCode)</strong></div></blockquote>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -868,7 +866,7 @@ Retrieve a list of Datasets associated with the given sampling feature data.</p>
 <li><strong>ids</strong> (<em>list</em><em>, </em><em>optional</em>) – List of SamplingFeatureIDs.</li>
 <li><strong>codes</strong> (<em>list</em><em>, </em><em>optional</em>) – List of SamplingFeature Codes.</li>
 <li><strong>uuids</strong> (<em>list</em><em>, </em><em>optional</em>) – List of UUIDs string.</li>
-<li><strong>type</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>Type of Dataset from
+<li><strong>dstype</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>Type of Dataset from
 <a class="reference external" href="http://vocabulary.odm2.org/datasettype/">controlled vocabulary name</a>.</p>
 </li>
 </ul>
