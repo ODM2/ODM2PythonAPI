@@ -316,7 +316,6 @@ class DataSets(Base):
     DataSetTitle = Column('datasettitle', String(255), nullable=False)
     DataSetAbstract = Column('datasetabstract', String(500), nullable=False)
 
-    # DatasetsResultsObj = relationship(DataSetsResults, primaryjoin='DatasetsResults.DatasetID == DataSets.ActionID')
 
 class ProcessingLevels(Base):
     """
