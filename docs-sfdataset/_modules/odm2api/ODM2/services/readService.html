@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+100.ge4de3e4 documentation</title>
+    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+101.g60ebf3f documentation</title>
     <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.6.0-alpha+100.ge4de3e4',
+        VERSION:     '0.6.0-alpha+101.g60ebf3f',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -812,11 +812,11 @@
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error running Query </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
             <span class="k">return</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="ReadODM2.getSamplingFeatureDatasets"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getSamplingFeatureDatasets">[docs]</a>    <span class="k">def</span> <span class="nf">getSamplingFeatureDatasets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getSamplingFeatureDatasets"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getSamplingFeatureDatasets">[docs]</a>    <span class="k">def</span> <span class="nf">getSamplingFeatureDatasets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dstype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Retrieve a list of Sampling Feature objects.</span>
 <span class="sd">        Retrieve a list of Datasets associated with the given sampling feature data.</span>
 
-<span class="sd">        &gt;&gt;&gt;Must specify either samplingFeatureID OR samplingFeatureUUID OR samplingFeatureCode)</span>
+<span class="sd">            &gt;&gt;&gt; Must specify either samplingFeatureID OR samplingFeatureUUID OR samplingFeatureCode)</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            ids (list, optional): List of SamplingFeatureIDs.</span>
@@ -835,7 +835,7 @@
 <span class="sd">            &gt;&gt;&gt; READ.getSamplingFeatureDatasets(codes=[&#39;HOME&#39;, &#39;FIELD&#39;])</span>
 <span class="sd">            &gt;&gt;&gt; READ.getSamplingFeatureDatasets(uuids=[&#39;a6f114f1-5416-4606-ae10-23be32dbc202&#39;,</span>
 <span class="sd">            ...                                 &#39;5396fdf3-ceb3-46b6-aaf9-454a37278bb4&#39;])</span>
-<span class="sd">            &gt;&gt;&gt; READ.getSamplingFeatureDatasets(type=&#39;singleTimeSeries&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; READ.getSamplingFeatureDatasets(dstype=&#39;singleTimeSeries&#39;)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -860,8 +860,8 @@
             <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">FeatureActions</span><span class="p">)</span>\
             <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">FeatureActions</span><span class="o">.</span><span class="n">SamplingFeatureID</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">sf_list</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="nb">type</span><span class="p">:</span>
-            <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">DatasetTypeCV</span><span class="o">=</span><span class="nb">type</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dstype</span><span class="p">:</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">DatasetTypeCV</span><span class="o">=</span><span class="n">dstype</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">q</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
