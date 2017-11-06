@@ -707,7 +707,7 @@ class ReadODM2(serviceBase):
         """Retrieve a list of Sampling Feature objects.
         Retrieve a list of Datasets associated with the given sampling feature data.
 
-        Must specify either samplingFeatureID OR samplingFeatureUUID OR samplingFeatureCode)
+        >>>Must specify either samplingFeatureID OR samplingFeatureUUID OR samplingFeatureCode)
 
         Args:
             ids (list, optional): List of SamplingFeatureIDs.

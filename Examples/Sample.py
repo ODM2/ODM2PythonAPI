@@ -27,7 +27,7 @@ from odm2api.ODM2.services import CreateODM2
 # session_factory = dbconnection.createConnection('sqlite', '/Users/stephanie/DEV/YODA-Tools/tests/test_files/XL_specimen.sqlite', 2.0)
 
 
-
+session_factory = dbconnection.createConnection('postgresql', 'odm2wofpy1.uwrl.usu.edu', 'odm2', 'dbadmin', 'pinkbananastastegross')
 
 
 
