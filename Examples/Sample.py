@@ -17,7 +17,7 @@ from odm2api.ODM2.services import CreateODM2
 #connect to database
 # createconnection (dbtype, servername, dbname, username, password)
 # session_factory = dbconnection.createConnection('connection type: sqlite|mysql|mssql|postgresql', '/your/path/to/db/goes/here', 2.0)#sqlite
-# session_factory = dbconnection.createConnection('postgresql', 'localhost', 'odm2', 'ODM', 'odm')
+session_factory = dbconnection.createConnection('postgresql', 'localhost', 'odm2', 'ODM', 'odm')
 # session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')#mysql
 
 # session_factory= dbconnection.createConnection('mssql', "(local)", "ODM2", "ODM", "odm")#win MSSQL
@@ -25,13 +25,6 @@ from odm2api.ODM2.services import CreateODM2
 
 # session_factory= dbconnection.createConnection('mssql', "arroyoodm2", "", "ODM", "odm")#mac/linux MSSQL
 # session_factory = dbconnection.createConnection('sqlite', '/Users/stephanie/DEV/YODA-Tools/tests/test_files/XL_specimen.sqlite', 2.0)
-
-
-session_factory = dbconnection.createConnection('postgresql', 'odm2wofpy1.uwrl.usu.edu', 'odm2', 'dbadmin', 'pinkbananastastegross')
-
-
-
-
 
 
 
@@ -42,7 +35,7 @@ read = ReadODM2(session_factory)
 create = CreateODM2(session_factory)
 
 
-ds= read.getSamplingFeatureDatasets(ids = [1001])
+
 
 
 # Run some basic sample queries.
