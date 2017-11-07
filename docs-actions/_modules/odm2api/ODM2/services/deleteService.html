@@ -1,0 +1,176 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>odm2api.ODM2.services.deleteService &#8212; ODM2PythonAPI 0.6.0-alpha+104.g4f11a28 documentation</title>
+    <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '0.6.0-alpha+104.g4f11a28',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../../../../index.html">
+    <img class="logo" src="../../../../_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=ODM2&repo=ODM2PythonAPI&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+    
+
+<p>
+<a href="https://travis-ci.org/ODM2/ODM2PythonAPI">
+    <img
+        alt="https://secure.travis-ci.org/ODM2/ODM2PythonAPI.svg?branch=master"
+        src="https://secure.travis-ci.org/ODM2/ODM2PythonAPI.svg?branch=master"
+    />
+</a>
+</p>
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">Developer Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../odm2models.html">ODM2 Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribute.html">Contribute to Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models.html">ODM2 Models Index</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for odm2api.ODM2.services.deleteService</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="p">(</span><span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">odm2api.ODM2</span> <span class="k">import</span> <span class="n">serviceBase</span>
+<span class="kn">from</span> <span class="nn">odm2api.ODM2.models</span> <span class="k">import</span> <span class="n">TimeSeriesResultValues</span>
+
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;jmeline&#39;</span>
+
+<span class="c1"># Annotations</span>
+
+
+<div class="viewcode-block" id="DeleteODM2"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.deleteService.DeleteODM2">[docs]</a><span class="k">class</span> <span class="nc">DeleteODM2</span><span class="p">(</span><span class="n">serviceBase</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DeleteODM2.remove"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.deleteService.DeleteODM2.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></div>
+
+<span class="c1"># CV</span>
+<span class="c1"># Core</span>
+<span class="c1"># Data Quality</span>
+<span class="c1"># Equipment</span>
+<span class="c1"># Extension Properties</span>
+<span class="c1"># External Identifiers</span>
+<span class="c1"># Lab Analyses</span>
+<span class="c1"># Provenance</span>
+<span class="c1"># Annotations</span>
+<span class="c1"># Sampling Features</span>
+<span class="c1"># Sensors</span>
+<span class="c1"># Result Values</span>
+
+<div class="viewcode-block" id="DeleteODM2.deleteTSRValues"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.deleteService.DeleteODM2.deleteTSRValues">[docs]</a>    <span class="k">def</span> <span class="nf">deleteTSRValues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">startdate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dates</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">TimeSeriesResultValues</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ids</span><span class="p">:</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">TimeSeriesResultValues</span><span class="o">.</span><span class="n">ResultID</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">ids</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">startdate</span><span class="p">:</span>
+            <span class="c1"># delete all values on or after the startdate.</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">TimeSeriesResultValues</span><span class="o">.</span><span class="n">ValueDateTime</span> <span class="o">&gt;=</span> <span class="n">startdate</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dates</span><span class="p">:</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">TimeSeriesResultValues</span><span class="o">.</span><span class="n">ValueDateTime</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">dates</span><span class="p">))</span>
+        <span class="n">numvals</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+        <span class="n">q</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">numvals</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2017, Stephanie Reeder.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+    <a href="https://github.com/ODM2/ODM2PythonAPI" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>
