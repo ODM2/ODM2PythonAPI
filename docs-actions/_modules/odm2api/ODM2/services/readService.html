@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+104.g4f11a28 documentation</title>
+    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+105.g2bfd758 documentation</title>
     <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.6.0-alpha+104.g4f11a28',
+        VERSION:     '0.6.0-alpha+105.g2bfd758',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -481,7 +481,7 @@
             <span class="k">return</span> <span class="kc">None</span></div>
 
     <span class="c1"># Sampling Feature</span>
-<div class="viewcode-block" id="ReadODM2.getSamplingFeatures"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getSamplingFeatures">[docs]</a>    <span class="k">def</span> <span class="nf">getSamplingFeatures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">wkt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">results</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getSamplingFeatures"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getSamplingFeatures">[docs]</a>    <span class="k">def</span> <span class="nf">getSamplingFeatures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">wkt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">results</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Retrieve a list of Sampling Feature objects.</span>
 
 <span class="sd">        If no arguments are passed to the function, or their values are None,</span>
@@ -574,15 +574,46 @@
 
 
     <span class="c1"># Action</span>
-<div class="viewcode-block" id="ReadODM2.getActions"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getActions">[docs]</a>    <span class="k">def</span> <span class="nf">getActions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sfid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getActions"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getActions">[docs]</a>    <span class="k">def</span> <span class="nf">getActions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sfid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">beginDate</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">endDate</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        * Pass nothing - returns a list of all Actions</span>
+
 <span class="sd">        * Pass a list of Action ids - returns a list of Action objects</span>
 <span class="sd">        * Pass a ActionTypeCV - returns a list of Action objects of that type</span>
 <span class="sd">        * Pass a SamplingFeature ID - returns a list of Action objects</span>
 <span class="sd">          associated with that Sampling feature ID, Found through featureAction table</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="sd">&quot;&quot;&quot;Retrieve a list of Actions objects.</span>
+
+<span class="sd">                If no arguments are passed to the function, or their values are None,</span>
+<span class="sd">                all Action objects in the database will be returned.</span>
+
+<span class="sd">                Args:</span>
+<span class="sd">                    ids (list, optional): List of ActionIDs.</span>
+<span class="sd">                    type (str, optional): Type of Sampling Feature from</span>
+<span class="sd">                        `controlled vocabulary name &lt;http://vocabulary.odm2.org/actiontype/&gt;`_.</span>
+<span class="sd">                    sfid (int  , optional): Whether or not you want to return only the</span>
+<span class="sd">                        sampling features that have results associated with them.</span>
+
+<span class="sd">                Returns:</span>
+<span class="sd">                    list: List of Sampling Feature objects</span>
+
+<span class="sd">                Examples:</span>
+<span class="sd">                    &gt;&gt;&gt; READ = ReadODM2(SESSION_FACTORY)</span>
+<span class="sd">                    &gt;&gt;&gt; READ.getSamplingFeatures(ids=[39, 40])</span>
+<span class="sd">                    &gt;&gt;&gt; READ.getSamplingFeatures(codes=[&#39;HOME&#39;, &#39;FIELD&#39;])</span>
+<span class="sd">                    &gt;&gt;&gt; READ.getSamplingFeatures(uuids=[&#39;a6f114f1-5416-4606-ae10-23be32dbc202&#39;,</span>
+<span class="sd">                    ...                                 &#39;5396fdf3-ceb3-46b6-aaf9-454a37278bb4&#39;])</span>
+<span class="sd">                    &gt;&gt;&gt; READ.getSamplingFeatures(type=&#39;Site&#39;)</span>
+<span class="sd">                    &gt;&gt;&gt; READ.getSamplingFeatures(wkt=&#39;POINT (30 10)&#39;)</span>
+<span class="sd">                    &gt;&gt;&gt; READ.getSamplingFeatures(results=True)</span>
+<span class="sd">                    &gt;&gt;&gt; READ.getSamplingFeatures(type=&#39;Site&#39;, results=True)</span>
+
+<span class="sd">                &quot;&quot;&quot;</span>
+
+
+
         <span class="n">a</span> <span class="o">=</span> <span class="n">Actions</span>
         <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;equipment&#39;</span><span class="p">:</span>
             <span class="n">a</span> <span class="o">=</span> <span class="n">EquipmentActions</span>
@@ -723,8 +754,8 @@
             <span class="k">return</span> <span class="kc">None</span></div>
 
     <span class="c1"># Results</span>
-<div class="viewcode-block" id="ReadODM2.getResults"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getResults">[docs]</a>    <span class="k">def</span> <span class="nf">getResults</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">actionid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">simulationid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sfid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                   <span class="n">variableid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">siteid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getResults"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getResults">[docs]</a>    <span class="k">def</span> <span class="nf">getResults</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">actionid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sfid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">siteid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">variableid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">simulationid</span><span class="o">=</span><span class="kc">None</span> <span class="p">):</span>
 
         <span class="c1"># TODO what if user sends in both type and actionid vs just actionid</span>
         <span class="sd">&quot;&quot;&quot;Retrieve a list of Result objects.</span>
@@ -741,7 +772,7 @@
 <span class="sd">            simulationid (int, optional): SimulationID.</span>
 <span class="sd">            sfid (int, optional): SamplingFeatureID.</span>
 <span class="sd">            variableid (int, optional): VariableID.</span>
-<span class="sd">            siteid (int, optional): SiteID.</span>
+<span class="sd">            siteid (int, optional): SiteID. (all of the sampling features related to the given SiteID</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            list: List of Result objects</span>

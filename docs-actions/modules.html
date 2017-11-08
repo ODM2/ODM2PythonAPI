@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Developer Interface &#8212; ODM2PythonAPI 0.6.0-alpha+104.g4f11a28 documentation</title>
+    <title>Developer Interface &#8212; ODM2PythonAPI 0.6.0-alpha+105.g2bfd758 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.6.0-alpha+104.g4f11a28',
+        VERSION:     '0.6.0-alpha+105.g2bfd758',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -470,9 +470,8 @@ than a tuple), the constructed base class will inherit its docstring.</p>
 
 <dl class="method">
 <dt id="odm2api.ODM2.services.readService.ReadODM2.getActions">
-<code class="descname">getActions</code><span class="sig-paren">(</span><em>ids=None</em>, <em>type=None</em>, <em>sfid=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getActions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getActions" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getActions</code><span class="sig-paren">(</span><em>ids=None</em>, <em>type=None</em>, <em>sfid=None</em>, <em>beginDate=None</em>, <em>endDate=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getActions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getActions" title="Permalink to this definition">¶</a></dt>
 <dd><ul class="simple">
-<li>Pass nothing - returns a list of all Actions</li>
 <li>Pass a list of Action ids - returns a list of Action objects</li>
 <li>Pass a ActionTypeCV - returns a list of Action objects of that type</li>
 <li>Pass a SamplingFeature ID - returns a list of Action objects
@@ -801,7 +800,7 @@ of type that is specific to the result type with values between the input date r
 
 <dl class="method">
 <dt id="odm2api.ODM2.services.readService.ReadODM2.getResults">
-<code class="descname">getResults</code><span class="sig-paren">(</span><em>ids=None</em>, <em>type=None</em>, <em>uuids=None</em>, <em>actionid=None</em>, <em>simulationid=None</em>, <em>sfid=None</em>, <em>variableid=None</em>, <em>siteid=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getResults" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getResults</code><span class="sig-paren">(</span><em>ids=None</em>, <em>uuids=None</em>, <em>type=None</em>, <em>actionid=None</em>, <em>sfid=None</em>, <em>siteid=None</em>, <em>variableid=None</em>, <em>simulationid=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getResults" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve a list of Result objects.</p>
 <p>If no arguments are passed to the function, or their values are None,
 all Result objects in the database will be returned.</p>
@@ -818,7 +817,7 @@ all Result objects in the database will be returned.</p>
 <li><strong>simulationid</strong> (<em>int</em><em>, </em><em>optional</em>) – SimulationID.</li>
 <li><strong>sfid</strong> (<em>int</em><em>, </em><em>optional</em>) – SamplingFeatureID.</li>
 <li><strong>variableid</strong> (<em>int</em><em>, </em><em>optional</em>) – VariableID.</li>
-<li><strong>siteid</strong> (<em>int</em><em>, </em><em>optional</em>) – SiteID.</li>
+<li><strong>siteid</strong> (<em>int</em><em>, </em><em>optional</em>) – SiteID. (all of the sampling features related to the given SiteID</li>
 </ul>
 </td>
 </tr>
@@ -893,7 +892,7 @@ all Result objects in the database will be returned.</p>
 
 <dl class="method">
 <dt id="odm2api.ODM2.services.readService.ReadODM2.getSamplingFeatures">
-<code class="descname">getSamplingFeatures</code><span class="sig-paren">(</span><em>ids=None</em>, <em>codes=None</em>, <em>uuids=None</em>, <em>type=None</em>, <em>wkt=None</em>, <em>results=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getSamplingFeatures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getSamplingFeatures" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getSamplingFeatures</code><span class="sig-paren">(</span><em>ids=None</em>, <em>uuids=None</em>, <em>codes=None</em>, <em>type=None</em>, <em>wkt=None</em>, <em>results=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getSamplingFeatures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getSamplingFeatures" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve a list of Sampling Feature objects.</p>
 <p>If no arguments are passed to the function, or their values are None,
 all Sampling Feature objects in the database will be returned.</p>
