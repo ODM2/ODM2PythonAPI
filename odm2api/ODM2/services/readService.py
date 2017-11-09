@@ -686,22 +686,87 @@ class ReadODM2(serviceBase):
             return None
 
     # Datasets
-    def getDataSets(self, codes=None, uuids=None):
+    def getDataSets(self, ids= None, codes=None, uuids=None, dstype=None):
         """
-        * Pass nothing - returns a list of all DataSet objects
-        * Pass a list of DataSetCode - returns a single DataSet object for each code
-        * Pass a list of UUIDS - returns a single DataSet object for each UUID
+        Retrieve a list of Datasets
+
+        Args:
+            ids (list, optional): List of DataSetsIDs.
+            codes (list, optional): List of DataSet Codes.
+            uuids (list, optional): List of Dataset UUIDs string.
+            dstype (str, optional): Type of Dataset from
+                `controlled vocabulary name <http://vocabulary.odm2.org/datasettype/>`_.
+
+
+        Returns:
+            list: List of DataSets Objects
+
+        Examples:
+            >>> READ = ReadODM2(SESSION_FACTORY)
+            >>> READ.getDataSets(ids=[39, 40])
+            >>> READ.getDataSets(codes=['HOME', 'FIELD'])
+            >>> READ.getDataSets(uuids=['a6f114f1-5416-4606-ae10-23be32dbc202',
+            ...                                 '5396fdf3-ceb3-46b6-aaf9-454a37278bb4'])
+            >>> READ.getDataSets(dstype='singleTimeSeries')
+
         """
         q = self._session.query(DataSets)
+        if ids:
+            q = q.filter(DataSets.DataSetID.in_(codes))
         if codes:
             q = q.filter(DataSets.DataSetCode.in_(codes))
         if uuids:
             q.filter(DataSets.DataSetUUID.in_(uuids))
+        if dstype:
+            q = q.filter(DataSets.DataSetTypeCV == dstype)
         try:
             return q.all()
         except Exception as e:
             print('Error running Query {}'.format(e))
             return None
+
+            # Datasets
+
+    def getDataSetsResults(self, ids= None, codes=None, uuids=None, dstype=None):
+        """
+        Retrieve a detailed list of Datasets along with detailed metadata about the datasets
+                and the results contained within them
+
+        Args:
+            ids (list, optional): List of DataSetsIDs.
+            codes (list, optional): List of DataSet Codes.
+            uuids (list, optional): List of Dataset UUIDs string.
+            dstype (str, optional): Type of Dataset from
+                `controlled vocabulary name <http://vocabulary.odm2.org/datasettype/>`_.
+
+
+        Returns:
+            list: List of DataSetsResults Objects
+
+        Examples:
+            >>> READ = ReadODM2(SESSION_FACTORY)
+            >>> READ.getDataSetsResults(ids=[39, 40])
+            >>> READ.getDataSetsResults(codes=['HOME', 'FIELD'])
+            >>> READ.getDataSetsResults(uuids=['a6f114f1-5416-4606-ae10-23be32dbc202',
+            ...                                 '5396fdf3-ceb3-46b6-aaf9-454a37278bb4'])
+            >>> READ.getDataSetsResults(dstype='singleTimeSeries')
+
+        """
+        q = self._session.query(DataSetsResults)\
+            .join(DataSets)
+        if ids:
+            q = q.filter(DataSets.DataSetID.in_(codes))
+        if codes:
+            q = q.filter(DataSets.DataSetCode.in_(codes))
+        if uuids:
+            q.filter(DataSets.DataSetUUID.in_(uuids))
+        if dstype:
+            q = q.filter(DataSets.DataSetTypeCV == dstype)
+        try:
+            return q.all()
+        except Exception as e:
+            print('Error running Query {}'.format(e))
+        return None
 
     def getSamplingFeatureDatasets(self, ids=None, codes=None, uuids=None, dstype=None):
         """
