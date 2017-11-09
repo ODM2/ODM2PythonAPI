@@ -1,0 +1,264 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>odm2api.ODM2.services.updateService &#8212; ODM2PythonAPI 0.6.0-alpha+105.g2a22676 documentation</title>
+    <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '0.6.0-alpha+105.g2a22676',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../../../../index.html">
+    <img class="logo" src="../../../../_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=ODM2&repo=ODM2PythonAPI&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+    
+
+<p>
+<a href="https://travis-ci.org/ODM2/ODM2PythonAPI">
+    <img
+        alt="https://secure.travis-ci.org/ODM2/ODM2PythonAPI.svg?branch=master"
+        src="https://secure.travis-ci.org/ODM2/ODM2PythonAPI.svg?branch=master"
+    />
+</a>
+</p>
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">Developer Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../odm2models.html">ODM2 Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribute.html">Contribute to Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models.html">ODM2 Models Index</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for odm2api.ODM2.services.updateService</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="p">(</span><span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">)</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;jmeline&#39;</span>
+
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
+
+<span class="kn">from</span> <span class="nn">odm2api.ODM2</span> <span class="k">import</span> <span class="n">serviceBase</span>
+<span class="kn">from</span> <span class="nn">odm2api.ODM2.models</span> <span class="k">import</span> <span class="o">*</span>
+
+
+<span class="c1"># ################################################################################</span>
+<span class="c1"># Annotations</span>
+<span class="c1"># ################################################################################</span>
+
+<div class="viewcode-block" id="UpdateODM2"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.updateService.UpdateODM2">[docs]</a><span class="k">class</span> <span class="nc">UpdateODM2</span><span class="p">(</span><span class="n">serviceBase</span><span class="p">):</span>
+
+<div class="viewcode-block" id="UpdateODM2.update"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.updateService.UpdateODM2.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">value</span></div>
+
+<span class="c1"># ################################################################################</span>
+<span class="c1"># Core</span>
+<span class="c1"># ################################################################################</span>
+<div class="viewcode-block" id="UpdateODM2.updateResultValidDateTime"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.updateService.UpdateODM2.updateResultValidDateTime">[docs]</a>    <span class="k">def</span> <span class="nf">updateResultValidDateTime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resultId</span><span class="p">,</span> <span class="n">dateTime</span><span class="p">):</span>
+
+        <span class="c1">#check type of &quot;validdatetime&#39;</span>
+        <span class="c1">#if not datetime do this:</span>
+        <span class="c1"># dt = dateTime.to_datetime()</span>
+        <span class="c1">#else dt = dateTime</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">dateTime</span><span class="p">)</span> <span class="o">!=</span> <span class="n">datetime</span><span class="p">):</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">dateTime</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">dateTime</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Results</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Results</span><span class="o">.</span><span class="n">ResultID</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="n">resultId</span><span class="p">))</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;ValidDateTime&#39;</span><span class="p">:</span> <span class="n">dt</span><span class="p">})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="UpdateODM2.updateResult"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.updateService.UpdateODM2.updateResult">[docs]</a>    <span class="k">def</span> <span class="nf">updateResult</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resultID</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">valuecount</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">resultID</span><span class="p">:</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Results</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Results</span><span class="o">.</span><span class="n">ResultID</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="n">resultID</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">valuecount</span><span class="p">:</span>
+                <span class="n">q</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;ValueCount&quot;</span><span class="p">:</span> <span class="n">valuecount</span><span class="p">})</span>
+        <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="UpdateODM2.updateAction"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.updateService.UpdateODM2.updateAction">[docs]</a>    <span class="k">def</span> <span class="nf">updateAction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">actionID</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">begin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">action</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">actionID</span><span class="p">:</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Actions</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Actions</span><span class="o">.</span><span class="n">ActionID</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="n">actionID</span><span class="p">))</span>
+            <span class="c1"># if (type(begin) != datetime):</span>
+            <span class="c1">#     begin = begin.to_datetime()</span>
+            <span class="c1"># if (type(end) != datetime):</span>
+            <span class="c1">#     end = end.to_datetime()</span>
+
+            <span class="k">if</span> <span class="n">begin</span><span class="p">:</span>
+                <span class="n">q</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;BeginDateTime&quot;</span><span class="p">:</span> <span class="n">begin</span><span class="p">})</span>
+            <span class="k">if</span> <span class="n">end</span><span class="p">:</span>
+                <span class="n">q</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;EndDateTime&quot;</span><span class="p">:</span> <span class="n">end</span><span class="p">})</span>
+        <span class="k">elif</span> <span class="n">action</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span></div></div>
+
+
+<span class="c1"># ################################################################################</span>
+<span class="c1"># Data Quality</span>
+<span class="c1"># ################################################################################</span>
+
+
+
+
+<span class="c1"># ################################################################################</span>
+<span class="c1"># Equipment</span>
+<span class="c1"># ################################################################################</span>
+
+
+
+
+
+<span class="c1"># ################################################################################</span>
+<span class="c1"># Extension Properties</span>
+<span class="c1"># ################################################################################</span>
+
+
+
+
+<span class="c1"># ################################################################################</span>
+<span class="c1"># External Identifiers</span>
+<span class="c1"># ################################################################################</span>
+
+
+
+
+<span class="c1"># ################################################################################</span>
+<span class="c1"># Lab Analyses</span>
+<span class="c1"># ################################################################################</span>
+
+
+
+
+<span class="c1"># ################################################################################</span>
+<span class="c1"># Provenance</span>
+<span class="c1"># ################################################################################</span>
+
+
+
+
+<span class="c1"># ################################################################################</span>
+<span class="c1"># Results</span>
+<span class="c1"># ################################################################################</span>
+
+
+
+
+<span class="c1"># ################################################################################</span>
+<span class="c1"># Sampling Features</span>
+<span class="c1"># ################################################################################</span>
+
+
+
+
+<span class="c1"># ################################################################################</span>
+<span class="c1"># Sensors</span>
+<span class="c1"># ################################################################################</span>
+
+
+
+<span class="c1"># ################################################################################</span>
+<span class="c1"># ODM2</span>
+<span class="c1"># ################################################################################</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2017, Stephanie Reeder.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+    <a href="https://github.com/ODM2/ODM2PythonAPI" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>
