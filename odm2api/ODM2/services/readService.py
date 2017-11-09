@@ -732,6 +732,7 @@ class ReadODM2(serviceBase):
         Retrieve a detailed list of Datasets along with detailed metadata about the datasets
                 and the results contained within them
 
+        **Must specify either DataSetID OR DataSetUUID OR DataSetCode)**
         Args:
             ids (list, optional): List of DataSetsIDs.
             codes (list, optional): List of DataSet Codes.
@@ -752,6 +753,11 @@ class ReadODM2(serviceBase):
             >>> READ.getDataSetsResults(dstype='singleTimeSeries')
 
         """
+
+        # make sure one of the three arguments has been sent in
+        if all(v is None for v in [ids, codes, uuids]):
+            raise ValueError('Expected DataSetID OR DataSetUUID OR DataSetCode argument')
+
         q = self._session.query(DataSetsResults)\
             .join(DataSets)
         if ids:
