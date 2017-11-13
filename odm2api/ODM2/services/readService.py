@@ -822,7 +822,7 @@ class ReadODM2(serviceBase):
         if all(v is None for v in [ids, codes, uuids]):
             raise ValueError('Expected samplingFeatureID OR samplingFeatureUUID OR samplingFeatureCode argument')
 
-        sf_query = self._session.query(SamplingFeatures.SamplingFeatureID)
+        sf_query = self._session.query(SamplingFeatures)
 
         if ids:
             sf_query = sf_query.filter(SamplingFeatures.SamplingFeatureID.in_(ids))
@@ -832,7 +832,7 @@ class ReadODM2(serviceBase):
             sf_query = sf_query.filter(SamplingFeatures.SamplingFeatureUUID.in_(uuids))
         sf_list = []
         for sf in sf_query.all():
-            sf_list.append(sf[0])
+            sf_list.append(sf.SamplingFeatureID)
 
         q = self._session.query(DataSetsResults)\
             .join(Results)\
