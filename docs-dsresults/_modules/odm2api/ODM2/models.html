@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>odm2api.ODM2.models &#8212; ODM2PythonAPI 0.6.0-alpha+109.g8a8ffe7 documentation</title>
+    <title>odm2api.ODM2.models &#8212; ODM2PythonAPI 0.6.0-alpha+112.g9624cc5 documentation</title>
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.6.0-alpha+109.g8a8ffe7',
+        VERSION:     '0.6.0-alpha+112.g9624cc5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -111,11 +111,9 @@
 
 <span class="kn">from</span> <span class="nn">odm2api.base</span> <span class="k">import</span> <span class="n">modelBase</span>
 
-<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="k">import</span> <span class="n">BigInteger</span><span class="p">,</span> <span class="n">Boolean</span><span class="p">,</span> <span class="n">Column</span><span class="p">,</span> <span class="n">Date</span><span class="p">,</span> <span class="n">DateTime</span><span class="p">,</span> <span class="n">Float</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="n">case</span><span class="p">,</span> <span class="n">types</span><span class="p">,</span> <span class="n">Table</span><span class="p">,</span> <span class="n">event</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="k">import</span> <span class="n">BigInteger</span><span class="p">,</span> <span class="n">Boolean</span><span class="p">,</span> <span class="n">Column</span><span class="p">,</span> <span class="n">Date</span><span class="p">,</span> <span class="n">DateTime</span><span class="p">,</span> <span class="n">Float</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="n">case</span>
 <span class="kn">from</span> <span class="nn">sqlalchemy.dialects</span> <span class="k">import</span> <span class="n">mysql</span><span class="p">,</span> <span class="n">postgresql</span><span class="p">,</span> <span class="n">sqlite</span>
 <span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="k">import</span> <span class="n">relationship</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
-
 <span class="n">Base</span> <span class="o">=</span> <span class="n">modelBase</span><span class="o">.</span><span class="n">Base</span>
 
 <span class="n">BigIntegerType</span> <span class="o">=</span> <span class="n">BigInteger</span><span class="p">()</span>
