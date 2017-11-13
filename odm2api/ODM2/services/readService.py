@@ -632,8 +632,8 @@ class ReadODM2(serviceBase):
             simulationid (int, optional): SimulationID.
             sfid (int, optional): SamplingFeatureID.
             variableid (int, optional): VariableID.
-            siteid (int, optional): SiteID. - goes through related features table and finds all of the measurement
-                    values recorded at the given site
+            siteid (int, optional): SiteID. - goes through related features table and finds all of results
+                    recorded at the given site
 
         Returns:
             list: List of Result objects
@@ -728,7 +728,7 @@ class ReadODM2(serviceBase):
 
             # Datasets
 
-    def getDataSetsResults(self, ids= None, codes=None, uuids=None, dstype=None):
+    def getDataSetsResults(self, ids=None, codes=None, uuids=None, dstype=None):
         """
         Retrieve a detailed list of Datasets along with detailed metadata about the datasets
                 and the results contained within them
