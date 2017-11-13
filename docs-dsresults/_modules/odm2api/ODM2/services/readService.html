@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+112.g9624cc5 documentation</title>
+    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+113.ga4febb4 documentation</title>
     <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.6.0-alpha+112.g9624cc5',
+        VERSION:     '0.6.0-alpha+113.ga4febb4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -741,7 +741,8 @@
 <span class="sd">            simulationid (int, optional): SimulationID.</span>
 <span class="sd">            sfid (int, optional): SamplingFeatureID.</span>
 <span class="sd">            variableid (int, optional): VariableID.</span>
-<span class="sd">            siteid (int, optional): SiteID.</span>
+<span class="sd">            siteid (int, optional): SiteID. - goes through related features table and finds all of the measurement</span>
+<span class="sd">                    values recorded at the given site</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            list: List of Result objects</span>
@@ -938,8 +939,9 @@
             <span class="n">sf_query</span> <span class="o">=</span> <span class="n">sf_query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">SamplingFeatures</span><span class="o">.</span><span class="n">SamplingFeatureCode</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">codes</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">uuids</span><span class="p">:</span>
             <span class="n">sf_query</span> <span class="o">=</span> <span class="n">sf_query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">SamplingFeatures</span><span class="o">.</span><span class="n">SamplingFeatureUUID</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">uuids</span><span class="p">))</span>
-        <span class="n">sf_list</span> <span class="o">=</span> <span class="n">sf_query</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
-
+        <span class="n">sf_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">sf</span> <span class="ow">in</span> <span class="n">sf_query</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+            <span class="n">sf_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sf</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
         <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DataSetsResults</span><span class="p">)</span>\
             <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Results</span><span class="p">)</span>\
