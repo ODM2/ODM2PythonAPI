@@ -111,6 +111,21 @@ class TestReadService:
         assert dsrapi is not None
         assert True
 
+    def test_getDataSetsValues(self):
+
+        dsr = self.engine.execute('SELECT * FROM DataSetsResults').fetchone()
+        dsid = dsr[2]
+
+        values= self.reader.getDataSetsValues(ids=[dsid])
+        assert values is not None
+        assert len(values) > 0
+
+
+
+    #ToDo figure out how to actually test this function
+    def test_getSamplingFeatureDataSets(self):
+        assert True
+
 
 # Models
     """

@@ -774,6 +774,21 @@ class ReadODM2(serviceBase):
             print('Error running Query {}'.format(e))
         return None
 
+    def getDataSetsValues(self, ids=None, codes=None, uuids=None, dstype=None):
+
+        dsr = self.getDataSetsResults(ids, codes, uuids, dstype)
+
+        resids = []
+        for ds in dsr:
+            resids.append(ds.ResultID)
+
+        try:
+            return self.getResultValues(resultids = resids)
+        except Exception as e:
+            print('Error running Query {}'.format(e))
+        return None
+
+
     def getSamplingFeatureDatasets(self, ids=None, codes=None, uuids=None, dstype=None):
         """
         Retrieve a list of Datasets associated with the given sampling feature data.
@@ -1133,7 +1148,7 @@ class ReadODM2(serviceBase):
 
         """
         type = self._session.query(Results).filter_by(ResultID=resultids[0]).first().ResultTypeCV
-        ResultType = TimeSeriesResults
+        ResultType = TimeSeriesResultValues
         if 'categorical' in type.lower():
             ResultType = CategoricalResultValues
         elif 'measurement' in type.lower():
