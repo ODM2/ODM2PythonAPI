@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+106.g69656fa documentation</title>
+    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+107.g1559213 documentation</title>
     <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.6.0-alpha+106.g69656fa',
+        VERSION:     '0.6.0-alpha+107.g1559213',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -799,13 +799,12 @@
                 <span class="o">.</span><span class="n">all</span><span class="p">()</span>
             <span class="p">]</span>
 
+            <span class="c1">#TODO does this code do the same thing as the code above?</span>
             <span class="c1"># sf_list = self.getRelatedSamplingFeatures(rfid=siteid)</span>
             <span class="c1"># sfids = []</span>
             <span class="c1"># for sf in sf_list:</span>
             <span class="c1">#     sfids.append(sf.SamplingFeatureID)</span>
-
-
-
+            
             <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">FeatureActions</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">FeatureActions</span><span class="o">.</span><span class="n">SamplingFeatureID</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">sfids</span><span class="p">))</span>
 
         <span class="k">try</span><span class="p">:</span>
