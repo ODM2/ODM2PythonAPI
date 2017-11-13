@@ -92,6 +92,26 @@ class TestReadService:
         resapi = self.reader.getSamplingFeatures(ids=[sfid])
         assert resapi is not None
 
+#DataSets
+    def test_getDataSets(self):
+        # get all datasets from the database
+        ds = self.engine.execute('SELECT * FROM DataSets').fetchone()
+        dsid = ds[0]
+
+        dsapi = self.reader.getDataSets(ids=[dsid])
+        assert dsapi is not None
+        assert True
+
+    def test_getDataSetsResults(self):
+        # get all datasetresults from the database
+        dsr = self.engine.execute('SELECT * FROM DataSetsResults').fetchone()
+        dsid = dsr[2]
+
+        dsrapi = self.reader.getDataSetsResults(ids=[dsid])
+        assert dsrapi is not None
+        assert True
+
+
 # Models
     """
         TABLE Models
