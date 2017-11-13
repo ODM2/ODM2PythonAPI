@@ -615,7 +615,7 @@ class ReadODM2(serviceBase):
 
     # Results
     def getResults(self, ids=None, type=None, uuids=None, actionid=None, simulationid=None, sfid=None,
-                   variableid=None, siteid=None):
+                   variableid=None, siteid=None, sfids=None, sfuuids=None, sfcodes=None):
 
         # TODO what if user sends in both type and actionid vs just actionid
         """Retrieve a list of Result objects.
@@ -633,6 +633,9 @@ class ReadODM2(serviceBase):
             sfid (int, optional): SamplingFeatureID.
             variableid (int, optional): VariableID.
             siteid (int, optional): SiteID.
+            sfids(list, optional): List of Sampling Feature IDs integer.
+            sfuuids(list, optional): List of Sampling Feature UUIDs string.
+            sfcodes=(list, optional): List of Sampling Feature codes string.
 
         Returns:
             list: List of Result objects
@@ -640,7 +643,7 @@ class ReadODM2(serviceBase):
         Examples:
             >>> ReadODM2.getResults(ids=[39,40])
             >>> ReadODM2.getResults(type='Time series coverage')
-            >>> ReadODM2.getResults(sfid=65)
+            >>> ReadODM2.getResults(sfids=[65])
             >>> ReadODM2.getResults(uuids=['a6f114f1-5416-4606-ae10-23be32dbc202',
             ...                            '5396fdf3-ceb3-46b6-aaf9-454a37278bb4'])
             >>> ReadODM2.getResults(simulationid=50)
@@ -667,9 +670,18 @@ class ReadODM2(serviceBase):
         if actionid:
             query = query.join(FeatureActions).filter_by(ActionID=actionid)
         if sfid:
+            import warnings
+            warnings.warn('the parameter sfid, will no longer be supported. please use the sfids parameter and send in a list. ')
             query = query.join(FeatureActions).filter_by(SamplingFeatureID=sfid)
+        if sfids or sfcodes or sfuuids:
+            sf_list = self.getSamplingFeatures(ids=sfids, codes=sfcodes, uuids=sfuuids)
+            sfids = []
+            for sf in sf_list:
+                sfids.append(sf.SamplingFeatureID)
+            query = query.join(FeatureActions).filter(FeatureActions.SamplingFeatureID.in_(sfids))
 
         if siteid:
+
             sfids = [x[0] for x in self._session.query(
                 distinct(SamplingFeatures.SamplingFeatureID))
                 .select_from(RelatedFeatures)
@@ -677,6 +689,14 @@ class ReadODM2(serviceBase):
                 .filter(RelatedFeatures.RelatedFeatureID == siteid)
                 .all()
             ]
+
+            # sf_list = self.getRelatedSamplingFeatures(rfid=siteid)
+            # sfids = []
+            # for sf in sf_list:
+            #     sfids.append(sf.SamplingFeatureID)
+
+
+
             query = query.join(FeatureActions).filter(FeatureActions.SamplingFeatureID.in_(sfids))
 
         try:
