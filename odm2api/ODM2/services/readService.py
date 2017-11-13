@@ -690,13 +690,12 @@ class ReadODM2(serviceBase):
                 .all()
             ]
 
+            #TODO does this code do the same thing as the code above?
             # sf_list = self.getRelatedSamplingFeatures(rfid=siteid)
             # sfids = []
             # for sf in sf_list:
             #     sfids.append(sf.SamplingFeatureID)
-
-
-
+            
             query = query.join(FeatureActions).filter(FeatureActions.SamplingFeatureID.in_(sfids))
 
         try:
