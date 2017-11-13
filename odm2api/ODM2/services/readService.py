@@ -632,7 +632,8 @@ class ReadODM2(serviceBase):
             simulationid (int, optional): SimulationID.
             sfid (int, optional): SamplingFeatureID.
             variableid (int, optional): VariableID.
-            siteid (int, optional): SiteID.
+            siteid (int, optional): SiteID. - goes through related features table and finds all of the measurement
+                    values recorded at the given site
 
         Returns:
             list: List of Result objects
@@ -829,8 +830,9 @@ class ReadODM2(serviceBase):
             sf_query = sf_query.filter(SamplingFeatures.SamplingFeatureCode.in_(codes))
         if uuids:
             sf_query = sf_query.filter(SamplingFeatures.SamplingFeatureUUID.in_(uuids))
-        sf_list = sf_query.all()
-
+        sf_list = []
+        for sf in sf_query.all():
+            sf_list.append(sf[0])
 
         q = self._session.query(DataSetsResults)\
             .join(Results)\
