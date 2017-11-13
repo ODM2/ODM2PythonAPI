@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+107.g1559213 documentation</title>
+    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+108.g5ec7eb6 documentation</title>
     <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.6.0-alpha+107.g1559213',
+        VERSION:     '0.6.0-alpha+108.g5ec7eb6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -780,7 +780,7 @@
             <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">FeatureActions</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">ActionID</span><span class="o">=</span><span class="n">actionid</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">sfid</span><span class="p">:</span>
             <span class="kn">import</span> <span class="nn">warnings</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;the parameter sfid, will no longer be supported. please use the sfids parameter and send in a list. &#39;</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;The parameter &#39;sfid&#39; is no longer be supported. Please use the sfids parameter and send in a list.&quot;</span><span class="p">)</span>
             <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">FeatureActions</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">SamplingFeatureID</span><span class="o">=</span><span class="n">sfid</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">sfids</span> <span class="ow">or</span> <span class="n">sfcodes</span> <span class="ow">or</span> <span class="n">sfuuids</span><span class="p">:</span>
             <span class="n">sf_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSamplingFeatures</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="n">sfids</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="n">sfcodes</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="n">sfuuids</span><span class="p">)</span>
@@ -804,7 +804,7 @@
             <span class="c1"># sfids = []</span>
             <span class="c1"># for sf in sf_list:</span>
             <span class="c1">#     sfids.append(sf.SamplingFeatureID)</span>
-            
+
             <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">FeatureActions</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">FeatureActions</span><span class="o">.</span><span class="n">SamplingFeatureID</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">sfids</span><span class="p">))</span>
 
         <span class="k">try</span><span class="p">:</span>
