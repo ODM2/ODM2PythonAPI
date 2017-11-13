@@ -712,7 +712,7 @@ class ReadODM2(serviceBase):
         """
         q = self._session.query(DataSets)
         if ids:
-            q = q.filter(DataSets.DataSetID.in_(codes))
+            q = q.filter(DataSets.DataSetID.in_(ids))
         if codes:
             q = q.filter(DataSets.DataSetCode.in_(codes))
         if uuids:
@@ -761,7 +761,7 @@ class ReadODM2(serviceBase):
         q = self._session.query(DataSetsResults)\
             .join(DataSets)
         if ids:
-            q = q.filter(DataSets.DataSetID.in_(codes))
+            q = q.filter(DataSets.DataSetID.in_(ids))
         if codes:
             q = q.filter(DataSets.DataSetCode.in_(codes))
         if uuids:
