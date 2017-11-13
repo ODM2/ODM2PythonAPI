@@ -776,6 +776,30 @@ class ReadODM2(serviceBase):
         return None
 
     def getDataSetsValues(self, ids=None, codes=None, uuids=None, dstype=None):
+        """
+        Retrieve a list of datavalues associated with the given dataset info
+
+        **Must specify either DataSetID OR DataSetUUID OR DataSetCode)**
+        Args:
+            ids (list, optional): List of DataSetsIDs.
+            codes (list, optional): List of DataSet Codes.
+            uuids (list, optional): List of Dataset UUIDs string.
+            dstype (str, optional): Type of Dataset from
+                `controlled vocabulary name <http://vocabulary.odm2.org/datasettype/>`_.
+
+
+        Returns:
+            list: List of Result Values Objects
+
+        Examples:
+            >>> READ = ReadODM2(SESSION_FACTORY)
+            >>> READ.getDataSetsValues(ids=[39, 40])
+            >>> READ.getDataSetsValues(codes=['HOME', 'FIELD'])
+            >>> READ.getDataSetsValues(uuids=['a6f114f1-5416-4606-ae10-23be32dbc202',
+            ...                                 '5396fdf3-ceb3-46b6-aaf9-454a37278bb4'])
+            >>> READ.getDataSetsValues(dstype='singleTimeSeries')
+
+        """
 
         dsr = self.getDataSetsResults(ids, codes, uuids, dstype)
 
