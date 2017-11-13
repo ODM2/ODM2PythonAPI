@@ -29,14 +29,6 @@ session_factory = dbconnection.createConnection('postgresql', 'localhost', 'odm2
 
 
 #_session = session_factory.getSession()
-read = ReadODM2(session_factory)		
-create = CreateODM2(session_factory)
-
-
-
-
-
-#_session = session_factory.getSession()
 read = ReadODM2(session_factory)
 create = CreateODM2(session_factory)
 
