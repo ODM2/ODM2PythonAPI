@@ -2,11 +2,9 @@ from __future__ import (absolute_import, division, print_function)
 
 from odm2api.base import modelBase
 
-from sqlalchemy import BigInteger, Boolean, Column, Date, DateTime, Float, ForeignKey, Integer, String, case, types, Table, event
+from sqlalchemy import BigInteger, Boolean, Column, Date, DateTime, Float, ForeignKey, Integer, String, case
 from sqlalchemy.dialects import mysql, postgresql, sqlite
 from sqlalchemy.orm import relationship
-from datetime import datetime, timedelta
-
 Base = modelBase.Base
 
 BigIntegerType = BigInteger()
