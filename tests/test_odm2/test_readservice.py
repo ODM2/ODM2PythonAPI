@@ -137,7 +137,6 @@ class TestReadService:
 
         # get the result using the api
         resapi = self.reader.getResults(sfids=[sfid])
-
         assert resapi is not None
         assert len(resapi) > 0
         assert resapi[0].ResultID == res[0]

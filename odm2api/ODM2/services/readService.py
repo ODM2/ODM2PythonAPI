@@ -671,7 +671,7 @@ class ReadODM2(serviceBase):
             query = query.join(FeatureActions).filter_by(ActionID=actionid)
         if sfid:
             import warnings
-            warnings.warn('the parameter sfid, will no longer be supported. please use the sfids parameter and send in a list. ')
+            warnings.warn("The parameter 'sfid' is no longer be supported. Please use the sfids parameter and send in a list.")
             query = query.join(FeatureActions).filter_by(SamplingFeatureID=sfid)
         if sfids or sfcodes or sfuuids:
             sf_list = self.getSamplingFeatures(ids=sfids, codes=sfcodes, uuids=sfuuids)
@@ -695,7 +695,7 @@ class ReadODM2(serviceBase):
             # sfids = []
             # for sf in sf_list:
             #     sfids.append(sf.SamplingFeatureID)
-            
+
             query = query.join(FeatureActions).filter(FeatureActions.SamplingFeatureID.in_(sfids))
 
         try:
