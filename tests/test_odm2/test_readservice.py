@@ -76,7 +76,7 @@ class TestReadService:
         self.db = globals_vars['db']
 
 
-# Sampling Features
+    # Sampling Features
     def test_getAllSamplingFeatures(self):
         # get all models from the database
         res = self.engine.execute('SELECT * FROM SamplingFeatures').fetchall()
@@ -92,17 +92,57 @@ class TestReadService:
         resapi = self.reader.getSamplingFeatures(ids=[sfid])
         assert resapi is not None
 
-# Models
-    """
-        TABLE Models
-        ModelID INTEGER   NOT NULL PRIMARY KEY,
-        ModelCode VARCHAR (50)  NOT NULL,
-        ModelName VARCHAR (255)  NOT NULL,
-        ModelDescription VARCHAR (500)  NULL,
-        Version VARCHAR (255)  NULL,
-        ModelLink VARCHAR (255)  NULL
-    """
+    def test_getSamplingFeatureByCode(self):
+        # get all models from the database
+        res = self.engine.execute('SELECT * FROM SamplingFeatures').fetchone()
+        code = res[2]
+        # get all simulations using the api
+        resapi = self.reader.getSamplingFeatures(codes=[code])
+        assert resapi is not None
 
+    # Results
+    def test_getAllResults(self):
+        # get all results from the database
+        res = self.engine.execute('SELECT * FROM Results').fetchall()
+        print(res)
+        # get all results using the api
+        resapi = self.reader.getResults()
+        assert len(res) == len(resapi)
+
+    def test_getResultsByID(self):
+        # get a result from the database
+        res = self.engine.execute('SELECT * FROM Results').fetchone()
+        resultid = res[1]
+
+        # get the result using the api
+        resapi = self.reader.getResults(ids=[resultid])
+        assert resapi is not None
+
+    def test_getResultsBySFID(self):
+        sf = self.engine.execute(
+                        'SELECT * from SamplingFeatures as sf '
+                        'inner join FeatureActions as fa on fa.SamplingFeatureID == sf.SamplingFeatureID '
+                        'inner join Results as r on fa.FeatureActionID == r.FeatureActionID  '
+            ).fetchone()
+        assert len(sf) > 0
+        sfid = sf[0]
+
+        res = self.engine.execute(
+                        'SELECT * from Results as r '
+                        'inner join FeatureActions as fa on fa.FeatureActionID == r.FeatureActionID '
+                        'where fa.SamplingFeatureID = ' + str(sfid)
+            ).fetchone()
+
+        assert len(res) > 0
+
+        # get the result using the api
+        resapi = self.reader.getResults(sfids=[sfid])
+
+        assert resapi is not None
+        assert len(resapi) > 0
+        assert resapi[0].ResultID == res[0]
+
+    # Models
     def test_getAllModels(self):
         # get all models from the database
         res = self.engine.execute('SELECT * FROM Models').fetchall()
@@ -119,19 +159,7 @@ class TestReadService:
         assert resapi is not None
 
 
-# RelatedModels
-    """
-        TABLE RelatedModels (
-        RelatedID INTEGER   NOT NULL PRIMARY KEY,
-        ModelID INTEGER   NOT NULL,
-        RelationshipTypeCV VARCHAR (255)  NOT NULL,
-        RelatedModelID INTEGER   NOT NULL,
-        FOREIGN KEY (RelationshipTypeCV) REFERENCES CV_RelationshipType (Name)
-        ON UPDATE NO ACTION ON DELETE NO ACTION,
-        FOREIGN KEY (ModelID) REFERENCES Models (ModelID)
-        ON UPDATE NO ACTION ON DELETE NO ACTION
-    """
-
+    # RelatedModels
     def test_getRelatedModelsByID(self):
         # get related models by id using the api
         resapi = self.reader.getRelatedModels(id=1)
@@ -156,59 +184,7 @@ class TestReadService:
         assert not resapi
 
 
-# Results
-    """
-        TABLE Results (
-        ResultID INTEGER   NOT NULL PRIMARY KEY,
-        ResultUUID VARCHAR(36)   NOT NULL,
-        FeatureActionID INTEGER   NOT NULL,
-        ResultTypeCV VARCHAR (255)  NOT NULL,
-        VariableID INTEGER   NOT NULL,
-        UnitsID INTEGER   NOT NULL,
-        TaxonomicClassifierID INTEGER   NULL,
-        ProcessingLevelID INTEGER   NOT NULL,
-        ResultDateTime DATETIME   NULL,
-        ResultDateTimeUTCOffset INTEGER   NULL,
-        ValidDateTime DATETIME   NULL,
-        ValidDateTimeUTCOffset INTEGER   NULL,
-        StatusCV VARCHAR (255)  NULL,
-        SampledMediumCV VARCHAR (255)  NOT NULL,
-        ValueCount INTEGER   NOT NULL
-    """
-    def test_getAllResults(self):
-        # get all results from the database
-        res = self.engine.execute('SELECT * FROM Results').fetchall()
-        print(res)
-        # get all results using the api
-        resapi = self.reader.getResults()
-        assert len(res) == len(resapi)
-
-    def test_getResultsByID(self):
-        # get a result from the database
-        res = self.engine.execute('SELECT * FROM Results').fetchone()
-        resultid = res[1]
-
-        # get the result using the api
-        resapi = self.reader.getResults(ids=[resultid])
-        assert resapi is not None
-
-# Simulations
-    """
-        TABLE Simulations (
-        SimulationID INTEGER   NOT NULL PRIMARY KEY,
-        ActionID INTEGER   NOT NULL,
-        SimulationName VARCHAR (255)  NOT NULL,
-        SimulationDescription VARCHAR (500)  NULL,
-        SimulationStartDateTime DATETIME   NOT NULL,
-        SimulationStartDateTimeUTCOffset INTEGER   NOT NULL,
-        SimulationEndDateTime DATETIME   NOT NULL,
-        SimulationEndDateTimeUTCOffset INTEGER   NOT NULL,
-        TimeStepValue FLOAT   NOT NULL,
-        TimeStepUnitsID INTEGER   NOT NULL,
-        InputDataSetID INTEGER   NULL,
-        ModelID INTEGER   NOT NULL,
-    """
-
+    # Simulations
     def test_getAllSimulations(self):
         # get all simulation from the database
         res = self.engine.execute('SELECT * FROM Simulations').fetchall()
