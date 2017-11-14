@@ -614,7 +614,7 @@ class ReadODM2(serviceBase):
             return None
 
     # Results
-    def getResults(self, ids=None, type=None, uuids=None, actionid=None, simulationid=None, sfid=None,
+    def getResults(self, ids=None, type=None, restype = None, uuids=None, actionid=None, simulationid=None, sfid=None,
                    variableid=None, siteid=None, sfids=None, sfuuids=None, sfcodes=None):
 
         # TODO what if user sends in both type and actionid vs just actionid
@@ -625,7 +625,7 @@ class ReadODM2(serviceBase):
 
         Args:
             ids (list, optional): List of ResultIDs.
-            type (str, optional): Type of Result from
+            restype (str, optional): Type of Result from
                 `controlled vocabulary name <http://vocabulary.odm2.org/resulttype/>`_.
             uuids (list, optional): List of UUIDs string.
             actionid (int, optional): ActionID.
@@ -642,7 +642,7 @@ class ReadODM2(serviceBase):
 
         Examples:
             >>> ReadODM2.getResults(ids=[39,40])
-            >>> ReadODM2.getResults(type='Time series coverage')
+            >>> ReadODM2.getResults(restype='Time series coverage')
             >>> ReadODM2.getResults(sfids=[65])
             >>> ReadODM2.getResults(uuids=['a6f114f1-5416-4606-ae10-23be32dbc202',
             ...                            '5396fdf3-ceb3-46b6-aaf9-454a37278bb4'])
@@ -655,7 +655,12 @@ class ReadODM2(serviceBase):
         query = self._session.query(Results)
 
         if type:
+            import warnings
+            warnings.warn(
+                "The parameter 'type' is no longer be supported. Please use the restype parameter instead.")
             query = query.filter_by(ResultTypeCV=type)
+        if restype:
+            query = query.filter_by(ResultTypeCV=restype)
         if variableid:
             query = query.filter_by(VariableID=variableid)
         if ids:
