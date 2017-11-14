@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Developer Interface &#8212; ODM2PythonAPI 0.6.0-alpha+108.g5ec7eb6 documentation</title>
+    <title>Developer Interface &#8212; ODM2PythonAPI 0.6.0-alpha+109.gbe1a758 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.6.0-alpha+108.g5ec7eb6',
+        VERSION:     '0.6.0-alpha+109.gbe1a758',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -801,7 +801,7 @@ of type that is specific to the result type with values between the input date r
 
 <dl class="method">
 <dt id="odm2api.ODM2.services.readService.ReadODM2.getResults">
-<code class="descname">getResults</code><span class="sig-paren">(</span><em>ids=None</em>, <em>type=None</em>, <em>uuids=None</em>, <em>actionid=None</em>, <em>simulationid=None</em>, <em>sfid=None</em>, <em>variableid=None</em>, <em>siteid=None</em>, <em>sfids=None</em>, <em>sfuuids=None</em>, <em>sfcodes=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getResults" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getResults</code><span class="sig-paren">(</span><em>ids=None</em>, <em>type=None</em>, <em>restype=None</em>, <em>uuids=None</em>, <em>actionid=None</em>, <em>simulationid=None</em>, <em>sfid=None</em>, <em>variableid=None</em>, <em>siteid=None</em>, <em>sfids=None</em>, <em>sfuuids=None</em>, <em>sfcodes=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getResults" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve a list of Result objects.</p>
 <p>If no arguments are passed to the function, or their values are None,
 all Result objects in the database will be returned.</p>
@@ -811,7 +811,7 @@ all Result objects in the database will be returned.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>ids</strong> (<em>list</em><em>, </em><em>optional</em>) – List of ResultIDs.</li>
-<li><strong>type</strong> (<em>str</em><em>, </em><em>optional</em>) – Type of Result from
+<li><strong>restype</strong> (<em>str</em><em>, </em><em>optional</em>) – Type of Result from
 <a class="reference external" href="http://vocabulary.odm2.org/resulttype/">controlled vocabulary name</a>.</li>
 <li><strong>uuids</strong> (<em>list</em><em>, </em><em>optional</em>) – List of UUIDs string.</li>
 <li><strong>actionid</strong> (<em>int</em><em>, </em><em>optional</em>) – ActionID.</li>
@@ -835,7 +835,7 @@ all Result objects in the database will be returned.</p>
 </table>
 <p class="rubric">Examples</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ReadODM2</span><span class="o">.</span><span class="n">getResults</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="mi">39</span><span class="p">,</span><span class="mi">40</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ReadODM2</span><span class="o">.</span><span class="n">getResults</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;Time series coverage&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ReadODM2</span><span class="o">.</span><span class="n">getResults</span><span class="p">(</span><span class="n">restype</span><span class="o">=</span><span class="s1">&#39;Time series coverage&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ReadODM2</span><span class="o">.</span><span class="n">getResults</span><span class="p">(</span><span class="n">sfids</span><span class="o">=</span><span class="p">[</span><span class="mi">65</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ReadODM2</span><span class="o">.</span><span class="n">getResults</span><span class="p">(</span><span class="n">uuids</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a6f114f1-5416-4606-ae10-23be32dbc202&#39;</span><span class="p">,</span>
 <span class="gp">... </span>                           <span class="s1">&#39;5396fdf3-ceb3-46b6-aaf9-454a37278bb4&#39;</span><span class="p">])</span>

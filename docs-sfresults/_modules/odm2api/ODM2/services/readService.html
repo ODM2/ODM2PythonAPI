@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+108.g5ec7eb6 documentation</title>
+    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+109.gbe1a758 documentation</title>
     <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.6.0-alpha+108.g5ec7eb6',
+        VERSION:     '0.6.0-alpha+109.gbe1a758',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -723,7 +723,7 @@
             <span class="k">return</span> <span class="kc">None</span></div>
 
     <span class="c1"># Results</span>
-<div class="viewcode-block" id="ReadODM2.getResults"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getResults">[docs]</a>    <span class="k">def</span> <span class="nf">getResults</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">actionid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">simulationid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sfid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="ReadODM2.getResults"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getResults">[docs]</a>    <span class="k">def</span> <span class="nf">getResults</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">actionid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">simulationid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sfid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="n">variableid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">siteid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sfids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sfuuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sfcodes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="c1"># TODO what if user sends in both type and actionid vs just actionid</span>
@@ -734,7 +734,7 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            ids (list, optional): List of ResultIDs.</span>
-<span class="sd">            type (str, optional): Type of Result from</span>
+<span class="sd">            restype (str, optional): Type of Result from</span>
 <span class="sd">                `controlled vocabulary name &lt;http://vocabulary.odm2.org/resulttype/&gt;`_.</span>
 <span class="sd">            uuids (list, optional): List of UUIDs string.</span>
 <span class="sd">            actionid (int, optional): ActionID.</span>
@@ -751,7 +751,7 @@
 
 <span class="sd">        Examples:</span>
 <span class="sd">            &gt;&gt;&gt; ReadODM2.getResults(ids=[39,40])</span>
-<span class="sd">            &gt;&gt;&gt; ReadODM2.getResults(type=&#39;Time series coverage&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; ReadODM2.getResults(restype=&#39;Time series coverage&#39;)</span>
 <span class="sd">            &gt;&gt;&gt; ReadODM2.getResults(sfids=[65])</span>
 <span class="sd">            &gt;&gt;&gt; ReadODM2.getResults(uuids=[&#39;a6f114f1-5416-4606-ae10-23be32dbc202&#39;,</span>
 <span class="sd">            ...                            &#39;5396fdf3-ceb3-46b6-aaf9-454a37278bb4&#39;])</span>
@@ -764,7 +764,12 @@
         <span class="n">query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Results</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">type</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">warnings</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;The parameter &#39;type&#39; is no longer be supported. Please use the restype parameter instead.&quot;</span><span class="p">)</span>
             <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">ResultTypeCV</span><span class="o">=</span><span class="nb">type</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">restype</span><span class="p">:</span>
+            <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">ResultTypeCV</span><span class="o">=</span><span class="n">restype</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">variableid</span><span class="p">:</span>
             <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">VariableID</span><span class="o">=</span><span class="n">variableid</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">ids</span><span class="p">:</span>
