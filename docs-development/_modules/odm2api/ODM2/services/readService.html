@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+104.g4f11a28 documentation</title>
+    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+118.gab50ca8 documentation</title>
     <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.6.0-alpha+104.g4f11a28',
+        VERSION:     '0.6.0-alpha+118.gab50ca8',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -741,7 +741,8 @@
 <span class="sd">            simulationid (int, optional): SimulationID.</span>
 <span class="sd">            sfid (int, optional): SamplingFeatureID.</span>
 <span class="sd">            variableid (int, optional): VariableID.</span>
-<span class="sd">            siteid (int, optional): SiteID.</span>
+<span class="sd">            siteid (int, optional): SiteID. - goes through related features table and finds all of results</span>
+<span class="sd">                    recorded at the given site</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            list: List of Result objects</span>
@@ -795,22 +796,132 @@
             <span class="k">return</span> <span class="kc">None</span></div>
 
     <span class="c1"># Datasets</span>
-<div class="viewcode-block" id="ReadODM2.getDataSets"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getDataSets">[docs]</a>    <span class="k">def</span> <span class="nf">getDataSets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getDataSets"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getDataSets">[docs]</a>    <span class="k">def</span> <span class="nf">getDataSets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dstype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        * Pass nothing - returns a list of all DataSet objects</span>
-<span class="sd">        * Pass a list of DataSetCode - returns a single DataSet object for each code</span>
-<span class="sd">        * Pass a list of UUIDS - returns a single DataSet object for each UUID</span>
+<span class="sd">        Retrieve a list of Datasets</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ids (list, optional): List of DataSetsIDs.</span>
+<span class="sd">            codes (list, optional): List of DataSet Codes.</span>
+<span class="sd">            uuids (list, optional): List of Dataset UUIDs string.</span>
+<span class="sd">            dstype (str, optional): Type of Dataset from</span>
+<span class="sd">                `controlled vocabulary name &lt;http://vocabulary.odm2.org/datasettype/&gt;`_.</span>
+
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: List of DataSets Objects</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; READ = ReadODM2(SESSION_FACTORY)</span>
+<span class="sd">            &gt;&gt;&gt; READ.getDataSets(ids=[39, 40])</span>
+<span class="sd">            &gt;&gt;&gt; READ.getDataSets(codes=[&#39;HOME&#39;, &#39;FIELD&#39;])</span>
+<span class="sd">            &gt;&gt;&gt; READ.getDataSets(uuids=[&#39;a6f114f1-5416-4606-ae10-23be32dbc202&#39;,</span>
+<span class="sd">            ...                                 &#39;5396fdf3-ceb3-46b6-aaf9-454a37278bb4&#39;])</span>
+<span class="sd">            &gt;&gt;&gt; READ.getDataSets(dstype=&#39;singleTimeSeries&#39;)</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DataSets</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ids</span><span class="p">:</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">DataSets</span><span class="o">.</span><span class="n">DataSetID</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">ids</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">codes</span><span class="p">:</span>
             <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">DataSets</span><span class="o">.</span><span class="n">DataSetCode</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">codes</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">uuids</span><span class="p">:</span>
             <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">DataSets</span><span class="o">.</span><span class="n">DataSetUUID</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">uuids</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">dstype</span><span class="p">:</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">DataSets</span><span class="o">.</span><span class="n">DataSetTypeCV</span> <span class="o">==</span> <span class="n">dstype</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">q</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error running Query </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
             <span class="k">return</span> <span class="kc">None</span></div>
+
+            <span class="c1"># Datasets</span>
+
+<div class="viewcode-block" id="ReadODM2.getDataSetsResults"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getDataSetsResults">[docs]</a>    <span class="k">def</span> <span class="nf">getDataSetsResults</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dstype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve a detailed list of Datasets along with detailed metadata about the datasets</span>
+<span class="sd">                and the results contained within them</span>
+
+<span class="sd">        **Must specify either DataSetID OR DataSetUUID OR DataSetCode)**</span>
+<span class="sd">        Args:</span>
+<span class="sd">            ids (list, optional): List of DataSetsIDs.</span>
+<span class="sd">            codes (list, optional): List of DataSet Codes.</span>
+<span class="sd">            uuids (list, optional): List of Dataset UUIDs string.</span>
+<span class="sd">            dstype (str, optional): Type of Dataset from</span>
+<span class="sd">                `controlled vocabulary name &lt;http://vocabulary.odm2.org/datasettype/&gt;`_.</span>
+
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: List of DataSetsResults Objects</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; READ = ReadODM2(SESSION_FACTORY)</span>
+<span class="sd">            &gt;&gt;&gt; READ.getDataSetsResults(ids=[39, 40])</span>
+<span class="sd">            &gt;&gt;&gt; READ.getDataSetsResults(codes=[&#39;HOME&#39;, &#39;FIELD&#39;])</span>
+<span class="sd">            &gt;&gt;&gt; READ.getDataSetsResults(uuids=[&#39;a6f114f1-5416-4606-ae10-23be32dbc202&#39;,</span>
+<span class="sd">            ...                                 &#39;5396fdf3-ceb3-46b6-aaf9-454a37278bb4&#39;])</span>
+<span class="sd">            &gt;&gt;&gt; READ.getDataSetsResults(dstype=&#39;singleTimeSeries&#39;)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># make sure one of the three arguments has been sent in</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">v</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ids</span><span class="p">,</span> <span class="n">codes</span><span class="p">,</span> <span class="n">uuids</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Expected DataSetID OR DataSetUUID OR DataSetCode argument&#39;</span><span class="p">)</span>
+
+        <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DataSetsResults</span><span class="p">)</span>\
+            <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DataSets</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ids</span><span class="p">:</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">DataSets</span><span class="o">.</span><span class="n">DataSetID</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">ids</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">codes</span><span class="p">:</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">DataSets</span><span class="o">.</span><span class="n">DataSetCode</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">codes</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">uuids</span><span class="p">:</span>
+            <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">DataSets</span><span class="o">.</span><span class="n">DataSetUUID</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">uuids</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">dstype</span><span class="p">:</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">DataSets</span><span class="o">.</span><span class="n">DataSetTypeCV</span> <span class="o">==</span> <span class="n">dstype</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">q</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error running Query </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="ReadODM2.getDataSetsValues"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getDataSetsValues">[docs]</a>    <span class="k">def</span> <span class="nf">getDataSetsValues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dstype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve a list of datavalues associated with the given dataset info</span>
+
+<span class="sd">        **Must specify either DataSetID OR DataSetUUID OR DataSetCode)**</span>
+<span class="sd">        Args:</span>
+<span class="sd">            ids (list, optional): List of DataSetsIDs.</span>
+<span class="sd">            codes (list, optional): List of DataSet Codes.</span>
+<span class="sd">            uuids (list, optional): List of Dataset UUIDs string.</span>
+<span class="sd">            dstype (str, optional): Type of Dataset from</span>
+<span class="sd">                `controlled vocabulary name &lt;http://vocabulary.odm2.org/datasettype/&gt;`_.</span>
+
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: List of Result Values Objects</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; READ = ReadODM2(SESSION_FACTORY)</span>
+<span class="sd">            &gt;&gt;&gt; READ.getDataSetsValues(ids=[39, 40])</span>
+<span class="sd">            &gt;&gt;&gt; READ.getDataSetsValues(codes=[&#39;HOME&#39;, &#39;FIELD&#39;])</span>
+<span class="sd">            &gt;&gt;&gt; READ.getDataSetsValues(uuids=[&#39;a6f114f1-5416-4606-ae10-23be32dbc202&#39;,</span>
+<span class="sd">            ...                                 &#39;5396fdf3-ceb3-46b6-aaf9-454a37278bb4&#39;])</span>
+<span class="sd">            &gt;&gt;&gt; READ.getDataSetsValues(dstype=&#39;singleTimeSeries&#39;)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">dsr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDataSetsResults</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="n">codes</span><span class="p">,</span> <span class="n">uuids</span><span class="p">,</span> <span class="n">dstype</span><span class="p">)</span>
+
+        <span class="n">resids</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">dsr</span><span class="p">:</span>
+            <span class="n">resids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">ResultID</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getResultValues</span><span class="p">(</span><span class="n">resultids</span> <span class="o">=</span> <span class="n">resids</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error running Query </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
 
 <div class="viewcode-block" id="ReadODM2.getSamplingFeatureDatasets"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getSamplingFeatureDatasets">[docs]</a>    <span class="k">def</span> <span class="nf">getSamplingFeatureDatasets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dstype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -844,7 +955,7 @@
         <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">v</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ids</span><span class="p">,</span> <span class="n">codes</span><span class="p">,</span> <span class="n">uuids</span><span class="p">]):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Expected samplingFeatureID OR samplingFeatureUUID OR samplingFeatureCode argument&#39;</span><span class="p">)</span>
 
-        <span class="n">sf_query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">SamplingFeatures</span><span class="o">.</span><span class="n">SamplingFeatureID</span><span class="p">)</span>
+        <span class="n">sf_query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">SamplingFeatures</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">ids</span><span class="p">:</span>
             <span class="n">sf_query</span> <span class="o">=</span> <span class="n">sf_query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">SamplingFeatures</span><span class="o">.</span><span class="n">SamplingFeatureID</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">ids</span><span class="p">))</span>
@@ -852,8 +963,9 @@
             <span class="n">sf_query</span> <span class="o">=</span> <span class="n">sf_query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">SamplingFeatures</span><span class="o">.</span><span class="n">SamplingFeatureCode</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">codes</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">uuids</span><span class="p">:</span>
             <span class="n">sf_query</span> <span class="o">=</span> <span class="n">sf_query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">SamplingFeatures</span><span class="o">.</span><span class="n">SamplingFeatureUUID</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">uuids</span><span class="p">))</span>
-        <span class="n">sf_list</span> <span class="o">=</span> <span class="n">sf_query</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
-
+        <span class="n">sf_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">sf</span> <span class="ow">in</span> <span class="n">sf_query</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+            <span class="n">sf_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">SamplingFeatureID</span><span class="p">)</span>
 
         <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DataSetsResults</span><span class="p">)</span>\
             <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Results</span><span class="p">)</span>\
@@ -1171,7 +1283,7 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Results</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">ResultID</span><span class="o">=</span><span class="n">resultids</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">first</span><span class="p">()</span><span class="o">.</span><span class="n">ResultTypeCV</span>
-        <span class="n">ResultType</span> <span class="o">=</span> <span class="n">TimeSeriesResults</span>
+        <span class="n">ResultType</span> <span class="o">=</span> <span class="n">TimeSeriesResultValues</span>
         <span class="k">if</span> <span class="s1">&#39;categorical&#39;</span> <span class="ow">in</span> <span class="nb">type</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
             <span class="n">ResultType</span> <span class="o">=</span> <span class="n">CategoricalResultValues</span>
         <span class="k">elif</span> <span class="s1">&#39;measurement&#39;</span> <span class="ow">in</span> <span class="nb">type</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>

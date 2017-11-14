@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Developer Interface &#8212; ODM2PythonAPI 0.6.0-alpha+104.g4f11a28 documentation</title>
+    <title>Developer Interface &#8212; ODM2PythonAPI 0.6.0-alpha+118.gab50ca8 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.6.0-alpha+104.g4f11a28',
+        VERSION:     '0.6.0-alpha+118.gab50ca8',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -551,12 +551,111 @@ all Affiliation objects in the database will be returned.</p>
 
 <dl class="method">
 <dt id="odm2api.ODM2.services.readService.ReadODM2.getDataSets">
-<code class="descname">getDataSets</code><span class="sig-paren">(</span><em>codes=None</em>, <em>uuids=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getDataSets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getDataSets" title="Permalink to this definition">¶</a></dt>
-<dd><ul class="simple">
-<li>Pass nothing - returns a list of all DataSet objects</li>
-<li>Pass a list of DataSetCode - returns a single DataSet object for each code</li>
-<li>Pass a list of UUIDS - returns a single DataSet object for each UUID</li>
+<code class="descname">getDataSets</code><span class="sig-paren">(</span><em>ids=None</em>, <em>codes=None</em>, <em>uuids=None</em>, <em>dstype=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getDataSets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getDataSets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve a list of Datasets</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ids</strong> (<em>list</em><em>, </em><em>optional</em>) – List of DataSetsIDs.</li>
+<li><strong>codes</strong> (<em>list</em><em>, </em><em>optional</em>) – List of DataSet Codes.</li>
+<li><strong>uuids</strong> (<em>list</em><em>, </em><em>optional</em>) – List of Dataset UUIDs string.</li>
+<li><strong>dstype</strong> (<em>str</em><em>, </em><em>optional</em>) – Type of Dataset from
+<a class="reference external" href="http://vocabulary.odm2.org/datasettype/">controlled vocabulary name</a>.</li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">List of DataSets Objects</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span> <span class="o">=</span> <span class="n">ReadODM2</span><span class="p">(</span><span class="n">SESSION_FACTORY</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getDataSets</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="mi">39</span><span class="p">,</span> <span class="mi">40</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getDataSets</span><span class="p">(</span><span class="n">codes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;HOME&#39;</span><span class="p">,</span> <span class="s1">&#39;FIELD&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getDataSets</span><span class="p">(</span><span class="n">uuids</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a6f114f1-5416-4606-ae10-23be32dbc202&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                <span class="s1">&#39;5396fdf3-ceb3-46b6-aaf9-454a37278bb4&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getDataSets</span><span class="p">(</span><span class="n">dstype</span><span class="o">=</span><span class="s1">&#39;singleTimeSeries&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="odm2api.ODM2.services.readService.ReadODM2.getDataSetsResults">
+<code class="descname">getDataSetsResults</code><span class="sig-paren">(</span><em>ids=None</em>, <em>codes=None</em>, <em>uuids=None</em>, <em>dstype=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getDataSetsResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getDataSetsResults" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Retrieve a detailed list of Datasets along with detailed metadata about the datasets</dt>
+<dd>and the results contained within them</dd>
+</dl>
+<p><strong>Must specify either DataSetID OR DataSetUUID OR DataSetCode)</strong>
+:param ids: List of DataSetsIDs.
+:type ids: list, optional
+:param codes: List of DataSet Codes.
+:type codes: list, optional
+:param uuids: List of Dataset UUIDs string.
+:type uuids: list, optional
+:param dstype: Type of Dataset from</p>
+<blockquote>
+<div><a class="reference external" href="http://vocabulary.odm2.org/datasettype/">controlled vocabulary name</a>.</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">List of DataSetsResults Objects</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span> <span class="o">=</span> <span class="n">ReadODM2</span><span class="p">(</span><span class="n">SESSION_FACTORY</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getDataSetsResults</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="mi">39</span><span class="p">,</span> <span class="mi">40</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getDataSetsResults</span><span class="p">(</span><span class="n">codes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;HOME&#39;</span><span class="p">,</span> <span class="s1">&#39;FIELD&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getDataSetsResults</span><span class="p">(</span><span class="n">uuids</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a6f114f1-5416-4606-ae10-23be32dbc202&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                <span class="s1">&#39;5396fdf3-ceb3-46b6-aaf9-454a37278bb4&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getDataSetsResults</span><span class="p">(</span><span class="n">dstype</span><span class="o">=</span><span class="s1">&#39;singleTimeSeries&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="odm2api.ODM2.services.readService.ReadODM2.getDataSetsValues">
+<code class="descname">getDataSetsValues</code><span class="sig-paren">(</span><em>ids=None</em>, <em>codes=None</em>, <em>uuids=None</em>, <em>dstype=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getDataSetsValues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getDataSetsValues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve a list of datavalues associated with the given dataset info</p>
+<p><strong>Must specify either DataSetID OR DataSetUUID OR DataSetCode)</strong>
+:param ids: List of DataSetsIDs.
+:type ids: list, optional
+:param codes: List of DataSet Codes.
+:type codes: list, optional
+:param uuids: List of Dataset UUIDs string.
+:type uuids: list, optional
+:param dstype: Type of Dataset from</p>
+<blockquote>
+<div><a class="reference external" href="http://vocabulary.odm2.org/datasettype/">controlled vocabulary name</a>.</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">List of Result Values Objects</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span> <span class="o">=</span> <span class="n">ReadODM2</span><span class="p">(</span><span class="n">SESSION_FACTORY</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getDataSetsValues</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="mi">39</span><span class="p">,</span> <span class="mi">40</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getDataSetsValues</span><span class="p">(</span><span class="n">codes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;HOME&#39;</span><span class="p">,</span> <span class="s1">&#39;FIELD&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getDataSetsValues</span><span class="p">(</span><span class="n">uuids</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a6f114f1-5416-4606-ae10-23be32dbc202&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                <span class="s1">&#39;5396fdf3-ceb3-46b6-aaf9-454a37278bb4&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getDataSetsValues</span><span class="p">(</span><span class="n">dstype</span><span class="o">=</span><span class="s1">&#39;singleTimeSeries&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="method">
@@ -811,14 +910,16 @@ all Result objects in the database will be returned.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>ids</strong> (<em>list</em><em>, </em><em>optional</em>) – List of ResultIDs.</li>
-<li><strong>type</strong> (<em>str</em><em>, </em><em>optional</em>) – Type of Result from
-<a class="reference external" href="http://vocabulary.odm2.org/resulttype/">controlled vocabulary name</a>.</li>
+<li><strong>type</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>Type of Result from
+<a class="reference external" href="http://vocabulary.odm2.org/resulttype/">controlled vocabulary name</a>.</p>
+</li>
 <li><strong>uuids</strong> (<em>list</em><em>, </em><em>optional</em>) – List of UUIDs string.</li>
 <li><strong>actionid</strong> (<em>int</em><em>, </em><em>optional</em>) – ActionID.</li>
 <li><strong>simulationid</strong> (<em>int</em><em>, </em><em>optional</em>) – SimulationID.</li>
 <li><strong>sfid</strong> (<em>int</em><em>, </em><em>optional</em>) – SamplingFeatureID.</li>
 <li><strong>variableid</strong> (<em>int</em><em>, </em><em>optional</em>) – VariableID.</li>
-<li><strong>siteid</strong> (<em>int</em><em>, </em><em>optional</em>) – SiteID.</li>
+<li><strong>siteid</strong> (<em>int</em><em>, </em><em>optional</em>) – SiteID. - goes through related features table and finds all of results
+recorded at the given site</li>
 </ul>
 </td>
 </tr>
