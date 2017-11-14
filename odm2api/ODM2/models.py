@@ -5,13 +5,15 @@ from odm2api.base import modelBase
 from sqlalchemy import BigInteger, Boolean, Column, Date, DateTime, Float, ForeignKey, Integer, String, case
 from sqlalchemy.dialects import mysql, postgresql, sqlite
 from sqlalchemy.orm import relationship
-
 Base = modelBase.Base
 
 BigIntegerType = BigInteger()
 BigIntegerType = BigIntegerType.with_variant(sqlite.INTEGER(), 'sqlite')
 BigIntegerType = BigIntegerType.with_variant(postgresql.BIGINT(), 'postgresql')
 BigIntegerType = BigIntegerType.with_variant(mysql.BIGINT(), 'mysql')
+
+DateTimeType = DateTime()
+DateTimeType = DateTimeType.with_variant(sqlite.INTEGER(), 'sqlite')
 
 
 def is_hex(s):
@@ -404,9 +406,9 @@ class Results(Base):
     ProcessingLevelID = Column('processinglevelid', ForeignKey(ProcessingLevels.ProcessingLevelID),
                                nullable=False)
     ResultDateTime = Column('resultdatetime', DateTime)
-    ResultDateTimeUTCOffset = Column('resultdatetimeutcoffset', BigInteger)
+    ResultDateTimeUTCOffset = Column('resultdatetimeutcoffset', BigIntegerType)
     ValidDateTime = Column('validdatetime', DateTime)
-    ValidDateTimeUTCOffset = Column('validdatetimeutcoffset', BigInteger)
+    ValidDateTimeUTCOffset = Column('validdatetimeutcoffset', BigIntegerType)
     StatusCV = Column('statuscv', ForeignKey(CVStatus.Name), index=True)
     SampledMediumCV = Column('sampledmediumcv', ForeignKey(CVMediumType.Name), nullable=False, index=True)
     ValueCount = Column('valuecount', Integer, nullable=False)
@@ -503,7 +505,7 @@ class InstrumentOutputVariables(Base):
 class DataLoggerFileColumns(Base):
 
     DataLoggerFileColumnID = Column('dataloggerfilecolumnid', Integer, primary_key=True, nullable=False)
-    ResultID = Column('resultid', BigInteger, ForeignKey(Results.ResultID))
+    ResultID = Column('resultid', BigIntegerType, ForeignKey(Results.ResultID))
     DataLoggerFileID = Column('dataloggerfileid', Integer,
                               ForeignKey(DataLoggerFiles.DataLoggerFileID), nullable=False)
     InstrumentOutputVariableID = Column('instrumentoutputvariableid', Integer,
@@ -861,7 +863,7 @@ class ActionAnnotations(Base):
 class EquipmentAnnotations(Base):
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    EquipmentID = Column('valueid', BigInteger, ForeignKey(Equipment.EquipmentID), nullable=False)
+    EquipmentID = Column('valueid', BigIntegerType, ForeignKey(Equipment.EquipmentID), nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
 
     AnnotationObj = relationship(Annotations)
@@ -1640,7 +1642,7 @@ class CategoricalResultValues(Base):
     ValueID = Column('valueid', BigIntegerType, primary_key=True)
     ResultID = Column('resultid', ForeignKey(CategoricalResults.ResultID), nullable=False)
     DataValue = Column('datavalue', String(255), nullable=False)
-    ValueDateTime = Column('valuedatetime', DateTime, nullable=False)
+    ValueDateTime = Column('valuedatetime', DateTimeType, nullable=False)
     ValueDateTimeUTCOffset = Column('valuedatetimeutcoffset', Integer, nullable=False)
 
     ResultObj = relationship(CategoricalResults)
@@ -1651,7 +1653,7 @@ class MeasurementResultValues(Base):
     ValueID = Column('valueid', BigIntegerType, primary_key=True)
     ResultID = Column('resultid', ForeignKey(MeasurementResults.ResultID), nullable=False)
     DataValue = Column('datavalue', Float(53), nullable=False)
-    ValueDateTime = Column('valuedatetime', DateTime, nullable=False)
+    ValueDateTime = Column('valuedatetime', DateTimeType, nullable=False)
     ValueDateTimeUTCOffset = Column('valuedatetimeutcoffset', Integer, nullable=False)
 
     ResultObj = relationship(MeasurementResults)
@@ -1661,8 +1663,8 @@ class PointCoverageResultValues(Base):
 
     ValueID = Column('valueid', BigIntegerType, primary_key=True)
     ResultID = Column('resultid', ForeignKey(PointCoverageResults.ResultID), nullable=False)
-    DataValue = Column('datavalue', BigInteger, nullable=False)
-    ValueDateTime = Column('valuedatetime', DateTime, nullable=False)
+    DataValue = Column('datavalue', BigIntegerType, nullable=False)
+    ValueDateTime = Column('valuedatetime', DateTimeType, nullable=False)
     ValueDateTimeUTCOffset = Column('valuedatetimeutcoffset', Integer, nullable=False)
     XLocation = Column('xlocation', Float(53), nullable=False)
     XLocationUnitsID = Column('xlocationunitsid', ForeignKey(Units.UnitsID), nullable=False)
@@ -1687,7 +1689,7 @@ class ProfileResultValues(Base):
     ValueID = Column('valueid', BigIntegerType, primary_key=True)
     ResultID = Column('resultid', ForeignKey(ProfileResults.ResultID), nullable=False)
     DataValue = Column('datavalue', Float(53), nullable=False)
-    ValueDateTime = Column('valuedatetime', DateTime, nullable=False)
+    ValueDateTime = Column('valuedatetime', DateTimeType, nullable=False)
     ValueDateTimeUTCOffset = Column('valuedatetimeutcoffset', Integer, nullable=False)
     ZLocation = Column('zlocation', Float(53), nullable=False)
     ZAggregationInterval = Column('zaggregationinterval', Float(53), nullable=False)
@@ -1714,12 +1716,12 @@ class SectionResultValues(Base):
     ValueID = Column('valueid', BigIntegerType, primary_key=True)
     ResultID = Column('resultid', ForeignKey(SectionResults.ResultID), nullable=False)
     DataValue = Column('datavalue', Float(53), nullable=False)
-    ValueDateTime = Column('valuedatetime', BigInteger, nullable=False)
-    ValueDateTimeUTCOffset = Column('valuedatetimeutcoffset', BigInteger, nullable=False)
+    ValueDateTime = Column('valuedatetime', DateTimeType, nullable=False)
+    ValueDateTimeUTCOffset = Column('valuedatetimeutcoffset', Integer, nullable=False)
     XLocation = Column('xlocation', Float(53), nullable=False)
     XAggregationInterval = Column('xaggregationinterval', Float(53), nullable=False)
     XLocationUnitsID = Column('xlocationunitsid', ForeignKey(Units.UnitsID), nullable=False)
-    ZLocation = Column('zlocation', BigInteger, nullable=False)
+    ZLocation = Column('zlocation', BigIntegerType, nullable=False)
     ZAggregationInterval = Column('zaggregationinterval', Float(53), nullable=False)
     ZLocationUnitsID = Column('zlocationunitsid', ForeignKey(Units.UnitsID), nullable=False)
     CensorCodeCV = Column('censorcodecv', ForeignKey(CVCensorCode.Name), nullable=False, index=True)
@@ -1750,7 +1752,7 @@ class SpectraResultValues(Base):
     ValueID = Column('valueid', BigIntegerType, primary_key=True)
     ResultID = Column('resultid', ForeignKey(SpectraResults.ResultID), nullable=False)
     DataValue = Column('datavalue', Float(53), nullable=False)
-    ValueDateTime = Column('valuedatetime', DateTime, nullable=False)
+    ValueDateTime = Column('valuedatetime', DateTimeType, nullable=False)
     ValueDateTimeUTCOffset = Column('valuedatetimeutcoffset', Integer, nullable=False)
     ExcitationWavelength = Column('excitationwavelength', Float(53), nullable=False)
     EmissionWavelength = Column('emmistionwavelength', Float(53), nullable=False)
@@ -1779,7 +1781,7 @@ class TimeSeriesResultValues(Base):
     ValueID = Column('valueid', BigIntegerType, primary_key=True)
     ResultID = Column('resultid', ForeignKey(TimeSeriesResults.ResultID), nullable=False)
     DataValue = Column('datavalue', Float(53), nullable=False)
-    ValueDateTime = Column('valuedatetime', DateTime, nullable=False)
+    ValueDateTime = Column('valuedatetime', DateTimeType, nullable=False)
     ValueDateTimeUTCOffset = Column('valuedatetimeutcoffset', Integer, nullable=False)
     CensorCodeCV = Column('censorcodecv', ForeignKey(CVCensorCode.Name), nullable=False, index=True)
     QualityCodeCV = Column('qualitycodecv', ForeignKey(CVQualityCode.Name), nullable=False, index=True)
@@ -1805,7 +1807,7 @@ class TrajectoryResultValues(Base):
     ValueID = Column('valueid', BigIntegerType, primary_key=True)
     ResultID = Column('resultid', ForeignKey(TrajectoryResults.ResultID), nullable=False)
     DataValue = Column('datavalue', Float(53), nullable=False)
-    ValueDateTime = Column('valuedatetime', DateTime, nullable=False)
+    ValueDateTime = Column('valuedatetime', DateTimeType, nullable=False)
     ValueDateTimeUTCOffset = Column('valuedatetimeutcoffset', Integer, nullable=False)
     XLocation = Column('xlocation', Float(53), nullable=False)
     XLocationUnitsID = Column('xlocationunitsid', ForeignKey(Units.UnitsID), nullable=False)
@@ -1850,8 +1852,8 @@ class TransectResultValues(Base):
     ValueID = Column('valueid', BigIntegerType, primary_key=True)
     ResultID = Column('resultid', ForeignKey(TransectResults.ResultID), nullable=False)
     DataValue = Column('datavalue', Float(53), nullable=False)
-    ValueDateTime = Column('valuedatetime', DateTime, nullable=False)
-    ValueDateTimeUTCOffset = Column('valuedatetimeutcoffset', DateTime, nullable=False)
+    ValueDateTime = Column('valuedatetime', DateTimeType, nullable=False)
+    ValueDateTimeUTCOffset = Column('valuedatetimeutcoffset', Integer, nullable=False)
     XLocation = Column('xlocation', Float(53), nullable=False)
     XLocationUnitsID = Column('xlocationunitsid', ForeignKey(Units.UnitsID), nullable=False)
     YLocation = Column('ylocation', Float(53), nullable=False)
@@ -1896,7 +1898,7 @@ class TransectResultValues(Base):
 class CategoricalResultValueAnnotations(Base):
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    ValueID = Column('valueid', BigInteger, ForeignKey(CategoricalResultValues.ValueID), nullable=False)
+    ValueID = Column('valueid', BigIntegerType, ForeignKey(CategoricalResultValues.ValueID), nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
 
     AnnotationObj = relationship(Annotations)
@@ -1906,7 +1908,7 @@ class CategoricalResultValueAnnotations(Base):
 class MeasurementResultValueAnnotations(Base):
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    ValueID = Column('valueid', BigInteger, ForeignKey(MeasurementResultValues.ValueID), nullable=False)
+    ValueID = Column('valueid', BigIntegerType, ForeignKey(MeasurementResultValues.ValueID), nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
 
     AnnotationObj = relationship(Annotations)
@@ -1916,7 +1918,7 @@ class MeasurementResultValueAnnotations(Base):
 class PointCoverageResultValueAnnotations(Base):
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    ValueID = Column('valueid', BigInteger, ForeignKey(PointCoverageResultValues.ValueID), nullable=False)
+    ValueID = Column('valueid', BigIntegerType, ForeignKey(PointCoverageResultValues.ValueID), nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
 
     AnnotationObj = relationship(Annotations)
@@ -1926,7 +1928,7 @@ class PointCoverageResultValueAnnotations(Base):
 class ProfileResultValueAnnotations(Base):
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    ValueID = Column('valueid', BigInteger, ForeignKey(ProfileResultValues.ValueID), nullable=False)
+    ValueID = Column('valueid', BigIntegerType, ForeignKey(ProfileResultValues.ValueID), nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
 
     AnnotationObj = relationship(Annotations)
@@ -1936,7 +1938,7 @@ class ProfileResultValueAnnotations(Base):
 class SectionResultValueAnnotations(Base):
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    ValueID = Column('valueid', BigInteger, ForeignKey(SectionResultValues.ValueID), nullable=False)
+    ValueID = Column('valueid', BigIntegerType, ForeignKey(SectionResultValues.ValueID), nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
 
     AnnotationObj = relationship(Annotations)
@@ -1946,7 +1948,7 @@ class SectionResultValueAnnotations(Base):
 class SpectraResultValueAnnotations(Base):
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    ValueID = Column('valueid', BigInteger, ForeignKey(SpectraResultValues.ValueID), nullable=False)
+    ValueID = Column('valueid', BigIntegerType, ForeignKey(SpectraResultValues.ValueID), nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
 
     AnnotationObj = relationship(Annotations)
@@ -1956,7 +1958,7 @@ class SpectraResultValueAnnotations(Base):
 class TimeSeriesResultValueAnnotations(Base):
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    ValueID = Column('valueid', BigInteger, ForeignKey(TimeSeriesResultValues.ValueID), nullable=False)
+    ValueID = Column('valueid', BigIntegerType, ForeignKey(TimeSeriesResultValues.ValueID), nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
 
     AnnotationObj = relationship(Annotations)
@@ -1966,7 +1968,7 @@ class TimeSeriesResultValueAnnotations(Base):
 class TrajectoryResultValueAnnotations(Base):
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    ValueID = Column('valueid', BigInteger, ForeignKey(TrajectoryResultValues.ValueID), nullable=False)
+    ValueID = Column('valueid', BigIntegerType, ForeignKey(TrajectoryResultValues.ValueID), nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
 
     AnnotationObj = relationship(Annotations)
@@ -1976,7 +1978,7 @@ class TrajectoryResultValueAnnotations(Base):
 class TransectResultValueAnnotations(Base):
 
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    ValueID = Column('valueid', BigInteger, ForeignKey(TransectResultValues.ValueID), nullable=False)
+    ValueID = Column('valueid', BigIntegerType, ForeignKey(TransectResultValues.ValueID), nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
 
     AnnotationObj = relationship(Annotations)

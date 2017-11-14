@@ -22,10 +22,8 @@ from odm2api.ODM2.services import CreateODM2
 # session_factory = dbconnection.createConnection('postgresql', 'localhost', 'odm2', 'ODM', 'odm')
 # session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')#mysql
 session_factory= dbconnection.createConnection('mssql', "(local)", "ODM2", "ODM", "odm")#win MSSQL
-
 # session_factory= dbconnection.createConnection('mssql', "arroyoodm2", "", "ODM", "odm")#mac/linux MSSQL
 # session_factory = dbconnection.createConnection('sqlite', 'path/to/ODM2.sqlite', 2.0)
-
 
 
 
@@ -33,9 +31,6 @@ session_factory= dbconnection.createConnection('mssql', "(local)", "ODM2", "ODM"
 #_session = session_factory.getSession()
 read = ReadODM2(session_factory)
 create = CreateODM2(session_factory)
-
-sitetest = read.getResults(sfid = 1)
-
 
 
 # Run some basic sample queries.
