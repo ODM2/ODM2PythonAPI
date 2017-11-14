@@ -22,10 +22,8 @@ session_factory = dbconnection.createConnection('postgresql', 'localhost', 'odm2
 
 # session_factory= dbconnection.createConnection('mssql', "(local)", "ODM2", "ODM", "odm")#win MSSQL
 
-
 # session_factory= dbconnection.createConnection('mssql', "arroyoodm2", "", "ODM", "odm")#mac/linux MSSQL
 # session_factory = dbconnection.createConnection('sqlite', '/Users/stephanie/DEV/YODA-Tools/tests/test_files/XL_specimen.sqlite', 2.0)
-
 
 
 
@@ -33,9 +31,6 @@ session_factory = dbconnection.createConnection('postgresql', 'localhost', 'odm2
 #_session = session_factory.getSession()
 read = ReadODM2(session_factory)
 create = CreateODM2(session_factory)
-
-
-
 
 
 # Run some basic sample queries.

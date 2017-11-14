@@ -92,6 +92,66 @@ class TestReadService:
         resapi = self.reader.getSamplingFeatures(ids=[sfid])
         assert resapi is not None
 
+#DataSets
+    def test_getDataSets(self):
+        # get all datasets from the database
+        ds = self.engine.execute('SELECT * FROM DataSets').fetchone()
+        dsid = ds[0]
+
+        dsapi = self.reader.getDataSets(ids=[dsid])
+        assert dsapi is not None
+        assert True
+
+    def test_getDataSetsResults(self):
+        # get all datasetresults from the database
+        dsr = self.engine.execute('SELECT * FROM DataSetsResults').fetchone()
+        dsid = dsr[2]
+
+        dsrapi = self.reader.getDataSetsResults(ids=[dsid])
+        assert dsrapi is not None
+        assert True
+
+    def test_getDataSetsValues(self):
+
+        dsr = self.engine.execute('SELECT * FROM DataSetsResults').fetchone()
+        dsid = dsr[2]
+
+        values= self.reader.getDataSetsValues(ids=[dsid])
+        assert values is not None
+        assert len(values) > 0
+
+
+
+    #ToDo figure out how to actually test this function
+    def test_getSamplingFeatureDataSets(self):
+
+        #find a sampling feature that is associated with a dataset
+        sf = self.engine.execute(
+            'SELECT * from SamplingFeatures as sf '
+            'inner join FeatureActions as fa on fa.SamplingFeatureID == sf.SamplingFeatureID '
+            'inner join Results as r on fa.FeatureActionID == r.FeatureActionID  '
+            'inner join DataSetsResults as ds on r.ResultID == ds.ResultID '
+        ).fetchone()
+        assert len(sf) > 0
+
+        #get the dataset associated with the sampling feature
+        ds = self.engine.execute(
+            'SELECT * from DataSetsResults as ds '
+            'inner join Results as r on r.ResultID == ds.ResultID '
+            'inner join FeatureActions as fa on fa.FeatureActionID == r.FeatureActionID '
+            'where fa.SamplingFeatureID = ' + str(sf[0])
+        ).fetchone()
+        assert len(ds) > 0
+
+        print (sf[0])
+        # get the dataset associated with the sampling feature using hte api
+        dsapi = self.reader.getSamplingFeatureDatasets(ids=[sf[0]])
+
+        assert dsapi is not None
+        assert len(dsapi) > 0
+        assert ds[1] == dsapi[0].DataSetID
+
+
 # Models
     """
         TABLE Models
@@ -143,7 +203,7 @@ class TestReadService:
         resapi = self.reader.getRelatedModels(code='swat')
         assert resapi is not None
         assert len(resapi) > 0
-        print(resapi[0].ModelCode)
+        # print(resapi[0].ModelCode)
         assert resapi[0].ModelCode == 'swat'
         # test converter code that doesn't exist
         resapi = self.reader.getRelatedModels(code='None')
@@ -178,7 +238,7 @@ class TestReadService:
     def test_getAllResults(self):
         # get all results from the database
         res = self.engine.execute('SELECT * FROM Results').fetchall()
-        print(res)
+        # print(res)
         # get all results using the api
         resapi = self.reader.getResults()
         assert len(res) == len(resapi)
@@ -246,7 +306,7 @@ class TestReadService:
         ).first()
         assert len(res) > 0
         res = rawSql2Alchemy(res, models.Results)
-        print(res)
+        # print(res)
 
         # get simulation by id using the api
         # resapi = self.reader.getResultsBySimulationID(simulation.SimulationID)
