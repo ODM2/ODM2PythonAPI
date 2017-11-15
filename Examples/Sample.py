@@ -17,13 +17,13 @@ from odm2api.ODM2.services import CreateODM2
 #connect to database
 # createconnection (dbtype, servername, dbname, username, password)
 # session_factory = dbconnection.createConnection('connection type: sqlite|mysql|mssql|postgresql', '/your/path/to/db/goes/here', 2.0)#sqlite
-session_factory = dbconnection.createConnection('postgresql', 'localhost', 'odm2', 'ODM', 'odm')
+
+
+# session_factory = dbconnection.createConnection('postgresql', 'localhost', 'odm2', 'ODM', 'odm')
 # session_factory = dbconnection.createConnection('mysql', 'localhost', 'odm2', 'ODM', 'odm')#mysql
-
-# session_factory= dbconnection.createConnection('mssql', "(local)", "ODM2", "ODM", "odm")#win MSSQL
-
+session_factory= dbconnection.createConnection('mssql', "(local)", "ODM2", "ODM", "odm")#win MSSQL
 # session_factory= dbconnection.createConnection('mssql', "arroyoodm2", "", "ODM", "odm")#mac/linux MSSQL
-# session_factory = dbconnection.createConnection('sqlite', '/Users/stephanie/DEV/YODA-Tools/tests/test_files/XL_specimen.sqlite', 2.0)
+# session_factory = dbconnection.createConnection('sqlite', 'path/to/ODM2.sqlite', 2.0)
 
 
 
@@ -61,6 +61,7 @@ except Exception as e:
 try:
     print ("\n-------- Information about Sites ---------")
     siteFeatures = read.getSamplingFeatures(type= 'site')
+
     # siteFeatures = read.getSamplingFeatures(type='Site')
     numSites = len(siteFeatures)
     print ("Successful query")
@@ -144,7 +145,7 @@ except Exception as e:
 # Get the values for a particular TimeSeriesResult
 print("\n-------- Example of Retrieving Time Series Result Values ---------")
 
-tsValues = read.getResultValues(resultid = 1)  # Return type is a pandas datafram
+tsValues = read.getResultValues(resultids = [1])  # Return type is a pandas datafram
 
 # Print a few Time Series Values to the console
 # tsValues.set_index('ValueDateTime', inplace=True)
