@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+118.gab50ca8 documentation</title>
+    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+125.g2d3e4ab documentation</title>
     <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.6.0-alpha+118.gab50ca8',
+        VERSION:     '0.6.0-alpha+125.g2d3e4ab',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -723,8 +723,8 @@
             <span class="k">return</span> <span class="kc">None</span></div>
 
     <span class="c1"># Results</span>
-<div class="viewcode-block" id="ReadODM2.getResults"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getResults">[docs]</a>    <span class="k">def</span> <span class="nf">getResults</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">actionid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">simulationid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sfid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                   <span class="n">variableid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">siteid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getResults"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getResults">[docs]</a>    <span class="k">def</span> <span class="nf">getResults</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">actionid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">simulationid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sfid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">variableid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">siteid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sfids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sfuuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sfcodes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="c1"># TODO what if user sends in both type and actionid vs just actionid</span>
         <span class="sd">&quot;&quot;&quot;Retrieve a list of Result objects.</span>
@@ -734,7 +734,7 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            ids (list, optional): List of ResultIDs.</span>
-<span class="sd">            type (str, optional): Type of Result from</span>
+<span class="sd">            restype (str, optional): Type of Result from</span>
 <span class="sd">                `controlled vocabulary name &lt;http://vocabulary.odm2.org/resulttype/&gt;`_.</span>
 <span class="sd">            uuids (list, optional): List of UUIDs string.</span>
 <span class="sd">            actionid (int, optional): ActionID.</span>
@@ -743,14 +743,17 @@
 <span class="sd">            variableid (int, optional): VariableID.</span>
 <span class="sd">            siteid (int, optional): SiteID. - goes through related features table and finds all of results</span>
 <span class="sd">                    recorded at the given site</span>
+<span class="sd">            sfids(list, optional): List of Sampling Feature IDs integer.</span>
+<span class="sd">            sfuuids(list, optional): List of Sampling Feature UUIDs string.</span>
+<span class="sd">            sfcodes=(list, optional): List of Sampling Feature codes string.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            list: List of Result objects</span>
 
 <span class="sd">        Examples:</span>
 <span class="sd">            &gt;&gt;&gt; ReadODM2.getResults(ids=[39,40])</span>
-<span class="sd">            &gt;&gt;&gt; ReadODM2.getResults(type=&#39;Time series coverage&#39;)</span>
-<span class="sd">            &gt;&gt;&gt; ReadODM2.getResults(sfid=65)</span>
+<span class="sd">            &gt;&gt;&gt; ReadODM2.getResults(restype=&#39;Time series coverage&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; ReadODM2.getResults(sfids=[65])</span>
 <span class="sd">            &gt;&gt;&gt; ReadODM2.getResults(uuids=[&#39;a6f114f1-5416-4606-ae10-23be32dbc202&#39;,</span>
 <span class="sd">            ...                            &#39;5396fdf3-ceb3-46b6-aaf9-454a37278bb4&#39;])</span>
 <span class="sd">            &gt;&gt;&gt; ReadODM2.getResults(simulationid=50)</span>
@@ -762,7 +765,12 @@
         <span class="n">query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Results</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">type</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">warnings</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;The parameter &#39;type&#39; is no longer be supported. Please use the restype parameter instead.&quot;</span><span class="p">)</span>
             <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">ResultTypeCV</span><span class="o">=</span><span class="nb">type</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">restype</span><span class="p">:</span>
+            <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">ResultTypeCV</span><span class="o">=</span><span class="n">restype</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">variableid</span><span class="p">:</span>
             <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">VariableID</span><span class="o">=</span><span class="n">variableid</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">ids</span><span class="p">:</span>
@@ -777,9 +785,18 @@
         <span class="k">if</span> <span class="n">actionid</span><span class="p">:</span>
             <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">FeatureActions</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">ActionID</span><span class="o">=</span><span class="n">actionid</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">sfid</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">warnings</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;The parameter &#39;sfid&#39; is no longer be supported. Please use the sfids parameter and send in a list.&quot;</span><span class="p">)</span>
             <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">FeatureActions</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">SamplingFeatureID</span><span class="o">=</span><span class="n">sfid</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sfids</span> <span class="ow">or</span> <span class="n">sfcodes</span> <span class="ow">or</span> <span class="n">sfuuids</span><span class="p">:</span>
+            <span class="n">sf_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSamplingFeatures</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="n">sfids</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="n">sfcodes</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="n">sfuuids</span><span class="p">)</span>
+            <span class="n">sfids</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">sf</span> <span class="ow">in</span> <span class="n">sf_list</span><span class="p">:</span>
+                <span class="n">sfids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">SamplingFeatureID</span><span class="p">)</span>
+            <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">FeatureActions</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">FeatureActions</span><span class="o">.</span><span class="n">SamplingFeatureID</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">sfids</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">siteid</span><span class="p">:</span>
+
             <span class="n">sfids</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
                 <span class="n">distinct</span><span class="p">(</span><span class="n">SamplingFeatures</span><span class="o">.</span><span class="n">SamplingFeatureID</span><span class="p">))</span>
                 <span class="o">.</span><span class="n">select_from</span><span class="p">(</span><span class="n">RelatedFeatures</span><span class="p">)</span>
@@ -787,6 +804,13 @@
                 <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">RelatedFeatures</span><span class="o">.</span><span class="n">RelatedFeatureID</span> <span class="o">==</span> <span class="n">siteid</span><span class="p">)</span>
                 <span class="o">.</span><span class="n">all</span><span class="p">()</span>
             <span class="p">]</span>
+
+            <span class="c1">#TODO does this code do the same thing as the code above?</span>
+            <span class="c1"># sf_list = self.getRelatedSamplingFeatures(rfid=siteid)</span>
+            <span class="c1"># sfids = []</span>
+            <span class="c1"># for sf in sf_list:</span>
+            <span class="c1">#     sfids.append(sf.SamplingFeatureID)</span>
+
             <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">FeatureActions</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">FeatureActions</span><span class="o">.</span><span class="n">SamplingFeatureID</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">sfids</span><span class="p">))</span>
 
         <span class="k">try</span><span class="p">:</span>
