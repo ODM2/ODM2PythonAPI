@@ -10,6 +10,10 @@ A Python-based application programmer's interface for the
 
 [List of current and planned functions included in the API](https://github.com/ODM2/ODM2PythonAPI/blob/master/doc/APIFunctionList.md)
 
+## Documentation
+
+For the latest documentation of the ODM2 Python API, see [http://odm2.github.io/ODM2PythonAPI/](http://odm2.github.io/ODM2PythonAPI/)
+
 ## Installation
 
 The easiest and most reliable way to install the ODM2 Python API (`odm2api`) is using the
