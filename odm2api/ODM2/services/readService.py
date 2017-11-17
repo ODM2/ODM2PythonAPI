@@ -72,6 +72,43 @@ class DetailedAffiliation:
         self.Organization = '(' + org.OrganizationCode + ') ' + org.OrganizationName
 
 
+class SamplingFeatureDataSet():
+    datasets={}
+    def __init__(self, samplingfeature, datasetresults):
+        sf = samplingfeature
+
+        self.SamplingFeatureID = sf.SamplingFeatureID
+        self.SamplingFeatureUUID = sf.SamplingFeatureUUID
+        self.SamplingFeatureTypeCV = sf.SamplingFeatureTypeCV
+        self.SamplingFeatureCode = sf.SamplingFeatureCode
+        self.SamplingFeatureName = sf.SamplingFeatureName
+        self.SamplingFeatureDescription = sf.SamplingFeatureDescription
+        self.SamplingFeatureGeotypeCV = sf.SamplingFeatureGeotypeCV
+        self.Elevation_m = sf.Elevation_m
+        self.ElevationDatumCV = sf.ElevationDatumCV
+        self.FeatureGeometryWKT = sf.FeatureGeometryWKT
+        self.assignDatasets(datasetresults)
+
+        print(self.datasets)
+
+
+    def assignDatasets(self, datasetresults):
+        for dsr in datasetresults:
+            if dsr.DataSetObj not in self.datasets:
+                #if the dataset is not in the dictionary, add it and the first result
+                self.datasets[dsr.DataSetObj]=[]
+                res = dsr.ResultObj
+                # res.FeatureActionObj = None
+                self.datasets[dsr.DataSetObj].append(res)
+            else:
+                #if the dataset is in the dictionary, append the result object to the list
+                res = dsr.ResultObj
+                # res.FeatureActionObj = None
+                self.datasets[dsr.DataSetObj].append(res)
+
+
+
+
 class ReadODM2(serviceBase):
     # Exists functions
     def resultExists(self, result):
@@ -871,7 +908,6 @@ class ReadODM2(serviceBase):
             raise ValueError('Expected samplingFeatureID OR samplingFeatureUUID OR samplingFeatureCode argument')
 
         sf_query = self._session.query(SamplingFeatures)
-
         if ids:
             sf_query = sf_query.filter(SamplingFeatures.SamplingFeatureID.in_(ids))
         if codes:
@@ -880,21 +916,29 @@ class ReadODM2(serviceBase):
             sf_query = sf_query.filter(SamplingFeatures.SamplingFeatureUUID.in_(uuids))
         sf_list = []
         for sf in sf_query.all():
-            sf_list.append(sf.SamplingFeatureID)
+            sf_list.append(sf)
 
-        q = self._session.query(DataSetsResults)\
-            .join(Results)\
-            .join(FeatureActions)\
-            .filter(FeatureActions.SamplingFeatureID.in_(sf_list))
-
-        if dstype:
-            q = q.filter_by(DatasetTypeCV=dstype)
-
+        sfds = None
         try:
-            return q.all()
+            sfds=[]
+            for sf in sf_list:
+
+                q = self._session.query(DataSetsResults)\
+                    .join(Results)\
+                    .join(FeatureActions)\
+                    .filter(FeatureActions.SamplingFeatureID == sf.SamplingFeatureID)
+
+                if dstype:
+                    q = q.filter_by(DatasetTypeCV=dstype)
+
+
+                vals = q.all()
+
+                sfds.append(SamplingFeatureDataSet(sf, vals))
         except Exception as e:
             print('Error running Query: {}'.format(e))
             return None
+        return sfds
 
     # Data Quality
     def getDataQuality(self):
