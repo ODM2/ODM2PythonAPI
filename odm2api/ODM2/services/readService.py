@@ -87,7 +87,7 @@ class SamplingFeatureDataSet():
         self.Elevation_m = sf.Elevation_m
         self.ElevationDatumCV = sf.ElevationDatumCV
         self.FeatureGeometryWKT = sf.FeatureGeometryWKT
-        self.datasets = self.assignDatasets(datasetresults)
+        self.assignDatasets(datasetresults)
 
         print(self.datasets)
 
