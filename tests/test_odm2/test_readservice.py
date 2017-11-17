@@ -130,41 +130,47 @@ class TestReadService:
 
 
     def test_getSamplingFeatureDataSets(self):
+        try:
+            #find a sampling feature that is associated with a dataset
+            sf = self.engine.execute(
+                'SELECT * from SamplingFeatures as sf '
+                'inner join FeatureActions as fa on fa.SamplingFeatureID == sf.SamplingFeatureID '
+                'inner join Results as r on fa.FeatureActionID == r.FeatureActionID  '
+                'inner join DataSetsResults as ds on r.ResultID == ds.ResultID '
+            ).fetchone()
+            assert len(sf) > 0
 
-        #find a sampling feature that is associated with a dataset
-        sf = self.engine.execute(
-            'SELECT * from SamplingFeatures as sf '
-            'inner join FeatureActions as fa on fa.SamplingFeatureID == sf.SamplingFeatureID '
-            'inner join Results as r on fa.FeatureActionID == r.FeatureActionID  '
-            'inner join DataSetsResults as ds on r.ResultID == ds.ResultID '
-        ).fetchone()
-        assert len(sf) > 0
+            #get the dataset associated with the sampling feature
+            ds = self.engine.execute(
+                'SELECT * from DataSetsResults as ds '
+                'inner join Results as r on r.ResultID == ds.ResultID '
+                'inner join FeatureActions as fa on fa.FeatureActionID == r.FeatureActionID '
+                'where fa.SamplingFeatureID = ' + str(sf[0])
+            ).fetchone()
+            assert len(ds) > 0
 
-        #get the dataset associated with the sampling feature
-        ds = self.engine.execute(
-            'SELECT * from DataSetsResults as ds '
-            'inner join Results as r on r.ResultID == ds.ResultID '
-            'inner join FeatureActions as fa on fa.FeatureActionID == r.FeatureActionID '
-            'where fa.SamplingFeatureID = ' + str(sf[0])
-        ).fetchone()
-        assert len(ds) > 0
+            print (sf[0])
+            # get the dataset associated with the sampling feature using hte api
+            dsapi = self.reader.getSamplingFeatureDatasets(ids=[sf[0]])
 
-        print (sf[0])
-        # get the dataset associated with the sampling feature using hte api
-        dsapi = self.reader.getSamplingFeatureDatasets(ids=[sf[0]])
-
-        assert dsapi is not None
-        assert len(dsapi) > 0
-        assert ds[1] == dsapi[0].DataSetID
+            assert dsapi is not None
+            assert len(dsapi) > 0
+            assert dsapi[0].datasets is not None
+            # assert ds[1] == dsapi[0].DataSetID
+        finally:
+            self.reader._session.rollback()
+            assert False
 
     # Results
     def test_getAllResults(self):
+
         # get all results from the database
         res = self.engine.execute('SELECT * FROM Results').fetchall()
         print(res)
         # get all results using the api
         resapi = self.reader.getResults()
         assert len(res) == len(resapi)
+
 
     def test_getResultsByID(self):
         # get a result from the database
