@@ -98,12 +98,12 @@ class SamplingFeatureDataSet():
                 #if the dataset is not in the dictionary, add it and the first result
                 self.datasets[dsr.DataSetObj]=[]
                 res = dsr.ResultObj
-                res.FeatureActionObj = None
+                # res.FeatureActionObj = None
                 self.datasets[dsr.DataSetObj].append(res)
             else:
                 #if the dataset is in the dictionary, append the result object to the list
                 res = dsr.ResultObj
-                res.FeatureActionObj = None
+                # res.FeatureActionObj = None
                 self.datasets[dsr.DataSetObj].append(res)
 
 

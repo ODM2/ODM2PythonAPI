@@ -156,10 +156,13 @@ class TestReadService:
             assert dsapi is not None
             assert len(dsapi) > 0
             assert dsapi[0].datasets is not None
-            # assert ds[1] == dsapi[0].DataSetID
+            assert dsapi[0].SamplingFeatureID == sf[0]
+            # assert ds[0] == dsapi[0]
+        except Exception as ex:
+            assert False
         finally:
             self.reader._session.rollback()
-            assert False
+
 
     # Results
     def test_getAllResults(self):
