@@ -390,15 +390,28 @@ class ReadODM2(serviceBase):
     # ProcessingLevel
     def getProcessingLevels(self, ids=None, codes=None):
         """
-        getProcessingLevels(self, ids=None, codes=None)
-        * Pass nothing - returns full list of ProcessingLevel objects
-        * Pass a list of ProcessingLevelID - returns a single processingLevel object for each given id
-        * Pass a list of ProcessingLevelCode - returns a single processingLevel object for each given code
+        Retrieve a list of Processing Levels
+
+        If no arguments are passed to the function, or their values are None,
+        all Processing Levels objects in the database will be returned.
+
+        Args:
+            ids (list, optional): List of Processing Levels IDs.
+            codes (list, optional): List of Processing Levels Codes.
+
+
+        Returns:
+            list: List of ProcessingLevels Objects
+
+        Examples:
+            >>> READ = ReadODM2(SESSION_FACTORY)
+            >>> READ.getProcessingLevels(ids=[1, 3])
+            >>> READ.getProcessingLevels(codes=['L1', 'L3'])
 
         """
         q = self._session.query(ProcessingLevels)
         if ids:
-            q = q.filter(ProcessingLevels.ProcessingLevelsID.in_(ids))
+            q = q.filter(ProcessingLevels.ProcessingLevelID.in_(ids))
         if codes:
             q = q.filter(ProcessingLevels.ProcessingLevelCode.in_(codes))
 
