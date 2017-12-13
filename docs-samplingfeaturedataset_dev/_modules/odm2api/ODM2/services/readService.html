@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+130.g2b08624 documentation</title>
+    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+131.g9592471 documentation</title>
     <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.6.0-alpha+130.g2b08624',
+        VERSION:     '0.6.0-alpha+131.g9592471',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -206,25 +206,27 @@
 
 <div class="viewcode-block" id="SamplingFeatureDataSet.assignDatasets"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.SamplingFeatureDataSet.assignDatasets">[docs]</a>    <span class="k">def</span> <span class="nf">assignDatasets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datasetresults</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">dsr</span> <span class="ow">in</span> <span class="n">datasetresults</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">dsr</span><span class="o">.</span><span class="n">DataSetObj</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">:</span>
-                <span class="c1">#if the dataset is not in the dictionary, add it and the first result</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">[</span><span class="n">dsr</span><span class="o">.</span><span class="n">DataSetObj</span><span class="p">]</span><span class="o">=</span><span class="p">[]</span>
-                <span class="n">res</span> <span class="o">=</span> <span class="n">dsr</span><span class="o">.</span><span class="n">ResultObj</span>
-                <span class="c1"># res.FeatureActionObj = None</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">[</span><span class="n">dsr</span><span class="o">.</span><span class="n">DataSetObj</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="c1">#if the dataset is in the dictionary, append the result object to the list</span>
-                <span class="n">res</span> <span class="o">=</span> <span class="n">dsr</span><span class="o">.</span><span class="n">ResultObj</span>
-                <span class="c1"># res.FeatureActionObj = None</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">[</span><span class="n">dsr</span><span class="o">.</span><span class="n">DataSetObj</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
+        <span class="k">if</span> <span class="n">datasetresults</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">dsr</span> <span class="ow">in</span> <span class="n">datasetresults</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">dsr</span><span class="o">.</span><span class="n">DataSetObj</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">:</span>
+                    <span class="c1">#if the dataset is not in the dictionary, add it and the first result</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">[</span><span class="n">dsr</span><span class="o">.</span><span class="n">DataSetObj</span><span class="p">]</span><span class="o">=</span><span class="p">[]</span>
+                    <span class="n">res</span> <span class="o">=</span> <span class="n">dsr</span><span class="o">.</span><span class="n">ResultObj</span>
+                    <span class="c1"># res.FeatureActionObj = None</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">[</span><span class="n">dsr</span><span class="o">.</span><span class="n">DataSetObj</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1">#if the dataset is in the dictionary, append the result object to the list</span>
+                    <span class="n">res</span> <span class="o">=</span> <span class="n">dsr</span><span class="o">.</span><span class="n">ResultObj</span>
+                    <span class="c1"># res.FeatureActionObj = None</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">[</span><span class="n">dsr</span><span class="o">.</span><span class="n">DataSetObj</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="SamplingFeatureDataSet.assignRelatedFeatures"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.SamplingFeatureDataSet.assignRelatedFeatures">[docs]</a>    <span class="k">def</span> <span class="nf">assignRelatedFeatures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">relatedfeatures</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">related_features</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">related</span> <span class="ow">in</span> <span class="n">relatedfeatures</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">related</span><span class="o">.</span><span class="n">SamplingFeatureTypeCV</span> <span class="o">==</span> <span class="s1">&#39;Site&#39;</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">related_features</span> <span class="o">=</span> <span class="n">related</span></div></div>
+        <span class="k">if</span> <span class="n">relatedfeatures</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">related</span> <span class="ow">in</span> <span class="n">relatedfeatures</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">related</span><span class="o">.</span><span class="n">SamplingFeatureTypeCV</span> <span class="o">==</span> <span class="s1">&#39;Site&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">related_features</span> <span class="o">=</span> <span class="n">related</span></div></div>
 
 
 
@@ -996,7 +998,7 @@
         <span class="k">return</span> <span class="kc">None</span></div>
 
 
-<div class="viewcode-block" id="ReadODM2.getSamplingFeatureDatasets"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getSamplingFeatureDatasets">[docs]</a>    <span class="k">def</span> <span class="nf">getSamplingFeatureDatasets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dstype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getSamplingFeatureDatasets"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getSamplingFeatureDatasets">[docs]</a>    <span class="k">def</span> <span class="nf">getSamplingFeatureDatasets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dstype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sftype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve a list of Datasets associated with the given sampling feature data.</span>
 
@@ -1008,7 +1010,8 @@
 <span class="sd">            uuids (list, optional): List of UUIDs string.</span>
 <span class="sd">            dstype (str, optional): Type of Dataset from</span>
 <span class="sd">                `controlled vocabulary name &lt;http://vocabulary.odm2.org/datasettype/&gt;`_.</span>
-
+<span class="sd">            sftype (str, optional): Type of SamplingFeature from</span>
+<span class="sd">                `controlled vocabulary name &lt;http://vocabulary.odm2.org/samplingfeaturetype/&gt;`_.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            list: List of DataSetsResults Objects associated with the given sampling feature</span>
@@ -1020,18 +1023,19 @@
 <span class="sd">            &gt;&gt;&gt; READ.getSamplingFeatureDatasets(uuids=[&#39;a6f114f1-5416-4606-ae10-23be32dbc202&#39;,</span>
 <span class="sd">            ...                                 &#39;5396fdf3-ceb3-46b6-aaf9-454a37278bb4&#39;])</span>
 <span class="sd">            &gt;&gt;&gt; READ.getSamplingFeatureDatasets(dstype=&#39;singleTimeSeries&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; READ.getSamplingFeatureDatasets(sftype=&#39;Specimen&#39;)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
 
         <span class="c1"># make sure one of the three arguments has been sent in</span>
-        <span class="c1"># if all(v is None for v in [ids, codes, uuids, type]):</span>
-        <span class="c1">#     raise ValueError(&#39;Expected samplingFeatureID OR samplingFeatureUUID OR samplingFeatureCode OR samplingFeatureType &#39;</span>
-        <span class="c1">#                      &#39;argument&#39;)</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">v</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ids</span><span class="p">,</span> <span class="n">codes</span><span class="p">,</span> <span class="n">uuids</span><span class="p">,</span> <span class="n">sftype</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Expected samplingFeatureID OR samplingFeatureUUID OR samplingFeatureCode OR samplingFeatureType &#39;</span>
+                             <span class="s1">&#39;argument&#39;</span><span class="p">)</span>
 
         <span class="n">sf_query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">SamplingFeatures</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">:</span>
-            <span class="n">sf_query</span> <span class="o">=</span> <span class="n">sf_query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">SamplingFeatures</span><span class="o">.</span><span class="n">SamplingFeatureTypeCV</span> <span class="o">==</span> <span class="nb">type</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sftype</span><span class="p">:</span>
+            <span class="n">sf_query</span> <span class="o">=</span> <span class="n">sf_query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">SamplingFeatures</span><span class="o">.</span><span class="n">SamplingFeatureTypeCV</span> <span class="o">==</span> <span class="n">sftype</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">ids</span><span class="p">:</span>
             <span class="n">sf_query</span> <span class="o">=</span> <span class="n">sf_query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">SamplingFeatures</span><span class="o">.</span><span class="n">SamplingFeatureID</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">ids</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">codes</span><span class="p">:</span>
@@ -1043,7 +1047,6 @@
         <span class="k">for</span> <span class="n">sf</span> <span class="ow">in</span> <span class="n">sf_query</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
             <span class="n">sf_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sf</span><span class="p">)</span>
 
-        <span class="n">sfds</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">sfds</span><span class="o">=</span><span class="p">[]</span>
             <span class="k">for</span> <span class="n">sf</span> <span class="ow">in</span> <span class="n">sf_list</span><span class="p">:</span>

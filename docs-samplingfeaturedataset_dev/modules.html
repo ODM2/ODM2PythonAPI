@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Developer Interface &#8212; ODM2PythonAPI 0.6.0-alpha+130.g2b08624 documentation</title>
+    <title>Developer Interface &#8212; ODM2PythonAPI 0.6.0-alpha+131.g9592471 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.6.0-alpha+130.g2b08624',
+        VERSION:     '0.6.0-alpha+131.g9592471',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -958,7 +958,7 @@ recorded at the given site</li>
 
 <dl class="method">
 <dt id="odm2api.ODM2.services.readService.ReadODM2.getSamplingFeatureDatasets">
-<code class="descname">getSamplingFeatureDatasets</code><span class="sig-paren">(</span><em>ids=None</em>, <em>codes=None</em>, <em>uuids=None</em>, <em>dstype=None</em>, <em>type=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getSamplingFeatureDatasets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getSamplingFeatureDatasets" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getSamplingFeatureDatasets</code><span class="sig-paren">(</span><em>ids=None</em>, <em>codes=None</em>, <em>uuids=None</em>, <em>dstype=None</em>, <em>sftype=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getSamplingFeatureDatasets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getSamplingFeatureDatasets" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve a list of Datasets associated with the given sampling feature data.</p>
 <blockquote>
 <div><strong>Must specify either samplingFeatureID OR samplingFeatureUUID OR samplingFeatureCode)</strong></div></blockquote>
@@ -972,6 +972,9 @@ recorded at the given site</li>
 <li><strong>uuids</strong> (<em>list</em><em>, </em><em>optional</em>) – List of UUIDs string.</li>
 <li><strong>dstype</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>Type of Dataset from
 <a class="reference external" href="http://vocabulary.odm2.org/datasettype/">controlled vocabulary name</a>.</p>
+</li>
+<li><strong>sftype</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>Type of SamplingFeature from
+<a class="reference external" href="http://vocabulary.odm2.org/samplingfeaturetype/">controlled vocabulary name</a>.</p>
 </li>
 </ul>
 </td>
@@ -991,6 +994,7 @@ recorded at the given site</li>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getSamplingFeatureDatasets</span><span class="p">(</span><span class="n">uuids</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a6f114f1-5416-4606-ae10-23be32dbc202&#39;</span><span class="p">,</span>
 <span class="gp">... </span>                                <span class="s1">&#39;5396fdf3-ceb3-46b6-aaf9-454a37278bb4&#39;</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getSamplingFeatureDatasets</span><span class="p">(</span><span class="n">dstype</span><span class="o">=</span><span class="s1">&#39;singleTimeSeries&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getSamplingFeatureDatasets</span><span class="p">(</span><span class="n">sftype</span><span class="o">=</span><span class="s1">&#39;Specimen&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
