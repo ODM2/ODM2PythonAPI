@@ -97,25 +97,27 @@ class SamplingFeatureDataSet():
 
     def assignDatasets(self, datasetresults):
         self.datasets = {}
-        for dsr in datasetresults:
-            if dsr.DataSetObj not in self.datasets:
-                #if the dataset is not in the dictionary, add it and the first result
-                self.datasets[dsr.DataSetObj]=[]
-                res = dsr.ResultObj
-                # res.FeatureActionObj = None
-                self.datasets[dsr.DataSetObj].append(res)
-            else:
-                #if the dataset is in the dictionary, append the result object to the list
-                res = dsr.ResultObj
-                # res.FeatureActionObj = None
-                self.datasets[dsr.DataSetObj].append(res)
+        if datasetresults:
+            for dsr in datasetresults:
+                if dsr.DataSetObj not in self.datasets:
+                    #if the dataset is not in the dictionary, add it and the first result
+                    self.datasets[dsr.DataSetObj]=[]
+                    res = dsr.ResultObj
+                    # res.FeatureActionObj = None
+                    self.datasets[dsr.DataSetObj].append(res)
+                else:
+                    #if the dataset is in the dictionary, append the result object to the list
+                    res = dsr.ResultObj
+                    # res.FeatureActionObj = None
+                    self.datasets[dsr.DataSetObj].append(res)
 
 
     def assignRelatedFeatures(self, relatedfeatures):
         self.related_features = {}
-        for related in relatedfeatures:
-            if related.SamplingFeatureTypeCV == 'Site':
-                self.related_features = related
+        if relatedfeatures:
+            for related in relatedfeatures:
+                if related.SamplingFeatureTypeCV == 'Site':
+                    self.related_features = related
 
 
 
@@ -887,7 +889,7 @@ class ReadODM2(serviceBase):
         return None
 
 
-    def getSamplingFeatureDatasets(self, ids=None, codes=None, uuids=None, dstype=None, type=None):
+    def getSamplingFeatureDatasets(self, ids=None, codes=None, uuids=None, dstype=None, sftype=None):
         """
         Retrieve a list of Datasets associated with the given sampling feature data.
 
@@ -899,7 +901,8 @@ class ReadODM2(serviceBase):
             uuids (list, optional): List of UUIDs string.
             dstype (str, optional): Type of Dataset from
                 `controlled vocabulary name <http://vocabulary.odm2.org/datasettype/>`_.
-
+            sftype (str, optional): Type of SamplingFeature from
+                `controlled vocabulary name <http://vocabulary.odm2.org/samplingfeaturetype/>`_.
 
         Returns:
             list: List of DataSetsResults Objects associated with the given sampling feature
@@ -911,18 +914,19 @@ class ReadODM2(serviceBase):
             >>> READ.getSamplingFeatureDatasets(uuids=['a6f114f1-5416-4606-ae10-23be32dbc202',
             ...                                 '5396fdf3-ceb3-46b6-aaf9-454a37278bb4'])
             >>> READ.getSamplingFeatureDatasets(dstype='singleTimeSeries')
+            >>> READ.getSamplingFeatureDatasets(sftype='Specimen')
 
         """
 
 
         # make sure one of the three arguments has been sent in
-        # if all(v is None for v in [ids, codes, uuids, type]):
-        #     raise ValueError('Expected samplingFeatureID OR samplingFeatureUUID OR samplingFeatureCode OR samplingFeatureType '
-        #                      'argument')
+        if all(v is None for v in [ids, codes, uuids, sftype]):
+            raise ValueError('Expected samplingFeatureID OR samplingFeatureUUID OR samplingFeatureCode OR samplingFeatureType '
+                             'argument')
 
         sf_query = self._session.query(SamplingFeatures)
-        if type:
-            sf_query = sf_query.filter(SamplingFeatures.SamplingFeatureTypeCV == type)
+        if sftype:
+            sf_query = sf_query.filter(SamplingFeatures.SamplingFeatureTypeCV == sftype)
         if ids:
             sf_query = sf_query.filter(SamplingFeatures.SamplingFeatureID.in_(ids))
         if codes:
@@ -934,7 +938,6 @@ class ReadODM2(serviceBase):
         for sf in sf_query.all():
             sf_list.append(sf)
 
-        sfds = None
         try:
             sfds=[]
             for sf in sf_list:
