@@ -457,8 +457,8 @@ class DataLoggerFiles(Base):
     DataLoggerFileID = Column('dataloggerfileid', Integer, primary_key=True, nullable=False)
     ProgramID = Column('programid', Integer, ForeignKey(DataLoggerProgramFiles.ProgramID), nullable=False)
     DataLoggerFileName = Column('dataloggerfilename', String(255), nullable=False)
-    DataLoggerOutputFileDescription = Column('dataloggeroutputfiledescription', String(500))
-    DataLoggerOutputFileLink = Column('dataloggeroutputfilelink', String(255))
+    DataLoggerOutputFileDescription = Column('dataloggerfiledescription', String(500))
+    DataLoggerOutputFileLink = Column('dataloggerfilelink', String(255))
 
     ProgramObj = relationship(DataLoggerProgramFiles)
 
