@@ -2,6 +2,18 @@ language: python
 
 sudo: required
 
+# if the https://travis-ci.org/ODM2/ODM2PythonAPI/requests ever says: missing config
+# validate at: http://lint.travis-ci.org/
+python:
+#  - "2.6"
+  - "2.7"
+  - "3.2"
+  - "3.3"
+  - "3.4"
+  - "3.5"
+#  - "3.5-dev" # 3.5 development branch
+#  - "nightly" # currently points to 3.6-dev
+# command to install dependencies
 cache:
   directories:
     - $HOME/miniconda
