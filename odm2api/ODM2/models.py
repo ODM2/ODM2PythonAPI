@@ -455,7 +455,7 @@ class DataLoggerProgramFiles(Base):
 class DataLoggerFiles(Base):
 
     DataLoggerFileID = Column('dataloggerfileid', Integer, primary_key=True, nullable=False)
-    ProgramID = Column('actionid', Integer, ForeignKey(DataLoggerProgramFiles.ProgramID), nullable=False)
+    ProgramID = Column('programid', Integer, ForeignKey(DataLoggerProgramFiles.ProgramID), nullable=False)
     DataLoggerFileName = Column('dataloggerfilename', String(255), nullable=False)
     DataLoggerOutputFileDescription = Column('dataloggeroutputfiledescription', String(500))
     DataLoggerOutputFileLink = Column('dataloggeroutputfilelink', String(255))
@@ -511,7 +511,7 @@ class DataLoggerFileColumns(Base):
                                         nullable=False)
     ColumnLabel = Column('columnlabel', String(50), nullable=False)
     ColumnDescription = Column('columndescription', String(500))
-    MeasurementEquation = Column('measurmentequation', String(255))
+    MeasurementEquation = Column('measurementequation', String(255))
     ScanInterval = Column('scaninterval', Float(50))
     ScanIntervalUnitsID = Column('scanintervalunitsid', Integer, ForeignKey(Units.UnitsID))
     RecordingInterval = Column('recordinginterval', Float(50))
