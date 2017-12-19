@@ -1,982 +1,1116 @@
-__author__ = 'jmeline'
-
-from sqlalchemy import func
-import pandas as pd
+from __future__ import (absolute_import, division, print_function)
 
 from odm2api.ODM2 import serviceBase
-from odm2api.ODM2.models import *
+from odm2api.ODM2.models import (
+    ActionAnnotations, ActionDirectives, ActionExtensionPropertyValues, Actions,
+    Affiliations, Annotations, AuthorLists, CVActionType, CVAggregationStatistic,
+    CVAnnotationType, CVCensorCode, CVDataQualityType, CVDataSetType, CVDirectiveType,
+    CVElevationDatum, CVEquipmentType, CVMediumType, CVMethodType, CVOrganizationType,
+    CVPropertyDataType, CVQualityCode, CVRelationshipType, CVResultType, CVSamplingFeatureGeoType,
+    CVSamplingFeatureType, CVSiteType, CVSpatialOffsetType, CVSpeciation, CVSpecimenType,
+    CVStatus, CVTaxonomicClassifierType, CVUnitsType, CVVariableName, CVVariableType,
+    CalibrationActions, CalibrationReferenceEquipment, CalibrationStandards,
+    CategoricalResultValueAnnotations, CategoricalResultValues, CitationExtensionPropertyValues,
+    CitationExternalIdentifiers, DataLoggerFileColumns, DataLoggerFiles, DataLoggerProgramFiles,
+    DataQuality, DataSetCitations, DataSets, DerivationEquations, Directives, Equipment,
+    EquipmentActions, EquipmentAnnotations, EquipmentModels, EquipmentUsed, ExtensionProperties,
+    ExternalIdentifierSystems, FeatureActions, InstrumentOutputVariables, MaintenanceActions,
+    MeasurementResultValueAnnotations, MeasurementResultValues, MethodAnnotations,
+    MethodCitations, MethodExtensionPropertyValues, MethodExternalIdentifiers,
+    Methods, Models, Organizations, People, PersonExternalIdentifiers,
+    PointCoverageResultValueAnnotations, PointCoverageResultValues, ProcessingLevels,
+    ProfileResultValueAnnotations, ProfileResultValues, ReferenceMaterialExternalIdentifiers,
+    ReferenceMaterialValues, ReferenceMaterials, RelatedActions, RelatedAnnotations,
+    RelatedCitations, RelatedDataSets, RelatedEquipment, RelatedFeatures, RelatedModels,
+    RelatedResults, ResultAnnotations, ResultDerivationEquations, ResultExtensionPropertyValues,
+    ResultNormalizationValues, Results, ResultsDataQuality, SamplingFeatureAnnotations,
+    SamplingFeatureExtensionPropertyValues, SamplingFeatureExternalIdentifiers,
+    SamplingFeatures, SectionResultValueAnnotations, SectionResults, Simulations,
+    SpatialReferenceExternalIdentifiers, SpatialReferences, SpecimenBatchPositions,
+    SpectraResultValueAnnotations, SpectraResultValues, TaxonomicClassifierExternalIdentifiers,
+    TaxonomicClassifiers, TimeSeriesResultValueAnnotations, TimeSeriesResultValues,
+    TimeSeriesResults, TrajectoryResultValueAnnotations, TrajectoryResultValues,
+    TransectResultValueAnnotations, TransectResultValues, Units, VariableExtensionPropertyValues,
+    VariableExternalIdentifiers, Variables,
+)
+
+import pandas as pd
+
+from sqlalchemy import distinct, exists
+
+__author__ = 'sreeder'
 
 
 class DetailedResult:
-    def __init__(self, result,
-                 samplingFeature,
+    def __init__(self, action, result,
+                 sc, sn,
                  method, variable,
                  processingLevel,
                  unit):
         # result.result_id etc.
-        self.resultID = result.ResultID
-        self.samplingFeatureCode = samplingFeature.SamplingFeatureCode
-        self.methodCode = method.MethodCode
-        self.variableCode = variable.VariableCode
-        self.processingLevelCode = processingLevel.ProcessingLevelCode
-        self.unitsName = unit.UnitsName
+        self.ResultID = result.ResultID
+        self.SamplingFeatureCode = sc
+        self.MethodCode = method.MethodCode
+        self.VariableCode = variable.VariableCode
+        self.ProcessingLevelCode = processingLevel.ProcessingLevelCode
+        self.UnitsName = unit.UnitsName
 
-        self.samplingFeatureName = samplingFeature.SamplingFeatureName
-        self.methodName = method.MethodName
-        self.variableNameCV = variable.VariableNameCV
-        self.processingLevelDef = processingLevel.Definition
+        self.SamplingFeatureName = sn
+        self.MethodName = method.MethodName
+        self.VariableNameCV = variable.VariableNameCV
+        self.ProcessingLevelDefinition = processingLevel.Definition
+        self.ValueCount = result.ValueCount
+        self.BeginDateTime = action.BeginDateTime
+        self.EndDateTime = action.EndDateTime
+        self.ResultObj = result
+
 
 class DetailedAffiliation:
     def __init__(self, affiliation, person, org):
-        self.affiliationID = affiliation.AffiliationID
-        self.name = person.PersonFirstName + \
-                    " " + \
-                    person.PersonLastName
-        self.organization = "(" + org.OrganizationCode + ") " +\
-                            org.OrganizationName
-
-    #def __repr__(self):
-    #    return str(self.name) + " " + str(self.organization)
-
-class ReadODM2( serviceBase   ):
-    '''
-    def __init__(self, session):
-        self._session = session
-    '''
-
-# ################################################################################
-# Annotations
-# ################################################################################
+        self.AffiliationID = affiliation.AffiliationID
+        self.Name = person.PersonFirstName + ' ' + person.PersonLastName
+        self.Organization = '(' + org.OrganizationCode + ') ' + org.OrganizationName
 
 
-
-
-# ################################################################################
-# CV
-# ################################################################################
-    
-    def getCVOrganizationTypes(self):
-        return self._session.query(CVOrganizationType).all()
-
-    def getCVSamplingFeatureTypes(self):
-        """Select all on Sampling Features
-
-        :return CVSamplingFeatureType Objects:
-            :type list:
+class ReadODM2(serviceBase):
+    # Exists functions
+    def resultExists(self, result):
         """
-        return self._session.query(CVSamplingFeatureType).all()
-    
-    def getCVSiteTypes(self):
-        """Select all on Sampling Features
+        Check to see if a Result Object exists
+        * Pass Result Object - return a boolean value of wether the given object exists
 
-        :return CVSiteType Objects:
-            :type list:
         """
-        return self._session.query(CVSiteType).all()
-    
-    def getCVSpacialReferenceTypes(self):
-        """Select all on SpatialReferences
+        try:
 
-        :return CVSpacialReferenceType Objects:
-            :type list:
-        """
-        return self._session.query(SpatialReferences).all()
+            ret = self._session.query(exists().where(Results.ResultTypeCV == result.ResultTypeCV)
+                                      .where(Results.VariableID == result.VariableID)
+                                      .where(Results.UnitsID == result.UnitsID)
+                                      .where(Results.ProcessingLevelID == result.ProcessingLevelID)
+                                      .where(Results.SampledMediumCV == result.SampledMediumCV)
+                                      )
+            return ret.scalar()
 
-    def getCVSamplingFeatureGeoTypes(self):
-        """Select all on Sampling Features
+        except:
+            return None
 
-        :return CVSamplingFeatureGeoType Objects:
-            :type list:
+    # Annotations
+    def getAnnotations(self, type=None, codes=None, ids=None):
         """
-        return self._session.query(CVSamplingFeatureGeoType).all()
+        * Pass Nothing - return a list of all objects
+        * Pass AnnotationTypeCV - return a list of all objects of the fiven type
+        * Pass a list of codes - return a list of objects, one for each of the given codes
+        * Pass a list of ids -return a list of objects, one for each of the given ids
 
-    def getCVElevationDatums(self):
-        """Select all on CVElevationDatum
+        """
+        # TODO What keywords do I use for type.
+        a = Annotations
+        if type:
+            if type == 'action':
+                a = ActionAnnotations
+            elif type == 'categoricalresultvalue':
+                a = CategoricalResultValueAnnotations
+            elif type == 'equipmentannotation':
+                a = EquipmentAnnotations
+            elif type == 'measurementresultvalue':
+                a = MeasurementResultValueAnnotations
+            elif type == 'method':
+                a = MethodAnnotations
+            elif type == 'pointcoverageresultvalue':
+                a = PointCoverageResultValueAnnotations
+            elif type == 'profileresultvalue':
+                a = ProfileResultValueAnnotations
+            elif type == 'result':
+                a = ResultAnnotations
+            elif type == 'samplingfeature':
+                a = SamplingFeatureAnnotations
+            elif type == 'sectionresultvalue':
+                a = SectionResultValueAnnotations
+            elif type == 'spectraresultvalue':
+                a = SpectraResultValueAnnotations
+            elif type == 'timeseriesresultvalue':
+                a = TimeSeriesResultValueAnnotations
+            elif type == 'trajectoryresultvalue':
+                a = TrajectoryResultValueAnnotations
+            elif type == 'transectresultvalue':
+                a = TransectResultValueAnnotations
+        try:
+            query = self._session.query(a)
+            if codes:
+                query = query.filter(Annotations.AnnotationCode.in_(codes))
+            if ids:
+                query = query.filter(Annotations.AnnotationID.in_(ids))
+            return query.all()
 
-        :return CVElevationDatum Objects:
-            :type list:
-        """
-        return self._session.query(CVElevationDatum).all()
-    
-    def getCVVariableTypes(self):
-        """Select all on CVVariableType
+        except:
+            return None
 
-        :return CVVariableType Objects:
-            :type list:
+    # CV
+    def getCVs(self, type):
         """
-        return self._session.query(CVVariableType).all()
-    
-    def getCVVariableNames(self):
-        """Select all on CVVariableName
+        getCVs(self, type):
+        * Pass CVType - return a list of all objects of the given type
 
-        :return CVVariableName Objects:
-            :type list:
         """
-        return self._session.query(CVVariableName).all()
-    
-    def getCVSpeciations(self):
-        """Select all on CVSpeciation
+        CV = CVActionType
+        if type == 'actiontype':
+            CV = CVActionType
+        elif type == 'aggregationstatistic':
+            CV = CVAggregationStatistic
+        elif type == 'annotationtype':
+            CV = CVAnnotationType
+        elif type == 'censorcode':
+            CV = CVCensorCode
+        elif type == 'dataqualitytype':
+            CV = CVDataQualityType
+        elif type == 'dataset type':
+            CV = CVDataSetType
+        elif type == 'Directive Type':
+            CV = CVDirectiveType
+        elif type == 'Elevation Datum':
+            CV = CVElevationDatum
+        elif type == 'Equipment Type':
+            CV = CVEquipmentType
+        elif type == 'Medium':
+            CV = CVMediumType
+        elif type == 'Method Type':
+            CV = CVMethodType
+        elif type == 'Organization Type':
+            CV = CVOrganizationType
+        elif type == 'Property Data Type':
+            CV = CVPropertyDataType
+        elif type == 'Quality Code':
+            CV = CVQualityCode
+        elif type == 'Relationship Type':
+            CV = CVRelationshipType
+        elif type == 'Result Type':
+            CV = CVResultType
+        elif type == 'Sampling Feature Geo-type':
+            CV = CVSamplingFeatureGeoType
+        elif type == 'Sampling Feature Type':
+            CV = CVSamplingFeatureType
+        elif type == 'Site Type':
+            CV = CVSiteType
+        elif type == 'Spatial Offset Type':
+            CV = CVSpatialOffsetType
+        elif type == 'Speciation':
+            CV = CVSpeciation
+        elif type == 'Specimen Type':
+            CV = CVSpecimenType
+        elif type == 'Status':
+            CV = CVStatus
+        elif type == 'Taxonomic Classifier Type':
+            CV = CVTaxonomicClassifierType
+        elif type == 'Units Type':
+            CV = CVUnitsType
+        elif type == 'Variable Name':
+            CV = CVVariableName
+        elif type == 'Variable Type':
+            CV = CVVariableType
+        else:
+            return None
+        try:
+            return self._session.query(CV).all()
+        except Exception as e:
+            print('Error running Query: {}'.format(e))
 
-        :return CVSpeciation Objects:
-            :type list:
-        """
-        return self._session.query(CVSpeciation).all()
-    
-    def getCVUnitsTypes(self):
-        """Select all on CVUnitsType
-
-        :return CVUnitsType Objects:
-            :type list:
-        """
-        return self._session.query(CVUnitsType).all()
-
-    def getCVActionTypes(self):
-        """
-        Select all on CVActionType
-        """
-        return self._session.query(CVActionType).all()
-    
-    def getCVMethodTypes(self):
-        """
-        Select all on CVMethodType
-        """
-        return self._session.query(CVMethodType).all()
-    
-    def getCVMediumTypes(self):
-        """
-        Select all on CVMediumType
-        """
-        return self._session.query(CVMediumType).all()
-    
-    def getCVAggregationStatistics(self):
-        """
-        Select all on CVAggregationStatistic
-        """
-        return self._session.query(CVAggregationStatistic).all()
-    
-    def getCVStatus(self):
-        """
-        Select all on CVStatus
-        """
-        return self._session.query(CVStatus).all()
-
-# ################################################################################
-# Core
-# ################################################################################
-    
+    # Core
     def getDetailedAffiliationInfo(self):
-        q = self._session.query(Affiliations, People, Organizations)\
-            .filter(Affiliations.PersonID==People.PersonID)\
-            .filter(Affiliations.OrganizationID==Organizations.OrganizationID)
+        """
+        * Pass Nothing - Return a list of all Affiliations with detailed information,
+        including Affiliation, People and Organization
+
+        """
+        q = self._session.query(Affiliations, People, Organizations) \
+            .filter(Affiliations.PersonID == People.PersonID) \
+            .filter(Affiliations.OrganizationID == Organizations.OrganizationID)
         affiliationList = []
-        for a,p,o in q.all():
-            detailedAffiliation = DetailedAffiliation(a,p,o)
+        for a, p, o in q.all():
+            detailedAffiliation = DetailedAffiliation(a, p, o)
             affiliationList.append(detailedAffiliation)
         return affiliationList
 
-    def getDetailedResultInfo(self, resultTypeCV, resultID=None):
-        q = self._session.query(Results, SamplingFeatures, Methods, Variables,
-            ProcessingLevels, Units).filter(Results.VariableID==Variables.VariableID)\
-            .filter(Results.UnitsID==Units.UnitsID)\
-            .filter(Results.FeatureActionID==FeatureActions.FeatureActionID)\
-            .filter(FeatureActions.SamplingFeatureID==SamplingFeatures.SamplingFeatureID)\
-            .filter(FeatureActions.ActionID==Actions.ActionID)\
-            .filter(Actions.MethodID==Methods.MethodID)\
-            .filter(Results.ProcessingLevelID==ProcessingLevels.ProcessingLevelID)\
-            .filter(Results.ResultTypeCV==resultTypeCV)
+    def getDetailedResultInfo(self, resultTypeCV=None, resultID=None, sfID=None):
+        # TODO can this be done by just getting the result object and drilling down?
+        # What is the performance comparison.
+        """
+        Get detailed information for all selected Results including , unit info, site info,
+        method info , ProcessingLevel info.
+        * Pass nothing - return a list of all objects
+        * Pass resultTypeCV - All objects of given type
+        * Pass a result ID - single object with the given result ID
+        * Pass a SamplingFeatureID - All objects associated with the given sampling feature.
+
+        """
+        q = self._session.query(
+            Actions,
+            Results,
+            SamplingFeatures.SamplingFeatureCode,
+            SamplingFeatures.SamplingFeatureName,
+            Methods,
+            Variables,
+            ProcessingLevels,
+            Units).filter(Results.VariableID == Variables.VariableID) \
+            .filter(Results.UnitsID == Units.UnitsID) \
+            .filter(Results.FeatureActionID == FeatureActions.FeatureActionID) \
+            .filter(FeatureActions.SamplingFeatureID == SamplingFeatures.SamplingFeatureID) \
+            .filter(FeatureActions.ActionID == Actions.ActionID) \
+            .filter(Actions.MethodID == Methods.MethodID) \
+            .filter(Results.ProcessingLevelID == ProcessingLevels.ProcessingLevelID) \
+            .filter(Results.ResultTypeCV == resultTypeCV) \
+            .order_by(Results.ResultID)
         resultList = []
+        if sfID:
+            q = q.filter(SamplingFeatures.SamplingFeatureID == sfID)
         if resultID:
-            for r,s,m,v,p,u in q.filter_by(ResultID=resultID).all():
-                detailedResult = DetailedResult(\
-                    r,s,m,v,p,u)
-                resultList.append(detailedResult)
-        else:
-            for r,s,m,v,p,u in q.all():
-                detailedResult = DetailedResult(\
-                    r,s,m,v,p,u)
-                resultList.append(detailedResult)
+            q = q.filter(Results.ResultID == resultID)
+
+        for a, r, sc, sn, m, v, p, u in q.all():
+            detailedResult = DetailedResult(
+                a, r, sc, sn, m, v, p, u
+            )
+            resultList.append(detailedResult)
         return resultList
 
-    """
-    Taxonomic Classifiers
-    """
-
+    # Taxonomic Classifiers
     def getTaxonomicClassifiers(self):
+        """
+        getTaxonomicClassifiers(self):
+        * Pass nothing - return a list of all objects
+
+        """
         return self._session.query(TaxonomicClassifiers).all()
 
-
-    """
-    Variable
-    """
-
-    def getVariables(self):
-        """Select all on Variables
-
-        :return Variable Objects:
-            :type list:
+    # Variable
+    def getVariables(self, ids=None, codes=None, sitecode=None, results=False):
         """
-        return self._session.query(Variables).all()
+        * Pass nothing - returns full list of variable objects
+        * Pass a list of VariableID - returns a single variable object
+        * Pass a list of VariableCode - returns a single variable object
+        * Pass a SiteCode - returns a list of Variable objects that are collected at the given site.
+        * Pass whether or not you want to return the sampling features that have results associated with them
 
-    def getVariableById(self, variableId):
-        """Select by variableId
-
-        :param variableId:
-            :type Integer:
-        :return Return matching Variable object filtered by variableId:
-            :type Variable:
         """
+        if sitecode:
+            try:
+                variables = [
+                    x[0] for x in
+                    self._session.query(distinct(Results.VariableID))
+                    .filter(Results.FeatureActionID == FeatureActions.FeatureActionID)
+                    .filter(FeatureActions.SamplingFeatureID == SamplingFeatures.SamplingFeatureID)
+                    .filter(SamplingFeatures.SamplingFeatureCode == sitecode).all()
+                ]
+                if ids:
+                    ids = list(set(ids).intersection(variables))
+                else:
+                    ids = variables
+            except:
+                pass
+
+        if results:
+            try:
+                variables = [x[0] for x in self._session.query(distinct(Results.VariableID)).all()]
+                if ids:
+                    ids = list(set(ids).intersection(variables))
+                else:
+                    ids = variables
+            except:
+                pass
+
+        query = self._session.query(Variables)
+        if ids:
+            query = query.filter(Variables.VariableID.in_(ids))
+        if codes:
+            query = query.filter(Variables.VariableCode.in_(codes))
         try:
-            return self._session.query(Variables).filter_by(VariableID=variableId).first()
-        except:
-            return None
-
-    def getVariableByCode(self, variableCode):
-        """Select by variableCode
-
-        :param variableCode:
-            :type String:
-        :return Return matching Variable Object filtered by variableCode:
-            :type Variable:
-        """
-        try:
-            return self._session.query(Variables).filter_by(VariableCode=variableCode).first()
-        except:
-            return None
-
-    def getResultById(self, resultId):
-        """Select by variableId
-
-        :param variableId:
-            :type Integer:
-        :return Return matching Variable object filtered by variableId:
-            :type Variable:
-        """
-        try:
-            return self._session.query(Results).filter_by(ResultID=resultId).first()
-        except:
-            return None
-    """
-    Method
-    """
-
-    def getMethods(self):
-        """Select all on Methods
-
-        :return Method Objects:
-            :type list:
-        """
-        return self._session.query(Methods).all()
-
-    def getMethodById(self, methodId):
-        """Select by methodId
-
-        :param methodId:
-            :type Integer
-        :return Return matching Method Object filtered by methodId:
-            :type Method:
-        """
-        try:
-            return self._session.query(Methods).filter_by(MethodID=methodId).first()
-        except:
-            return None
-
-    def getMethodByCode(self, methodCode):
-        """Select by methodCode
-
-        :param methodCode:
-            :type String:
-        :return Return matching Method Object filtered by method Code:
-            :type Method:
-        """
-        try:
-            return self._session.query(Methods).filter_by(MethodCode=methodCode).first()
-        except:
-            return None
-    
-    def getMethodsByType(self, methodTypeCV):
-        return self._session.query(Methods).filter_by(MethodTypeCV=methodTypeCV).all()
-
-    """
-    ProcessingLevel
-    """
-
-    def getProcessingLevels(self):
-        """Select all on Processing Level
-
-        :return ProcessingLevel Objects:
-            :type list:
-        """
-        return self._session.query(ProcessingLevels).all()
-
-    def getProcessingLevelById(self, processingId):
-        """Select by processingId
-
-        :param processingId:
-            :type Integer:
-        :return Return matching ProcessingLevel Object filtered by processingId:
-            :type Processinglevel:
-        """
-        try:
-            return self._session.query(ProcessingLevels).filter_by(ProcessingLevelID=processingId).first()
-        except:
-            return None
-
-    def getProcessingLevelByCode(self, processingCode):
-        """Select by processingCode
-
-        :param processingCode:
-            :type String(50):
-        :return Return matching Processinglevel Object filtered by processingCode:
-            :type Processinglevel:
-        """
-        try:
-            return self._session.query(ProcessingLevels).filter_by(ProcessingLevelCode=str(processingCode)).first()
+            return query.all()
         except Exception as e:
-            print(e)
+            print('Error running Query: {}'.format(e))
             return None
 
-    """
-    Sampling Feature
-    """
-
-    def getSamplingFeatures(self):
-        """Select all on SamplingFeatures
-
-        :return SamplingFeature Objects:
-            :type list:
+    # Method
+    def getMethods(self, ids=None, codes=None, type=None):
         """
+        * Pass nothing - returns full list of method objects
+        * Pass a list of MethodIDs - returns a single method object for each given id
+        * Pass a list of MethodCode - returns a single method object for each given code
+        * Pass a MethodType - returns a list of method objects of the given MethodType
 
-        return self._session.query(SamplingFeatures).all()
-
-    def getSamplingFeatureById(self, samplingId):
-        """Select by samplingId
-
-        :param samplingId:
-            :type Integer:
-        :return Return matching SamplingFeature Object filtered by samplingId:
-            :type SamplingFeature:
         """
-        try:
-            return self._session.query(SamplingFeatures).filter_by(SamplingFeatureID=samplingId).first()
-        except:
-            return None
-
-    def getSamplingFeatureByCode(self, samplingFeatureCode):
-        """Select by samplingFeatureCode
-
-        :param samplingFeatureCode:
-            :type String:
-        :return Return matching SamplingFeature Object filtered by samplingId
-            :type list:
-        """
+        q = self._session.query(Methods)
+        if ids:
+            q = q.filter(Methods.MethodID.in_(ids))
+        if codes:
+            q = q.filter(Methods.MethodCode.in_(codes))
+        if type:
+            q = q.filter_by(MethodTypeCV=type)
 
         try:
-            return self._session.query(SamplingFeatures).filter_by(SamplingFeatureCode=samplingFeatureCode).first()
+            return q.all()
         except Exception as e:
+            print('Error running Query: {}'.format(e))
             return None
 
-    def getSamplingFeaturesByType(self, samplingFeatureTypeCV):
-        """Select by samplingFeatureTypeCV
-
-        :param samplingFeatureTypeCV:
-            :type String:
-        :return Return matching SamplingFeature Objects filtered by samplingFeatureTypeCV:
-            :type list:
+    # ProcessingLevel
+    def getProcessingLevels(self, ids=None, codes=None):
         """
+        getProcessingLevels(self, ids=None, codes=None)
+        * Pass nothing - returns full list of ProcessingLevel objects
+        * Pass a list of ProcessingLevelID - returns a single processingLevel object for each given id
+        * Pass a list of ProcessingLevelCode - returns a single processingLevel object for each given code
+
+        """
+        q = self._session.query(ProcessingLevels)
+        if ids:
+            q = q.filter(ProcessingLevels.ProcessingLevelsID.in_(ids))
+        if codes:
+            q = q.filter(ProcessingLevels.ProcessingLevelCode.in_(codes))
 
         try:
-            return self._session.query(SamplingFeatures).filter_by(SamplingFeatureTypeCV=samplingFeatureTypeCV).all()
+            return q.all()
         except Exception as e:
-            print(e)
+            print('Error running Query: {}'.format(e))
             return None
 
-    def getSamplingFeatureByGeometry(self, wkt_geometry):
+    # Sampling Feature
+    def getSamplingFeatures(self, ids=None, codes=None, uuids=None, type=None, wkt=None, results=False):
+        """Retrieve a list of Sampling Feature objects.
 
+        If no arguments are passed to the function, or their values are None,
+        all Sampling Feature objects in the database will be returned.
+
+        Args:
+            ids (list, optional): List of SamplingFeatureIDs.
+            codes (list, optional): List of SamplingFeature Codes.
+            uuids (list, optional): List of UUIDs string.
+            type (str, optional): Type of Sampling Feature from
+                `controlled vocabulary name <http://vocabulary.odm2.org/samplingfeaturetype/>`_.
+            wkt (str, optional): SamplingFeature Well Known Text.
+            results (bool, optional): Whether or not you want to return only the
+                sampling features that have results associated with them.
+
+        Returns:
+            list: List of Sampling Feature objects
+
+        Examples:
+            >>> READ = ReadODM2(SESSION_FACTORY)
+            >>> READ.getSamplingFeatures(ids=[39, 40])
+            >>> READ.getSamplingFeatures(codes=['HOME', 'FIELD'])
+            >>> READ.getSamplingFeatures(uuids=['a6f114f1-5416-4606-ae10-23be32dbc202',
+            ...                                 '5396fdf3-ceb3-46b6-aaf9-454a37278bb4'])
+            >>> READ.getSamplingFeatures(type='Site')
+            >>> READ.getSamplingFeatures(wkt='POINT (30 10)')
+            >>> READ.getSamplingFeatures(results=True)
+            >>> READ.getSamplingFeatures(type='Site', results=True)
+
+        """
+        if results:
+            try:
+                fas = [x[0] for x in self._session.query(distinct(Results.FeatureActionID)).all()]
+            except:
+                return None
+            sf = [x[0] for x in self._session.query(distinct(FeatureActions.SamplingFeatureID))
+                                    .filter(FeatureActions.FeatureActionID.in_(fas)).all()]
+            if ids:
+                ids = list(set(ids).intersection(sf))
+            else:
+                ids = sf
+
+        q = self._session.query(SamplingFeatures)
+
+        if type:
+            q = q.filter_by(SamplingFeatureTypeCV=type)
+        if ids:
+            q = q.filter(SamplingFeatures.SamplingFeatureID.in_(ids))
+        if codes:
+            q = q.filter(SamplingFeatures.SamplingFeatureCode.in_(codes))
+        if uuids:
+            q = q.filter(SamplingFeatures.SamplingFeatureUUID.in_(uuids))
+        if wkt:
+            q = q.filter_by(FeatureGeometryWKT=wkt)
         try:
-            # ST_Equals(geometry, geometry)
-            return self._session.query(SamplingFeatures).filter(
-                func.ST_AsText(SamplingFeatures.FeatureGeometry) == func.ST_AsText(wkt_geometry)).first()
+            return q.all()
         except Exception as e:
-            print(e)
+            print('Error running Query: {}'.format(e))
             return None
 
-    def getGeometryTest(self, TestGeom):
-        Geom = self._session.query(SamplingFeatures).first()
-        print("Queried Geometry: ", self._session.query(Geom.FeatureGeometry.ST_AsText()).first())
-        GeomText = self._session.query(
-            func.ST_Union(Geom.FeatureGeometry, func.ST_GeomFromText(TestGeom)).ST_AsText()).first()
-
-        print(GeomText)
-
-    """
-    Action
-    """
-
-    def getActions(self):
+    def getRelatedSamplingFeatures(self, sfid=None, rfid=None, relationshiptype=None):
+        # TODO: add functionality to filter by code
         """
-        Select all on Action
-        """
-        return self._session.query(Actions).all()
+        * Pass a SamplingFeatureID - get a list of sampling feature objects
+          related to the input sampling feature
+        * Pass a RelatedFeatureID - get a list of Sampling features objects through the related feature
+        * Pass a RelationshipTypeCV - get a list of sampling feature objects with the given type
 
-    def getActionById(self, actionId):
-        """
-        Select by actionId
-        """
-        try:
-            return self._session.query(Actions).filter_by(ActionID=actionId).first()
-        except:
-            return None
-    
-    
-    """
-    Unit
-    """
-
-    def getUnits(self):
-        """Select all on Unit
-
-        :return Unit Objects:
-            :type list:
-        """
-        return self._session.query(Units).all()
-
-    def getUnitById(self, unitId):
-        """Select by samplingId
-
-        :param unitId:
-            :type Integer:
-        :return Return matching Unit Object filtered by UnitId:
-            :type Unit:
-        """
-        try:
-            return self._session.query(Units).filter_by(UnitsID=unitId).first()
-        except:
-            return None
-
-    def getUnitByName(self, unitName):
-
-
-        try:
-            return self._session.query(Units).filter(Units.UnitsName.ilike(unitName)).first()
-        except:
-            return None
-    
-    def getUnitsByTypeCV(self, unitsTypeCV):
-        try:
-            return self._session.query(Units).filter(Units.UnitsTypeCV.ilike(unitsTypeCV)).all()
-        except:
-            return None
-
-    """
-    Organization
-    """
-
-    def getOrganizations(self):
-        """Select all on Organization
-
-        :return Organization Objects:
-            :type list:
-        """
-        return self._session.query(Organizations).all()
-
-    def getOrganizationById(self, orgId):
-        """Select by orgId
-
-        :param orgId:
-            :type Integer:
-        :return Return matching Unit Object filtered by orgId:
-            :type Organization:
-        """
-        try:
-            return self._session.query(Organizations).filter_by(OrganizationID=orgId).first()
-        except:
-            return None
-
-    def getOrganizationByCode(self, orgCode):
-        """Select by orgCode
-
-        :param orgCode:
-            :type String:
-        :return Return matching Organization Object filtered by orgCode
-            :type Organization:
-        """
-        try:
-            return self._session.query(Organizations).filter_by(OrganizationCode=orgCode).first()
-
-        except:
-            return None
-
-    """
-    Person
-    """
-
-    def getPeople(self):
-        """Select all on Person
-
-        :return Person Objects:
-            :type list:
-        """
-        return self._session.query(People).all()
-
-    def getPersonById(self, personId):
-        """Select by personId
-
-        :param personId:
-            :type Integer:
-        :return Return matching Person Object filtered by personId:
-            :type Person:
-        """
-        try:
-            return self._session.query(People).filter_by(PersonID=personId).first()
-
-        except:
-            return None
-
-    def getPersonByName(self, personfirst, personlast):
-        """Select by person name, last name combination
-
-        :param personfirst: first name of person
-        :param personlast: last name of person
-        :return Return matching Person Object:
-            :type Person:
-        """
-        try:
-            return self._session.query(People).filter(People.PersonFirstName.ilike(personfirst)). \
-                filter(People.PersonLastName.ilike(personlast)).first()
-        except:
-            return None
-
-    def getAllAffiliations(self):
-        try:
-            return self._session.query(Affiliations).all()
-        except:
-            return None
-
-    def getAffiliationByPersonAndOrg(self, personfirst, personlast, orgcode):
-        """
-        Select all affiliation of person
-        :param personfirst: first name of person
-        :param personlast: last name of person
-        :param orgcode: organization code (e.g. uwrl)
-        :return: ODM2.Affiliation
         """
 
-        try:
-            return self._session.query(Affiliations).filter(Organizations.OrganizationCode.ilike(orgcode)) \
-                .filter(People.PersonFirstName.ilike(personfirst)) \
-                .filter(People.PersonLastName.ilike(personlast)).first()
-        except:
-            return None
-    
-    def getAffiliations(self):
-        return self._session.query(Affiliations).all()
+        sf = self._session.query(distinct(SamplingFeatures.SamplingFeatureID))\
+                 .select_from(RelatedFeatures)
 
-    def getAffiliationsByPerson(self, personfirst, personlast):
+        if sfid:
+            sf = sf.join(RelatedFeatures.RelatedFeatureObj).filter(RelatedFeatures.SamplingFeatureID == sfid)
+        if rfid:
+            sf = sf.join(RelatedFeatures.SamplingFeatureObj).filter(RelatedFeatures.RelatedFeatureID == rfid)
+        if relationshiptype:
+            sf = sf.filter(RelatedFeatures.RelationshipTypeCV == relationshiptype)
+        try:
+            sfids = [x[0] for x in sf.all()]
+            if len(sfids) > 0:
+                sflist = self.getSamplingFeatures(ids=sfids)
+                return sflist
+
+        except Exception as e:
+            print('Error running Query: {}'.format(e))
+        return None
+
+    # Action
+    def getActions(self, ids=None, type=None, sfid=None):
         """
-        Select all affiliation of person
-        :param personfirst: first name of person
-        :param personlast: last name of person
-        :return: [ODM2.Affiliation]
+        * Pass nothing - returns a list of all Actions
+        * Pass a list of Action ids - returns a list of Action objects
+        * Pass a ActionTypeCV - returns a list of Action objects of that type
+        * Pass a SamplingFeature ID - returns a list of Action objects
+          associated with that Sampling feature ID, Found through featureAction table
+
+        """
+        a = Actions
+        if type == 'equipment':
+            a = EquipmentActions
+        elif type == 'calibration':
+            a = CalibrationActions
+        elif type == 'maintenance':
+            a = MaintenanceActions
+
+        q = self._session.query(a)
+        if ids:
+            q = q.filter(a.ActionID.in_(ids))
+        if sfid:
+            q = q.join(FeatureActions).filter(FeatureActions.SamplingFeatureID == sfid)
+
+        try:
+            return q.all()
+        except Exception as e:
+            print('Error running Query: {}'.format(e))
+            return None
+
+    def getRelatedActions(self, actionid=None):
+        """
+        * Pass an ActionID - get a list of Action objects related to the input
+          action along with the relationship type
+
         """
 
+        q = self._session.query(Actions).select_from(RelatedActions).join(RelatedActions.RelatedActionObj)
+        if actionid:
+            q = q.filter(RelatedActions.ActionID == actionid)
         try:
-            return self._session.query(Affiliations).filter(People.PersonFirstName.ilike(personfirst)) \
-                .filter(People.PersonLastName.ilike(personlast)).all()
-        except:
+            return q.all()
+        except Exception as e:
+            print('Error running Query: {}'.format(e))
             return None
 
-    """
-    Results
-    """
+    # Unit
+    def getUnits(self, ids=None, name=None, type=None):
+        """
+        * Pass nothing - returns a list of all units objects
+        * Pass a list of UnitsID - returns a single units object for the given id
+        * Pass UnitsName - returns a single units object
+        * Pass a type- returns a list of all objects of the given type
 
-    def getResults(self):
-
+        """
+        q = self._session.query(Units)
+        if ids:
+            q = q.filter(Units.UnitsID.in_(ids))
+        if name:
+            q = q.filter(Units.UnitsName.ilike(name))
+        if type:
+            q = q.filter(Units.UnitsTypeCV.ilike(type))
         try:
-            return self._session.query(Results).all()
-        except:
-            return None
-
-    def getResultByActionID(self, actionID):
-
-        try:
-            return self._session.query(Results).join(FeatureActions).join(Actions).filter_by(ActionID=actionID).all()
-        except:
-            return None
-
-    def getResultByID(self, resultID):
-        try:
-            return self._session.query(Results).filter_by(ResultID=resultID).one()
-        except:
-            return None
-
-    def getResultAndGeomByID(self, resultID):
-        try:
-            return self._session.query(Results, SamplingFeatures.FeatureGeometry.ST_AsText()). \
-                join(FeatureActions). \
-                join(SamplingFeatures). \
-                join(Results). \
-                filter_by(ResultID=resultID).one()
-        except:
-            return None
-
-    def getResultAndGeomByActionID(self, actionID):
-
-        try:
-            return self._session.query(Results, SamplingFeatures.FeatureGeometry.ST_AsText()). \
-                join(FeatureActions). \
-                join(SamplingFeatures). \
-                join(Actions). \
-                filter_by(ActionID=actionID).all()
-        except:
-            return None
-
-    def getResultValidDateTime(self, resultId):
-        q = self._session.query(Results.ValidDateTime).filter(Results.ResultID==int(resultId))
-        return q.first()
-
-    """
-    Datasets
-    """
-
-    def getDataSets(self):
-        try:
-            return self._session.query(DataSets).all()
-        except:
-            return None
-
-    def getDatasetByCode(self, dscode):
-
-        try:
-            return self._session.query(DataSets).filer(DataSets.DataSetCode.ilike(dscode)).first()
-        except:
+            return q.all()
+        except Exception as e:
+            print('Error running Query: {}'.format(e))
             return None
 
 
-# ################################################################################
-# Data Quality
-# ################################################################################
+    # Organization
+    def getOrganizations(self, ids=None, codes=None):
+        """
+        * Pass nothing - returns a list of all organization objects
+        * Pass a list of OrganizationID - returns a single organization object
+        * Pass a list of OrganizationCode - returns a single organization object
 
+        """
+        q = self._session.query(Organizations)
+        if ids:
+            q = q.filter(Organizations.OrganizationID.in_(ids))
+        if codes:
+            q = q.filter(Organizations.OrganizationCode.in_(codes))
+        try:
+            return q.all()
+        except Exception as e:
+            print('Error running Query: {}'.format(e))
+            return None
 
-    def getAllDataQuality(self):
-        """Select all on Data Quality
+    # Person
+    def getPeople(self, ids=None, firstname=None, lastname=None):
+        """
+        * Pass nothing - returns a list of all People objects
+        * Pass a list of PeopleID - returns a single People object
+        * Pass a First Name - returns a single People object
+        * Pass a Last Name - returns a single People object
 
-        :return Dataquality Objects:
-            :type list:
+        """
+        q = self._session.query(People)
+        if ids:
+            q = q.filter(People.PersonID.in_(ids))
+        if firstname:
+            q = q.filter(People.PersonFirstName.ilike(firstname))
+        if lastname:
+            q = q.filter(People.PersonLastName.ilike(lastname))
+        try:
+            return q.all()
+        except Exception as e:
+            print('Error running Query: {}'.format(e))
+            return None
+
+    def getAffiliations(self, ids=None, personfirst=None, personlast=None, orgcode=None):
+        """Retrieve a list of Affiliation objects.
+
+        If no arguments are passed to the function, or their values are None,
+        all Affiliation objects in the database will be returned.
+
+        Args:
+            ids (list, optional): List of AffiliationIDs.
+            personfirst (str, optional): Person First Name.
+            personlast (str, optional): Person Last Name.
+            orgcode (str, optional): Organization Code.
+
+        Returns:
+            list: List of Affiliation objects
+
+        Examples:
+            >>> ReadODM2.getAffiliations(ids=[39,40])
+            >>> ReadODM2.getAffiliations(personfirst='John',
+            ...                      personlast='Smith')
+            >>> ReadODM2.getAffiliations(orgcode='Acme')
+
+        """
+        q = self._session.query(Affiliations)
+
+        if ids:
+            q = q.filter(Affiliations.AffiliationID.in_(ids))
+        if orgcode:
+            q = q.join(Affiliations.OrganizationObj).filter(Organizations.OrganizationCode.ilike(orgcode))
+        if personfirst:
+            q = q.join(Affiliations.PersonObj).filter(People.PersonFirstName.ilike(personfirst))
+        if personlast:
+            q = q.join(Affiliations.PersonObj).filter(People.PersonLastName.ilike(personlast))
+
+        try:
+            return q.all()
+        except Exception as e:
+            print('Error running Query: {}'.format(e))
+            return None
+
+    # Results
+    def getResults(self, ids=None, type=None, uuids=None, actionid=None, simulationid=None, sfid=None,
+                   variableid=None, siteid=None):
+
+        # TODO what if user sends in both type and actionid vs just actionid
+        """Retrieve a list of Result objects.
+
+        If no arguments are passed to the function, or their values are None,
+        all Result objects in the database will be returned.
+
+        Args:
+            ids (list, optional): List of ResultIDs.
+            type (str, optional): Type of Result from
+                `controlled vocabulary name <http://vocabulary.odm2.org/resulttype/>`_.
+            uuids (list, optional): List of UUIDs string.
+            actionid (int, optional): ActionID.
+            simulationid (int, optional): SimulationID.
+            sfid (int, optional): SamplingFeatureID.
+            variableid (int, optional): VariableID.
+            siteid (int, optional): SiteID.
+
+        Returns:
+            list: List of Result objects
+
+        Examples:
+            >>> ReadODM2.getResults(ids=[39,40])
+            >>> ReadODM2.getResults(type='Time series coverage')
+            >>> ReadODM2.getResults(sfid=65)
+            >>> ReadODM2.getResults(uuids=['a6f114f1-5416-4606-ae10-23be32dbc202',
+            ...                            '5396fdf3-ceb3-46b6-aaf9-454a37278bb4'])
+            >>> ReadODM2.getResults(simulationid=50)
+            >>> ReadODM2.getResults(siteid=6)
+            >>> ReadODM2.getResults(variableid=7)
+            >>> ReadODM2.getResults(actionid=20)
+
+        """
+        query = self._session.query(Results)
+
+        if type:
+            query = query.filter_by(ResultTypeCV=type)
+        if variableid:
+            query = query.filter_by(VariableID=variableid)
+        if ids:
+            query = query.filter(Results.ResultID.in_(ids))
+        if uuids:
+            query = query.filter(Results.ResultUUID.in_(uuids))
+        if simulationid:
+            query = query.join(FeatureActions)\
+                    .join(Actions)\
+                    .join(Simulations)\
+                    .filter_by(SimulationID=simulationid)
+        if actionid:
+            query = query.join(FeatureActions).filter_by(ActionID=actionid)
+        if sfid:
+            query = query.join(FeatureActions).filter_by(SamplingFeatureID=sfid)
+
+        if siteid:
+            sfids = [x[0] for x in self._session.query(
+                distinct(SamplingFeatures.SamplingFeatureID))
+                .select_from(RelatedFeatures)
+                .join(RelatedFeatures.SamplingFeatureObj)
+                .filter(RelatedFeatures.RelatedFeatureID == siteid)
+                .all()
+            ]
+            query = query.join(FeatureActions).filter(FeatureActions.SamplingFeatureID.in_(sfids))
+
+        try:
+            return query.all()
+        except Exception as e:
+            print('Error running Query: {}'.format(e))
+            return None
+
+    # Datasets
+    def getDataSets(self, codes=None, uuids=None):
+        """
+        * Pass nothing - returns a list of all DataSet objects
+        * Pass a list of DataSetCode - returns a single DataSet object for each code
+        * Pass a list of UUIDS - returns a single DataSet object for each UUID
+        """
+        q = self._session.query(DataSets)
+        if codes:
+            q = q.filter(DataSets.DataSetCode.in_(codes))
+        if uuids:
+            q.q.filter(DataSets.DataSetUUID.in_(uuids))
+        try:
+            return q.all()
+        except Exception as e:
+            print('Error running Query {}'.format(e))
+            return None
+
+    # Data Quality
+    def getDataQuality(self):
+        """
+        * Pass nothing - return a list of all objects
         """
         return self._session.query(DataQuality).all()
 
-
-# ################################################################################
-# Equipment
-# ################################################################################
-
-
-    def getAllEquipment(self):
-        return self._session.query(Equipment).all()
-
-
-# ################################################################################
-# Extension Properties
-# ################################################################################
-
-
-
-# ################################################################################
-# External Identifiers
-# ################################################################################
-
-
-
-
-# ################################################################################
-# Lab Analyses
-# ################################################################################
-
-
-
-
-# ################################################################################
-# Provenance
-# ################################################################################
-
-
-    """
-    Citation
-    """
-
-    def getCitations(self):
-        self._session.query(Citations).all()
-
-
-
-
-
-# ################################################################################
-# Results
-# ################################################################################
-
-
-    """
-    TimeSeriesResults
-    """
-
-    def getTimeSeriesResults(self):
-        """Select all on TimeSeriesResults
-
-        :return TimeSeriesResults Objects:
-            :type list:
+    # TODO DataQuality Schema Queries
+    def getReferenceMaterials(self):
         """
-        return self._session.query(TimeSeriesResults).all()
-
-    def getTimeSeriesResultByResultId(self, resultId):
-        """Select by resultID on ResultID
-
-        :param resultId:
-            :type Integer:
-        :return return matching Timeseriesresult Object filtered by resultId
+        * Pass nothing - return a list of all objects
         """
+        return self._session.query(ReferenceMaterials).all()
 
-        try:
-            return self._session.query(TimeSeriesResults).filter_by(ResultID=resultId).one()
-        except:
-            return None
-
-    def getTimeSeriesResultbyCode(self, timeSeriesCode):
-        """Select by time
+    def getReferenceMaterialValues(self):
         """
-        pass
-
-    """
-    TimeSeriesResultValues
-    """
-
-    def getTimeSeriesResultValues(self):
-        """Select all on TimeSeriesResults
-
-        :return TimeSeriesResultsValue Objects:
-            :type list:
+        * Pass nothing - return a list of all objects
         """
+        return self._session.query(ReferenceMaterialValues).all()
 
-        q = self._session.query(TimeSeriesResults).all()
-        df = pd.DataFrame([dv.list_repr() for dv in q])
-        df.columns = q[0].get_columns()
-        return df
-        # return self._session.query(Timeseriesresultvalue).all()
-
-    def getTimeSeriesResultValuesByResultId(self, resultId):
-        """Select by resultId
-
-        :param timeSeriesId:
-            :type Integer:
-        :return return matching Timeseriesresultvalue Object filtered by resultId:
-            :type Timeseriesresultvalue:
+    def getResultNormalizationValues(self):
         """
-        try:
-            q = self._session.query(TimeSeriesResultValues).filter_by(ResultID=resultId).all()
-            print(type(q[0]), q[0])
-            df = pd.DataFrame([dv.list_repr() for dv in q])
-            df.columns = q[0].get_columns()
-            return df
-            # return self._session.query(Timeseriesresultvalue).filter_by(ResultID=resultId).all()
-        except Exception as e:
-            print(e)
-            return None
-
-    def getTimeSeriesResultValuesByCode(self, timeSeriesCode):
+        * Pass nothing - return a list of all objects
         """
+        return self._session.query(ResultNormalizationValues).all()
 
-        :param timeSeriesCode:
-        :return:
+    def getResultsDataQuality(self):
         """
-        pass
-
-    def getTimeSeriesResultValuesByTime(self, resultid, starttime, endtime=None):
-
-        # set end = start if it is None
-        endtime = starttime if not endtime else endtime
-
-        try:
-            return self._session.query(TimeSeriesResultValues).filter_by(ResultID=resultid) \
-                .filter(TimeSeriesResultValues.ValueDateTime >= starttime) \
-                .filter(TimeSeriesResultValues.ValueDateTime <= endtime) \
-                .order_by(TimeSeriesResultValues.ValueDateTime).all()
-        except:
-            return None
-
-
-# ################################################################################
-# Annotations
-# ################################################################################
-
-
-    """
-    Site
-    """
-
-    def getAllSites(self):
-        """Select all on Sites
-
-        :return Site Objects:
-            :type list:
+        * Pass nothing - return a list of all objects
         """
-        return self._session.query(Sites).all()
+        return self._session.query(ResultsDataQuality).all()
 
-    def getSiteBySFId(self, siteId):
-        """Select by siteId
-
-        :param siteId:
-            :type Integer:
-        :return Return matching Site Object filtered by siteId:
-            :type Site:
+    # TODO Equipment Schema Queries
+    # Equipment
+    def getEquipment(self, codes=None, type=None, sfid=None, actionid=None):
         """
-        try:
-            return self._session.query(Sites).filter_by(SamplingFeatureID=siteId).one()
-        except:
-            return None
+        * Pass nothing - returns a list of all Equipment objects
+        * Pass a list of EquipmentCodes- return a list of all Equipment objects that match each of the codes
+        * Pass a EquipmentType - returns a single Equipment object
+        * Pass a SamplingFeatureID - returns a single Equipment object
+        * Pass an ActionID - returns a single Equipment object
 
-
-    def getSiteBySFCode(self, siteCode):
-        """Select by siteCode
-
-        :param siteCode:
-            :type String:
-        :return Return matching Samplingfeature Object filtered by siteCode:
-            :type Samplingfeature:
         """
-
-        sf = self._session.query(SamplingFeatures).filter_by(SamplingFeatureCode=siteCode).one()
-        return self._session.query(Sites).filter_by(SamplingFeatureID=sf.SamplingFeatureID).one()
-
-    def getSpatialReferenceByCode(self, srsCode):
-
-
-        try:
-            return self._session.query(SpatialReferences).filter(SpatialReferences.SRSCode.ilike(srsCode)).first()
-        except:
-            return None
-
-
-# ################################################################################
-# Sensors
-# ################################################################################
-
-
-
-
-    def getAllDeploymentAction(self):
-        """Select all on DeploymentAction
-
-        :return DeploymentAction Objects:
-            :type list:
-        """
-        return self._session.query(DeploymentAction).all()
-
-        # return self._session.query)
-
-    def getDeploymentActionById(self, deploymentId):
-        """Select by deploymentId
-
-        :param deploymentId:
-            :type Integer:
-        :return Return Matching DeploymentAction Object filtered by deploymentId:
-            :type DeploymentAction:
-        """
-        try:
-            return self._session.query(DeploymentAction).filter_by(DeploymentActionID=deploymentId).one()
-        except:
-            return None
-
-    def getDeploymentActionByCode(self, deploymentCode):
-        """Select by deploymentCode
-
-        :param deploymentCode:
-            :type String:
-        :return Return matching DeploymentAction Object filtered by deploymentCode:
-            :type DeploymentAction:
-        """
-        try:
-            return self._session.query(Deploymentaction).filter_by(DeploymentActionCode=deploymentCode).one()
-        except:
-            return None
-
-
-# ################################################################################
-# Simulation
-# ################################################################################
-
-
-    def getAllModels(self):
-
-        try:
-            return self._session.query(Models).all()
-        except:
-            return None
-
-    def getModelByCode(self, modelcode):
-        try:
-            return self._session.query(Models).filter(Models.ModelCode.ilike(modelcode)).first()
-        except:
-            return None
-
-    def getAllSimulations(self):
-
-        try:
-            return self._session.query(Simulations).all()
-        except:
-            return None
-
-    def getSimulationByName(self, simulationName):
-        try:
-            return self._session.query(Simulations).filter(Simulations.SimulationName.ilike(simulationName)).first()
-        except:
-            return None
-
-    def getSimulationByActionID(self, actionID):
-        try:
-            return self._session.query(Simulations).filter_by(ActionID=actionID).first()
-        except:
-            return None
-
-    def getRelatedModelsByID(self, modelid):
-        """
-        queries the ODM2 for any models that have a relationship with the provided model id
-        :param modelid: id of the model to search
-        :return: all models related to the specified id
-        """
-        try:
-            return self._session.query(RelatedModels).filter_by(RelatedModelID=modelid).all()
-        except Exception as e:
-            print(e)
-        return None
-
-    def getRelatedModelsByCode(self, modelcode):
-        """
-        queries the ODM2 for any models that have a relationship with the provided model id
-        :param modelcode: the code of the model to search
-        :return: all models related to the provided model code
-        """
-        try:
-            return self._session.query(RelatedModels).join(Models, RelatedModels.RelatedModelID == Models.ModelID) \
-                .filter(Models.ModelCode == modelcode).all()
-        except Exception as e:
-            print(e)
-        return None
-
-    def getResultsBySimulationID(self, simulationID):
-        try:
-            return self._session.query(Results) \
-                    .join(FeatureActions) \
+        e = self._session.query(Equipment)
+        if sfid:
+            e = e.join(EquipmentUsed) \
                     .join(Actions) \
-                    .join(Simulations) \
-                    .filter(Simulations.SimulationID == simulationID).all()
+                    .join(FeatureActions) \
+                    .filter(FeatureActions.SamplingFeatureID == sfid)
+        if codes:
+            e = e.filter(Equipment.EquipmentCode.in_(codes))
+        if actionid:
+            e = e.join(EquipmentUsed).join(Actions) \
+                    .filter(Actions.ActionID == actionid)
+        return e.all()
+
+    def CalibrationReferenceEquipment(self):
+        """
+        * Pass nothing - return a list of all objects
+
+        """
+        return self._session.query(CalibrationReferenceEquipment).all()
+
+    def CalibrationStandards(self):
+        """
+        * Pass nothing - return a list of all objects
+
+        """
+        return self._session.query(CalibrationStandards).all()
+
+    def DataloggerFileColumns(self):
+        """
+        * Pass nothing - return a list of all objects
+
+        """
+        return self._session.query(DataLoggerFileColumns).all()
+
+    def DataLoggerFiles(self):
+        """
+        * Pass nothing - return a list of all objects
+
+        """
+        return self._session.query(DataLoggerFiles).all()
+
+    def DataloggerProgramFiles(self):
+        """
+        * Pass Nothing - return a list of all objects
+
+        """
+        return self._session.query(DataLoggerProgramFiles).all()
+
+    def EquipmentModels(self):
+        """
+        * Pass Nothing - return a list of all objects
+
+        """
+        return self._session.query(EquipmentModels).all()
+
+    def EquipmentUsed(self):
+        """
+        * Pass Nothing - return a list of all objects
+
+        """
+        return self._session.query(EquipmentUsed).all()
+
+    def InstrumentOutputVariables(self, modelid=None, variableid=None):
+        """
+        * Pass Nothing - return a list of all objects
+        * Pass ModelID
+        * Pass VariableID
+
+        """
+        i = self._session.query(InstrumentOutputVariables)
+        if modelid:
+            i = i.filter_by(ModelID=modelid)
+        if variableid:
+            i = i.filter_by(VariableID=variableid)
+        return i.all()
+
+    def RelatedEquipment(self, code=None):
+        """
+        * Pass nothing - return a list of all objects
+        * Pass code- return a single object with the given code
+
+        """
+        r = self._session.query(RelatedEquipment)
+        if code:
+            r = r.filter_by(EquipmentCode=code)
+        return r.all()
+
+    # Extension Properties
+    def getExtensionProperties(self, type=None):
+        """
+        * Pass nothing - return a list of all objects
+        * Pass type- return a list of all objects of the given type
+
+        """
+        # Todo what values to use for extensionproperties type
+        e = ExtensionProperties
+        if type == 'action':
+            e = ActionExtensionPropertyValues
+        elif type == 'citation':
+            e = CitationExtensionPropertyValues
+        elif type == 'method':
+            e = MethodExtensionPropertyValues
+        elif type == 'result':
+            e = ResultExtensionPropertyValues
+        elif type == 'samplingfeature':
+            e = SamplingFeatureExtensionPropertyValues
+        elif type == 'variable':
+            e = VariableExtensionPropertyValues
+        try:
+            return self._session.query(e).all()
         except Exception as e:
-            print(e)
-        return None
+            print('Error running Query: {}'.format(e))
+            return None
 
-# ################################################################################
-# ODM2
-# ################################################################################
+    # External Identifiers
+    def getExternalIdentifiers(self, type=None):
+        """
+        * Pass nothing - return a list of all objects
+        * Pass type- return a list of all objects of the given type
 
-class readODM2(object):
-   def test(self):
-        return None
+        """
+        e = ExternalIdentifierSystems
+        if type.lowercase == 'citation':
+            e = CitationExternalIdentifiers
+        elif type == 'method':
+            e = MethodExternalIdentifiers
+        elif type == 'person':
+            e = PersonExternalIdentifiers
+        elif type == 'referencematerial':
+            e = ReferenceMaterialExternalIdentifiers
+        elif type == 'samplingfeature':
+            e = SamplingFeatureExternalIdentifiers
+        elif type == 'spatialreference':
+            e = SpatialReferenceExternalIdentifiers
+        elif type == 'taxonomicclassifier':
+            e = TaxonomicClassifierExternalIdentifiers
+        elif type == 'variable':
+            e = VariableExternalIdentifiers
+        try:
+            return self._session.query(e).all()
+        except Exception as e:
+            print('Error running Query: {}'.format(e))
+            return None
+
+    # TODO functions for Lab Analyses
+    # Lab Analyses
+    def getDirectives(self):
+        """
+        getDirectives(self)
+        * Pass nothing - return a list of all objects
+
+        """
+        return self._session.query(Directives).all()
+
+    def getActionDirectives(self):
+        """
+        getActionDirectives(self)
+        * Pass nothing - return a list of all objects
+
+        """
+        return self._session.query(ActionDirectives).all()
+
+    def getSpecimenBatchPositions(self):
+        """
+        getSpecimenBatchPositions(self)
+        * Pass nothing - return a list of all objects
+
+        """
+        return self._session.query(SpecimenBatchPositions).all()
+
+    # TODO functions for Provenance
+    # Provenance
+    def getAuthorLists(self):
+        """
+        getAuthorLists(self)
+        * Pass nothing - return a list of all objects
+
+        """
+        return self._session.query(AuthorLists).all()
+
+    def getDatasetCitations(self):
+        """
+        getDatasetCitations(self)
+        * Pass nothing - return a list of all objects
+
+        """
+        return self._session.query(DataSetCitations).all()
+
+    def getDerivationEquations(self):
+        """
+        getDerivationEquations(self)
+        * Pass nothing - return a list of all objects
+
+        """
+        return self._session.query(DerivationEquations).all()
+
+    def getMethodCitations(self):
+        """
+        getMethodCitations(self)
+        * Pass nothing - return a list of all objects
+
+        """
+        return self._session.query(MethodCitations).all()
+
+    def getRelatedAnnotations(self):
+        """
+        getRelatedAnnotations(self)
+        * Pass nothing - return a list of all objects
+
+        """
+        return self._session.query(RelatedAnnotations).all()
+
+    def getRelatedCitations(self):
+        """
+        getRelatedCitations(self)
+        * Pass nothing - return a list of all objects
+
+        """
+        return self._session.query(RelatedCitations).all()
+
+    def getRelatedDatasets(self):
+        """
+        getRelatedDatasets(self)
+        * Pass nothing - return a list of all objects
+
+        """
+        return self._session.query(RelatedDataSets).all()
+
+    def getRelatedResults(self):
+        """
+        getRelatedResults(self)
+        * Pass nothing - return a list of all objects
+
+        """
+        return self._session.query(RelatedResults).all()
+
+    def getResultDerivationEquations(self):
+        """
+        getResultDerivationEquations(self)
+        * Pass nothing - return a list of all objects
+
+        """
+        return self._session.query(ResultDerivationEquations).all()
+
+    # Results
+    # ResultValues
+    def getResultValues(self, resultids, starttime=None, endtime=None):
+        """
+        getResultValues(self, resultids, starttime=None, endtime=None)
+        * Pass in a list of ResultID - Returns a pandas dataframe object of type
+          that is specific to the result type - The resultids must be associated
+          with the same value type
+        * Pass a ResultID and a date range - returns a pandas dataframe object
+          of type that is specific to the result type with values between the input date range
+        * Pass a starttime - Returns a dataframe with the values after the given start time
+        * Pass an endtime - Returns a dataframe with the values before the given end time
+
+        """
+        type = self._session.query(Results).filter_by(ResultID=resultids[0]).first().ResultTypeCV
+        ResultType = TimeSeriesResults
+        if 'categorical' in type.lower():
+            ResultType = CategoricalResultValues
+        elif 'measurement' in type.lower():
+            ResultType = MeasurementResultValues
+        elif 'point' in type.lower():
+            ResultType = PointCoverageResultValues
+        elif 'profile' in type.lower():
+            ResultType = ProfileResultValues
+        elif 'section' in type.lower():
+            ResultType = SectionResults
+        elif 'spectra' in type.lower():
+            ResultType = SpectraResultValues
+        elif 'time' in type.lower():
+            ResultType = TimeSeriesResultValues
+        elif 'trajectory' in type.lower():
+            ResultType = TrajectoryResultValues
+        elif 'transect' in type.lower():
+            ResultType = TransectResultValues
+
+        q = self._session.query(ResultType).filter(ResultType.ResultID.in_(resultids))
+        if starttime:
+            q = q.filter(ResultType.ValueDateTime >= starttime)
+        if endtime:
+            q = q.filter(ResultType.ValueDateTime <= endtime)
+        try:
+            # F841 local variable 'vals' is assigned to but never used
+            # vals = q.order_by(ResultType.ValueDateTime)
+            query = q.statement.compile(dialect=self._session_factory.engine.dialect)
+            df = pd.read_sql_query(
+                sql=query,
+                con=self._session_factory.engine,
+                params=query.params
+            )
+            return df
+        except Exception as e:
+            print('Error running Query: {}'.format(e))
+            return None
+
+    # SamplingFeatures
+    # Site
+    def getSpatialReferences(self, srsCodes=None):
+        """
+        getSpatialReferences(self, srsCodes=None)
+        * Pass nothing - return a list of all Spatial References
+        * Pass in a list of SRS Codes-
+
+        """
+        q = self._session.query(SpatialReferences)
+        if srsCodes:
+            q.filter(SpatialReferences.SRSCode.in_(srsCodes))
+        try:
+            return q.all()
+        except Exception as e:
+            print('Error running Query: {}'.format(e))
+            return None
+
+    # Simulation
+    def getSimulations(self, name=None, actionid=None):
+        """
+        getSimulations(self, name=None, actionid=None)
+        * Pass nothing - get a list of all converter simuation objects
+        * Pass a SimulationName - get a single simulation object
+        * Pass an ActionID - get a single simulation object
+
+        """
+        s = self._session.query(Simulations)
+        if name:
+            s = s.filter(Simulations.SimulationName.ilike(name))
+        if actionid:
+            s = s.filter_by(ActionID=actionid)
+        try:
+            return s.all()
+        except Exception as e:
+            print('Error running Query: {}'.format(e))
+            return None
+
+    def getModels(self, codes=None):
+        """
+        getModels(self, codes=None)
+        * Pass nothing - return a list of all Model Objects
+        * Pass a list of ModelCodes - get a list of converter objects related to the converter having ModeCode
+
+        """
+        m = self._session.query(Models)
+        if codes:
+            m = m.filter(Models.ModelCode.in_(codes))
+        try:
+            return m.all()
+        except Exception as e:
+            print('Error running Query: {}'.format(e))
+            return None
+
+    def getRelatedModels(self, id=None, code=None):
+        """
+        getRelatedModels(self, id=None, code=None)
+        * Pass a ModelID - get a list of converter objects related to the converter having ModelID
+        * Pass a ModelCode - get a list of converter objects related to the converter having ModeCode
+
+        """
+        m = self._session.query(Models).select_from(RelatedModels).join(RelatedModels.ModelObj)
+        if id:
+            m = m.filter(RelatedModels.ModelID == id)
+        if code:
+            m = m.filter(Models.ModelCode == code)
+
+        try:
+            return m.all()
+        except Exception as e:
+            print('Error running Query: {}'.format(e))
+            return None

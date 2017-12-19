@@ -330,6 +330,7 @@ CREATE TABLE SamplingFeatures (
 	SamplingFeatureDescription VARCHAR (500)  NULL,
 	SamplingFeatureGeotypeCV VARCHAR (255)  NULL,
 	FeatureGeometry geometry   NULL,
+	FeatureGeometryWKT VARCHAR(50)   NULL,
 	Elevation_m FLOAT   NULL,
 	ElevationDatumCV VARCHAR (255)  NULL,
 	FOREIGN KEY (ElevationDatumCV) REFERENCES CV_ElevationDatum (Name)
@@ -339,8 +340,8 @@ CREATE TABLE SamplingFeatures (
 	FOREIGN KEY (SamplingFeatureTypeCV) REFERENCES CV_SamplingFeatureType (Name)
 	ON UPDATE NO ACTION ON DELETE NO ACTION
 );
-INSERT INTO "SamplingFeatures" VALUES(1,'1fe94bae-4524-11e5-b966-7831c1d1cf54','Site','LR_WaterLab_AA','Logan River at the Utah Water Research Laboratory west bridge',NULL,'Point','POINT (41.739034 -111.795742)',1414.0,'EGM96');
-INSERT INTO "SamplingFeatures" VALUES(2,'19b067c7-6a74-475d-8b7f-826b133cd91e','outlet','logan_river_outlet','logan watershed outlet','the outlet of the logan river watershed','point1d',X'0001000000006BD3D85E0BF25B40CF84268925DF44406BD3D85E0BF25B40CF84268925DF44407C010000006BD3D85E0BF25B40CF84268925DF4440FE',4680.0,'epsg:5702');
+INSERT INTO "SamplingFeatures" VALUES(1,'1fe94bae-4524-11e5-b966-7831c1d1cf54','Site','LR_WaterLab_AA','Logan River at the Utah Water Research Laboratory west bridge',NULL,'Point','POINT (41.739034 -111.795742)',NULL, 1414.0,'EGM96');
+INSERT INTO "SamplingFeatures" VALUES(2,'19b067c7-6a74-475d-8b7f-826b133cd91e','outlet','logan_river_outlet','logan watershed outlet','the outlet of the logan river watershed','point1d',X'0001000000006BD3D85E0BF25B40CF84268925DF44406BD3D85E0BF25B40CF84268925DF44407C010000006BD3D85E0BF25B40CF84268925DF4440FE',NULL, 4680.0,'epsg:5702');
 CREATE TABLE TaxonomicClassifiers (
 	TaxonomicClassifierID INTEGER   NOT NULL PRIMARY KEY,
 	TaxonomicClassifierTypeCV VARCHAR (255)  NOT NULL,
@@ -15947,7 +15948,7 @@ CREATE TABLE Models (
 INSERT INTO "Models" VALUES(1,'swat','soil and water assessment tool','The Soil and Water Assessment Tool (SWAT) is a public domain Model jointly developed by USDA Agricultural Research Service (USDA-ARS) and Texas A&M AgriLife Research, part of The Texas A&M University System. SWAT is a small watershed to river basin-scale Model to simulate the quality and quantity of surface and ground water and predict the environmental impact of land use, land management practices, and climate change.',NULL,NULL);
 INSERT INTO "Models" VALUES(2,'swmm','storm water management model','SWMM is a dynamic hydrology-hydraulic water quality simulation model. It is used for single event or long-term (continuous) simulation of runoff quantity and quality from primarily urban areas. The runoff component operates on a collection of sub catchment areas that receive precipitation and generate runoff and pollutant loads. The routing portion transports this runoff through a system of pipes, channels, storage/treatment devices, pumps, and regulators.','5.1.010','http://www.epa.gov/water-research/storm-water-management-model-swmm');
 CREATE TABLE RelatedModels (
-	RelationID INTEGER   NOT NULL PRIMARY KEY,
+	RelatedID INTEGER   NOT NULL PRIMARY KEY,
 	ModelID INTEGER   NOT NULL,
 	RelationshipTypeCV VARCHAR (255)  NOT NULL,
 	RelatedModelID INTEGER   NOT NULL,

@@ -1,8 +1,0 @@
-
-https://pypi.python.org/pypi/sqlacodegen
-
-pip install sqlacodegen
-
-sqlacodegen  "mssql+pyodbc://user:password@localhost/ODM2?driver=SQL+Server+Native+Client+10.0"
-
-sqlacodegen  "mssql+pyodbc://user:password@localhost/ODM2_201512?driver=SQL+Server+Native+Client+10.0" --schema ODM2 --outfile generated_schema_201512.py

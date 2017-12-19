@@ -1,5 +1,7 @@
 language: python
+
 sudo: required
+
 # if the https://travis-ci.org/ODM2/ODM2PythonAPI/requests ever says: missing config
 # validate at: http://lint.travis-ci.org/
 python:
@@ -14,52 +16,89 @@ python:
 # command to install dependencies
 cache:
   directories:
-    - $HOME/.cache/pip/wheels
-    - $HOME/virtualenv/python2.7.9
+    - $HOME/miniconda
+
+env:
+  global:
+    - secure: "ckOXS/SsEQGGI6XrdJbEhImPbMyB8HBIqGWJ7CkYKezKTTyuJ510LMAK/7xFLyMQ0rXIrHVpCZsGLsAuzK+h2D0/xQTvkLlxJkTkKwKnm6HKg6fOrbEVSAOzCKYAdP+nBpNLGA/kzMW26E+MSWuFQwc7JiKj36vW9uUgRiT8Knwl9YrfRG+Et1bWJIfbfNoBy2gP3eFXyLBKOcgR0E0y2dyst/uRwkkEn9m8as+PWc3zsVaFS6qf5L4OFMLI5z/EZiNXiu5B/AUvpesWT/OXsbpwnxShska3RXZIh+0exu8euop7Oi4o07PI7EasMtncWzjWKLB6hJaz/BRfS/fjH0/Isy64OUXCIaCwQew31e2uW/liYnlNY/PDJfiVYdbMR34YLLrstCdBjHG+l29eN0VrCKrhW9RDPVW5eKZD1EsQPUgEDpYHaigJBwuAguQ0/MMaZ7Z/DVOR4yUsNlKFO7VwdUL4+lQ3mHrdUAEhuZACncZJ03wouvtyiuGC2WPnPAvk97uHwUcJl7Mq/jTy7HrnTRytHVIHZ8LsymAaGL2ukjVLlJ8ex8/36v2glQEkPAT06f9JXkbWJRzutnDiFKli96shMM17qyl2rjjFdC+fVDm7L7xsgJDAgXAuhD9Wwj3iVo/fcz7SmcH+iEekRtgqwbzaT3MbmLRpS4tOarY="
+
+# Removing the directory will remove the env but leave the cached packages
+# at $HOME/miniconda/pkgs. That is a win-win because when re-creating the
+# env we will download only the new packages.
+before_cache:
+  - rm -rf $HOME/miniconda/envs/TEST
+
 services:
   - mysql
   - postgresql
+
 addons:
+  postgresql: "9.5"
   apt:
     packages:
-      - cmake
-      - unixodbc
-      - unixodbc-dev
-      - odbcinst1debian2
-      - odbcinst
-      - freetds-dev
-      - freetds-bin
-      - tdsodbc
-      - libc6
-      - e2fsprogs
-      - mysql-client
-      - libproj-dev
-      - libgeos-dev
-      - libspatialite-dev
-#  mariadb: '10.1'
-before_script:
-  - ./scripts/mysql_setup.sh
-  - ./scripts/postgres_setup.sh
-  - ./scripts/freetds.sh
+      - postgresql-9.5-postgis-2.3
+      - mysql-server-5.6
+
+matrix:
+  fast_finish: true
+  include:
+  - python: 2.7
+    env: TEST_TARGET=default
+  - python: 3.6
+    env: TEST_TARGET=default
+  - python: 2.7
+    env: TEST_TARGET=coding_standards
+  - python: 3.6
+    env: TEST_TARGET=docs
+  allow_failures:
+  - python: 2.7
+    env: TEST_TARGET=coding_standards
+  - python: 3.6
+    env: TEST_TARGET=default
 
 before_install:
-# python -m pip makes the install go into the virtualenv
-  - python -m pip install pandas
-  - export PYMSSQL_BUILD_WITH_BUNDLED_FREETDS=1;python -m  pip install pymssql
-  - python -m  pip install mysql-python
-install: # now just our code
-  - pip install git+https://github.com/ODM2/geoalchemy.git@odm2#egg=geoalchemy-0.7.3
-  - pip install   .
-  - pip install  -r requirements_tests.txt  --allow-external pyodbc --allow-unverified pyodbc
-    # pysqlite
-  - pip install pysqlite
-  - pip list
+  - ./ci-helpers/mysql_setup.sh
+  - ./ci-helpers/postgres_setup.sh
+  - |
+    URL="http://bit.ly/miniconda"
+    echo ""
+    if [ ! -f $HOME/miniconda/bin/conda ] ; then
+      echo "Fresh miniconda installation."
+      wget $URL -O miniconda.sh
+      rm -rf $HOME/miniconda
+      bash miniconda.sh -b -p $HOME/miniconda
+    fi
+  - export PATH="$HOME/miniconda/bin:$PATH"
+  - conda config --set always_yes yes --set changeps1 no --set show_channel_urls true
+  - conda update conda
+  - conda config --add channels conda-forge --force
+  - conda config --add channels odm2 --force
+  - conda create --name TEST python=$TRAVIS_PYTHON_VERSION --file requirements.txt --file requirements-dev.txt
+  - source activate TEST
 
-# don't forget to open up the azure mssql server to these addreses
-# https://docs.travis-ci.com/user/ip-addresses/
+install:
+  - python setup.py sdist && version=$(python setup.py --version) && pushd dist  && pip install odm2api-${version}.tar.gz && popd
 
-# command to run tests
 script:
+  - if [[ $TEST_TARGET == 'default' ]]; then
+      cp -r tests /tmp && cd /tmp ;
+      py.test -vv tests ;
+    fi
 
-  - py.test
+  - if [[ $TEST_TARGET == 'coding_standards' ]]; then
+      find . -type f -name "*.py" ! -name 'conf.py' ! -name '_version.py' ! -name 'versioneer.py' | xargs flake8 --max-line-length=110 ;
+    fi
 
+  - if [[ $TEST_TARGET == 'docs' ]]; then
+      set -e ;
+      conda install doctr ;
+      pushd docs ;
+      make clean html linkcheck ;
+      popd ;
+      python -m doctr deploy --sync .;
+      python -m doctr deploy --sync --no-require-master  --built-docs docs/build/html "docs-$TRAVIS_BRANCH" ;
+    fi
+
+doctr:
+  require-master: true
+  sync: False

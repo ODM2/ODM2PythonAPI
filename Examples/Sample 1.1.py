@@ -1,9 +1,12 @@
-__author__ = 'stephanie'
+from __future__ import (absolute_import, division, print_function)
+
 import sys
 import os
 from odm2api.ODMconnection import dbconnection
 import pprint
 from odm2api.ODM1_1_1.services import SeriesService
+
+__author__ = 'stephanie'
 
 this_file = os.path.realpath(__file__)
 directory = os.path.dirname(this_file)
@@ -16,7 +19,7 @@ conns = [
     #connection to the ODM1 database
     dbconnection.createConnection('mysql', 'jws.uwrl.usu.edu', 'odm', "ODM", "ODM123!!", 1.1),
     #connection to the ODM2 database
-    dbconnection.createConnection('mysql', 'jws.uwrl.usu.edu', 'odm2', 'ODM', 'ODM123!!', 2.0)]
+    dbconnection.createConnection('mssql', '(local)', 'odm2', 'ODM', 'odm', 2.0)]
 
 
 for conn in conns:
@@ -29,7 +32,7 @@ for conn in conns:
     print
 
     odm1service = SeriesService(conn)
-    odm1service.refreshDB(conn.version)
+
     pp.pprint(conn)
 
     print
@@ -92,6 +95,3 @@ for conn in conns:
     pp.pprint(odm1service.get_values_by_series(ser[0].id))
 
     print "The end"
-
-
-

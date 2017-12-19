@@ -1,3 +1,5 @@
 include README.md
 include *.txt
 
+include versioneer.py
+include odm2api/_version.py
