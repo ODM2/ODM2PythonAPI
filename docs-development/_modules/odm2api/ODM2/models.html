@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>odm2api.ODM2.models &#8212; ODM2PythonAPI 0.6.0-alpha+134.g4acdf62 documentation</title>
+    <title>odm2api.ODM2.models &#8212; ODM2PythonAPI 0.6.0-alpha+136.gae0bdfd documentation</title>
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.6.0-alpha+134.g4acdf62',
+        VERSION:     '0.6.0-alpha+136.gae0bdfd',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -566,10 +566,10 @@
 <div class="viewcode-block" id="DataLoggerFiles"><a class="viewcode-back" href="../../../odm2models.html#odm2api.ODM2.models.DataLoggerFiles">[docs]</a><span class="k">class</span> <span class="nc">DataLoggerFiles</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
 
     <span class="n">DataLoggerFileID</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;dataloggerfileid&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">ProgramID</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;actionid&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">DataLoggerProgramFiles</span><span class="o">.</span><span class="n">ProgramID</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ProgramID</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;programid&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">DataLoggerProgramFiles</span><span class="o">.</span><span class="n">ProgramID</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">DataLoggerFileName</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;dataloggerfilename&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">DataLoggerOutputFileDescription</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;dataloggeroutputfiledescription&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
-    <span class="n">DataLoggerOutputFileLink</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;dataloggeroutputfilelink&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">255</span><span class="p">))</span>
+    <span class="n">DataLoggerOutputFileDescription</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;dataloggerfiledescription&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
+    <span class="n">DataLoggerOutputFileLink</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;dataloggerfilelink&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">255</span><span class="p">))</span>
 
     <span class="n">ProgramObj</span> <span class="o">=</span> <span class="n">relationship</span><span class="p">(</span><span class="n">DataLoggerProgramFiles</span><span class="p">)</span></div>
 
@@ -622,7 +622,7 @@
                                         <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">ColumnLabel</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;columnlabel&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">ColumnDescription</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;columndescription&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
-    <span class="n">MeasurementEquation</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;measurmentequation&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">255</span><span class="p">))</span>
+    <span class="n">MeasurementEquation</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;measurementequation&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">255</span><span class="p">))</span>
     <span class="n">ScanInterval</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;scaninterval&#39;</span><span class="p">,</span> <span class="n">Float</span><span class="p">(</span><span class="mi">50</span><span class="p">))</span>
     <span class="n">ScanIntervalUnitsID</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;scanintervalunitsid&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Units</span><span class="o">.</span><span class="n">UnitsID</span><span class="p">))</span>
     <span class="n">RecordingInterval</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;recordinginterval&#39;</span><span class="p">,</span> <span class="n">Float</span><span class="p">(</span><span class="mi">50</span><span class="p">))</span>
