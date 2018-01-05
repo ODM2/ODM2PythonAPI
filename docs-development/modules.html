@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Developer Interface &#8212; ODM2PythonAPI 0.6.0-alpha+140.gcb30fbe documentation</title>
+    <title>Developer Interface &#8212; ODM2PythonAPI 0.6.0-alpha+149.g65da961 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.6.0-alpha+140.gcb30fbe',
+        VERSION:     '0.6.0-alpha+149.g65da961',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -470,7 +470,7 @@ than a tuple), the constructed base class will inherit its docstring.</p>
 
 <dl class="method">
 <dt id="odm2api.ODM2.services.readService.ReadODM2.getActions">
-<code class="descname">getActions</code><span class="sig-paren">(</span><em>ids=None</em>, <em>type=None</em>, <em>sfid=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getActions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getActions" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getActions</code><span class="sig-paren">(</span><em>ids=None</em>, <em>acttype=None</em>, <em>sfid=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getActions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getActions" title="Permalink to this definition">¶</a></dt>
 <dd><ul class="simple">
 <li>Pass nothing - returns a list of all Actions</li>
 <li>Pass a list of Action ids - returns a list of Action objects</li>
@@ -517,7 +517,7 @@ all Affiliation objects in the database will be returned.</p>
 
 <dl class="method">
 <dt id="odm2api.ODM2.services.readService.ReadODM2.getAnnotations">
-<code class="descname">getAnnotations</code><span class="sig-paren">(</span><em>type=None</em>, <em>codes=None</em>, <em>ids=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getAnnotations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getAnnotations" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getAnnotations</code><span class="sig-paren">(</span><em>annottype=None</em>, <em>codes=None</em>, <em>ids=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getAnnotations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getAnnotations" title="Permalink to this definition">¶</a></dt>
 <dd><ul class="simple">
 <li>Pass Nothing - return a list of all objects</li>
 <li>Pass AnnotationTypeCV - return a list of all objects of the fiven type</li>
@@ -704,7 +704,7 @@ method info , ProcessingLevel info.
 
 <dl class="method">
 <dt id="odm2api.ODM2.services.readService.ReadODM2.getEquipment">
-<code class="descname">getEquipment</code><span class="sig-paren">(</span><em>codes=None</em>, <em>type=None</em>, <em>sfid=None</em>, <em>actionid=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getEquipment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getEquipment" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getEquipment</code><span class="sig-paren">(</span><em>codes=None</em>, <em>equiptype=None</em>, <em>sfid=None</em>, <em>actionid=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getEquipment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getEquipment" title="Permalink to this definition">¶</a></dt>
 <dd><ul class="simple">
 <li>Pass nothing - returns a list of all Equipment objects</li>
 <li>Pass a list of EquipmentCodes- return a list of all Equipment objects that match each of the codes</li>
@@ -716,7 +716,7 @@ method info , ProcessingLevel info.
 
 <dl class="method">
 <dt id="odm2api.ODM2.services.readService.ReadODM2.getExtensionProperties">
-<code class="descname">getExtensionProperties</code><span class="sig-paren">(</span><em>type=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getExtensionProperties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getExtensionProperties" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getExtensionProperties</code><span class="sig-paren">(</span><em>exptype=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getExtensionProperties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getExtensionProperties" title="Permalink to this definition">¶</a></dt>
 <dd><ul class="simple">
 <li>Pass nothing - return a list of all objects</li>
 <li>Pass type- return a list of all objects of the given type</li>
@@ -725,7 +725,7 @@ method info , ProcessingLevel info.
 
 <dl class="method">
 <dt id="odm2api.ODM2.services.readService.ReadODM2.getExternalIdentifiers">
-<code class="descname">getExternalIdentifiers</code><span class="sig-paren">(</span><em>type=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getExternalIdentifiers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getExternalIdentifiers" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getExternalIdentifiers</code><span class="sig-paren">(</span><em>eitype=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getExternalIdentifiers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getExternalIdentifiers" title="Permalink to this definition">¶</a></dt>
 <dd><ul class="simple">
 <li>Pass nothing - return a list of all objects</li>
 <li>Pass type- return a list of all objects of the given type</li>
@@ -742,7 +742,7 @@ method info , ProcessingLevel info.
 
 <dl class="method">
 <dt id="odm2api.ODM2.services.readService.ReadODM2.getMethods">
-<code class="descname">getMethods</code><span class="sig-paren">(</span><em>ids=None</em>, <em>codes=None</em>, <em>type=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getMethods"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getMethods" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getMethods</code><span class="sig-paren">(</span><em>ids=None</em>, <em>codes=None</em>, <em>methodtype=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getMethods"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getMethods" title="Permalink to this definition">¶</a></dt>
 <dd><ul class="simple">
 <li>Pass nothing - returns full list of method objects</li>
 <li>Pass a list of MethodIDs - returns a single method object for each given id</li>
@@ -944,7 +944,7 @@ related to the input sampling feature</li>
 
 <dl class="method">
 <dt id="odm2api.ODM2.services.readService.ReadODM2.getResults">
-<code class="descname">getResults</code><span class="sig-paren">(</span><em>ids=None</em>, <em>type=None</em>, <em>restype=None</em>, <em>uuids=None</em>, <em>actionid=None</em>, <em>simulationid=None</em>, <em>sfid=None</em>, <em>variableid=None</em>, <em>siteid=None</em>, <em>sfids=None</em>, <em>sfuuids=None</em>, <em>sfcodes=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getResults" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getResults</code><span class="sig-paren">(</span><em>ids=None</em>, <em>restype=None</em>, <em>uuids=None</em>, <em>actionid=None</em>, <em>simulationid=None</em>, <em>variableid=None</em>, <em>siteid=None</em>, <em>sfids=None</em>, <em>sfuuids=None</em>, <em>sfcodes=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getResults" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve a list of Result objects.</p>
 <p>If no arguments are passed to the function, or their values are None,
 all Result objects in the database will be returned.</p>
@@ -960,7 +960,6 @@ all Result objects in the database will be returned.</p>
 <li><strong>uuids</strong> (<em>list</em><em>, </em><em>optional</em>) – List of UUIDs string.</li>
 <li><strong>actionid</strong> (<em>int</em><em>, </em><em>optional</em>) – ActionID.</li>
 <li><strong>simulationid</strong> (<em>int</em><em>, </em><em>optional</em>) – SimulationID.</li>
-<li><strong>sfid</strong> (<em>int</em><em>, </em><em>optional</em>) – SamplingFeatureID.</li>
 <li><strong>variableid</strong> (<em>int</em><em>, </em><em>optional</em>) – VariableID.</li>
 <li><strong>siteid</strong> (<em>int</em><em>, </em><em>optional</em>) – SiteID. - goes through related features table and finds all of results
 recorded at the given site</li>
@@ -1045,7 +1044,7 @@ recorded at the given site</li>
 
 <dl class="method">
 <dt id="odm2api.ODM2.services.readService.ReadODM2.getSamplingFeatures">
-<code class="descname">getSamplingFeatures</code><span class="sig-paren">(</span><em>ids=None</em>, <em>codes=None</em>, <em>uuids=None</em>, <em>type=None</em>, <em>wkt=None</em>, <em>results=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getSamplingFeatures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getSamplingFeatures" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getSamplingFeatures</code><span class="sig-paren">(</span><em>ids=None</em>, <em>codes=None</em>, <em>uuids=None</em>, <em>sftype=None</em>, <em>wkt=None</em>, <em>results=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getSamplingFeatures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getSamplingFeatures" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve a list of Sampling Feature objects.</p>
 <p>If no arguments are passed to the function, or their values are None,
 all Sampling Feature objects in the database will be returned.</p>
@@ -1057,7 +1056,7 @@ all Sampling Feature objects in the database will be returned.</p>
 <li><strong>ids</strong> (<em>list</em><em>, </em><em>optional</em>) – List of SamplingFeatureIDs.</li>
 <li><strong>codes</strong> (<em>list</em><em>, </em><em>optional</em>) – List of SamplingFeature Codes.</li>
 <li><strong>uuids</strong> (<em>list</em><em>, </em><em>optional</em>) – List of UUIDs string.</li>
-<li><strong>type</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>Type of Sampling Feature from
+<li><strong>sftype</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>Type of Sampling Feature from
 <a class="reference external" href="http://vocabulary.odm2.org/samplingfeaturetype/">controlled vocabulary name</a>.</p>
 </li>
 <li><strong>wkt</strong> (<em>str</em><em>, </em><em>optional</em>) – SamplingFeature Well Known Text.</li>
@@ -1124,7 +1123,7 @@ sampling features that have results associated with them.</li>
 
 <dl class="method">
 <dt id="odm2api.ODM2.services.readService.ReadODM2.getUnits">
-<code class="descname">getUnits</code><span class="sig-paren">(</span><em>ids=None</em>, <em>name=None</em>, <em>type=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getUnits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getUnits" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getUnits</code><span class="sig-paren">(</span><em>ids=None</em>, <em>name=None</em>, <em>unittype=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getUnits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getUnits" title="Permalink to this definition">¶</a></dt>
 <dd><ul class="simple">
 <li>Pass nothing - returns a list of all units objects</li>
 <li>Pass a list of UnitsID - returns a single units object for the given id</li>
