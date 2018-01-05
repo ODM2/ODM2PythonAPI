@@ -1435,7 +1435,7 @@ class ReadODM2(serviceBase):
         if 'id' in kwargs:
             warnings.warn('The parameter \'id\' is deprecated. Please use the modid parameter instead.',
                           DeprecationWarning, stacklevel=2)
-            modid = kwargs['type']
+            modid = kwargs['id']
         m = self._session.query(Models).select_from(RelatedModels).join(RelatedModels.ModelObj)
         if modid:
             m = m.filter(RelatedModels.ModelID == modid)
