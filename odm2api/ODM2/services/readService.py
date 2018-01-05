@@ -38,6 +38,8 @@ import pandas as pd
 
 from sqlalchemy import distinct, exists
 
+import warnings
+
 __author__ = 'sreeder'
 
 
@@ -137,6 +139,19 @@ class ReadODM2(serviceBase):
 
         return dict(columns)
 
+    def _check_kwargs(self, args, kwargs):
+        """Internal helper function to check for unused keyword arguments
+
+        Args:
+            args (list): List of expected, valid arguments.
+            kwargs (dict): Dictionary of keyword arguments from user
+        Returns:
+            None
+        """
+        invkwd = filter(lambda x: x not in args, kwargs.keys())
+        if invkwd:
+            warnings.warn('Got unexpected keyword argument(s) {}'.format(','.join(invkwd)), stacklevel=2)
+
     # Exists functions
     def resultExists(self, result):
         """
@@ -158,7 +173,7 @@ class ReadODM2(serviceBase):
             return None
 
     # Annotations
-    def getAnnotations(self, type=None, codes=None, ids=None):
+    def getAnnotations(self, annottype=None, codes=None, ids=None, **kwargs):
         """
         * Pass Nothing - return a list of all objects
         * Pass AnnotationTypeCV - return a list of all objects of the fiven type
@@ -168,34 +183,39 @@ class ReadODM2(serviceBase):
         """
         # TODO What keywords do I use for type.
         a = Annotations
-        if type:
-            if type == 'action':
+        self._check_kwargs(['type'], kwargs)
+        if 'type' in kwargs:
+            warnings.warn('The parameter \'type\' is deprecated. Please use the annottype parameter instead.',
+                          DeprecationWarning, stacklevel=2)
+            annottype = kwargs['type']
+        if annottype:
+            if annottype == 'action':
                 a = ActionAnnotations
-            elif type == 'categoricalresultvalue':
+            elif annottype == 'categoricalresultvalue':
                 a = CategoricalResultValueAnnotations
-            elif type == 'equipmentannotation':
+            elif annottype == 'equipmentannotation':
                 a = EquipmentAnnotations
-            elif type == 'measurementresultvalue':
+            elif annottype == 'measurementresultvalue':
                 a = MeasurementResultValueAnnotations
-            elif type == 'method':
+            elif annottype == 'method':
                 a = MethodAnnotations
-            elif type == 'pointcoverageresultvalue':
+            elif annottype == 'pointcoverageresultvalue':
                 a = PointCoverageResultValueAnnotations
-            elif type == 'profileresultvalue':
+            elif annottype == 'profileresultvalue':
                 a = ProfileResultValueAnnotations
-            elif type == 'result':
+            elif annottype == 'result':
                 a = ResultAnnotations
-            elif type == 'samplingfeature':
+            elif annottype == 'samplingfeature':
                 a = SamplingFeatureAnnotations
-            elif type == 'sectionresultvalue':
+            elif annottype == 'sectionresultvalue':
                 a = SectionResultValueAnnotations
-            elif type == 'spectraresultvalue':
+            elif annottype == 'spectraresultvalue':
                 a = SpectraResultValueAnnotations
-            elif type == 'timeseriesresultvalue':
+            elif annottype == 'timeseriesresultvalue':
                 a = TimeSeriesResultValueAnnotations
-            elif type == 'trajectoryresultvalue':
+            elif annottype == 'trajectoryresultvalue':
                 a = TrajectoryResultValueAnnotations
-            elif type == 'transectresultvalue':
+            elif annottype == 'transectresultvalue':
                 a = TransectResultValueAnnotations
         try:
             query = self._session.query(a)
@@ -392,7 +412,7 @@ class ReadODM2(serviceBase):
             return None
 
     # Method
-    def getMethods(self, ids=None, codes=None, type=None):
+    def getMethods(self, ids=None, codes=None, methodtype=None, **kwargs):
         """
         * Pass nothing - returns full list of method objects
         * Pass a list of MethodIDs - returns a single method object for each given id
@@ -400,13 +420,19 @@ class ReadODM2(serviceBase):
         * Pass a MethodType - returns a list of method objects of the given MethodType
 
         """
+        self._check_kwargs(['type'], kwargs)
+        if 'type' in kwargs:
+            warnings.warn('The parameter \'type\' is deprecated. Please use the medtype parameter instead.',
+                          DeprecationWarning, stacklevel=2)
+            methodtype = kwargs['type']
+
         q = self._session.query(Methods)
         if ids:
             q = q.filter(Methods.MethodID.in_(ids))
         if codes:
             q = q.filter(Methods.MethodCode.in_(codes))
-        if type:
-            q = q.filter_by(MethodTypeCV=type)
+        if methodtype:
+            q = q.filter_by(MethodTypeCV=methodtype)
 
         try:
             return q.all()
@@ -449,7 +475,8 @@ class ReadODM2(serviceBase):
             return None
 
     # Sampling Feature
-    def getSamplingFeatures(self, ids=None, codes=None, uuids=None, type=None, wkt=None, results=False):
+    def getSamplingFeatures(self, ids=None, codes=None, uuids=None,
+                            sftype=None, wkt=None, results=False, **kwargs):
         """Retrieve a list of Sampling Feature objects.
 
         If no arguments are passed to the function, or their values are None,
@@ -459,7 +486,7 @@ class ReadODM2(serviceBase):
             ids (list, optional): List of SamplingFeatureIDs.
             codes (list, optional): List of SamplingFeature Codes.
             uuids (list, optional): List of UUIDs string.
-            type (str, optional): Type of Sampling Feature from
+            sftype (str, optional): Type of Sampling Feature from
                 `controlled vocabulary name <http://vocabulary.odm2.org/samplingfeaturetype/>`_.
             wkt (str, optional): SamplingFeature Well Known Text.
             results (bool, optional): Whether or not you want to return only the
@@ -480,6 +507,11 @@ class ReadODM2(serviceBase):
             >>> READ.getSamplingFeatures(type='Site', results=True)
 
         """
+        self._check_kwargs(['type'], kwargs)
+        if 'type' in kwargs:
+            warnings.warn('The parameter \'type\' is deprecated. Please use the sftype parameter instead.',
+                          DeprecationWarning, stacklevel=2)
+            sftype = kwargs['type']
         if results:
             try:
                 fas = [x[0] for x in self._session.query(distinct(Results.FeatureActionID)).all()]
@@ -494,8 +526,8 @@ class ReadODM2(serviceBase):
 
         q = self._session.query(SamplingFeatures)
 
-        if type:
-            q = q.filter_by(SamplingFeatureTypeCV=type)
+        if sftype:
+            q = q.filter_by(SamplingFeatureTypeCV=sftype)
         if ids:
             q = q.filter(SamplingFeatures.SamplingFeatureID.in_(ids))
         if codes:
@@ -542,7 +574,7 @@ class ReadODM2(serviceBase):
 
 
     # Action
-    def getActions(self, ids=None, type=None, sfid=None):
+    def getActions(self, ids=None, acttype=None, sfid=None, **kwargs):
         """
         * Pass nothing - returns a list of all Actions
         * Pass a list of Action ids - returns a list of Action objects
@@ -551,12 +583,17 @@ class ReadODM2(serviceBase):
           associated with that Sampling feature ID, Found through featureAction table
 
         """
+        self._check_kwargs(['type'], kwargs)
+        if 'type' in kwargs:
+            warnings.warn('The parameter \'type\' is deprecated. Please use the acttype parameter instead.',
+                          DeprecationWarning, stacklevel=2)
+            acttype = kwargs['type']
         a = Actions
-        if type == 'equipment':
+        if acttype == 'equipment':
             a = EquipmentActions
-        elif type == 'calibration':
+        elif acttype == 'calibration':
             a = CalibrationActions
-        elif type == 'maintenance':
+        elif acttype == 'maintenance':
             a = MaintenanceActions
 
         q = self._session.query(a)
@@ -588,7 +625,7 @@ class ReadODM2(serviceBase):
             return None
 
     # Unit
-    def getUnits(self, ids=None, name=None, type=None):
+    def getUnits(self, ids=None, name=None, unittype=None, **kwargs):
         """
         * Pass nothing - returns a list of all units objects
         * Pass a list of UnitsID - returns a single units object for the given id
@@ -596,13 +633,18 @@ class ReadODM2(serviceBase):
         * Pass a type- returns a list of all objects of the given type
 
         """
+        self._check_kwargs(['type'], kwargs)
+        if 'type' in kwargs:
+            warnings.warn('The parameter \'type\' is deprecated. Please use the unittype parameter instead.',
+                          DeprecationWarning, stacklevel=2)
+            unittype = kwargs['type']
         q = self._session.query(Units)
         if ids:
             q = q.filter(Units.UnitsID.in_(ids))
         if name:
             q = q.filter(Units.UnitsName.ilike(name))
-        if type:
-            q = q.filter(Units.UnitsTypeCV.ilike(type))
+        if unittype:
+            q = q.filter(Units.UnitsTypeCV.ilike(unittype))
         try:
             return q.all()
         except Exception as e:
@@ -691,8 +733,8 @@ class ReadODM2(serviceBase):
             return None
 
     # Results
-    def getResults(self, ids=None, type=None, restype = None, uuids=None, actionid=None, simulationid=None, sfid=None,
-                   variableid=None, siteid=None, sfids=None, sfuuids=None, sfcodes=None):
+    def getResults(self, ids=None, restype = None, uuids=None, actionid=None, simulationid=None,
+                   variableid=None, siteid=None, sfids=None, sfuuids=None, sfcodes=None, **kwargs):
 
         # TODO what if user sends in both type and actionid vs just actionid
         """Retrieve a list of Result objects.
@@ -707,7 +749,6 @@ class ReadODM2(serviceBase):
             uuids (list, optional): List of UUIDs string.
             actionid (int, optional): ActionID.
             simulationid (int, optional): SimulationID.
-            sfid (int, optional): SamplingFeatureID.
             variableid (int, optional): VariableID.
             siteid (int, optional): SiteID. - goes through related features table and finds all of results
                     recorded at the given site
@@ -731,12 +772,11 @@ class ReadODM2(serviceBase):
 
         """
         query = self._session.query(Results)
-
-        if type:
-            import warnings
-            warnings.warn(
-                "The parameter 'type' is no longer be supported. Please use the restype parameter instead.")
-            query = query.filter_by(ResultTypeCV=type)
+        self._check_kwargs(['type', 'sfid'], kwargs)
+        if 'type' in kwargs:
+            warnings.warn('The parameter \'type\' is deprecated. Please use the restype parameter instead.',
+                          DeprecationWarning, stacklevel=2)
+            restype = kwargs['type']
         if restype:
             query = query.filter_by(ResultTypeCV=restype)
         if variableid:
@@ -752,10 +792,11 @@ class ReadODM2(serviceBase):
                     .filter_by(SimulationID=simulationid)
         if actionid:
             query = query.join(FeatureActions).filter_by(ActionID=actionid)
-        if sfid:
-            import warnings
-            warnings.warn("The parameter 'sfid' is no longer be supported. Please use the sfids parameter and send in a list.")
-            query = query.join(FeatureActions).filter_by(SamplingFeatureID=sfid)
+        if 'sfid' in kwargs:
+            warnings.warn('The parameter \'sfid\' is deprecated. '
+                          'Please use the sfids parameter instead and send in a list.',
+                          DeprecationWarning, stacklevel=2)
+            query = query.join(FeatureActions).filter_by(SamplingFeatureID=kwargs['sfid'])
         if sfids or sfcodes or sfuuids:
             sf_list = self.getSamplingFeatures(ids=sfids, codes=sfcodes, uuids=sfuuids)
             sfids = []
@@ -1021,7 +1062,7 @@ class ReadODM2(serviceBase):
 
     # TODO Equipment Schema Queries
     # Equipment
-    def getEquipment(self, codes=None, type=None, sfid=None, actionid=None):
+    def getEquipment(self, codes=None, equiptype=None, sfid=None, actionid=None, **kwargs):
         """
         * Pass nothing - returns a list of all Equipment objects
         * Pass a list of EquipmentCodes- return a list of all Equipment objects that match each of the codes
@@ -1030,6 +1071,11 @@ class ReadODM2(serviceBase):
         * Pass an ActionID - returns a single Equipment object
 
         """
+        self._check_kwargs(['type'], kwargs)
+        if 'type' in kwargs:
+            warnings.warn('The parameter \'type\' is deprecated. Please use the equiptype parameter instead.',
+                          DeprecationWarning, stacklevel=2)
+            equiptype = kwargs['type']
         e = self._session.query(Equipment)
         if sfid:
             e = e.join(EquipmentUsed) \
@@ -1118,25 +1164,30 @@ class ReadODM2(serviceBase):
         return r.all()
 
     # Extension Properties
-    def getExtensionProperties(self, type=None):
+    def getExtensionProperties(self, exptype=None, **kwargs):
         """
         * Pass nothing - return a list of all objects
         * Pass type- return a list of all objects of the given type
 
         """
         # Todo what values to use for extensionproperties type
+        self._check_kwargs(['type'], kwargs)
+        if 'type' in kwargs:
+            warnings.warn('The parameter \'type\' is deprecated. Please use the exptype parameter instead.',
+                          DeprecationWarning, stacklevel=2)
+            exptype = kwargs['type']
         e = ExtensionProperties
-        if type == 'action':
+        if exptype == 'action':
             e = ActionExtensionPropertyValues
-        elif type == 'citation':
+        elif exptype == 'citation':
             e = CitationExtensionPropertyValues
-        elif type == 'method':
+        elif exptype == 'method':
             e = MethodExtensionPropertyValues
-        elif type == 'result':
+        elif exptype == 'result':
             e = ResultExtensionPropertyValues
-        elif type == 'samplingfeature':
+        elif exptype == 'samplingfeature':
             e = SamplingFeatureExtensionPropertyValues
-        elif type == 'variable':
+        elif exptype == 'variable':
             e = VariableExtensionPropertyValues
         try:
             return self._session.query(e).all()
@@ -1145,28 +1196,33 @@ class ReadODM2(serviceBase):
             return None
 
     # External Identifiers
-    def getExternalIdentifiers(self, type=None):
+    def getExternalIdentifiers(self, eitype=None, **kwargs):
         """
         * Pass nothing - return a list of all objects
         * Pass type- return a list of all objects of the given type
 
         """
+        self._check_kwargs(['type'], kwargs)
+        if 'type' in kwargs:
+            warnings.warn('The parameter \'type\' is deprecated. Please use the eitype parameter instead.',
+                          DeprecationWarning, stacklevel=2)
+            eitype = kwargs['type']
         e = ExternalIdentifierSystems
-        if type.lowercase == 'citation':
+        if eitype.lowercase == 'citation':
             e = CitationExternalIdentifiers
-        elif type == 'method':
+        elif eitype == 'method':
             e = MethodExternalIdentifiers
-        elif type == 'person':
+        elif eitype == 'person':
             e = PersonExternalIdentifiers
-        elif type == 'referencematerial':
+        elif eitype == 'referencematerial':
             e = ReferenceMaterialExternalIdentifiers
-        elif type == 'samplingfeature':
+        elif eitype == 'samplingfeature':
             e = SamplingFeatureExternalIdentifiers
-        elif type == 'spatialreference':
+        elif eitype == 'spatialreference':
             e = SpatialReferenceExternalIdentifiers
-        elif type == 'taxonomicclassifier':
+        elif eitype == 'taxonomicclassifier':
             e = TaxonomicClassifierExternalIdentifiers
-        elif type == 'variable':
+        elif eitype == 'variable':
             e = VariableExternalIdentifiers
         try:
             return self._session.query(e).all()
@@ -1391,16 +1447,21 @@ class ReadODM2(serviceBase):
             print('Error running Query: {}'.format(e))
             return None
 
-    def getRelatedModels(self, id=None, code=None):
+    def getRelatedModels(self, modid=None, code=None, **kwargs):
         """
         getRelatedModels(self, id=None, code=None)
         * Pass a ModelID - get a list of converter objects related to the converter having ModelID
         * Pass a ModelCode - get a list of converter objects related to the converter having ModeCode
 
         """
+        self._check_kwargs(['id'], kwargs)
+        if 'id' in kwargs:
+            warnings.warn('The parameter \'id\' is deprecated. Please use the modid parameter instead.',
+                          DeprecationWarning, stacklevel=2)
+            modid = kwargs['id']
         m = self._session.query(Models).select_from(RelatedModels).join(RelatedModels.ModelObj)
-        if id:
-            m = m.filter(RelatedModels.ModelID == id)
+        if modid:
+            m = m.filter(RelatedModels.ModelID == modid)
         if code:
             m = m.filter(Models.ModelCode == code)
 
