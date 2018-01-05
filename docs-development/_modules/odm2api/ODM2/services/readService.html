@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+149.g65da961 documentation</title>
+    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+151.gb572e29 documentation</title>
     <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.6.0-alpha+149.g65da961',
+        VERSION:     '0.6.0-alpha+151.gb572e29',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -338,66 +338,71 @@
             <span class="k">return</span> <span class="kc">None</span></div>
 
     <span class="c1"># CV</span>
-<div class="viewcode-block" id="ReadODM2.getCVs"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getCVs">[docs]</a>    <span class="k">def</span> <span class="nf">getCVs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getCVs"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getCVs">[docs]</a>    <span class="k">def</span> <span class="nf">getCVs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cvtype</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        getCVs(self, type):</span>
 <span class="sd">        * Pass CVType - return a list of all objects of the given type</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">CV</span> <span class="o">=</span> <span class="n">CVActionType</span>
-        <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;actiontype&#39;</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_kwargs</span><span class="p">([</span><span class="s1">&#39;type&#39;</span><span class="p">],</span> <span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;type&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;The parameter </span><span class="se">\&#39;</span><span class="s1">type</span><span class="se">\&#39;</span><span class="s1"> is deprecated. Please use the cvtype parameter instead.&#39;</span><span class="p">,</span>
+                          <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">cvtype</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">cvtype</span> <span class="o">==</span> <span class="s1">&#39;actiontype&#39;</span><span class="p">:</span>
             <span class="n">CV</span> <span class="o">=</span> <span class="n">CVActionType</span>
-        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;aggregationstatistic&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">cvtype</span> <span class="o">==</span> <span class="s1">&#39;aggregationstatistic&#39;</span><span class="p">:</span>
             <span class="n">CV</span> <span class="o">=</span> <span class="n">CVAggregationStatistic</span>
-        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;annotationtype&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">cvtype</span> <span class="o">==</span> <span class="s1">&#39;annotationtype&#39;</span><span class="p">:</span>
             <span class="n">CV</span> <span class="o">=</span> <span class="n">CVAnnotationType</span>
-        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;censorcode&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">cvtype</span> <span class="o">==</span> <span class="s1">&#39;censorcode&#39;</span><span class="p">:</span>
             <span class="n">CV</span> <span class="o">=</span> <span class="n">CVCensorCode</span>
-        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;dataqualitytype&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">cvtype</span> <span class="o">==</span> <span class="s1">&#39;dataqualitytype&#39;</span><span class="p">:</span>
             <span class="n">CV</span> <span class="o">=</span> <span class="n">CVDataQualityType</span>
-        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;dataset type&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">cvtype</span> <span class="o">==</span> <span class="s1">&#39;dataset type&#39;</span><span class="p">:</span>
             <span class="n">CV</span> <span class="o">=</span> <span class="n">CVDataSetType</span>
-        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;Directive Type&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">cvtype</span> <span class="o">==</span> <span class="s1">&#39;Directive Type&#39;</span><span class="p">:</span>
             <span class="n">CV</span> <span class="o">=</span> <span class="n">CVDirectiveType</span>
-        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;Elevation Datum&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">cvtype</span> <span class="o">==</span> <span class="s1">&#39;Elevation Datum&#39;</span><span class="p">:</span>
             <span class="n">CV</span> <span class="o">=</span> <span class="n">CVElevationDatum</span>
-        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;Equipment Type&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">cvtype</span> <span class="o">==</span> <span class="s1">&#39;Equipment Type&#39;</span><span class="p">:</span>
             <span class="n">CV</span> <span class="o">=</span> <span class="n">CVEquipmentType</span>
-        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;Medium&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">cvtype</span> <span class="o">==</span> <span class="s1">&#39;Medium&#39;</span><span class="p">:</span>
             <span class="n">CV</span> <span class="o">=</span> <span class="n">CVMediumType</span>
-        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;Method Type&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">cvtype</span> <span class="o">==</span> <span class="s1">&#39;Method Type&#39;</span><span class="p">:</span>
             <span class="n">CV</span> <span class="o">=</span> <span class="n">CVMethodType</span>
-        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;Organization Type&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">cvtype</span> <span class="o">==</span> <span class="s1">&#39;Organization Type&#39;</span><span class="p">:</span>
             <span class="n">CV</span> <span class="o">=</span> <span class="n">CVOrganizationType</span>
-        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;Property Data Type&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">cvtype</span> <span class="o">==</span> <span class="s1">&#39;Property Data Type&#39;</span><span class="p">:</span>
             <span class="n">CV</span> <span class="o">=</span> <span class="n">CVPropertyDataType</span>
-        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;Quality Code&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">cvtype</span> <span class="o">==</span> <span class="s1">&#39;Quality Code&#39;</span><span class="p">:</span>
             <span class="n">CV</span> <span class="o">=</span> <span class="n">CVQualityCode</span>
-        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;Relationship Type&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">cvtype</span> <span class="o">==</span> <span class="s1">&#39;Relationship Type&#39;</span><span class="p">:</span>
             <span class="n">CV</span> <span class="o">=</span> <span class="n">CVRelationshipType</span>
-        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;Result Type&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">cvtype</span> <span class="o">==</span> <span class="s1">&#39;Result Type&#39;</span><span class="p">:</span>
             <span class="n">CV</span> <span class="o">=</span> <span class="n">CVResultType</span>
-        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;Sampling Feature Geo-type&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">cvtype</span> <span class="o">==</span> <span class="s1">&#39;Sampling Feature Geo-type&#39;</span><span class="p">:</span>
             <span class="n">CV</span> <span class="o">=</span> <span class="n">CVSamplingFeatureGeoType</span>
-        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;Sampling Feature Type&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">cvtype</span> <span class="o">==</span> <span class="s1">&#39;Sampling Feature Type&#39;</span><span class="p">:</span>
             <span class="n">CV</span> <span class="o">=</span> <span class="n">CVSamplingFeatureType</span>
-        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;Site Type&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">cvtype</span> <span class="o">==</span> <span class="s1">&#39;Site Type&#39;</span><span class="p">:</span>
             <span class="n">CV</span> <span class="o">=</span> <span class="n">CVSiteType</span>
-        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;Spatial Offset Type&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">cvtype</span> <span class="o">==</span> <span class="s1">&#39;Spatial Offset Type&#39;</span><span class="p">:</span>
             <span class="n">CV</span> <span class="o">=</span> <span class="n">CVSpatialOffsetType</span>
-        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;Speciation&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">cvtype</span> <span class="o">==</span> <span class="s1">&#39;Speciation&#39;</span><span class="p">:</span>
             <span class="n">CV</span> <span class="o">=</span> <span class="n">CVSpeciation</span>
-        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;Specimen Type&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">cvtype</span> <span class="o">==</span> <span class="s1">&#39;Specimen Type&#39;</span><span class="p">:</span>
             <span class="n">CV</span> <span class="o">=</span> <span class="n">CVSpecimenType</span>
-        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;Status&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">cvtype</span> <span class="o">==</span> <span class="s1">&#39;Status&#39;</span><span class="p">:</span>
             <span class="n">CV</span> <span class="o">=</span> <span class="n">CVStatus</span>
-        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;Taxonomic Classifier Type&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">cvtype</span> <span class="o">==</span> <span class="s1">&#39;Taxonomic Classifier Type&#39;</span><span class="p">:</span>
             <span class="n">CV</span> <span class="o">=</span> <span class="n">CVTaxonomicClassifierType</span>
-        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;Units Type&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">cvtype</span> <span class="o">==</span> <span class="s1">&#39;Units Type&#39;</span><span class="p">:</span>
             <span class="n">CV</span> <span class="o">=</span> <span class="n">CVUnitsType</span>
-        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;Variable Name&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">cvtype</span> <span class="o">==</span> <span class="s1">&#39;Variable Name&#39;</span><span class="p">:</span>
             <span class="n">CV</span> <span class="o">=</span> <span class="n">CVVariableName</span>
-        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;Variable Type&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">cvtype</span> <span class="o">==</span> <span class="s1">&#39;Variable Type&#39;</span><span class="p">:</span>
             <span class="n">CV</span> <span class="o">=</span> <span class="n">CVVariableType</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
