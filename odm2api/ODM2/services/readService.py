@@ -1297,31 +1297,31 @@ class ReadODM2(serviceBase):
 
         """
         restype = self._session.query(Results).filter_by(ResultID=resultids[0]).first().ResultTypeCV
-        ResultType = TimeSeriesResultValues
+        ResultValues = TimeSeriesResultValues
         if 'categorical' in restype.lower():
-            ResultType = CategoricalResultValues
+            ResultValues = CategoricalResultValues
         elif 'measurement' in restype.lower():
-            ResultType = MeasurementResultValues
+            ResultValues = MeasurementResultValues
         elif 'point' in restype.lower():
-            ResultType = PointCoverageResultValues
+            ResultValues = PointCoverageResultValues
         elif 'profile' in restype.lower():
-            ResultType = ProfileResultValues
+            ResultValues = ProfileResultValues
         elif 'section' in restype.lower():
-            ResultType = SectionResults
+            ResultValues = SectionResults
         elif 'spectra' in restype.lower():
-            ResultType = SpectraResultValues
+            ResultValues = SpectraResultValues
         elif 'time' in restype.lower():
-            ResultType = TimeSeriesResultValues
+            ResultValues = TimeSeriesResultValues
         elif 'trajectory' in restype.lower():
-            ResultType = TrajectoryResultValues
+            ResultValues = TrajectoryResultValues
         elif 'transect' in restype.lower():
-            ResultType = TransectResultValues
+            ResultValues = TransectResultValues
 
-        q = self._session.query(ResultType).filter(ResultType.ResultID.in_(resultids))
+        q = self._session.query(ResultValues).filter(ResultValues.ResultID.in_(resultids))
         if starttime:
-            q = q.filter(ResultType.ValueDateTime >= starttime)
+            q = q.filter(ResultValues.ValueDateTime >= starttime)
         if endtime:
-            q = q.filter(ResultType.ValueDateTime <= endtime)
+            q = q.filter(ResultValues.ValueDateTime <= endtime)
         try:
             # F841 local variable 'vals' is assigned to but never used
             # vals = q.order_by(ResultType.ValueDateTime)
@@ -1331,7 +1331,7 @@ class ReadODM2(serviceBase):
                 con=self._session_factory.engine,
                 params=query.params
             )
-            df.columns = [self._get_columns(ResultType)[c] for c in df.columns]
+            df.columns = [self._get_columns(ResultValues)[c] for c in df.columns]
             return df
         except Exception as e:
             print('Error running Query: {}'.format(e))
