@@ -120,10 +120,23 @@ class SamplingFeatureDataSet():
                     self.related_features = related
 
 
-
-
-
 class ReadODM2(serviceBase):
+    def _get_columns(self, model):
+        """Internal helper function to get a dictionary of a model column properties.
+
+        Args:
+            model (object): Sqlalchemy object, Ex. ODM2 model.
+
+        Returns:
+            dict: Dictionary of column properties Ex. {'resultid': 'ResultID'}
+
+        """
+        from sqlalchemy.orm.properties import ColumnProperty
+        columns = [(prop.key.lower(), prop.key) for prop in model.__mapper__.iterate_properties if
+                   isinstance(prop, ColumnProperty)]
+
+        return dict(columns)
+
     # Exists functions
     def resultExists(self, result):
         """
@@ -1261,46 +1274,54 @@ class ReadODM2(serviceBase):
         """
         return self._session.query(ResultDerivationEquations).all()
 
-    # Results
-    # ResultValues
     def getResultValues(self, resultids, starttime=None, endtime=None):
         """
-        getResultValues(self, resultids, starttime=None, endtime=None)
-        * Pass in a list of ResultID - Returns a pandas dataframe object of type
-          that is specific to the result type - The resultids must be associated
-          with the same value type
-        * Pass a ResultID and a date range - returns a pandas dataframe object
-          of type that is specific to the result type with values between the input date range
-        * Pass a starttime - Returns a dataframe with the values after the given start time
-        * Pass an endtime - Returns a dataframe with the values before the given end time
+        Retrieve result values associated with the given result.
+
+            **The resultids must be associated with the same result type**
+        Args:
+            resultids (list): List of SamplingFeatureIDs.
+            starttime (object, optional): Start time to filter by as datetime object.
+            endtime (object, optional): End time to filter by as datetime object.
+
+        Returns:
+            DataFrame: Pandas dataframe of result values.
+
+        Examples:
+            >>> READ = ReadODM2(SESSION_FACTORY)
+            >>> READ.getResultValues(resultids=[10, 11])
+            >>> READ.getResultValues(resultids=[100, 20, 34], starttime=datetime.today())
+            >>> READ.getResultValues(resultids=[1, 2, 3, 4],
+            >>>     starttime=datetime(2000, 01, 01),
+            >>>     endtime=datetime(2003, 02, 01))
 
         """
-        type = self._session.query(Results).filter_by(ResultID=resultids[0]).first().ResultTypeCV
-        ResultType = TimeSeriesResultValues
-        if 'categorical' in type.lower():
-            ResultType = CategoricalResultValues
-        elif 'measurement' in type.lower():
-            ResultType = MeasurementResultValues
-        elif 'point' in type.lower():
-            ResultType = PointCoverageResultValues
-        elif 'profile' in type.lower():
-            ResultType = ProfileResultValues
-        elif 'section' in type.lower():
-            ResultType = SectionResults
-        elif 'spectra' in type.lower():
-            ResultType = SpectraResultValues
-        elif 'time' in type.lower():
-            ResultType = TimeSeriesResultValues
-        elif 'trajectory' in type.lower():
-            ResultType = TrajectoryResultValues
-        elif 'transect' in type.lower():
-            ResultType = TransectResultValues
+        restype = self._session.query(Results).filter_by(ResultID=resultids[0]).first().ResultTypeCV
+        ResultValues = TimeSeriesResultValues
+        if 'categorical' in restype.lower():
+            ResultValues = CategoricalResultValues
+        elif 'measurement' in restype.lower():
+            ResultValues = MeasurementResultValues
+        elif 'point' in restype.lower():
+            ResultValues = PointCoverageResultValues
+        elif 'profile' in restype.lower():
+            ResultValues = ProfileResultValues
+        elif 'section' in restype.lower():
+            ResultValues = SectionResults
+        elif 'spectra' in restype.lower():
+            ResultValues = SpectraResultValues
+        elif 'time' in restype.lower():
+            ResultValues = TimeSeriesResultValues
+        elif 'trajectory' in restype.lower():
+            ResultValues = TrajectoryResultValues
+        elif 'transect' in restype.lower():
+            ResultValues = TransectResultValues
 
-        q = self._session.query(ResultType).filter(ResultType.ResultID.in_(resultids))
+        q = self._session.query(ResultValues).filter(ResultValues.ResultID.in_(resultids))
         if starttime:
-            q = q.filter(ResultType.ValueDateTime >= starttime)
+            q = q.filter(ResultValues.ValueDateTime >= starttime)
         if endtime:
-            q = q.filter(ResultType.ValueDateTime <= endtime)
+            q = q.filter(ResultValues.ValueDateTime <= endtime)
         try:
             # F841 local variable 'vals' is assigned to but never used
             # vals = q.order_by(ResultType.ValueDateTime)
@@ -1310,6 +1331,7 @@ class ReadODM2(serviceBase):
                 con=self._session_factory.engine,
                 params=query.params
             )
+            df.columns = [self._get_columns(ResultValues)[c] for c in df.columns]
             return df
         except Exception as e:
             print('Error running Query: {}'.format(e))
