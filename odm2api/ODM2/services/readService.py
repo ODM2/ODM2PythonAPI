@@ -38,6 +38,8 @@ import pandas as pd
 
 from sqlalchemy import distinct, exists
 
+import warnings
+
 __author__ = 'sreeder'
 
 
@@ -145,7 +147,7 @@ class ReadODM2(serviceBase):
             return None
 
     # Annotations
-    def getAnnotations(self, type=None, codes=None, ids=None):
+    def getAnnotations(self, annottype=None, codes=None, ids=None, **kwargs):
         """
         * Pass Nothing - return a list of all objects
         * Pass AnnotationTypeCV - return a list of all objects of the fiven type
@@ -155,34 +157,38 @@ class ReadODM2(serviceBase):
         """
         # TODO What keywords do I use for type.
         a = Annotations
-        if type:
-            if type == 'action':
+        if 'type' in kwargs:
+            warnings.warn(
+                "The parameter 'type' is deprecated. Please use the annottype parameter instead.")
+            annottype = kwargs['type']
+        if annottype:
+            if annottype == 'action':
                 a = ActionAnnotations
-            elif type == 'categoricalresultvalue':
+            elif annottype == 'categoricalresultvalue':
                 a = CategoricalResultValueAnnotations
-            elif type == 'equipmentannotation':
+            elif annottype == 'equipmentannotation':
                 a = EquipmentAnnotations
-            elif type == 'measurementresultvalue':
+            elif annottype == 'measurementresultvalue':
                 a = MeasurementResultValueAnnotations
-            elif type == 'method':
+            elif annottype == 'method':
                 a = MethodAnnotations
-            elif type == 'pointcoverageresultvalue':
+            elif annottype == 'pointcoverageresultvalue':
                 a = PointCoverageResultValueAnnotations
-            elif type == 'profileresultvalue':
+            elif annottype == 'profileresultvalue':
                 a = ProfileResultValueAnnotations
-            elif type == 'result':
+            elif annottype == 'result':
                 a = ResultAnnotations
-            elif type == 'samplingfeature':
+            elif annottype == 'samplingfeature':
                 a = SamplingFeatureAnnotations
-            elif type == 'sectionresultvalue':
+            elif annottype == 'sectionresultvalue':
                 a = SectionResultValueAnnotations
-            elif type == 'spectraresultvalue':
+            elif annottype == 'spectraresultvalue':
                 a = SpectraResultValueAnnotations
-            elif type == 'timeseriesresultvalue':
+            elif annottype == 'timeseriesresultvalue':
                 a = TimeSeriesResultValueAnnotations
-            elif type == 'trajectoryresultvalue':
+            elif annottype == 'trajectoryresultvalue':
                 a = TrajectoryResultValueAnnotations
-            elif type == 'transectresultvalue':
+            elif annottype == 'transectresultvalue':
                 a = TransectResultValueAnnotations
         try:
             query = self._session.query(a)
@@ -678,8 +684,8 @@ class ReadODM2(serviceBase):
             return None
 
     # Results
-    def getResults(self, ids=None, type=None, restype = None, uuids=None, actionid=None, simulationid=None, sfid=None,
-                   variableid=None, siteid=None, sfids=None, sfuuids=None, sfcodes=None):
+    def getResults(self, ids=None, restype = None, uuids=None, actionid=None, simulationid=None,
+                   variableid=None, siteid=None, sfids=None, sfuuids=None, sfcodes=None, **kwargs):
 
         # TODO what if user sends in both type and actionid vs just actionid
         """Retrieve a list of Result objects.
@@ -694,7 +700,6 @@ class ReadODM2(serviceBase):
             uuids (list, optional): List of UUIDs string.
             actionid (int, optional): ActionID.
             simulationid (int, optional): SimulationID.
-            sfid (int, optional): SamplingFeatureID.
             variableid (int, optional): VariableID.
             siteid (int, optional): SiteID. - goes through related features table and finds all of results
                     recorded at the given site
@@ -719,11 +724,10 @@ class ReadODM2(serviceBase):
         """
         query = self._session.query(Results)
 
-        if type:
-            import warnings
+        if 'type' in kwargs:
             warnings.warn(
-                "The parameter 'type' is no longer be supported. Please use the restype parameter instead.")
-            query = query.filter_by(ResultTypeCV=type)
+                "The parameter 'type' is deprecated. Please use the restype parameter instead.")
+            restype = kwargs['type']
         if restype:
             query = query.filter_by(ResultTypeCV=restype)
         if variableid:
@@ -739,10 +743,9 @@ class ReadODM2(serviceBase):
                     .filter_by(SimulationID=simulationid)
         if actionid:
             query = query.join(FeatureActions).filter_by(ActionID=actionid)
-        if sfid:
-            import warnings
-            warnings.warn("The parameter 'sfid' is no longer be supported. Please use the sfids parameter and send in a list.")
-            query = query.join(FeatureActions).filter_by(SamplingFeatureID=sfid)
+        if 'sfid' in kwargs:
+            warnings.warn("The parameter 'sfid' is deprecated. Please use the sfids parameter and send in a list.")
+            query = query.join(FeatureActions).filter_by(SamplingFeatureID=kwargs['sfid'])
         if sfids or sfcodes or sfuuids:
             sf_list = self.getSamplingFeatures(ids=sfids, codes=sfcodes, uuids=sfuuids)
             sfids = []
