@@ -229,66 +229,71 @@ class ReadODM2(serviceBase):
             return None
 
     # CV
-    def getCVs(self, type):
+    def getCVs(self, cvtype, **kwargs):
         """
         getCVs(self, type):
         * Pass CVType - return a list of all objects of the given type
 
         """
-        CV = CVActionType
-        if type == 'actiontype':
+        self._check_kwargs(['type'], kwargs)
+        if 'type' in kwargs:
+            warnings.warn('The parameter \'type\' is deprecated. Please use the cvtype parameter instead.',
+                          DeprecationWarning, stacklevel=2)
+            cvtype = kwargs['type']
+
+        if cvtype == 'actiontype':
             CV = CVActionType
-        elif type == 'aggregationstatistic':
+        elif cvtype == 'aggregationstatistic':
             CV = CVAggregationStatistic
-        elif type == 'annotationtype':
+        elif cvtype == 'annotationtype':
             CV = CVAnnotationType
-        elif type == 'censorcode':
+        elif cvtype == 'censorcode':
             CV = CVCensorCode
-        elif type == 'dataqualitytype':
+        elif cvtype == 'dataqualitytype':
             CV = CVDataQualityType
-        elif type == 'dataset type':
+        elif cvtype == 'dataset type':
             CV = CVDataSetType
-        elif type == 'Directive Type':
+        elif cvtype == 'Directive Type':
             CV = CVDirectiveType
-        elif type == 'Elevation Datum':
+        elif cvtype == 'Elevation Datum':
             CV = CVElevationDatum
-        elif type == 'Equipment Type':
+        elif cvtype == 'Equipment Type':
             CV = CVEquipmentType
-        elif type == 'Medium':
+        elif cvtype == 'Medium':
             CV = CVMediumType
-        elif type == 'Method Type':
+        elif cvtype == 'Method Type':
             CV = CVMethodType
-        elif type == 'Organization Type':
+        elif cvtype == 'Organization Type':
             CV = CVOrganizationType
-        elif type == 'Property Data Type':
+        elif cvtype == 'Property Data Type':
             CV = CVPropertyDataType
-        elif type == 'Quality Code':
+        elif cvtype == 'Quality Code':
             CV = CVQualityCode
-        elif type == 'Relationship Type':
+        elif cvtype == 'Relationship Type':
             CV = CVRelationshipType
-        elif type == 'Result Type':
+        elif cvtype == 'Result Type':
             CV = CVResultType
-        elif type == 'Sampling Feature Geo-type':
+        elif cvtype == 'Sampling Feature Geo-type':
             CV = CVSamplingFeatureGeoType
-        elif type == 'Sampling Feature Type':
+        elif cvtype == 'Sampling Feature Type':
             CV = CVSamplingFeatureType
-        elif type == 'Site Type':
+        elif cvtype == 'Site Type':
             CV = CVSiteType
-        elif type == 'Spatial Offset Type':
+        elif cvtype == 'Spatial Offset Type':
             CV = CVSpatialOffsetType
-        elif type == 'Speciation':
+        elif cvtype == 'Speciation':
             CV = CVSpeciation
-        elif type == 'Specimen Type':
+        elif cvtype == 'Specimen Type':
             CV = CVSpecimenType
-        elif type == 'Status':
+        elif cvtype == 'Status':
             CV = CVStatus
-        elif type == 'Taxonomic Classifier Type':
+        elif cvtype == 'Taxonomic Classifier Type':
             CV = CVTaxonomicClassifierType
-        elif type == 'Units Type':
+        elif cvtype == 'Units Type':
             CV = CVUnitsType
-        elif type == 'Variable Name':
+        elif cvtype == 'Variable Name':
             CV = CVVariableName
-        elif type == 'Variable Type':
+        elif cvtype == 'Variable Type':
             CV = CVVariableType
         else:
             return None
