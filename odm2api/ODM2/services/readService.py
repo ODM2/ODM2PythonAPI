@@ -139,6 +139,19 @@ class ReadODM2(serviceBase):
 
         return dict(columns)
 
+    def _check_kwargs(self, args, kwargs):
+        """Internal helper function to check for unused keyword arguments
+
+        Args:
+            args (list): List of expected, valid arguments.
+            kwargs (dict): Dictionary of keyword arguments from user
+        Returns:
+            None
+        """
+        invkwd = filter(lambda x: x not in args, kwargs.keys())
+        if invkwd:
+            warnings.warn('Got unexpected keyword argument(s) {}'.format(','.join(invkwd)), stacklevel=2)
+
     # Exists functions
     def resultExists(self, result):
         """
@@ -170,6 +183,7 @@ class ReadODM2(serviceBase):
         """
         # TODO What keywords do I use for type.
         a = Annotations
+        self._check_kwargs(['type'], kwargs)
         if 'type' in kwargs:
             warnings.warn('The parameter \'type\' is deprecated. Please use the annottype parameter instead.',
                           DeprecationWarning, stacklevel=2)
@@ -398,7 +412,7 @@ class ReadODM2(serviceBase):
             return None
 
     # Method
-    def getMethods(self, ids=None, codes=None, medtype=None, **kwargs):
+    def getMethods(self, ids=None, codes=None, methodtype=None, **kwargs):
         """
         * Pass nothing - returns full list of method objects
         * Pass a list of MethodIDs - returns a single method object for each given id
@@ -406,17 +420,19 @@ class ReadODM2(serviceBase):
         * Pass a MethodType - returns a list of method objects of the given MethodType
 
         """
+        self._check_kwargs(['type'], kwargs)
         if 'type' in kwargs:
             warnings.warn('The parameter \'type\' is deprecated. Please use the medtype parameter instead.',
                           DeprecationWarning, stacklevel=2)
-            medtype = kwargs['type']
+            methodtype = kwargs['type']
+
         q = self._session.query(Methods)
         if ids:
             q = q.filter(Methods.MethodID.in_(ids))
         if codes:
             q = q.filter(Methods.MethodCode.in_(codes))
-        if medtype:
-            q = q.filter_by(MethodTypeCV=medtype)
+        if methodtype:
+            q = q.filter_by(MethodTypeCV=methodtype)
 
         try:
             return q.all()
@@ -491,6 +507,7 @@ class ReadODM2(serviceBase):
             >>> READ.getSamplingFeatures(type='Site', results=True)
 
         """
+        self._check_kwargs(['type'], kwargs)
         if 'type' in kwargs:
             warnings.warn('The parameter \'type\' is deprecated. Please use the sftype parameter instead.',
                           DeprecationWarning, stacklevel=2)
@@ -566,6 +583,7 @@ class ReadODM2(serviceBase):
           associated with that Sampling feature ID, Found through featureAction table
 
         """
+        self._check_kwargs(['type'], kwargs)
         if 'type' in kwargs:
             warnings.warn('The parameter \'type\' is deprecated. Please use the acttype parameter instead.',
                           DeprecationWarning, stacklevel=2)
@@ -615,6 +633,7 @@ class ReadODM2(serviceBase):
         * Pass a type- returns a list of all objects of the given type
 
         """
+        self._check_kwargs(['type'], kwargs)
         if 'type' in kwargs:
             warnings.warn('The parameter \'type\' is deprecated. Please use the unittype parameter instead.',
                           DeprecationWarning, stacklevel=2)
@@ -753,7 +772,7 @@ class ReadODM2(serviceBase):
 
         """
         query = self._session.query(Results)
-
+        self._check_kwargs(['type', 'sfid'], kwargs)
         if 'type' in kwargs:
             warnings.warn('The parameter \'type\' is deprecated. Please use the restype parameter instead.',
                           DeprecationWarning, stacklevel=2)
@@ -1052,6 +1071,7 @@ class ReadODM2(serviceBase):
         * Pass an ActionID - returns a single Equipment object
 
         """
+        self._check_kwargs(['type'], kwargs)
         if 'type' in kwargs:
             warnings.warn('The parameter \'type\' is deprecated. Please use the equiptype parameter instead.',
                           DeprecationWarning, stacklevel=2)
@@ -1151,6 +1171,7 @@ class ReadODM2(serviceBase):
 
         """
         # Todo what values to use for extensionproperties type
+        self._check_kwargs(['type'], kwargs)
         if 'type' in kwargs:
             warnings.warn('The parameter \'type\' is deprecated. Please use the exptype parameter instead.',
                           DeprecationWarning, stacklevel=2)
@@ -1181,6 +1202,7 @@ class ReadODM2(serviceBase):
         * Pass type- return a list of all objects of the given type
 
         """
+        self._check_kwargs(['type'], kwargs)
         if 'type' in kwargs:
             warnings.warn('The parameter \'type\' is deprecated. Please use the eitype parameter instead.',
                           DeprecationWarning, stacklevel=2)
@@ -1432,6 +1454,7 @@ class ReadODM2(serviceBase):
         * Pass a ModelCode - get a list of converter objects related to the converter having ModeCode
 
         """
+        self._check_kwargs(['id'], kwargs)
         if 'id' in kwargs:
             warnings.warn('The parameter \'id\' is deprecated. Please use the modid parameter instead.',
                           DeprecationWarning, stacklevel=2)
