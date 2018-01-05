@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+136.gae0bdfd documentation</title>
+    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+140.gcb30fbe documentation</title>
     <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.6.0-alpha+136.gae0bdfd',
+        VERSION:     '0.6.0-alpha+140.gcb30fbe',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -229,10 +229,23 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">related_features</span> <span class="o">=</span> <span class="n">related</span></div></div>
 
 
-
-
-
 <div class="viewcode-block" id="ReadODM2"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2">[docs]</a><span class="k">class</span> <span class="nc">ReadODM2</span><span class="p">(</span><span class="n">serviceBase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_get_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Internal helper function to get a dictionary of a model column properties.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            model (object): Sqlalchemy object, Ex. ODM2 model.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: Dictionary of column properties Ex. {&#39;resultid&#39;: &#39;ResultID&#39;}</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sqlalchemy.orm.properties</span> <span class="k">import</span> <span class="n">ColumnProperty</span>
+        <span class="n">columns</span> <span class="o">=</span> <span class="p">[(</span><span class="n">prop</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">prop</span><span class="o">.</span><span class="n">key</span><span class="p">)</span> <span class="k">for</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">__mapper__</span><span class="o">.</span><span class="n">iterate_properties</span> <span class="k">if</span>
+                   <span class="nb">isinstance</span><span class="p">(</span><span class="n">prop</span><span class="p">,</span> <span class="n">ColumnProperty</span><span class="p">)]</span>
+
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span>
+
     <span class="c1"># Exists functions</span>
 <div class="viewcode-block" id="ReadODM2.resultExists"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.resultExists">[docs]</a>    <span class="k">def</span> <span class="nf">resultExists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -1370,46 +1383,54 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ResultDerivationEquations</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span></div>
 
-    <span class="c1"># Results</span>
-    <span class="c1"># ResultValues</span>
 <div class="viewcode-block" id="ReadODM2.getResultValues"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getResultValues">[docs]</a>    <span class="k">def</span> <span class="nf">getResultValues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resultids</span><span class="p">,</span> <span class="n">starttime</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">endtime</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        getResultValues(self, resultids, starttime=None, endtime=None)</span>
-<span class="sd">        * Pass in a list of ResultID - Returns a pandas dataframe object of type</span>
-<span class="sd">          that is specific to the result type - The resultids must be associated</span>
-<span class="sd">          with the same value type</span>
-<span class="sd">        * Pass a ResultID and a date range - returns a pandas dataframe object</span>
-<span class="sd">          of type that is specific to the result type with values between the input date range</span>
-<span class="sd">        * Pass a starttime - Returns a dataframe with the values after the given start time</span>
-<span class="sd">        * Pass an endtime - Returns a dataframe with the values before the given end time</span>
+<span class="sd">        Retrieve result values associated with the given result.</span>
+
+<span class="sd">            **The resultids must be associated with the same result type**</span>
+<span class="sd">        Args:</span>
+<span class="sd">            resultids (list): List of SamplingFeatureIDs.</span>
+<span class="sd">            starttime (object, optional): Start time to filter by as datetime object.</span>
+<span class="sd">            endtime (object, optional): End time to filter by as datetime object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DataFrame: Pandas dataframe of result values.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; READ = ReadODM2(SESSION_FACTORY)</span>
+<span class="sd">            &gt;&gt;&gt; READ.getResultValues(resultids=[10, 11])</span>
+<span class="sd">            &gt;&gt;&gt; READ.getResultValues(resultids=[100, 20, 34], starttime=datetime.today())</span>
+<span class="sd">            &gt;&gt;&gt; READ.getResultValues(resultids=[1, 2, 3, 4],</span>
+<span class="sd">            &gt;&gt;&gt;     starttime=datetime(2000, 01, 01),</span>
+<span class="sd">            &gt;&gt;&gt;     endtime=datetime(2003, 02, 01))</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Results</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">ResultID</span><span class="o">=</span><span class="n">resultids</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">first</span><span class="p">()</span><span class="o">.</span><span class="n">ResultTypeCV</span>
-        <span class="n">ResultType</span> <span class="o">=</span> <span class="n">TimeSeriesResultValues</span>
-        <span class="k">if</span> <span class="s1">&#39;categorical&#39;</span> <span class="ow">in</span> <span class="nb">type</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
-            <span class="n">ResultType</span> <span class="o">=</span> <span class="n">CategoricalResultValues</span>
-        <span class="k">elif</span> <span class="s1">&#39;measurement&#39;</span> <span class="ow">in</span> <span class="nb">type</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
-            <span class="n">ResultType</span> <span class="o">=</span> <span class="n">MeasurementResultValues</span>
-        <span class="k">elif</span> <span class="s1">&#39;point&#39;</span> <span class="ow">in</span> <span class="nb">type</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
-            <span class="n">ResultType</span> <span class="o">=</span> <span class="n">PointCoverageResultValues</span>
-        <span class="k">elif</span> <span class="s1">&#39;profile&#39;</span> <span class="ow">in</span> <span class="nb">type</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
-            <span class="n">ResultType</span> <span class="o">=</span> <span class="n">ProfileResultValues</span>
-        <span class="k">elif</span> <span class="s1">&#39;section&#39;</span> <span class="ow">in</span> <span class="nb">type</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
-            <span class="n">ResultType</span> <span class="o">=</span> <span class="n">SectionResults</span>
-        <span class="k">elif</span> <span class="s1">&#39;spectra&#39;</span> <span class="ow">in</span> <span class="nb">type</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
-            <span class="n">ResultType</span> <span class="o">=</span> <span class="n">SpectraResultValues</span>
-        <span class="k">elif</span> <span class="s1">&#39;time&#39;</span> <span class="ow">in</span> <span class="nb">type</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
-            <span class="n">ResultType</span> <span class="o">=</span> <span class="n">TimeSeriesResultValues</span>
-        <span class="k">elif</span> <span class="s1">&#39;trajectory&#39;</span> <span class="ow">in</span> <span class="nb">type</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
-            <span class="n">ResultType</span> <span class="o">=</span> <span class="n">TrajectoryResultValues</span>
-        <span class="k">elif</span> <span class="s1">&#39;transect&#39;</span> <span class="ow">in</span> <span class="nb">type</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
-            <span class="n">ResultType</span> <span class="o">=</span> <span class="n">TransectResultValues</span>
+        <span class="n">restype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Results</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">ResultID</span><span class="o">=</span><span class="n">resultids</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">first</span><span class="p">()</span><span class="o">.</span><span class="n">ResultTypeCV</span>
+        <span class="n">ResultValues</span> <span class="o">=</span> <span class="n">TimeSeriesResultValues</span>
+        <span class="k">if</span> <span class="s1">&#39;categorical&#39;</span> <span class="ow">in</span> <span class="n">restype</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="n">ResultValues</span> <span class="o">=</span> <span class="n">CategoricalResultValues</span>
+        <span class="k">elif</span> <span class="s1">&#39;measurement&#39;</span> <span class="ow">in</span> <span class="n">restype</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="n">ResultValues</span> <span class="o">=</span> <span class="n">MeasurementResultValues</span>
+        <span class="k">elif</span> <span class="s1">&#39;point&#39;</span> <span class="ow">in</span> <span class="n">restype</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="n">ResultValues</span> <span class="o">=</span> <span class="n">PointCoverageResultValues</span>
+        <span class="k">elif</span> <span class="s1">&#39;profile&#39;</span> <span class="ow">in</span> <span class="n">restype</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="n">ResultValues</span> <span class="o">=</span> <span class="n">ProfileResultValues</span>
+        <span class="k">elif</span> <span class="s1">&#39;section&#39;</span> <span class="ow">in</span> <span class="n">restype</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="n">ResultValues</span> <span class="o">=</span> <span class="n">SectionResults</span>
+        <span class="k">elif</span> <span class="s1">&#39;spectra&#39;</span> <span class="ow">in</span> <span class="n">restype</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="n">ResultValues</span> <span class="o">=</span> <span class="n">SpectraResultValues</span>
+        <span class="k">elif</span> <span class="s1">&#39;time&#39;</span> <span class="ow">in</span> <span class="n">restype</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="n">ResultValues</span> <span class="o">=</span> <span class="n">TimeSeriesResultValues</span>
+        <span class="k">elif</span> <span class="s1">&#39;trajectory&#39;</span> <span class="ow">in</span> <span class="n">restype</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="n">ResultValues</span> <span class="o">=</span> <span class="n">TrajectoryResultValues</span>
+        <span class="k">elif</span> <span class="s1">&#39;transect&#39;</span> <span class="ow">in</span> <span class="n">restype</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="n">ResultValues</span> <span class="o">=</span> <span class="n">TransectResultValues</span>
 
-        <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ResultType</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ResultType</span><span class="o">.</span><span class="n">ResultID</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">resultids</span><span class="p">))</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ResultValues</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ResultValues</span><span class="o">.</span><span class="n">ResultID</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">resultids</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">starttime</span><span class="p">:</span>
-            <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ResultType</span><span class="o">.</span><span class="n">ValueDateTime</span> <span class="o">&gt;=</span> <span class="n">starttime</span><span class="p">)</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ResultValues</span><span class="o">.</span><span class="n">ValueDateTime</span> <span class="o">&gt;=</span> <span class="n">starttime</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">endtime</span><span class="p">:</span>
-            <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ResultType</span><span class="o">.</span><span class="n">ValueDateTime</span> <span class="o">&lt;=</span> <span class="n">endtime</span><span class="p">)</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ResultValues</span><span class="o">.</span><span class="n">ValueDateTime</span> <span class="o">&lt;=</span> <span class="n">endtime</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># F841 local variable &#39;vals&#39; is assigned to but never used</span>
             <span class="c1"># vals = q.order_by(ResultType.ValueDateTime)</span>
@@ -1419,6 +1440,7 @@
                 <span class="n">con</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_session_factory</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span>
                 <span class="n">params</span><span class="o">=</span><span class="n">query</span><span class="o">.</span><span class="n">params</span>
             <span class="p">)</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_columns</span><span class="p">(</span><span class="n">ResultValues</span><span class="p">)[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
             <span class="k">return</span> <span class="n">df</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error running Query: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
