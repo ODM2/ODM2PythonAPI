@@ -120,10 +120,23 @@ class SamplingFeatureDataSet():
                     self.related_features = related
 
 
-
-
-
 class ReadODM2(serviceBase):
+    def _get_columns(self, model):
+        """Internal helper function to get a dictionary of a model column properties.
+
+        Args:
+            model (object): Sqlalchemy object, Ex. ODM2 model.
+
+        Returns:
+            dict: Dictionary of column properties Ex. {'resultid': 'ResultID'}
+
+        """
+        from sqlalchemy.orm.properties import ColumnProperty
+        columns = [(prop.key.lower(), prop.key) for prop in model.__mapper__.iterate_properties if
+                   isinstance(prop, ColumnProperty)]
+
+        return dict(columns)
+
     # Exists functions
     def resultExists(self, result):
         """
@@ -1275,25 +1288,25 @@ class ReadODM2(serviceBase):
         * Pass an endtime - Returns a dataframe with the values before the given end time
 
         """
-        type = self._session.query(Results).filter_by(ResultID=resultids[0]).first().ResultTypeCV
+        restype = self._session.query(Results).filter_by(ResultID=resultids[0]).first().ResultTypeCV
         ResultType = TimeSeriesResultValues
-        if 'categorical' in type.lower():
+        if 'categorical' in restype.lower():
             ResultType = CategoricalResultValues
-        elif 'measurement' in type.lower():
+        elif 'measurement' in restype.lower():
             ResultType = MeasurementResultValues
-        elif 'point' in type.lower():
+        elif 'point' in restype.lower():
             ResultType = PointCoverageResultValues
-        elif 'profile' in type.lower():
+        elif 'profile' in restype.lower():
             ResultType = ProfileResultValues
-        elif 'section' in type.lower():
+        elif 'section' in restype.lower():
             ResultType = SectionResults
-        elif 'spectra' in type.lower():
+        elif 'spectra' in restype.lower():
             ResultType = SpectraResultValues
-        elif 'time' in type.lower():
+        elif 'time' in restype.lower():
             ResultType = TimeSeriesResultValues
-        elif 'trajectory' in type.lower():
+        elif 'trajectory' in restype.lower():
             ResultType = TrajectoryResultValues
-        elif 'transect' in type.lower():
+        elif 'transect' in restype.lower():
             ResultType = TransectResultValues
 
         q = self._session.query(ResultType).filter(ResultType.ResultID.in_(resultids))
@@ -1310,6 +1323,7 @@ class ReadODM2(serviceBase):
                 con=self._session_factory.engine,
                 params=query.params
             )
+            df.columns = [self._get_columns(ResultType)[c] for c in df.columns]
             return df
         except Exception as e:
             print('Error running Query: {}'.format(e))
