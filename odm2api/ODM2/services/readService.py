@@ -1274,18 +1274,26 @@ class ReadODM2(serviceBase):
         """
         return self._session.query(ResultDerivationEquations).all()
 
-    # Results
-    # ResultValues
     def getResultValues(self, resultids, starttime=None, endtime=None):
         """
-        getResultValues(self, resultids, starttime=None, endtime=None)
-        * Pass in a list of ResultID - Returns a pandas dataframe object of type
-          that is specific to the result type - The resultids must be associated
-          with the same value type
-        * Pass a ResultID and a date range - returns a pandas dataframe object
-          of type that is specific to the result type with values between the input date range
-        * Pass a starttime - Returns a dataframe with the values after the given start time
-        * Pass an endtime - Returns a dataframe with the values before the given end time
+        Retrieve result values associated with the given result.
+
+            **The resultids must be associated with the same result type**
+        Args:
+            resultids (list): List of SamplingFeatureIDs.
+            starttime (object, optional): Start time to filter by as datetime object.
+            endtime (object, optional): End time to filter by as datetime object.
+
+        Returns:
+            DataFrame: Pandas dataframe of result values.
+
+        Examples:
+            >>> READ = ReadODM2(SESSION_FACTORY)
+            >>> READ.getResultValues(resultids=[10, 11])
+            >>> READ.getResultValues(resultids=[100, 20, 34], starttime=datetime.today())
+            >>> READ.getResultValues(resultids=[1, 2, 3, 4],
+            >>>     starttime=datetime(2000, 01, 01),
+            >>>     endtime=datetime(2003, 02, 01))
 
         """
         restype = self._session.query(Results).filter_by(ResultID=resultids[0]).first().ResultTypeCV
