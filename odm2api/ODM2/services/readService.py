@@ -1,5 +1,7 @@
 from __future__ import (absolute_import, division, print_function)
 
+import warnings
+
 from odm2api.ODM2 import serviceBase
 from odm2api.ODM2.models import (
     ActionAnnotations, ActionDirectives, ActionExtensionPropertyValues, Actions,
@@ -29,7 +31,7 @@ from odm2api.ODM2.models import (
     SpatialReferenceExternalIdentifiers, SpatialReferences, SpecimenBatchPositions,
     SpectraResultValueAnnotations, SpectraResultValues, TaxonomicClassifierExternalIdentifiers,
     TaxonomicClassifiers, TimeSeriesResultValueAnnotations, TimeSeriesResultValues,
-    TimeSeriesResults, TrajectoryResultValueAnnotations, TrajectoryResultValues,
+    TrajectoryResultValueAnnotations, TrajectoryResultValues,
     TransectResultValueAnnotations, TransectResultValues, Units, VariableExtensionPropertyValues,
     VariableExternalIdentifiers, Variables,
 )
@@ -37,8 +39,6 @@ from odm2api.ODM2.models import (
 import pandas as pd
 
 from sqlalchemy import distinct, exists
-
-import warnings
 
 __author__ = 'sreeder'
 
@@ -75,8 +75,9 @@ class DetailedAffiliation:
 
 
 class SamplingFeatureDataSet():
-    datasets={}
-    related_features={}
+    datasets = {}
+    related_features = {}
+
     def __init__(self, samplingfeature, datasetresults, relatedfeatures):
         sf = samplingfeature
 
@@ -94,7 +95,6 @@ class SamplingFeatureDataSet():
         self.assignDatasets(datasetresults)
         self.assignRelatedFeatures(relatedfeatures)
 
-
         print(self.datasets)
 
     def assignDatasets(self, datasetresults):
@@ -102,17 +102,16 @@ class SamplingFeatureDataSet():
         if datasetresults:
             for dsr in datasetresults:
                 if dsr.DataSetObj not in self.datasets:
-                    #if the dataset is not in the dictionary, add it and the first result
-                    self.datasets[dsr.DataSetObj]=[]
+                    # if the dataset is not in the dictionary, add it and the first result
+                    self.datasets[dsr.DataSetObj] = []
                     res = dsr.ResultObj
                     # res.FeatureActionObj = None
                     self.datasets[dsr.DataSetObj].append(res)
                 else:
-                    #if the dataset is in the dictionary, append the result object to the list
+                    # if the dataset is in the dictionary, append the result object to the list
                     res = dsr.ResultObj
                     # res.FeatureActionObj = None
                     self.datasets[dsr.DataSetObj].append(res)
-
 
     def assignRelatedFeatures(self, relatedfeatures):
         self.related_features = {}
@@ -169,7 +168,8 @@ class ReadODM2(serviceBase):
                                       )
             return ret.scalar()
 
-        except:
+        except Exception as e:
+            print('Error running Query: {}'.format(e))
             return None
 
     # Annotations
@@ -225,7 +225,8 @@ class ReadODM2(serviceBase):
                 query = query.filter(Annotations.AnnotationID.in_(ids))
             return query.all()
 
-        except:
+        except Exception as e:
+            print('Error running Query: {}'.format(e))
             return None
 
     # CV
@@ -384,15 +385,16 @@ class ReadODM2(serviceBase):
                 variables = [
                     x[0] for x in
                     self._session.query(distinct(Results.VariableID))
-                    .filter(Results.FeatureActionID == FeatureActions.FeatureActionID)
-                    .filter(FeatureActions.SamplingFeatureID == SamplingFeatures.SamplingFeatureID)
-                    .filter(SamplingFeatures.SamplingFeatureCode == sitecode).all()
+                        .filter(Results.FeatureActionID == FeatureActions.FeatureActionID)
+                        .filter(FeatureActions.SamplingFeatureID == SamplingFeatures.SamplingFeatureID)
+                        .filter(SamplingFeatures.SamplingFeatureCode == sitecode).all()
                 ]
                 if ids:
                     ids = list(set(ids).intersection(variables))
                 else:
                     ids = variables
-            except:
+            except Exception as e:
+                print('Error running Query: {}'.format(e))
                 pass
 
         if results:
@@ -402,7 +404,8 @@ class ReadODM2(serviceBase):
                     ids = list(set(ids).intersection(variables))
                 else:
                     ids = variables
-            except:
+            except Exception as e:
+                print('Error running Query: {}'.format(e))
                 pass
 
         query = self._session.query(Variables)
@@ -520,10 +523,10 @@ class ReadODM2(serviceBase):
         if results:
             try:
                 fas = [x[0] for x in self._session.query(distinct(Results.FeatureActionID)).all()]
-            except:
+            except Exception as e:
+                print('Error running Query: {}'.format(e))
                 return None
-            sf = [x[0] for x in self._session.query(distinct(FeatureActions.SamplingFeatureID))
-                                    .filter(FeatureActions.FeatureActionID.in_(fas)).all()]
+            sf = [x[0] for x in self._session.query(distinct(FeatureActions.SamplingFeatureID)).filter(FeatureActions.FeatureActionID.in_(fas)).all()]  # noqa
             if ids:
                 ids = list(set(ids).intersection(sf))
             else:
@@ -557,8 +560,8 @@ class ReadODM2(serviceBase):
 
         """
 
-        sf = self._session.query(distinct(SamplingFeatures.SamplingFeatureID))\
-                 .select_from(RelatedFeatures)
+        sf = self._session.query(distinct(SamplingFeatures.SamplingFeatureID)) \
+            .select_from(RelatedFeatures)
 
         if sfid:
             sf = sf.join(RelatedFeatures.RelatedFeatureObj).filter(RelatedFeatures.SamplingFeatureID == sfid)
@@ -575,8 +578,6 @@ class ReadODM2(serviceBase):
         except Exception as e:
             print('Error running Query: {}'.format(e))
         return None
-
-
 
     # Action
     def getActions(self, ids=None, acttype=None, sfid=None, **kwargs):
@@ -655,7 +656,6 @@ class ReadODM2(serviceBase):
         except Exception as e:
             print('Error running Query: {}'.format(e))
             return None
-
 
     # Organization
     def getOrganizations(self, ids=None, codes=None):
@@ -738,7 +738,7 @@ class ReadODM2(serviceBase):
             return None
 
     # Results
-    def getResults(self, ids=None, restype = None, uuids=None, actionid=None, simulationid=None,
+    def getResults(self, ids=None, restype=None, uuids=None, actionid=None, simulationid=None,
                    variableid=None, siteid=None, sfids=None, sfuuids=None, sfcodes=None, **kwargs):
 
         # TODO what if user sends in both type and actionid vs just actionid
@@ -791,10 +791,10 @@ class ReadODM2(serviceBase):
         if uuids:
             query = query.filter(Results.ResultUUID.in_(uuids))
         if simulationid:
-            query = query.join(FeatureActions)\
-                    .join(Actions)\
-                    .join(Simulations)\
-                    .filter_by(SimulationID=simulationid)
+            query = query.join(FeatureActions) \
+                .join(Actions) \
+                .join(Simulations) \
+                .filter_by(SimulationID=simulationid)
         if actionid:
             query = query.join(FeatureActions).filter_by(ActionID=actionid)
         if 'sfid' in kwargs:
@@ -810,16 +810,15 @@ class ReadODM2(serviceBase):
             query = query.join(FeatureActions).filter(FeatureActions.SamplingFeatureID.in_(sfids))
 
         if siteid:
-
             sfids = [x[0] for x in self._session.query(
                 distinct(SamplingFeatures.SamplingFeatureID))
                 .select_from(RelatedFeatures)
                 .join(RelatedFeatures.SamplingFeatureObj)
                 .filter(RelatedFeatures.RelatedFeatureID == siteid)
                 .all()
-            ]
+                     ]
 
-            #TODO does this code do the same thing as the code above?
+            # TODO does this code do the same thing as the code above?
             # sf_list = self.getRelatedSamplingFeatures(rfid=siteid)
             # sfids = []
             # for sf in sf_list:
@@ -834,7 +833,7 @@ class ReadODM2(serviceBase):
             return None
 
     # Datasets
-    def getDataSets(self, ids= None, codes=None, uuids=None, dstype=None):
+    def getDataSets(self, ids=None, codes=None, uuids=None, dstype=None):
         """
         Retrieve a list of Datasets
 
@@ -906,7 +905,7 @@ class ReadODM2(serviceBase):
         if all(v is None for v in [ids, codes, uuids]):
             raise ValueError('Expected DataSetID OR DataSetUUID OR DataSetCode argument')
 
-        q = self._session.query(DataSetsResults)\
+        q = self._session.query(DataSetsResults) \
             .join(DataSets)
         if ids:
             q = q.filter(DataSets.DataSetID.in_(ids))
@@ -955,11 +954,10 @@ class ReadODM2(serviceBase):
             resids.append(ds.ResultID)
 
         try:
-            return self.getResultValues(resultids = resids)
+            return self.getResultValues(resultids=resids)
         except Exception as e:
             print('Error running Query {}'.format(e))
         return None
-
 
     def getSamplingFeatureDatasets(self, ids=None, codes=None, uuids=None, dstype=None, sftype=None):
         """
@@ -990,11 +988,12 @@ class ReadODM2(serviceBase):
 
         """
 
-
         # make sure one of the three arguments has been sent in
         if all(v is None for v in [ids, codes, uuids, sftype]):
-            raise ValueError('Expected samplingFeatureID OR samplingFeatureUUID OR samplingFeatureCode OR samplingFeatureType '
-                             'argument')
+            raise ValueError(
+                'Expected samplingFeatureID OR samplingFeatureUUID '
+                'OR samplingFeatureCode OR samplingFeatureType '
+                'argument')
 
         sf_query = self._session.query(SamplingFeatures)
         if sftype:
@@ -1011,17 +1010,16 @@ class ReadODM2(serviceBase):
             sf_list.append(sf)
 
         try:
-            sfds=[]
+            sfds = []
             for sf in sf_list:
 
-                q = self._session.query(DataSetsResults)\
-                    .join(Results)\
-                    .join(FeatureActions)\
+                q = self._session.query(DataSetsResults) \
+                    .join(Results) \
+                    .join(FeatureActions) \
                     .filter(FeatureActions.SamplingFeatureID == sf.SamplingFeatureID)
 
                 if dstype:
                     q = q.filter_by(DatasetTypeCV=dstype)
-
 
                 vals = q.all()
 
@@ -1081,17 +1079,21 @@ class ReadODM2(serviceBase):
             warnings.warn('The parameter \'type\' is deprecated. Please use the equiptype parameter instead.',
                           DeprecationWarning, stacklevel=2)
             equiptype = kwargs['type']
+
+        # NOTE: Equiptype currently unused!
+        if equiptype:
+            pass
         e = self._session.query(Equipment)
         if sfid:
             e = e.join(EquipmentUsed) \
-                    .join(Actions) \
-                    .join(FeatureActions) \
-                    .filter(FeatureActions.SamplingFeatureID == sfid)
+                .join(Actions) \
+                .join(FeatureActions) \
+                .filter(FeatureActions.SamplingFeatureID == sfid)
         if codes:
             e = e.filter(Equipment.EquipmentCode.in_(codes))
         if actionid:
             e = e.join(EquipmentUsed).join(Actions) \
-                    .filter(Actions.ActionID == actionid)
+                .filter(Actions.ActionID == actionid)
         return e.all()
 
     def CalibrationReferenceEquipment(self):
