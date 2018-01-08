@@ -801,7 +801,8 @@ class ReadODM2(serviceBase):
             warnings.warn('The parameter \'sfid\' is deprecated. '
                           'Please use the sfids parameter instead and send in a list.',
                           DeprecationWarning, stacklevel=2)
-            query = query.join(FeatureActions).filter_by(SamplingFeatureID=kwargs['sfid'])
+            if kwargs['sfid']:
+                query = query.join(FeatureActions).filter_by(SamplingFeatureID=kwargs['sfid'])
         if sfids or sfcodes or sfuuids:
             sf_list = self.getSamplingFeatures(ids=sfids, codes=sfcodes, uuids=sfuuids)
             sfids = []
