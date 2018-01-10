@@ -923,7 +923,7 @@ class ReadODM2(serviceBase):
             print('Error running Query {}'.format(e))
         return None
 
-    def getDataSetsValues(self, ids=None, codes=None, uuids=None, dstype=None):
+    def getDataSetsValues(self, ids=None, codes=None, uuids=None, dstype=None, lowercols=True):
         """
         Retrieve a list of datavalues associated with the given dataset info
 
@@ -934,6 +934,8 @@ class ReadODM2(serviceBase):
             uuids (list, optional): List of Dataset UUIDs string.
             dstype (str, optional): Type of Dataset from
                 `controlled vocabulary name <http://vocabulary.odm2.org/datasettype/>`_.
+            lowercols (bool, optional): Make column names to be lowercase.
+                                        Default to True.
 
 
         Returns:
@@ -945,7 +947,7 @@ class ReadODM2(serviceBase):
             >>> READ.getDataSetsValues(codes=['HOME', 'FIELD'])
             >>> READ.getDataSetsValues(uuids=['a6f114f1-5416-4606-ae10-23be32dbc202',
             ...                                 '5396fdf3-ceb3-46b6-aaf9-454a37278bb4'])
-            >>> READ.getDataSetsValues(dstype='singleTimeSeries')
+            >>> READ.getDataSetsValues(dstype='singleTimeSeries', lowercols=False)
 
         """
 
@@ -956,7 +958,7 @@ class ReadODM2(serviceBase):
             resids.append(ds.ResultID)
 
         try:
-            return self.getResultValues(resultids = resids)
+            return self.getResultValues(resultids=resids, lowercols=lowercols)
         except Exception as e:
             print('Error running Query {}'.format(e))
         return None
@@ -1336,7 +1338,7 @@ class ReadODM2(serviceBase):
         """
         return self._session.query(ResultDerivationEquations).all()
 
-    def getResultValues(self, resultids, starttime=None, endtime=None):
+    def getResultValues(self, resultids, starttime=None, endtime=None, lowercols=True):
         """
         Retrieve result values associated with the given result.
 
@@ -1345,6 +1347,8 @@ class ReadODM2(serviceBase):
             resultids (list): List of SamplingFeatureIDs.
             starttime (object, optional): Start time to filter by as datetime object.
             endtime (object, optional): End time to filter by as datetime object.
+            lowercols (bool, optional): Make column names to be lowercase.
+                                        Default to True.
 
         Returns:
             DataFrame: Pandas dataframe of result values.
@@ -1355,7 +1359,7 @@ class ReadODM2(serviceBase):
             >>> READ.getResultValues(resultids=[100, 20, 34], starttime=datetime.today())
             >>> READ.getResultValues(resultids=[1, 2, 3, 4],
             >>>     starttime=datetime(2000, 01, 01),
-            >>>     endtime=datetime(2003, 02, 01))
+            >>>     endtime=datetime(2003, 02, 01), lowercols=False)
 
         """
         restype = self._session.query(Results).filter_by(ResultID=resultids[0]).first().ResultTypeCV
@@ -1393,7 +1397,8 @@ class ReadODM2(serviceBase):
                 con=self._session_factory.engine,
                 params=query.params
             )
-            df.columns = [self._get_columns(ResultValues)[c] for c in df.columns]
+            if not lowercols:
+                df.columns = [self._get_columns(ResultValues)[c] for c in df.columns]
             return df
         except Exception as e:
             print('Error running Query: {}'.format(e))
