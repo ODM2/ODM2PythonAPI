@@ -11,7 +11,6 @@ import pytest
 import sqlalchemy
 from sqlalchemy.orm import class_mapper
 
-
 globals_vars = {}
 
 
@@ -75,7 +74,6 @@ class TestReadService:
         self.engine = globals_vars['engine']
         self.db = globals_vars['db']
 
-
     # Sampling Features
     def test_getAllSamplingFeatures(self):
         # get all models from the database
@@ -91,7 +89,7 @@ class TestReadService:
         # get all simulations using the api
         resapi = self.reader.getSamplingFeatures(ids=[sfid])
         assert resapi is not None
-        
+
     def test_getSamplingFeatureByCode(self):
         # get all models from the database
         res = self.engine.execute('SELECT * FROM SamplingFeatures').fetchone()
@@ -100,7 +98,7 @@ class TestReadService:
         resapi = self.reader.getSamplingFeatures(codes=[code])
         assert resapi is not None
 
-#DataSets
+    # DataSets
     def test_getDataSets(self):
         # get all datasets from the database
         ds = self.engine.execute('SELECT * FROM DataSets').fetchone()
@@ -124,14 +122,13 @@ class TestReadService:
         dsr = self.engine.execute('SELECT * FROM DataSetsResults').fetchone()
         dsid = dsr[2]
 
-        values= self.reader.getDataSetsValues(ids=[dsid])
+        values = self.reader.getDataSetsValues(ids=[dsid])
         assert values is not None
         assert len(values) > 0
 
-
     def test_getSamplingFeatureDataSets(self):
         try:
-            #find a sampling feature that is associated with a dataset
+            # find a sampling feature that is associated with a dataset
             sf = self.engine.execute(
                 'SELECT * from SamplingFeatures as sf '
                 'inner join FeatureActions as fa on fa.SamplingFeatureID == sf.SamplingFeatureID '
@@ -140,7 +137,7 @@ class TestReadService:
             ).fetchone()
             assert len(sf) > 0
 
-            #get the dataset associated with the sampling feature
+            # get the dataset associated with the sampling feature
             ds = self.engine.execute(
                 'SELECT * from DataSetsResults as ds '
                 'inner join Results as r on r.ResultID == ds.ResultID '
@@ -149,7 +146,7 @@ class TestReadService:
             ).fetchone()
             assert len(ds) > 0
 
-            print (sf[0])
+            print(sf[0])
             # get the dataset associated with the sampling feature using hte api
             dsapi = self.reader.getSamplingFeatureDatasets(ids=[sf[0]])
 
@@ -159,10 +156,10 @@ class TestReadService:
             assert dsapi[0].SamplingFeatureID == sf[0]
             # assert ds[0] == dsapi[0]
         except Exception as ex:
+            print(ex)
             assert False
         finally:
             self.reader._session.rollback()
-
 
     # Results
     def test_getAllResults(self):
@@ -173,7 +170,6 @@ class TestReadService:
         # get all results using the api
         resapi = self.reader.getResults()
         assert len(res) == len(resapi)
-
 
     def test_getResultsByID(self):
         # get a result from the database
@@ -186,18 +182,18 @@ class TestReadService:
 
     def test_getResultsBySFID(self):
         sf = self.engine.execute(
-                        'SELECT * from SamplingFeatures as sf '
-                        'inner join FeatureActions as fa on fa.SamplingFeatureID == sf.SamplingFeatureID '
-                        'inner join Results as r on fa.FeatureActionID == r.FeatureActionID  '
-            ).fetchone()
+            'SELECT * from SamplingFeatures as sf '
+            'inner join FeatureActions as fa on fa.SamplingFeatureID == sf.SamplingFeatureID '
+            'inner join Results as r on fa.FeatureActionID == r.FeatureActionID  '
+        ).fetchone()
         assert len(sf) > 0
         sfid = sf[0]
 
         res = self.engine.execute(
-                        'SELECT * from Results as r '
-                        'inner join FeatureActions as fa on fa.FeatureActionID == r.FeatureActionID '
-                        'where fa.SamplingFeatureID = ' + str(sfid)
-            ).fetchone()
+            'SELECT * from Results as r '
+            'inner join FeatureActions as fa on fa.FeatureActionID == r.FeatureActionID '
+            'where fa.SamplingFeatureID = ' + str(sfid)
+        ).fetchone()
 
         assert len(res) > 0
 
@@ -223,7 +219,6 @@ class TestReadService:
         resapi = self.reader.getModels(codes=[modelCode])
         assert resapi is not None
 
-
     # RelatedModels
     def test_getRelatedModelsByID(self):
         # get related models by id using the api
@@ -247,7 +242,8 @@ class TestReadService:
         # test invalid argument
         resapi = self.reader.getRelatedModels(code=234123)
         assert not resapi
-# Simulations
+
+    # Simulations
     def test_getAllSimulations(self):
         # get all simulation from the database
         res = self.engine.execute('SELECT * FROM Simulations').fetchall()
