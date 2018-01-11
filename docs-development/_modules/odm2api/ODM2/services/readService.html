@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+153.g292dc84 documentation</title>
+    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+160.gccb9cd1 documentation</title>
     <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.6.0-alpha+153.g292dc84',
+        VERSION:     '0.6.0-alpha+160.gccb9cd1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -109,6 +109,8 @@
   <h1>Source code for odm2api.ODM2.services.readService</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="p">(</span><span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">)</span>
 
+<span class="kn">import</span> <span class="nn">warnings</span>
+
 <span class="kn">from</span> <span class="nn">odm2api.ODM2</span> <span class="k">import</span> <span class="n">serviceBase</span>
 <span class="kn">from</span> <span class="nn">odm2api.ODM2.models</span> <span class="k">import</span> <span class="p">(</span>
     <span class="n">ActionAnnotations</span><span class="p">,</span> <span class="n">ActionDirectives</span><span class="p">,</span> <span class="n">ActionExtensionPropertyValues</span><span class="p">,</span> <span class="n">Actions</span><span class="p">,</span>
@@ -138,7 +140,7 @@
     <span class="n">SpatialReferenceExternalIdentifiers</span><span class="p">,</span> <span class="n">SpatialReferences</span><span class="p">,</span> <span class="n">SpecimenBatchPositions</span><span class="p">,</span>
     <span class="n">SpectraResultValueAnnotations</span><span class="p">,</span> <span class="n">SpectraResultValues</span><span class="p">,</span> <span class="n">TaxonomicClassifierExternalIdentifiers</span><span class="p">,</span>
     <span class="n">TaxonomicClassifiers</span><span class="p">,</span> <span class="n">TimeSeriesResultValueAnnotations</span><span class="p">,</span> <span class="n">TimeSeriesResultValues</span><span class="p">,</span>
-    <span class="n">TimeSeriesResults</span><span class="p">,</span> <span class="n">TrajectoryResultValueAnnotations</span><span class="p">,</span> <span class="n">TrajectoryResultValues</span><span class="p">,</span>
+    <span class="n">TrajectoryResultValueAnnotations</span><span class="p">,</span> <span class="n">TrajectoryResultValues</span><span class="p">,</span>
     <span class="n">TransectResultValueAnnotations</span><span class="p">,</span> <span class="n">TransectResultValues</span><span class="p">,</span> <span class="n">Units</span><span class="p">,</span> <span class="n">VariableExtensionPropertyValues</span><span class="p">,</span>
     <span class="n">VariableExternalIdentifiers</span><span class="p">,</span> <span class="n">Variables</span><span class="p">,</span>
 <span class="p">)</span>
@@ -146,8 +148,6 @@
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="k">import</span> <span class="n">distinct</span><span class="p">,</span> <span class="n">exists</span>
-
-<span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;sreeder&#39;</span>
 
@@ -184,8 +184,9 @@
 
 
 <div class="viewcode-block" id="SamplingFeatureDataSet"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.SamplingFeatureDataSet">[docs]</a><span class="k">class</span> <span class="nc">SamplingFeatureDataSet</span><span class="p">():</span>
-    <span class="n">datasets</span><span class="o">=</span><span class="p">{}</span>
-    <span class="n">related_features</span><span class="o">=</span><span class="p">{}</span>
+    <span class="n">datasets</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">related_features</span> <span class="o">=</span> <span class="p">{}</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samplingfeature</span><span class="p">,</span> <span class="n">datasetresults</span><span class="p">,</span> <span class="n">relatedfeatures</span><span class="p">):</span>
         <span class="n">sf</span> <span class="o">=</span> <span class="n">samplingfeature</span>
 
@@ -203,7 +204,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">assignDatasets</span><span class="p">(</span><span class="n">datasetresults</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assignRelatedFeatures</span><span class="p">(</span><span class="n">relatedfeatures</span><span class="p">)</span>
 
-
         <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">)</span>
 
 <div class="viewcode-block" id="SamplingFeatureDataSet.assignDatasets"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.SamplingFeatureDataSet.assignDatasets">[docs]</a>    <span class="k">def</span> <span class="nf">assignDatasets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datasetresults</span><span class="p">):</span>
@@ -211,17 +211,16 @@
         <span class="k">if</span> <span class="n">datasetresults</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">dsr</span> <span class="ow">in</span> <span class="n">datasetresults</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">dsr</span><span class="o">.</span><span class="n">DataSetObj</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">:</span>
-                    <span class="c1">#if the dataset is not in the dictionary, add it and the first result</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">[</span><span class="n">dsr</span><span class="o">.</span><span class="n">DataSetObj</span><span class="p">]</span><span class="o">=</span><span class="p">[]</span>
+                    <span class="c1"># if the dataset is not in the dictionary, add it and the first result</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">[</span><span class="n">dsr</span><span class="o">.</span><span class="n">DataSetObj</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
                     <span class="n">res</span> <span class="o">=</span> <span class="n">dsr</span><span class="o">.</span><span class="n">ResultObj</span>
                     <span class="c1"># res.FeatureActionObj = None</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">[</span><span class="n">dsr</span><span class="o">.</span><span class="n">DataSetObj</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="c1">#if the dataset is in the dictionary, append the result object to the list</span>
+                    <span class="c1"># if the dataset is in the dictionary, append the result object to the list</span>
                     <span class="n">res</span> <span class="o">=</span> <span class="n">dsr</span><span class="o">.</span><span class="n">ResultObj</span>
                     <span class="c1"># res.FeatureActionObj = None</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">[</span><span class="n">dsr</span><span class="o">.</span><span class="n">DataSetObj</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
-
 
 <div class="viewcode-block" id="SamplingFeatureDataSet.assignRelatedFeatures"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.SamplingFeatureDataSet.assignRelatedFeatures">[docs]</a>    <span class="k">def</span> <span class="nf">assignRelatedFeatures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">relatedfeatures</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">related_features</span> <span class="o">=</span> <span class="p">{}</span>
@@ -278,7 +277,8 @@
                                       <span class="p">)</span>
             <span class="k">return</span> <span class="n">ret</span><span class="o">.</span><span class="n">scalar</span><span class="p">()</span>
 
-        <span class="k">except</span><span class="p">:</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error running Query: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
             <span class="k">return</span> <span class="kc">None</span></div>
 
     <span class="c1"># Annotations</span>
@@ -334,7 +334,8 @@
                 <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Annotations</span><span class="o">.</span><span class="n">AnnotationID</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">ids</span><span class="p">))</span>
             <span class="k">return</span> <span class="n">query</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
-        <span class="k">except</span><span class="p">:</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error running Query: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
             <span class="k">return</span> <span class="kc">None</span></div>
 
     <span class="c1"># CV</span>
@@ -493,15 +494,16 @@
                 <span class="n">variables</span> <span class="o">=</span> <span class="p">[</span>
                     <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">distinct</span><span class="p">(</span><span class="n">Results</span><span class="o">.</span><span class="n">VariableID</span><span class="p">))</span>
-                    <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Results</span><span class="o">.</span><span class="n">FeatureActionID</span> <span class="o">==</span> <span class="n">FeatureActions</span><span class="o">.</span><span class="n">FeatureActionID</span><span class="p">)</span>
-                    <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">FeatureActions</span><span class="o">.</span><span class="n">SamplingFeatureID</span> <span class="o">==</span> <span class="n">SamplingFeatures</span><span class="o">.</span><span class="n">SamplingFeatureID</span><span class="p">)</span>
-                    <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">SamplingFeatures</span><span class="o">.</span><span class="n">SamplingFeatureCode</span> <span class="o">==</span> <span class="n">sitecode</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+                        <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Results</span><span class="o">.</span><span class="n">FeatureActionID</span> <span class="o">==</span> <span class="n">FeatureActions</span><span class="o">.</span><span class="n">FeatureActionID</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">FeatureActions</span><span class="o">.</span><span class="n">SamplingFeatureID</span> <span class="o">==</span> <span class="n">SamplingFeatures</span><span class="o">.</span><span class="n">SamplingFeatureID</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">SamplingFeatures</span><span class="o">.</span><span class="n">SamplingFeatureCode</span> <span class="o">==</span> <span class="n">sitecode</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
                 <span class="p">]</span>
                 <span class="k">if</span> <span class="n">ids</span><span class="p">:</span>
                     <span class="n">ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">variables</span><span class="p">))</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">ids</span> <span class="o">=</span> <span class="n">variables</span>
-            <span class="k">except</span><span class="p">:</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error running Query: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
                 <span class="k">pass</span>
 
         <span class="k">if</span> <span class="n">results</span><span class="p">:</span>
@@ -511,7 +513,8 @@
                     <span class="n">ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">variables</span><span class="p">))</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">ids</span> <span class="o">=</span> <span class="n">variables</span>
-            <span class="k">except</span><span class="p">:</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error running Query: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
                 <span class="k">pass</span>
 
         <span class="n">query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Variables</span><span class="p">)</span>
@@ -629,10 +632,10 @@
         <span class="k">if</span> <span class="n">results</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">fas</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">distinct</span><span class="p">(</span><span class="n">Results</span><span class="o">.</span><span class="n">FeatureActionID</span><span class="p">))</span><span class="o">.</span><span class="n">all</span><span class="p">()]</span>
-            <span class="k">except</span><span class="p">:</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error running Query: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
                 <span class="k">return</span> <span class="kc">None</span>
-            <span class="n">sf</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">distinct</span><span class="p">(</span><span class="n">FeatureActions</span><span class="o">.</span><span class="n">SamplingFeatureID</span><span class="p">))</span>
-                                    <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">FeatureActions</span><span class="o">.</span><span class="n">FeatureActionID</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">fas</span><span class="p">))</span><span class="o">.</span><span class="n">all</span><span class="p">()]</span>
+            <span class="n">sf</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">distinct</span><span class="p">(</span><span class="n">FeatureActions</span><span class="o">.</span><span class="n">SamplingFeatureID</span><span class="p">))</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">FeatureActions</span><span class="o">.</span><span class="n">FeatureActionID</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">fas</span><span class="p">))</span><span class="o">.</span><span class="n">all</span><span class="p">()]</span>  <span class="c1"># noqa</span>
             <span class="k">if</span> <span class="n">ids</span><span class="p">:</span>
                 <span class="n">ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">sf</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
@@ -666,8 +669,8 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">sf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">distinct</span><span class="p">(</span><span class="n">SamplingFeatures</span><span class="o">.</span><span class="n">SamplingFeatureID</span><span class="p">))</span>\
-                 <span class="o">.</span><span class="n">select_from</span><span class="p">(</span><span class="n">RelatedFeatures</span><span class="p">)</span>
+        <span class="n">sf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">distinct</span><span class="p">(</span><span class="n">SamplingFeatures</span><span class="o">.</span><span class="n">SamplingFeatureID</span><span class="p">))</span> \
+            <span class="o">.</span><span class="n">select_from</span><span class="p">(</span><span class="n">RelatedFeatures</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">sfid</span><span class="p">:</span>
             <span class="n">sf</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">RelatedFeatures</span><span class="o">.</span><span class="n">RelatedFeatureObj</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">RelatedFeatures</span><span class="o">.</span><span class="n">SamplingFeatureID</span> <span class="o">==</span> <span class="n">sfid</span><span class="p">)</span>
@@ -684,8 +687,6 @@
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error running Query: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
         <span class="k">return</span> <span class="kc">None</span></div>
-
-
 
     <span class="c1"># Action</span>
 <div class="viewcode-block" id="ReadODM2.getActions"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getActions">[docs]</a>    <span class="k">def</span> <span class="nf">getActions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">acttype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sfid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -764,7 +765,6 @@
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error running Query: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
             <span class="k">return</span> <span class="kc">None</span></div>
-
 
     <span class="c1"># Organization</span>
 <div class="viewcode-block" id="ReadODM2.getOrganizations"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getOrganizations">[docs]</a>    <span class="k">def</span> <span class="nf">getOrganizations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -847,7 +847,7 @@
             <span class="k">return</span> <span class="kc">None</span></div>
 
     <span class="c1"># Results</span>
-<div class="viewcode-block" id="ReadODM2.getResults"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getResults">[docs]</a>    <span class="k">def</span> <span class="nf">getResults</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">actionid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">simulationid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="ReadODM2.getResults"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getResults">[docs]</a>    <span class="k">def</span> <span class="nf">getResults</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">restype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">actionid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">simulationid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="n">variableid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">siteid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sfids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sfuuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sfcodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 
         <span class="c1"># TODO what if user sends in both type and actionid vs just actionid</span>
@@ -900,10 +900,10 @@
         <span class="k">if</span> <span class="n">uuids</span><span class="p">:</span>
             <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Results</span><span class="o">.</span><span class="n">ResultUUID</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">uuids</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">simulationid</span><span class="p">:</span>
-            <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">FeatureActions</span><span class="p">)</span>\
-                    <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Actions</span><span class="p">)</span>\
-                    <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Simulations</span><span class="p">)</span>\
-                    <span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">SimulationID</span><span class="o">=</span><span class="n">simulationid</span><span class="p">)</span>
+            <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">FeatureActions</span><span class="p">)</span> \
+                <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Actions</span><span class="p">)</span> \
+                <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Simulations</span><span class="p">)</span> \
+                <span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">SimulationID</span><span class="o">=</span><span class="n">simulationid</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">actionid</span><span class="p">:</span>
             <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">FeatureActions</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">ActionID</span><span class="o">=</span><span class="n">actionid</span><span class="p">)</span>
         <span class="k">if</span> <span class="s1">&#39;sfid&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
@@ -920,16 +920,15 @@
             <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">FeatureActions</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">FeatureActions</span><span class="o">.</span><span class="n">SamplingFeatureID</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">sfids</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">siteid</span><span class="p">:</span>
-
             <span class="n">sfids</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
                 <span class="n">distinct</span><span class="p">(</span><span class="n">SamplingFeatures</span><span class="o">.</span><span class="n">SamplingFeatureID</span><span class="p">))</span>
                 <span class="o">.</span><span class="n">select_from</span><span class="p">(</span><span class="n">RelatedFeatures</span><span class="p">)</span>
                 <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">RelatedFeatures</span><span class="o">.</span><span class="n">SamplingFeatureObj</span><span class="p">)</span>
                 <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">RelatedFeatures</span><span class="o">.</span><span class="n">RelatedFeatureID</span> <span class="o">==</span> <span class="n">siteid</span><span class="p">)</span>
                 <span class="o">.</span><span class="n">all</span><span class="p">()</span>
-            <span class="p">]</span>
+                     <span class="p">]</span>
 
-            <span class="c1">#TODO does this code do the same thing as the code above?</span>
+            <span class="c1"># TODO does this code do the same thing as the code above?</span>
             <span class="c1"># sf_list = self.getRelatedSamplingFeatures(rfid=siteid)</span>
             <span class="c1"># sfids = []</span>
             <span class="c1"># for sf in sf_list:</span>
@@ -944,7 +943,7 @@
             <span class="k">return</span> <span class="kc">None</span></div>
 
     <span class="c1"># Datasets</span>
-<div class="viewcode-block" id="ReadODM2.getDataSets"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getDataSets">[docs]</a>    <span class="k">def</span> <span class="nf">getDataSets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dstype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getDataSets"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getDataSets">[docs]</a>    <span class="k">def</span> <span class="nf">getDataSets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dstype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve a list of Datasets</span>
 
@@ -1016,7 +1015,7 @@
         <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">v</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ids</span><span class="p">,</span> <span class="n">codes</span><span class="p">,</span> <span class="n">uuids</span><span class="p">]):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Expected DataSetID OR DataSetUUID OR DataSetCode argument&#39;</span><span class="p">)</span>
 
-        <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DataSetsResults</span><span class="p">)</span>\
+        <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DataSetsResults</span><span class="p">)</span> \
             <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DataSets</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">ids</span><span class="p">:</span>
             <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">DataSets</span><span class="o">.</span><span class="n">DataSetID</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">ids</span><span class="p">))</span>
@@ -1065,11 +1064,10 @@
             <span class="n">resids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">ResultID</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getResultValues</span><span class="p">(</span><span class="n">resultids</span> <span class="o">=</span> <span class="n">resids</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getResultValues</span><span class="p">(</span><span class="n">resultids</span><span class="o">=</span><span class="n">resids</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error running Query </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
         <span class="k">return</span> <span class="kc">None</span></div>
-
 
 <div class="viewcode-block" id="ReadODM2.getSamplingFeatureDatasets"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getSamplingFeatureDatasets">[docs]</a>    <span class="k">def</span> <span class="nf">getSamplingFeatureDatasets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dstype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sftype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -1100,11 +1098,12 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
-
         <span class="c1"># make sure one of the three arguments has been sent in</span>
         <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">v</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ids</span><span class="p">,</span> <span class="n">codes</span><span class="p">,</span> <span class="n">uuids</span><span class="p">,</span> <span class="n">sftype</span><span class="p">]):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Expected samplingFeatureID OR samplingFeatureUUID OR samplingFeatureCode OR samplingFeatureType &#39;</span>
-                             <span class="s1">&#39;argument&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Expected samplingFeatureID OR samplingFeatureUUID &#39;</span>
+                <span class="s1">&#39;OR samplingFeatureCode OR samplingFeatureType &#39;</span>
+                <span class="s1">&#39;argument&#39;</span><span class="p">)</span>
 
         <span class="n">sf_query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">SamplingFeatures</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">sftype</span><span class="p">:</span>
@@ -1121,17 +1120,16 @@
             <span class="n">sf_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sf</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">sfds</span><span class="o">=</span><span class="p">[]</span>
+            <span class="n">sfds</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">sf</span> <span class="ow">in</span> <span class="n">sf_list</span><span class="p">:</span>
 
-                <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DataSetsResults</span><span class="p">)</span>\
-                    <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Results</span><span class="p">)</span>\
-                    <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">FeatureActions</span><span class="p">)</span>\
+                <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DataSetsResults</span><span class="p">)</span> \
+                    <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Results</span><span class="p">)</span> \
+                    <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">FeatureActions</span><span class="p">)</span> \
                     <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">FeatureActions</span><span class="o">.</span><span class="n">SamplingFeatureID</span> <span class="o">==</span> <span class="n">sf</span><span class="o">.</span><span class="n">SamplingFeatureID</span><span class="p">)</span>
 
                 <span class="k">if</span> <span class="n">dstype</span><span class="p">:</span>
                     <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">DatasetTypeCV</span><span class="o">=</span><span class="n">dstype</span><span class="p">)</span>
-
 
                 <span class="n">vals</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
@@ -1191,17 +1189,21 @@
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;The parameter </span><span class="se">\&#39;</span><span class="s1">type</span><span class="se">\&#39;</span><span class="s1"> is deprecated. Please use the equiptype parameter instead.&#39;</span><span class="p">,</span>
                           <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
             <span class="n">equiptype</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span>
+
+        <span class="c1"># NOTE: Equiptype currently unused!</span>
+        <span class="k">if</span> <span class="n">equiptype</span><span class="p">:</span>
+            <span class="k">pass</span>
         <span class="n">e</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Equipment</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">sfid</span><span class="p">:</span>
             <span class="n">e</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">EquipmentUsed</span><span class="p">)</span> \
-                    <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Actions</span><span class="p">)</span> \
-                    <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">FeatureActions</span><span class="p">)</span> \
-                    <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">FeatureActions</span><span class="o">.</span><span class="n">SamplingFeatureID</span> <span class="o">==</span> <span class="n">sfid</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Actions</span><span class="p">)</span> \
+                <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">FeatureActions</span><span class="p">)</span> \
+                <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">FeatureActions</span><span class="o">.</span><span class="n">SamplingFeatureID</span> <span class="o">==</span> <span class="n">sfid</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">codes</span><span class="p">:</span>
             <span class="n">e</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Equipment</span><span class="o">.</span><span class="n">EquipmentCode</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">codes</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">actionid</span><span class="p">:</span>
             <span class="n">e</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">EquipmentUsed</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Actions</span><span class="p">)</span> \
-                    <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Actions</span><span class="o">.</span><span class="n">ActionID</span> <span class="o">==</span> <span class="n">actionid</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Actions</span><span class="o">.</span><span class="n">ActionID</span> <span class="o">==</span> <span class="n">actionid</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">e</span><span class="o">.</span><span class="n">all</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="ReadODM2.CalibrationReferenceEquipment"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.CalibrationReferenceEquipment">[docs]</a>    <span class="k">def</span> <span class="nf">CalibrationReferenceEquipment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
