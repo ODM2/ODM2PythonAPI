@@ -1349,6 +1349,10 @@ class ReadODM2(serviceBase):
             endtime (object, optional): End time to filter by as datetime object.
             lowercols (bool, optional): Make column names to be lowercase.
                                         Default to True.
+                                        **Please start upgrading your code to rely on CamelCase column names,
+                                        In a near-future release,
+                                        the default will be changed to False,
+                                        and later the parameter may be removed**.
 
         Returns:
             DataFrame: Pandas dataframe of result values.
@@ -1399,6 +1403,12 @@ class ReadODM2(serviceBase):
             )
             if not lowercols:
                 df.columns = [self._get_columns(ResultValues)[c] for c in df.columns]
+            else:
+                warnings.warn(
+                    'In a near-future release, '
+                    'the parameter \'lowercols\' default will be changed to False, '
+                    'and later the parameter may be removed.',
+                    DeprecationWarning, stacklevel=2)
             return df
         except Exception as e:
             print('Error running Query: {}'.format(e))
