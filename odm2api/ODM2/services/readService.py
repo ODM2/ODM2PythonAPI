@@ -935,6 +935,10 @@ class ReadODM2(serviceBase):
                 `controlled vocabulary name <http://vocabulary.odm2.org/datasettype/>`_.
             lowercols (bool, optional): Make column names to be lowercase.
                                         Default to True.
+                                        **Please start upgrading your code to rely on CamelCase column names,
+                                        In a near-future release,
+                                        the default will be changed to False,
+                                        and later the parameter may be removed**.
 
 
         Returns:
