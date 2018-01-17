@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+160.gccb9cd1 documentation</title>
+    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+167.gf634574 documentation</title>
     <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.6.0-alpha+160.gccb9cd1',
+        VERSION:     '0.6.0-alpha+167.gf634574',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -1031,7 +1031,7 @@
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error running Query </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
         <span class="k">return</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="ReadODM2.getDataSetsValues"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getDataSetsValues">[docs]</a>    <span class="k">def</span> <span class="nf">getDataSetsValues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dstype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getDataSetsValues"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getDataSetsValues">[docs]</a>    <span class="k">def</span> <span class="nf">getDataSetsValues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dstype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lowercols</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve a list of datavalues associated with the given dataset info</span>
 
@@ -1042,6 +1042,12 @@
 <span class="sd">            uuids (list, optional): List of Dataset UUIDs string.</span>
 <span class="sd">            dstype (str, optional): Type of Dataset from</span>
 <span class="sd">                `controlled vocabulary name &lt;http://vocabulary.odm2.org/datasettype/&gt;`_.</span>
+<span class="sd">            lowercols (bool, optional): Make column names to be lowercase.</span>
+<span class="sd">                                        Default to True.</span>
+<span class="sd">                                        **Please start upgrading your code to rely on CamelCase column names,</span>
+<span class="sd">                                        In a near-future release,</span>
+<span class="sd">                                        the default will be changed to False,</span>
+<span class="sd">                                        and later the parameter may be removed**.</span>
 
 
 <span class="sd">        Returns:</span>
@@ -1053,7 +1059,7 @@
 <span class="sd">            &gt;&gt;&gt; READ.getDataSetsValues(codes=[&#39;HOME&#39;, &#39;FIELD&#39;])</span>
 <span class="sd">            &gt;&gt;&gt; READ.getDataSetsValues(uuids=[&#39;a6f114f1-5416-4606-ae10-23be32dbc202&#39;,</span>
 <span class="sd">            ...                                 &#39;5396fdf3-ceb3-46b6-aaf9-454a37278bb4&#39;])</span>
-<span class="sd">            &gt;&gt;&gt; READ.getDataSetsValues(dstype=&#39;singleTimeSeries&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; READ.getDataSetsValues(dstype=&#39;singleTimeSeries&#39;, lowercols=False)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -1064,7 +1070,7 @@
             <span class="n">resids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">ResultID</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getResultValues</span><span class="p">(</span><span class="n">resultids</span><span class="o">=</span><span class="n">resids</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getResultValues</span><span class="p">(</span><span class="n">resultids</span><span class="o">=</span><span class="n">resids</span><span class="p">,</span> <span class="n">lowercols</span><span class="o">=</span><span class="n">lowercols</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error running Query </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
         <span class="k">return</span> <span class="kc">None</span></div>
@@ -1447,7 +1453,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ResultDerivationEquations</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="ReadODM2.getResultValues"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getResultValues">[docs]</a>    <span class="k">def</span> <span class="nf">getResultValues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resultids</span><span class="p">,</span> <span class="n">starttime</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">endtime</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getResultValues"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getResultValues">[docs]</a>    <span class="k">def</span> <span class="nf">getResultValues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resultids</span><span class="p">,</span> <span class="n">starttime</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">endtime</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lowercols</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve result values associated with the given result.</span>
 
@@ -1456,6 +1462,12 @@
 <span class="sd">            resultids (list): List of SamplingFeatureIDs.</span>
 <span class="sd">            starttime (object, optional): Start time to filter by as datetime object.</span>
 <span class="sd">            endtime (object, optional): End time to filter by as datetime object.</span>
+<span class="sd">            lowercols (bool, optional): Make column names to be lowercase.</span>
+<span class="sd">                                        Default to True.</span>
+<span class="sd">                                        **Please start upgrading your code to rely on CamelCase column names,</span>
+<span class="sd">                                        In a near-future release,</span>
+<span class="sd">                                        the default will be changed to False,</span>
+<span class="sd">                                        and later the parameter may be removed**.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            DataFrame: Pandas dataframe of result values.</span>
@@ -1466,7 +1478,7 @@
 <span class="sd">            &gt;&gt;&gt; READ.getResultValues(resultids=[100, 20, 34], starttime=datetime.today())</span>
 <span class="sd">            &gt;&gt;&gt; READ.getResultValues(resultids=[1, 2, 3, 4],</span>
 <span class="sd">            &gt;&gt;&gt;     starttime=datetime(2000, 01, 01),</span>
-<span class="sd">            &gt;&gt;&gt;     endtime=datetime(2003, 02, 01))</span>
+<span class="sd">            &gt;&gt;&gt;     endtime=datetime(2003, 02, 01), lowercols=False)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">restype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Results</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">ResultID</span><span class="o">=</span><span class="n">resultids</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">first</span><span class="p">()</span><span class="o">.</span><span class="n">ResultTypeCV</span>
@@ -1504,7 +1516,14 @@
                 <span class="n">con</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_session_factory</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span>
                 <span class="n">params</span><span class="o">=</span><span class="n">query</span><span class="o">.</span><span class="n">params</span>
             <span class="p">)</span>
-            <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_columns</span><span class="p">(</span><span class="n">ResultValues</span><span class="p">)[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">lowercols</span><span class="p">:</span>
+                <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_columns</span><span class="p">(</span><span class="n">ResultValues</span><span class="p">)[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                    <span class="s1">&#39;In a near-future release, &#39;</span>
+                    <span class="s1">&#39;the parameter </span><span class="se">\&#39;</span><span class="s1">lowercols</span><span class="se">\&#39;</span><span class="s1"> default will be changed to False, &#39;</span>
+                    <span class="s1">&#39;and later the parameter may be removed.&#39;</span><span class="p">,</span>
+                    <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">df</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error running Query: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>

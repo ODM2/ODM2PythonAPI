@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Developer Interface &#8212; ODM2PythonAPI 0.6.0-alpha+160.gccb9cd1 documentation</title>
+    <title>Developer Interface &#8212; ODM2PythonAPI 0.6.0-alpha+167.gf634574 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.6.0-alpha+160.gccb9cd1',
+        VERSION:     '0.6.0-alpha+167.gf634574',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -625,7 +625,7 @@ all Affiliation objects in the database will be returned.</p>
 
 <dl class="method">
 <dt id="odm2api.ODM2.services.readService.ReadODM2.getDataSetsValues">
-<code class="descname">getDataSetsValues</code><span class="sig-paren">(</span><em>ids=None</em>, <em>codes=None</em>, <em>uuids=None</em>, <em>dstype=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getDataSetsValues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getDataSetsValues" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getDataSetsValues</code><span class="sig-paren">(</span><em>ids=None</em>, <em>codes=None</em>, <em>uuids=None</em>, <em>dstype=None</em>, <em>lowercols=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getDataSetsValues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getDataSetsValues" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve a list of datavalues associated with the given dataset info</p>
 <p><strong>Must specify either DataSetID OR DataSetUUID OR DataSetCode)</strong>
 :param ids: List of DataSetsIDs.
@@ -641,9 +641,16 @@ all Affiliation objects in the database will be returned.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">List of Result Values Objects</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lowercols</strong> (<em>bool</em><em>, </em><em>optional</em>) – Make column names to be lowercase.
+Default to True.
+<strong>Please start upgrading your code to rely on CamelCase column names,
+In a near-future release,
+the default will be changed to False,
+and later the parameter may be removed</strong>.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">List of Result Values Objects</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list</td>
 </tr>
 </tbody>
 </table>
@@ -653,7 +660,7 @@ all Affiliation objects in the database will be returned.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getDataSetsValues</span><span class="p">(</span><span class="n">codes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;HOME&#39;</span><span class="p">,</span> <span class="s1">&#39;FIELD&#39;</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getDataSetsValues</span><span class="p">(</span><span class="n">uuids</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a6f114f1-5416-4606-ae10-23be32dbc202&#39;</span><span class="p">,</span>
 <span class="gp">... </span>                                <span class="s1">&#39;5396fdf3-ceb3-46b6-aaf9-454a37278bb4&#39;</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getDataSetsValues</span><span class="p">(</span><span class="n">dstype</span><span class="o">=</span><span class="s1">&#39;singleTimeSeries&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getDataSetsValues</span><span class="p">(</span><span class="n">dstype</span><span class="o">=</span><span class="s1">&#39;singleTimeSeries&#39;</span><span class="p">,</span> <span class="n">lowercols</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -908,7 +915,7 @@ related to the input sampling feature</li>
 
 <dl class="method">
 <dt id="odm2api.ODM2.services.readService.ReadODM2.getResultValues">
-<code class="descname">getResultValues</code><span class="sig-paren">(</span><em>resultids</em>, <em>starttime=None</em>, <em>endtime=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getResultValues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getResultValues" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getResultValues</code><span class="sig-paren">(</span><em>resultids</em>, <em>starttime=None</em>, <em>endtime=None</em>, <em>lowercols=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getResultValues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getResultValues" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve result values associated with the given result.</p>
 <blockquote>
 <div><strong>The resultids must be associated with the same result type</strong></div></blockquote>
@@ -920,6 +927,12 @@ related to the input sampling feature</li>
 <li><strong>resultids</strong> (<em>list</em>) – List of SamplingFeatureIDs.</li>
 <li><strong>starttime</strong> (<em>object</em><em>, </em><em>optional</em>) – Start time to filter by as datetime object.</li>
 <li><strong>endtime</strong> (<em>object</em><em>, </em><em>optional</em>) – End time to filter by as datetime object.</li>
+<li><strong>lowercols</strong> (<em>bool</em><em>, </em><em>optional</em>) – Make column names to be lowercase.
+Default to True.
+<strong>Please start upgrading your code to rely on CamelCase column names,
+In a near-future release,
+the default will be changed to False,
+and later the parameter may be removed</strong>.</li>
 </ul>
 </td>
 </tr>
@@ -937,7 +950,7 @@ related to the input sampling feature</li>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getResultValues</span><span class="p">(</span><span class="n">resultids</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">34</span><span class="p">],</span> <span class="n">starttime</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">())</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getResultValues</span><span class="p">(</span><span class="n">resultids</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="n">starttime</span><span class="o">=</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">01</span><span class="p">,</span> <span class="mi">01</span><span class="p">),</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="n">endtime</span><span class="o">=</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2003</span><span class="p">,</span> <span class="mi">02</span><span class="p">,</span> <span class="mi">01</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">endtime</span><span class="o">=</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2003</span><span class="p">,</span> <span class="mi">02</span><span class="p">,</span> <span class="mi">01</span><span class="p">),</span> <span class="n">lowercols</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
