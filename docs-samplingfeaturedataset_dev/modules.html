@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Developer Interface &#8212; ODM2PythonAPI 0.6.0-alpha+131.g9592471 documentation</title>
+    <title>Developer Interface &#8212; ODM2PythonAPI 0.6.0-alpha+135.g8a0deb4 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.6.0-alpha+131.g9592471',
+        VERSION:     '0.6.0-alpha+135.g8a0deb4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -783,12 +783,34 @@ method info , ProcessingLevel info.
 
 <dl class="method">
 <dt id="odm2api.ODM2.services.readService.ReadODM2.getProcessingLevels">
-<code class="descname">getProcessingLevels</code><span class="sig-paren">(</span><em>self</em>, <em>ids=None</em>, <em>codes=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getProcessingLevels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getProcessingLevels" title="Permalink to this definition">¶</a></dt>
-<dd><ul class="simple">
-<li>Pass nothing - returns full list of ProcessingLevel objects</li>
-<li>Pass a list of ProcessingLevelID - returns a single processingLevel object for each given id</li>
-<li>Pass a list of ProcessingLevelCode - returns a single processingLevel object for each given code</li>
+<code class="descname">getProcessingLevels</code><span class="sig-paren">(</span><em>ids=None</em>, <em>codes=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.getProcessingLevels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.getProcessingLevels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve a list of Processing Levels</p>
+<p>If no arguments are passed to the function, or their values are None,
+all Processing Levels objects in the database will be returned.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ids</strong> (<em>list</em><em>, </em><em>optional</em>) – List of Processing Levels IDs.</li>
+<li><strong>codes</strong> (<em>list</em><em>, </em><em>optional</em>) – List of Processing Levels Codes.</li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">List of ProcessingLevels Objects</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span> <span class="o">=</span> <span class="n">ReadODM2</span><span class="p">(</span><span class="n">SESSION_FACTORY</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getProcessingLevels</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getProcessingLevels</span><span class="p">(</span><span class="n">codes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;L1&#39;</span><span class="p">,</span> <span class="s1">&#39;L3&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="method">
@@ -1326,7 +1348,7 @@ sampling features that have results associated with them.</li>
       &copy;2017, Stephanie Reeder.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.5</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
