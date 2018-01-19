@@ -6,13 +6,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Index &#8212; ODM2PythonAPI 0.6.0-alpha+95.g2f82702 documentation</title>
+    <title>Index &#8212; ODM2PythonAPI 0.6.0-alpha+169.g85932e7 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.6.0-alpha+95.g2f82702',
+        VERSION:     '0.6.0-alpha+169.g85932e7',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -340,6 +340,10 @@
       <li><a href="odm2models.html#odm2api.ODM2.models.Annotations.AnnotatorID">AnnotatorID (odm2api.ODM2.models.Annotations attribute)</a>
 </li>
       <li><a href="odm2models.html#odm2api.ODM2.models.Annotations.AnnotatorObj">AnnotatorObj (odm2api.ODM2.models.Annotations attribute)</a>
+</li>
+      <li><a href="modules.html#odm2api.ODM2.services.readService.SamplingFeatureDataSet.assignDatasets">assignDatasets() (odm2api.ODM2.services.readService.SamplingFeatureDataSet method)</a>
+</li>
+      <li><a href="modules.html#odm2api.ODM2.services.readService.SamplingFeatureDataSet.assignRelatedFeatures">assignRelatedFeatures() (odm2api.ODM2.services.readService.SamplingFeatureDataSet method)</a>
 </li>
       <li><a href="odm2models.html#odm2api.ODM2.models.AuthorLists">AuthorLists (class in odm2api.ODM2.models)</a>
 </li>
@@ -821,6 +825,8 @@
       </ul></li>
       <li><a href="odm2models.html#odm2api.ODM2.models.DataSets">DataSets (class in odm2api.ODM2.models)</a>
 </li>
+      <li><a href="modules.html#odm2api.ODM2.services.readService.SamplingFeatureDataSet.datasets">datasets (odm2api.ODM2.services.readService.SamplingFeatureDataSet attribute)</a>
+</li>
       <li><a href="odm2models.html#odm2api.ODM2.models.DataSetsResults">DataSetsResults (class in odm2api.ODM2.models)</a>
 </li>
       <li><a href="odm2models.html#odm2api.ODM2.models.DataSets.DataSetTitle">DataSetTitle (odm2api.ODM2.models.DataSets attribute)</a>
@@ -1213,6 +1219,10 @@
 </li>
       <li><a href="modules.html#odm2api.ODM2.services.readService.ReadODM2.getDataSets">getDataSets() (odm2api.ODM2.services.readService.ReadODM2 method)</a>
 </li>
+      <li><a href="modules.html#odm2api.ODM2.services.readService.ReadODM2.getDataSetsResults">getDataSetsResults() (odm2api.ODM2.services.readService.ReadODM2 method)</a>
+</li>
+      <li><a href="modules.html#odm2api.ODM2.services.readService.ReadODM2.getDataSetsValues">getDataSetsValues() (odm2api.ODM2.services.readService.ReadODM2 method)</a>
+</li>
       <li><a href="modules.html#odm2api.ODM2.services.readService.ReadODM2.getDerivationEquations">getDerivationEquations() (odm2api.ODM2.services.readService.ReadODM2 method)</a>
 </li>
       <li><a href="modules.html#odm2api.ODM2.services.readService.ReadODM2.getDetailedAffiliationInfo">getDetailedAffiliationInfo() (odm2api.ODM2.services.readService.ReadODM2 method)</a>
@@ -1237,10 +1247,10 @@
 </li>
       <li><a href="modules.html#odm2api.ODM2.services.readService.ReadODM2.getPeople">getPeople() (odm2api.ODM2.services.readService.ReadODM2 method)</a>
 </li>
-      <li><a href="modules.html#odm2api.ODM2.services.readService.ReadODM2.getProcessingLevels">getProcessingLevels() (odm2api.ODM2.services.readService.ReadODM2 method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules.html#odm2api.ODM2.services.readService.ReadODM2.getProcessingLevels">getProcessingLevels() (odm2api.ODM2.services.readService.ReadODM2 method)</a>
+</li>
       <li><a href="modules.html#odm2api.ODM2.services.readService.ReadODM2.getReferenceMaterials">getReferenceMaterials() (odm2api.ODM2.services.readService.ReadODM2 method)</a>
 </li>
       <li><a href="modules.html#odm2api.ODM2.services.readService.ReadODM2.getReferenceMaterialValues">getReferenceMaterialValues() (odm2api.ODM2.services.readService.ReadODM2 method)</a>
@@ -1268,6 +1278,8 @@
       <li><a href="modules.html#odm2api.ODM2.services.readService.ReadODM2.getResultsDataQuality">getResultsDataQuality() (odm2api.ODM2.services.readService.ReadODM2 method)</a>
 </li>
       <li><a href="modules.html#odm2api.ODM2.services.readService.ReadODM2.getResultValues">getResultValues() (odm2api.ODM2.services.readService.ReadODM2 method)</a>
+</li>
+      <li><a href="modules.html#odm2api.ODM2.services.readService.ReadODM2.getSamplingFeatureDatasets">getSamplingFeatureDatasets() (odm2api.ODM2.services.readService.ReadODM2 method)</a>
 </li>
       <li><a href="modules.html#odm2api.ODM2.services.readService.ReadODM2.getSamplingFeatures">getSamplingFeatures() (odm2api.ODM2.services.readService.ReadODM2 method)</a>
 </li>
@@ -1995,6 +2007,8 @@
 </li>
       <li><a href="odm2models.html#odm2api.ODM2.models.ReferenceMaterialValues">ReferenceMaterialValues (class in odm2api.ODM2.models)</a>
 </li>
+      <li><a href="modules.html#odm2api.ODM2.services.readService.SamplingFeatureDataSet.related_features">related_features (odm2api.ODM2.services.readService.SamplingFeatureDataSet attribute)</a>
+</li>
       <li><a href="odm2models.html#odm2api.ODM2.models.RelatedActions.RelatedActionID">RelatedActionID (odm2api.ODM2.models.RelatedActions attribute)</a>
 </li>
       <li><a href="odm2models.html#odm2api.ODM2.models.RelatedActions.RelatedActionObj">RelatedActionObj (odm2api.ODM2.models.RelatedActions attribute)</a>
@@ -2337,6 +2351,8 @@
         <li><a href="odm2models.html#odm2api.ODM2.models.Specimens.SamplingFeatureCode">(odm2api.ODM2.models.Specimens attribute)</a>
 </li>
       </ul></li>
+      <li><a href="modules.html#odm2api.ODM2.services.readService.SamplingFeatureDataSet">SamplingFeatureDataSet (class in odm2api.ODM2.services.readService)</a>
+</li>
       <li><a href="odm2models.html#odm2api.ODM2.models.SamplingFeatures.SamplingFeatureDescription">SamplingFeatureDescription (odm2api.ODM2.models.SamplingFeatures attribute)</a>
 
       <ul>
@@ -3463,7 +3479,7 @@
       &copy;2017, Stephanie Reeder.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.5</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>
