@@ -37,7 +37,7 @@ from odm2api.ODM2.models import (
 import pandas as pd
 
 from sqlalchemy import distinct, exists
-from sqlalchemy.orm import lazyload, joinedload, contains_eager, eagerload, defer, deferred, subqueryload
+from sqlalchemy.orm import joinedload, contains_eager, eagerload, defer, deferred, subqueryload
 
 __author__ = 'sreeder'
 
@@ -946,7 +946,7 @@ class ReadODM2(serviceBase):
             sf_query = sf_query.filter(SamplingFeatures.SamplingFeatureCode.in_(codes))
         if uuids:
             sf_query = sf_query.filter(SamplingFeatures.SamplingFeatureUUID.in_(uuids))
-w
+
         sf_list = []
         for sf in sf_query.all():
             sf_list.append(sf)
