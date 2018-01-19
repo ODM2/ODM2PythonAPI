@@ -74,7 +74,7 @@ script:
     fi
 
   - if [[ $TEST_TARGET == 'coding_standards' ]]; then
-      find . -type f -name "*.py" ! -name 'conf.py' ! -name '_version.py' ! -name 'versioneer.py' | xargs flake8 --max-line-length=110 ;
+      find . -type f -name "*.py" ! -name 'conf.py' ! -name '_version.py' ! -name 'versioneer.py' ! -name '*DBConfig.py' ! -name 'Sample.py' | xargs flake8 --max-line-length=110 ;
     fi
 
   - if [[ $TEST_TARGET == 'docs' ]]; then

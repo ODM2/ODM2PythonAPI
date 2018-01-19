@@ -13,6 +13,9 @@ BigIntegerType = BigIntegerType.with_variant(sqlite.INTEGER(), 'sqlite')
 BigIntegerType = BigIntegerType.with_variant(postgresql.BIGINT(), 'postgresql')
 BigIntegerType = BigIntegerType.with_variant(mysql.BIGINT(), 'mysql')
 
+DateTimeType = DateTime()
+DateTimeType = DateTimeType.with_variant(sqlite.INTEGER(), 'sqlite')
+
 
 def is_hex(s):
     try:
@@ -25,7 +28,7 @@ def is_hex(s):
 ################################################################################
 # CV
 ################################################################################
-class CV (object):
+class CV(object):
     __table_args__ = {u'schema': 'odm2'}
 
     Term = Column('term', String(255), nullable=False)
@@ -181,7 +184,6 @@ class Organizations(Base):
 
 
 class Affiliations(Base):
-
     AffiliationID = Column('affiliationid', Integer, primary_key=True, nullable=False)
     PersonID = Column('personid', ForeignKey(People.PersonID), nullable=False)
     OrganizationID = Column('organizationid', ForeignKey(Organizations.OrganizationID))
@@ -230,7 +232,6 @@ class Actions(Base):
 
 
 class ActionBy(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     ActionID = Column('actionid', Integer, ForeignKey(Actions.ActionID), nullable=False)
     AffiliationID = Column('affiliationid', ForeignKey(Affiliations.AffiliationID), nullable=False)
@@ -262,22 +263,22 @@ class SamplingFeatures(Base):
                                       index=True)
     """str: Dimensionality of SamplingFeature; point2d, line2d, etc."""
     Elevation_m = Column('elevation_m', Float(53))
-    """float: The elevation of the sampling feature in meters, or in the case of Specimen, 
-              the elevation from where the SamplingFeature.Specimen was collected"""
+    """float: The elevation of the sampling feature in meters, or in the case of Specimen,
+              the elevation from where the SamplingFeature.Specimen was collected"""  # noqa
     ElevationDatumCV = Column('elevationdatumcv', ForeignKey(CVElevationDatum.Name), index=True)
     """str: The code for the vertical geodetic datum that specifies the zero point for 
-            the Sampling Feature Elevation"""
+            the Sampling Feature Elevation"""  # noqa
     # FeatureGeometry = Column('featuregeometry',  String(50))
     """object: The location geometry of the sampling feature on the Earth expressed using a 
                  geometry data type. Can be a Point, Curve (profile, trajectory, etc), 
                  Surface (flat polygons, etc) or Solid/Volume (although often limited to 
-                 2D geometries). """
+                 2D geometries). """  # noqa
 
     FeatureGeometryWKT = Column('featuregeometrywkt', String(50))
     """str: The location geometry of the sampling feature on the Earth expressed as 
               well known text (WKT). Can be a Point, Curve (profile, trajectory, etc.), 
               Surface (flat polygons, etc.), or Solid/Volume (although often limited to 
-              2D geometries)."""
+              2D geometries)."""  # noqa
     __mapper_args__ = {
         'polymorphic_on': case(
             [
@@ -404,9 +405,9 @@ class Results(Base):
     ProcessingLevelID = Column('processinglevelid', ForeignKey(ProcessingLevels.ProcessingLevelID),
                                nullable=False)
     ResultDateTime = Column('resultdatetime', DateTime)
-    ResultDateTimeUTCOffset = Column('resultdatetimeutcoffset', BigInteger)
+    ResultDateTimeUTCOffset = Column('resultdatetimeutcoffset', BigIntegerType)
     ValidDateTime = Column('validdatetime', DateTime)
-    ValidDateTimeUTCOffset = Column('validdatetimeutcoffset', BigInteger)
+    ValidDateTimeUTCOffset = Column('validdatetimeutcoffset', BigIntegerType)
     StatusCV = Column('statuscv', ForeignKey(CVStatus.Name), index=True)
     SampledMediumCV = Column('sampledmediumcv', ForeignKey(CVMediumType.Name), nullable=False, index=True)
     ValueCount = Column('valuecount', Integer, nullable=False)
@@ -441,7 +442,6 @@ class Results(Base):
 
 
 class DataLoggerProgramFiles(Base):
-
     ProgramID = Column('programid', Integer, primary_key=True, nullable=False)
     AffiliationID = Column('affiliationid', Integer, ForeignKey(Affiliations.AffiliationID), nullable=False)
     ProgramName = Column('programname', String(255), nullable=False)
@@ -453,18 +453,16 @@ class DataLoggerProgramFiles(Base):
 
 
 class DataLoggerFiles(Base):
-
     DataLoggerFileID = Column('dataloggerfileid', Integer, primary_key=True, nullable=False)
-    ProgramID = Column('actionid', Integer, ForeignKey(DataLoggerProgramFiles.ProgramID), nullable=False)
+    ProgramID = Column('programid', Integer, ForeignKey(DataLoggerProgramFiles.ProgramID), nullable=False)
     DataLoggerFileName = Column('dataloggerfilename', String(255), nullable=False)
-    DataLoggerOutputFileDescription = Column('dataloggeroutputfiledescription', String(500))
-    DataLoggerOutputFileLink = Column('dataloggeroutputfilelink', String(255))
+    DataLoggerOutputFileDescription = Column('dataloggerfiledescription', String(500))
+    DataLoggerOutputFileLink = Column('dataloggerfilelink', String(255))
 
     ProgramObj = relationship(DataLoggerProgramFiles)
 
 
 class EquipmentModels(Base):
-
     ModelID = Column('modelid', Integer, primary_key=True, nullable=False)
     ModelManufacturerID = Column('modelmanufacturerid', Integer,
                                  ForeignKey(Organizations.OrganizationID), nullable=False)
@@ -479,7 +477,6 @@ class EquipmentModels(Base):
 
 
 class InstrumentOutputVariables(Base):
-
     InstrumentOutputVariableID = Column(
         'instrumentoutputvariableid',
         Integer,
@@ -501,9 +498,8 @@ class InstrumentOutputVariables(Base):
 
 
 class DataLoggerFileColumns(Base):
-
     DataLoggerFileColumnID = Column('dataloggerfilecolumnid', Integer, primary_key=True, nullable=False)
-    ResultID = Column('resultid', BigInteger, ForeignKey(Results.ResultID))
+    ResultID = Column('resultid', BigIntegerType, ForeignKey(Results.ResultID))
     DataLoggerFileID = Column('dataloggerfileid', Integer,
                               ForeignKey(DataLoggerFiles.DataLoggerFileID), nullable=False)
     InstrumentOutputVariableID = Column('instrumentoutputvariableid', Integer,
@@ -511,7 +507,7 @@ class DataLoggerFileColumns(Base):
                                         nullable=False)
     ColumnLabel = Column('columnlabel', String(50), nullable=False)
     ColumnDescription = Column('columndescription', String(500))
-    MeasurementEquation = Column('measurmentequation', String(255))
+    MeasurementEquation = Column('measurementequation', String(255))
     ScanInterval = Column('scaninterval', Float(50))
     ScanIntervalUnitsID = Column('scanintervalunitsid', Integer, ForeignKey(Units.UnitsID))
     RecordingInterval = Column('recordinginterval', Float(50))
@@ -537,7 +533,6 @@ class DataLoggerFileColumns(Base):
 
 
 class Equipment(Base):
-
     EquipmentID = Column('equipmentid', Integer, primary_key=True, nullable=False)
     EquipmentCode = Column('equipmentcode', String(50), nullable=False)
     EquipmentName = Column('equipmentname', String(255), nullable=False)
@@ -557,7 +552,6 @@ class Equipment(Base):
 
 
 class CalibrationReferenceEquipment(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     ActionID = Column('actionid', Integer, ForeignKey(Actions.ActionID), nullable=False)
     EquipmentID = Column('equipmentid', Integer, ForeignKey(Equipment.EquipmentID), nullable=False)
@@ -567,7 +561,6 @@ class CalibrationReferenceEquipment(Base):
 
 
 class EquipmentActions(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     EquipmentID = Column('equipmentid', ForeignKey(Equipment.EquipmentID), nullable=False)
     ActionID = Column('actionid', ForeignKey(Actions.ActionID), nullable=False)
@@ -577,7 +570,6 @@ class EquipmentActions(Base):
 
 
 class EquipmentUsed(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     ActionID = Column('actionid', Integer, ForeignKey(Actions.ActionID), nullable=False)
     EquipmentID = Column('equipmentid', Integer, ForeignKey(Equipment.EquipmentID), nullable=False)
@@ -587,8 +579,7 @@ class EquipmentUsed(Base):
 
 
 class MaintenanceActions(Base):
-
-    ActionID = Column('actionid', Integer, ForeignKey(Actions.ActionID), primary_key=True,  nullable=False)
+    ActionID = Column('actionid', Integer, ForeignKey(Actions.ActionID), primary_key=True, nullable=False)
     IsFactoryService = Column('isfactoryservce', Boolean, nullable=False)
     MaintenanceCode = Column('maintenancecode', String(50))
     MantenanceReason = Column('maintenancereason', String(50))
@@ -597,7 +588,6 @@ class MaintenanceActions(Base):
 
 
 class RelatedEquipment(Base):
-
     RelationID = Column('relationid', Integer, primary_key=True, nullable=True)
     EquipmentID = Column('equipmentid', Integer, ForeignKey(Equipment.EquipmentID), nullable=True)
     RelationshipTypeCV = Column('relationshiptypecv', String(255), nullable=True, index=True)
@@ -623,8 +613,7 @@ class RelatedEquipment(Base):
 
 
 class CalibrationActions(Base):
-
-    ActionID = Column('actionid', Integer, ForeignKey(Actions.ActionID), primary_key=True,  nullable=False)
+    ActionID = Column('actionid', Integer, ForeignKey(Actions.ActionID), primary_key=True, nullable=False)
     CalibrationCheckValue = Column('calibrationcheckvalue', Float(53))
     InstrumentOutputVariableID = Column('instrumentoutputvariableid', Integer,
                                         ForeignKey(InstrumentOutputVariables.VariableID), nullable=False)
@@ -633,20 +622,19 @@ class CalibrationActions(Base):
     ActionObj = relationship(Actions)
     InstrumentOutputVariableObj = relationship(InstrumentOutputVariables)
 
+
 # ################################################################################
 # Lab Analyses
 # ################################################################################
 
 
 class Directives(Base):
-
     DirectiveID = Column('directiveid', Integer, primary_key=True, nullable=False)
     DirectiveTypeCV = Column('directivetypecv', ForeignKey(CVDirectiveType.Name), nullable=False, index=True)
     DirectiveDescription = Column('directivedescription', String(500), nullable=False)
 
 
 class ActionDirectives(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     ActionID = Column('actionid', ForeignKey(Actions.ActionID), nullable=False)
     DirectiveID = Column('directiveid', ForeignKey(Directives.DirectiveID), nullable=False)
@@ -676,7 +664,6 @@ class SpecimenBatchPositions(Base):
 # Sampling Features
 # ################################################################################
 class SpatialReferences(Base):
-
     SpatialReferenceID = Column('spatialreferenceid', Integer, primary_key=True, nullable=False)
     SRSCode = Column('srscode', String(50))
     SRSName = Column('srsname', String(255), nullable=False)
@@ -685,7 +672,6 @@ class SpatialReferences(Base):
 
 
 class Specimens(SamplingFeatures):
-
     SamplingFeatureID = Column('samplingfeatureid', ForeignKey(SamplingFeatures.SamplingFeatureID),
                                primary_key=True)
     SpecimenTypeCV = Column('specimentypecv', ForeignKey(CVSpecimenType.Name), nullable=False, index=True)
@@ -698,7 +684,6 @@ class Specimens(SamplingFeatures):
 
 
 class SpatialOffsets(Base):
-
     SpatialOffsetID = Column('spatialoffsetid', Integer, primary_key=True, nullable=False)
     SpatialOffsetTypeCV = Column('spatialoffsettypecv', ForeignKey(CVSpatialOffsetType.Name), nullable=False,
                                  index=True)
@@ -715,7 +700,6 @@ class SpatialOffsets(Base):
 
 
 class Sites(SamplingFeatures):
-
     SamplingFeatureID = Column('samplingfeatureid', ForeignKey(SamplingFeatures.SamplingFeatureID),
                                primary_key=True)
     SpatialReferenceID = Column('spatialreferenceid', ForeignKey(SpatialReferences.SpatialReferenceID),
@@ -732,7 +716,6 @@ class Sites(SamplingFeatures):
 
 
 class RelatedFeatures(Base):
-
     RelationID = Column('relationid', Integer, primary_key=True, nullable=False)
     SamplingFeatureID = Column('samplingfeatureid', ForeignKey(SamplingFeatures.SamplingFeatureID),
                                nullable=False)
@@ -757,7 +740,6 @@ class RelatedFeatures(Base):
 
 
 class SpecimenTaxonomicClassifiers(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     SamplingFeatureID = Column('samplingfeatureid', ForeignKey(Specimens.SamplingFeatureID), nullable=False)
     TaxonomicClassifierID = Column('taxonomicclassifierid',
@@ -772,7 +754,6 @@ class SpecimenTaxonomicClassifiers(Base):
 # Simulation
 # ################################################################################
 class Models(Base):
-
     ModelID = Column('modelid', Integer, primary_key=True, nullable=False)
     ModelCode = Column('modelcode', String(255), nullable=False)
     ModelName = Column('modelname', String(255), nullable=False)
@@ -780,7 +761,6 @@ class Models(Base):
 
 
 class RelatedModels(Base):
-
     RelatedID = Column('relatedid', Integer, primary_key=True, nullable=False)
     ModelID = Column('modelid', ForeignKey(Models.ModelID), nullable=False)
     RelationshipTypeCV = Column('relationshiptypecv', ForeignKey(CVRelationshipType.Name), nullable=False,
@@ -792,7 +772,6 @@ class RelatedModels(Base):
 
 
 class Simulations(Base):
-
     SimulationID = Column('simulationid', Integer, primary_key=True, nullable=False)
     ActionID = Column('actionid', ForeignKey(Actions.ActionID), nullable=False)
     SimulationName = Column('simulationname', String(255), nullable=False)
@@ -815,7 +794,6 @@ class Simulations(Base):
 
 # Part of the Provenance table, needed here to meet dependencies
 class Citations(Base):
-
     CitationID = Column('citationid', Integer, primary_key=True, nullable=False)
     Title = Column('title', String(255), nullable=False)
     Publisher = Column('publisher', String(255), nullable=False)
@@ -827,7 +805,6 @@ class Citations(Base):
 # Annotations
 # ################################################################################
 class Annotations(Base):
-
     AnnotationID = Column('annotationid', Integer, primary_key=True, nullable=False)
     AnnotationTypeCV = Column(
         'annotationtypecv',
@@ -849,7 +826,6 @@ class Annotations(Base):
 
 
 class ActionAnnotations(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     ActionID = Column('actionid', ForeignKey(Actions.ActionID), nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
@@ -859,9 +835,8 @@ class ActionAnnotations(Base):
 
 
 class EquipmentAnnotations(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    EquipmentID = Column('valueid', BigInteger, ForeignKey(Equipment.EquipmentID), nullable=False)
+    EquipmentID = Column('valueid', BigIntegerType, ForeignKey(Equipment.EquipmentID), nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
 
     AnnotationObj = relationship(Annotations)
@@ -869,7 +844,6 @@ class EquipmentAnnotations(Base):
 
 
 class MethodAnnotations(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     MethodID = Column('methodid', ForeignKey(Methods.MethodID), nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
@@ -879,7 +853,6 @@ class MethodAnnotations(Base):
 
 
 class ResultAnnotations(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     ResultID = Column('resultid', ForeignKey(Results.ResultID), nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
@@ -891,7 +864,6 @@ class ResultAnnotations(Base):
 
 
 class SamplingFeatureAnnotations(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     SamplingFeatureID = Column('samplingfeatureid', ForeignKey(SamplingFeatures.SamplingFeatureID),
                                nullable=False)
@@ -905,7 +877,6 @@ class SamplingFeatureAnnotations(Base):
 # Data Quality
 # ################################################################################
 class DataSetsResults(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     DataSetID = Column('datasetid', ForeignKey(DataSets.DataSetID), nullable=False)
     ResultID = Column('resultid', ForeignKey(Results.ResultID), nullable=False)
@@ -915,7 +886,6 @@ class DataSetsResults(Base):
 
 
 class DataQuality(Base):
-
     DataQualityID = Column('dataqualityid', Integer, primary_key=True, nullable=False)
     DataQualityTypeCV = Column('dataqualitytypecv', ForeignKey(CVDataQualityType.Name), nullable=False,
                                index=True)
@@ -929,7 +899,6 @@ class DataQuality(Base):
 
 
 class ReferenceMaterials(Base):
-
     ReferenceMaterialID = Column('referencematerialid', Integer, primary_key=True, nullable=False)
     ReferenceMaterialMediumCV = Column(
         'referencematerialmediumcv',
@@ -951,7 +920,6 @@ class ReferenceMaterials(Base):
 
 
 class CalibrationStandards(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     ActionID = Column('actionid', Integer, ForeignKey(Actions.ActionID), nullable=False)
     ReferenceMaterialID = Column(
@@ -966,7 +934,6 @@ class CalibrationStandards(Base):
 
 
 class ReferenceMaterialValues(Base):
-
     ReferenceMaterialValueID = Column('referencematerialvalueid', Integer, primary_key=True, nullable=False)
     ReferenceMaterialID = Column('referencematerialid', ForeignKey(ReferenceMaterials.ReferenceMaterialID),
                                  nullable=False)
@@ -983,7 +950,6 @@ class ReferenceMaterialValues(Base):
 
 
 class ResultNormalizationValues(Base):
-
     ResultID = Column(u'resultid', ForeignKey(Results.ResultID), primary_key=True)
     ReferenceMaterialValueID = Column(u'referencematerialvalueid',
                                       ForeignKey(ReferenceMaterialValues.ReferenceMaterialValueID),
@@ -994,7 +960,6 @@ class ResultNormalizationValues(Base):
 
 
 class ResultsDataQuality(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     ResultID = Column('resultid', ForeignKey(Results.ResultID), nullable=False)
     DataQualityID = Column('dataqualityid', ForeignKey(DataQuality.DataQualityID), nullable=False)
@@ -1007,7 +972,6 @@ class ResultsDataQuality(Base):
 # Extension Properties
 # ################################################################################
 class ExtensionProperties(Base):
-
     PropertyID = Column('propertyid', Integer, primary_key=True, nullable=False)
     PropertyName = Column('propertyname', String(255), nullable=False)
     PropertyDescription = Column('propertydescription', String(500))
@@ -1019,7 +983,6 @@ class ExtensionProperties(Base):
 
 
 class ActionExtensionPropertyValues(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     ActionID = Column('actionid', ForeignKey(Actions.ActionID), nullable=False)
     PropertyID = Column('propertyid', ForeignKey(ExtensionProperties.PropertyID), nullable=False)
@@ -1030,7 +993,6 @@ class ActionExtensionPropertyValues(Base):
 
 
 class CitationExtensionPropertyValues(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     CitationID = Column('citationid', ForeignKey(Citations.CitationID), nullable=False)
     PropertyID = Column('propertyid', ForeignKey(ExtensionProperties.PropertyID), nullable=False)
@@ -1041,7 +1003,6 @@ class CitationExtensionPropertyValues(Base):
 
 
 class MethodExtensionPropertyValues(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     MethodID = Column('methodid', ForeignKey(Methods.MethodID), nullable=False)
     PropertyID = Column('propertyid', ForeignKey(ExtensionProperties.PropertyID), nullable=False)
@@ -1052,7 +1013,6 @@ class MethodExtensionPropertyValues(Base):
 
 
 class ResultExtensionPropertyValues(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     ResultID = Column('resultid', ForeignKey(Results.ResultID), nullable=False)
     PropertyID = Column('propertyid', ForeignKey(ExtensionProperties.PropertyID), nullable=False)
@@ -1063,7 +1023,6 @@ class ResultExtensionPropertyValues(Base):
 
 
 class SamplingFeatureExtensionPropertyValues(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     SamplingFeatureID = Column('samplingfeatureid', ForeignKey(SamplingFeatures.SamplingFeatureID),
                                nullable=False)
@@ -1075,7 +1034,6 @@ class SamplingFeatureExtensionPropertyValues(Base):
 
 
 class VariableExtensionPropertyValues(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     VariableID = Column('variableid', ForeignKey(Variables.VariableID), nullable=False)
     PropertyID = Column('propertyid', ForeignKey(ExtensionProperties.PropertyID), nullable=False)
@@ -1089,7 +1047,6 @@ class VariableExtensionPropertyValues(Base):
 # Extension Identifiers
 # ################################################################################
 class ExternalIdentifierSystems(Base):
-
     ExternalIdentifierSystemID = Column(
         'externalidentifiersystemid',
         Integer,
@@ -1106,7 +1063,6 @@ class ExternalIdentifierSystems(Base):
 
 
 class CitationExternalIdentifiers(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     CitationID = Column('citationid', ForeignKey(Citations.CitationID), nullable=False)
     ExternalIdentifierSystemID = Column('externalidentifiersystemid',
@@ -1120,7 +1076,6 @@ class CitationExternalIdentifiers(Base):
 
 
 class MethodExternalIdentifiers(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     MethodID = Column('methodid', ForeignKey(Methods.MethodID), nullable=False)
     ExternalIdentifierSystemID = Column('externalidentifiersystemid',
@@ -1135,7 +1090,6 @@ class MethodExternalIdentifiers(Base):
 
 
 class PersonExternalIdentifiers(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     PersonID = Column('personid', ForeignKey(People.PersonID), nullable=False)
     ExternalIdentifierSystemID = Column('externalidentifiersystemid',
@@ -1149,7 +1103,6 @@ class PersonExternalIdentifiers(Base):
 
 
 class ReferenceMaterialExternalIdentifiers(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     ReferenceMaterialID = Column(ForeignKey(ReferenceMaterials.ReferenceMaterialID), nullable=False)
     ExternalIdentifierSystemID = Column('externalidentifiersystemid',
@@ -1167,7 +1120,6 @@ class ReferenceMaterialExternalIdentifiers(Base):
 
 
 class SamplingFeatureExternalIdentifiers(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     SamplingFeatureID = Column('samplingfeatureid', ForeignKey(SamplingFeatures.SamplingFeatureID),
                                nullable=False)
@@ -1186,7 +1138,6 @@ class SamplingFeatureExternalIdentifiers(Base):
 
 
 class SpatialReferenceExternalIdentifiers(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     SpatialReferenceID = Column('spatialreferenceid', ForeignKey(SpatialReferences.SpatialReferenceID),
                                 nullable=False)
@@ -1205,7 +1156,6 @@ class SpatialReferenceExternalIdentifiers(Base):
 
 
 class TaxonomicClassifierExternalIdentifiers(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     TaxonomicClassifierID = Column('taxonomicclassifierid',
                                    ForeignKey(TaxonomicClassifiers.TaxonomicClassifierID), nullable=False)
@@ -1224,7 +1174,6 @@ class TaxonomicClassifierExternalIdentifiers(Base):
 
 
 class VariableExternalIdentifiers(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     VariableID = Column('variableid', ForeignKey(Variables.VariableID), nullable=False)
     ExternalIdentifierSystemID = Column('externalidentifiersystemid',
@@ -1242,7 +1191,6 @@ class VariableExternalIdentifiers(Base):
 # ################################################################################
 
 class AuthorLists(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     CitationID = Column('citationid', ForeignKey(Citations.CitationID), nullable=False)
     PersonID = Column('personid', ForeignKey(People.PersonID), nullable=False)
@@ -1253,7 +1201,6 @@ class AuthorLists(Base):
 
 
 class DataSetCitations(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     DataSetID = Column('datasetid', ForeignKey(DataSets.DataSetID), nullable=False)
     RelationshipTypeCV = Column('relationshiptypecv', ForeignKey(CVRelationshipType.Name), nullable=False,
@@ -1265,13 +1212,11 @@ class DataSetCitations(Base):
 
 
 class DerivationEquations(Base):
-
     DerivationEquationID = Column('derivationequationid', Integer, primary_key=True, nullable=False)
     DerivationEquation = Column('derivationequation', String(255), nullable=False)
 
 
 class ResultDerivationEquations(Base):
-
     ResultID = Column(u'resultid', ForeignKey(Results.ResultID), primary_key=True)
     DerivationEquationID = Column(
         u'derivationequationid',
@@ -1284,7 +1229,6 @@ class ResultDerivationEquations(Base):
 
 
 class MethodCitations(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
     MethodID = Column('methodid', ForeignKey(Methods.MethodID), nullable=False)
     RelationshipTypeCV = Column('relationshiptypecv', ForeignKey(CVRelationshipType.Name), nullable=False,
@@ -1296,7 +1240,6 @@ class MethodCitations(Base):
 
 
 class RelatedAnnotations(Base):
-
     RelationID = Column('relationid', Integer, primary_key=True, nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
     RelationshipTypeCV = Column('relationshiptypecv', ForeignKey(CVRelationshipType.Name), nullable=False,
@@ -1314,7 +1257,6 @@ class RelatedAnnotations(Base):
 
 
 class RelatedCitations(Base):
-
     RelationID = Column('relationid', Integer, primary_key=True, nullable=False)
     CitationID = Column('citationid', ForeignKey(Citations.CitationID), nullable=False)
     RelationshipTypeCV = Column('relationshiptypecv', ForeignKey(CVRelationshipType.Name), nullable=False,
@@ -1329,7 +1271,6 @@ class RelatedCitations(Base):
 
 
 class RelatedDataSets(Base):
-
     RelationID = Column('relationid', Integer, primary_key=True, nullable=False)
     DataSetID = Column('datasetid', ForeignKey(DataSets.DataSetID), nullable=False)
     RelationshipTypeCV = Column('relationshiptypecv', ForeignKey(CVRelationshipType.Name), nullable=False,
@@ -1345,7 +1286,6 @@ class RelatedDataSets(Base):
 
 
 class RelatedResults(Base):
-
     RelationID = Column('relationid', Integer, primary_key=True, nullable=False)
     ResultID = Column('resultid', ForeignKey(Results.ResultID), nullable=False)
     RelationshipTypeCV = Column('relationshiptypecv', ForeignKey(CVRelationshipType.Name), nullable=False,
@@ -1362,7 +1302,6 @@ class RelatedResults(Base):
 # Results
 # ################################################################################
 class PointCoverageResults(Results):
-
     ResultID = Column('resultid', ForeignKey(Results.ResultID), primary_key=True)
     ZLocation = Column('zlocation', Float(53))
     ZLocationUnitsID = Column('zlocationunitsid', ForeignKey(Units.UnitsID))
@@ -1394,7 +1333,6 @@ class PointCoverageResults(Results):
 
 
 class ProfileResults(Results):
-
     ResultID = Column('resultid', ForeignKey(Results.ResultID), primary_key=True)
     XLocation = Column('xlocation', Float(53))
     XLocationUnitsID = Column('xlocationunitsid', ForeignKey(Units.UnitsID))
@@ -1424,7 +1362,6 @@ class ProfileResults(Results):
 
 
 class CategoricalResults(Results):
-
     ResultID = Column('resultid', ForeignKey(Results.ResultID), primary_key=True)
     XLocation = Column('xlocation', Float(53))
     XLocationUnitsID = Column('xlocationunitsid', Integer, ForeignKey(Units.UnitsID))
@@ -1453,7 +1390,6 @@ class CategoricalResults(Results):
 
 
 class TransectResults(Results):
-
     ResultID = Column('resultid', ForeignKey(Results.ResultID), primary_key=True)
     ZLocation = Column('zlocation', Float(53))
     ZLocationUnitsID = Column('zlocationunitsid', ForeignKey(Units.UnitsID))
@@ -1480,7 +1416,6 @@ class TransectResults(Results):
 
 
 class SpectraResults(Results):
-
     ResultID = Column('resultid', ForeignKey(Results.ResultID), primary_key=True)
     XLocation = Column('xlocation', Float(53))
     XLocationUnitsID = Column('xlocationunitsid', ForeignKey(Units.UnitsID))
@@ -1507,7 +1442,6 @@ class SpectraResults(Results):
 
 
 class TimeSeriesResults(Results):
-
     ResultID = Column('resultid', ForeignKey(Results.ResultID), primary_key=True)
     XLocation = Column('xlocation', Float(53))
     XLocationUnitsID = Column('xlocationunitsid', ForeignKey(Units.UnitsID))
@@ -1534,7 +1468,6 @@ class TimeSeriesResults(Results):
 
 
 class SectionResults(Results):
-
     ResultID = Column('resultid', ForeignKey(Results.ResultID), primary_key=True)
     YLocation = Column('ylocation', Float(53))
     YLocationUnitsID = Column('ylocationunitsid', ForeignKey(Units.UnitsID))
@@ -1573,7 +1506,6 @@ class SectionResults(Results):
 
 
 class TrajectoryResults(Results):
-
     ResultID = Column('resultid', ForeignKey(Results.ResultID), primary_key=True)
     SpatialReferenceID = Column('spatialreferenceid', ForeignKey(SpatialReferences.SpatialReferenceID))
     IntendedTrajectorySpacing = Column('intendedtrajectoryspacing', Float(53))
@@ -1597,7 +1529,6 @@ class TrajectoryResults(Results):
 
 
 class MeasurementResults(Results):
-
     ResultID = Column('resultid', ForeignKey(Results.ResultID), primary_key=True)
     XLocation = Column('xlocation', Float(53))
     XLocationUnitsID = Column('xlocationunitsid', ForeignKey(Units.UnitsID))
@@ -1636,33 +1567,30 @@ class MeasurementResults(Results):
 
 
 class CategoricalResultValues(Base):
-
     ValueID = Column('valueid', BigIntegerType, primary_key=True)
     ResultID = Column('resultid', ForeignKey(CategoricalResults.ResultID), nullable=False)
     DataValue = Column('datavalue', String(255), nullable=False)
-    ValueDateTime = Column('valuedatetime', DateTime, nullable=False)
+    ValueDateTime = Column('valuedatetime', DateTimeType, nullable=False)
     ValueDateTimeUTCOffset = Column('valuedatetimeutcoffset', Integer, nullable=False)
 
     ResultObj = relationship(CategoricalResults)
 
 
 class MeasurementResultValues(Base):
-
     ValueID = Column('valueid', BigIntegerType, primary_key=True)
     ResultID = Column('resultid', ForeignKey(MeasurementResults.ResultID), nullable=False)
     DataValue = Column('datavalue', Float(53), nullable=False)
-    ValueDateTime = Column('valuedatetime', DateTime, nullable=False)
+    ValueDateTime = Column('valuedatetime', DateTimeType, nullable=False)
     ValueDateTimeUTCOffset = Column('valuedatetimeutcoffset', Integer, nullable=False)
 
     ResultObj = relationship(MeasurementResults)
 
 
 class PointCoverageResultValues(Base):
-
     ValueID = Column('valueid', BigIntegerType, primary_key=True)
     ResultID = Column('resultid', ForeignKey(PointCoverageResults.ResultID), nullable=False)
-    DataValue = Column('datavalue', BigInteger, nullable=False)
-    ValueDateTime = Column('valuedatetime', DateTime, nullable=False)
+    DataValue = Column('datavalue', BigIntegerType, nullable=False)
+    ValueDateTime = Column('valuedatetime', DateTimeType, nullable=False)
     ValueDateTimeUTCOffset = Column('valuedatetimeutcoffset', Integer, nullable=False)
     XLocation = Column('xlocation', Float(53), nullable=False)
     XLocationUnitsID = Column('xlocationunitsid', ForeignKey(Units.UnitsID), nullable=False)
@@ -1683,11 +1611,10 @@ class PointCoverageResultValues(Base):
 
 
 class ProfileResultValues(Base):
-
     ValueID = Column('valueid', BigIntegerType, primary_key=True)
     ResultID = Column('resultid', ForeignKey(ProfileResults.ResultID), nullable=False)
     DataValue = Column('datavalue', Float(53), nullable=False)
-    ValueDateTime = Column('valuedatetime', DateTime, nullable=False)
+    ValueDateTime = Column('valuedatetime', DateTimeType, nullable=False)
     ValueDateTimeUTCOffset = Column('valuedatetimeutcoffset', Integer, nullable=False)
     ZLocation = Column('zlocation', Float(53), nullable=False)
     ZAggregationInterval = Column('zaggregationinterval', Float(53), nullable=False)
@@ -1710,16 +1637,15 @@ class ProfileResultValues(Base):
 
 
 class SectionResultValues(Base):
-
     ValueID = Column('valueid', BigIntegerType, primary_key=True)
     ResultID = Column('resultid', ForeignKey(SectionResults.ResultID), nullable=False)
     DataValue = Column('datavalue', Float(53), nullable=False)
-    ValueDateTime = Column('valuedatetime', BigInteger, nullable=False)
-    ValueDateTimeUTCOffset = Column('valuedatetimeutcoffset', BigInteger, nullable=False)
+    ValueDateTime = Column('valuedatetime', DateTimeType, nullable=False)
+    ValueDateTimeUTCOffset = Column('valuedatetimeutcoffset', Integer, nullable=False)
     XLocation = Column('xlocation', Float(53), nullable=False)
     XAggregationInterval = Column('xaggregationinterval', Float(53), nullable=False)
     XLocationUnitsID = Column('xlocationunitsid', ForeignKey(Units.UnitsID), nullable=False)
-    ZLocation = Column('zlocation', BigInteger, nullable=False)
+    ZLocation = Column('zlocation', BigIntegerType, nullable=False)
     ZAggregationInterval = Column('zaggregationinterval', Float(53), nullable=False)
     ZLocationUnitsID = Column('zlocationunitsid', ForeignKey(Units.UnitsID), nullable=False)
     CensorCodeCV = Column('censorcodecv', ForeignKey(CVCensorCode.Name), nullable=False, index=True)
@@ -1746,11 +1672,10 @@ class SectionResultValues(Base):
 
 
 class SpectraResultValues(Base):
-
     ValueID = Column('valueid', BigIntegerType, primary_key=True)
     ResultID = Column('resultid', ForeignKey(SpectraResults.ResultID), nullable=False)
     DataValue = Column('datavalue', Float(53), nullable=False)
-    ValueDateTime = Column('valuedatetime', DateTime, nullable=False)
+    ValueDateTime = Column('valuedatetime', DateTimeType, nullable=False)
     ValueDateTimeUTCOffset = Column('valuedatetimeutcoffset', Integer, nullable=False)
     ExcitationWavelength = Column('excitationwavelength', Float(53), nullable=False)
     EmissionWavelength = Column('emmistionwavelength', Float(53), nullable=False)
@@ -1773,13 +1698,11 @@ class SpectraResultValues(Base):
     )
 
 
-
 class TimeSeriesResultValues(Base):
-
     ValueID = Column('valueid', BigIntegerType, primary_key=True)
     ResultID = Column('resultid', ForeignKey(TimeSeriesResults.ResultID), nullable=False)
     DataValue = Column('datavalue', Float(53), nullable=False)
-    ValueDateTime = Column('valuedatetime', DateTime, nullable=False)
+    ValueDateTime = Column('valuedatetime', DateTimeType, nullable=False)
     ValueDateTimeUTCOffset = Column('valuedatetimeutcoffset', Integer, nullable=False)
     CensorCodeCV = Column('censorcodecv', ForeignKey(CVCensorCode.Name), nullable=False, index=True)
     QualityCodeCV = Column('qualitycodecv', ForeignKey(CVQualityCode.Name), nullable=False, index=True)
@@ -1801,11 +1724,10 @@ class TimeSeriesResultValues(Base):
 
 
 class TrajectoryResultValues(Base):
-
     ValueID = Column('valueid', BigIntegerType, primary_key=True)
     ResultID = Column('resultid', ForeignKey(TrajectoryResults.ResultID), nullable=False)
     DataValue = Column('datavalue', Float(53), nullable=False)
-    ValueDateTime = Column('valuedatetime', DateTime, nullable=False)
+    ValueDateTime = Column('valuedatetime', DateTimeType, nullable=False)
     ValueDateTimeUTCOffset = Column('valuedatetimeutcoffset', Integer, nullable=False)
     XLocation = Column('xlocation', Float(53), nullable=False)
     XLocationUnitsID = Column('xlocationunitsid', ForeignKey(Units.UnitsID), nullable=False)
@@ -1846,12 +1768,11 @@ class TrajectoryResultValues(Base):
 
 
 class TransectResultValues(Base):
-
     ValueID = Column('valueid', BigIntegerType, primary_key=True)
     ResultID = Column('resultid', ForeignKey(TransectResults.ResultID), nullable=False)
     DataValue = Column('datavalue', Float(53), nullable=False)
-    ValueDateTime = Column('valuedatetime', DateTime, nullable=False)
-    ValueDateTimeUTCOffset = Column('valuedatetimeutcoffset', DateTime, nullable=False)
+    ValueDateTime = Column('valuedatetime', DateTimeType, nullable=False)
+    ValueDateTimeUTCOffset = Column('valuedatetimeutcoffset', Integer, nullable=False)
     XLocation = Column('xlocation', Float(53), nullable=False)
     XLocationUnitsID = Column('xlocationunitsid', ForeignKey(Units.UnitsID), nullable=False)
     YLocation = Column('ylocation', Float(53), nullable=False)
@@ -1894,9 +1815,8 @@ class TransectResultValues(Base):
 
 
 class CategoricalResultValueAnnotations(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    ValueID = Column('valueid', BigInteger, ForeignKey(CategoricalResultValues.ValueID), nullable=False)
+    ValueID = Column('valueid', BigIntegerType, ForeignKey(CategoricalResultValues.ValueID), nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
 
     AnnotationObj = relationship(Annotations)
@@ -1904,9 +1824,8 @@ class CategoricalResultValueAnnotations(Base):
 
 
 class MeasurementResultValueAnnotations(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    ValueID = Column('valueid', BigInteger, ForeignKey(MeasurementResultValues.ValueID), nullable=False)
+    ValueID = Column('valueid', BigIntegerType, ForeignKey(MeasurementResultValues.ValueID), nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
 
     AnnotationObj = relationship(Annotations)
@@ -1914,9 +1833,8 @@ class MeasurementResultValueAnnotations(Base):
 
 
 class PointCoverageResultValueAnnotations(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    ValueID = Column('valueid', BigInteger, ForeignKey(PointCoverageResultValues.ValueID), nullable=False)
+    ValueID = Column('valueid', BigIntegerType, ForeignKey(PointCoverageResultValues.ValueID), nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
 
     AnnotationObj = relationship(Annotations)
@@ -1924,9 +1842,8 @@ class PointCoverageResultValueAnnotations(Base):
 
 
 class ProfileResultValueAnnotations(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    ValueID = Column('valueid', BigInteger, ForeignKey(ProfileResultValues.ValueID), nullable=False)
+    ValueID = Column('valueid', BigIntegerType, ForeignKey(ProfileResultValues.ValueID), nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
 
     AnnotationObj = relationship(Annotations)
@@ -1934,9 +1851,8 @@ class ProfileResultValueAnnotations(Base):
 
 
 class SectionResultValueAnnotations(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    ValueID = Column('valueid', BigInteger, ForeignKey(SectionResultValues.ValueID), nullable=False)
+    ValueID = Column('valueid', BigIntegerType, ForeignKey(SectionResultValues.ValueID), nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
 
     AnnotationObj = relationship(Annotations)
@@ -1944,9 +1860,8 @@ class SectionResultValueAnnotations(Base):
 
 
 class SpectraResultValueAnnotations(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    ValueID = Column('valueid', BigInteger, ForeignKey(SpectraResultValues.ValueID), nullable=False)
+    ValueID = Column('valueid', BigIntegerType, ForeignKey(SpectraResultValues.ValueID), nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
 
     AnnotationObj = relationship(Annotations)
@@ -1954,9 +1869,8 @@ class SpectraResultValueAnnotations(Base):
 
 
 class TimeSeriesResultValueAnnotations(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    ValueID = Column('valueid', BigInteger, ForeignKey(TimeSeriesResultValues.ValueID), nullable=False)
+    ValueID = Column('valueid', BigIntegerType, ForeignKey(TimeSeriesResultValues.ValueID), nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
 
     AnnotationObj = relationship(Annotations)
@@ -1964,9 +1878,8 @@ class TimeSeriesResultValueAnnotations(Base):
 
 
 class TrajectoryResultValueAnnotations(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    ValueID = Column('valueid', BigInteger, ForeignKey(TrajectoryResultValues.ValueID), nullable=False)
+    ValueID = Column('valueid', BigIntegerType, ForeignKey(TrajectoryResultValues.ValueID), nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
 
     AnnotationObj = relationship(Annotations)
@@ -1974,9 +1887,8 @@ class TrajectoryResultValueAnnotations(Base):
 
 
 class TransectResultValueAnnotations(Base):
-
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    ValueID = Column('valueid', BigInteger, ForeignKey(TransectResultValues.ValueID), nullable=False)
+    ValueID = Column('valueid', BigIntegerType, ForeignKey(TransectResultValues.ValueID), nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
 
     AnnotationObj = relationship(Annotations)

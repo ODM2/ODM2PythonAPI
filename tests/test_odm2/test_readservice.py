@@ -11,7 +11,6 @@ import pytest
 import sqlalchemy
 from sqlalchemy.orm import class_mapper
 
-
 globals_vars = {}
 
 
@@ -75,8 +74,7 @@ class TestReadService:
         self.engine = globals_vars['engine']
         self.db = globals_vars['db']
 
-
-# Sampling Features
+    # Sampling Features
     def test_getAllSamplingFeatures(self):
         # get all models from the database
         res = self.engine.execute('SELECT * FROM SamplingFeatures').fetchall()
@@ -92,90 +90,80 @@ class TestReadService:
         resapi = self.reader.getSamplingFeatures(ids=[sfid])
         assert resapi is not None
 
-# Models
-    """
-        TABLE Models
-        ModelID INTEGER   NOT NULL PRIMARY KEY,
-        ModelCode VARCHAR (50)  NOT NULL,
-        ModelName VARCHAR (255)  NOT NULL,
-        ModelDescription VARCHAR (500)  NULL,
-        Version VARCHAR (255)  NULL,
-        ModelLink VARCHAR (255)  NULL
-    """
-
-    def test_getAllModels(self):
+    def test_getSamplingFeatureByCode(self):
         # get all models from the database
-        res = self.engine.execute('SELECT * FROM Models').fetchall()
+        res = self.engine.execute('SELECT * FROM SamplingFeatures').fetchone()
+        code = res[2]
         # get all simulations using the api
-        resapi = self.reader.getModels()
-        assert len(res) == len(resapi)
-
-    def test_getModelByCode(self):
-        # get a converter from the database
-        res = self.engine.execute('SELECT * FROM Models').fetchone()
-        modelCode = res[1]
-        # get the converter using the api
-        resapi = self.reader.getModels(codes=[modelCode])
+        resapi = self.reader.getSamplingFeatures(codes=[code])
         assert resapi is not None
 
+    # DataSets
+    def test_getDataSets(self):
+        # get all datasets from the database
+        ds = self.engine.execute('SELECT * FROM DataSets').fetchone()
+        dsid = ds[0]
 
-# RelatedModels
-    """
-        TABLE RelatedModels (
-        RelatedID INTEGER   NOT NULL PRIMARY KEY,
-        ModelID INTEGER   NOT NULL,
-        RelationshipTypeCV VARCHAR (255)  NOT NULL,
-        RelatedModelID INTEGER   NOT NULL,
-        FOREIGN KEY (RelationshipTypeCV) REFERENCES CV_RelationshipType (Name)
-        ON UPDATE NO ACTION ON DELETE NO ACTION,
-        FOREIGN KEY (ModelID) REFERENCES Models (ModelID)
-        ON UPDATE NO ACTION ON DELETE NO ACTION
-    """
+        dsapi = self.reader.getDataSets(ids=[dsid])
+        assert dsapi is not None
+        assert True
 
-    def test_getRelatedModelsByID(self):
-        # get related models by id using the api
-        resapi = self.reader.getRelatedModels(id=1)
-        assert resapi is not None
-        assert resapi[0].ModelCode == 'swat'
+    def test_getDataSetsResults(self):
+        # get all datasetresults from the database
+        dsr = self.engine.execute('SELECT * FROM DataSetsResults').fetchone()
+        dsid = dsr[2]
 
-    def test_getRelatedModelsByCode(self):
-        # get related models by id using the api
-        resapi = self.reader.getRelatedModels(code='swat')
-        assert resapi is not None
-        assert len(resapi) > 0
-        print(resapi[0].ModelCode)
-        assert resapi[0].ModelCode == 'swat'
-        # test converter code that doesn't exist
-        resapi = self.reader.getRelatedModels(code='None')
+        dsrapi = self.reader.getDataSetsResults(ids=[dsid])
+        assert dsrapi is not None
+        assert True
 
-        assert resapi is not None
-        assert len(resapi) == 0
+    def test_getDataSetsValues(self):
 
-        # test invalid argument
-        resapi = self.reader.getRelatedModels(code=234123)
-        assert not resapi
+        dsr = self.engine.execute('SELECT * FROM DataSetsResults').fetchone()
+        dsid = dsr[2]
 
+        values = self.reader.getDataSetsValues(ids=[dsid])
+        assert values is not None
+        assert len(values) > 0
 
-# Results
-    """
-        TABLE Results (
-        ResultID INTEGER   NOT NULL PRIMARY KEY,
-        ResultUUID VARCHAR(36)   NOT NULL,
-        FeatureActionID INTEGER   NOT NULL,
-        ResultTypeCV VARCHAR (255)  NOT NULL,
-        VariableID INTEGER   NOT NULL,
-        UnitsID INTEGER   NOT NULL,
-        TaxonomicClassifierID INTEGER   NULL,
-        ProcessingLevelID INTEGER   NOT NULL,
-        ResultDateTime DATETIME   NULL,
-        ResultDateTimeUTCOffset INTEGER   NULL,
-        ValidDateTime DATETIME   NULL,
-        ValidDateTimeUTCOffset INTEGER   NULL,
-        StatusCV VARCHAR (255)  NULL,
-        SampledMediumCV VARCHAR (255)  NOT NULL,
-        ValueCount INTEGER   NOT NULL
-    """
+    def test_getSamplingFeatureDataSets(self):
+        try:
+            # find a sampling feature that is associated with a dataset
+            sf = self.engine.execute(
+                'SELECT * from SamplingFeatures as sf '
+                'inner join FeatureActions as fa on fa.SamplingFeatureID == sf.SamplingFeatureID '
+                'inner join Results as r on fa.FeatureActionID == r.FeatureActionID  '
+                'inner join DataSetsResults as ds on r.ResultID == ds.ResultID '
+            ).fetchone()
+            assert len(sf) > 0
+
+            # get the dataset associated with the sampling feature
+            ds = self.engine.execute(
+                'SELECT * from DataSetsResults as ds '
+                'inner join Results as r on r.ResultID == ds.ResultID '
+                'inner join FeatureActions as fa on fa.FeatureActionID == r.FeatureActionID '
+                'where fa.SamplingFeatureID = ' + str(sf[0])
+            ).fetchone()
+            assert len(ds) > 0
+
+            print(sf[0])
+            # get the dataset associated with the sampling feature using hte api
+            dsapi = self.reader.getSamplingFeatureDatasets(ids=[sf[0]])
+
+            assert dsapi is not None
+            assert len(dsapi) > 0
+            assert dsapi[0].datasets is not None
+            assert dsapi[0].SamplingFeatureID == sf[0]
+            # assert ds[0] == dsapi[0]
+        except Exception as ex:
+            print(ex)
+            assert False
+        finally:
+            self.reader._session.rollback()
+
+    # Results
     def test_getAllResults(self):
+
         # get all results from the database
         res = self.engine.execute('SELECT * FROM Results').fetchall()
         print(res)
@@ -192,23 +180,70 @@ class TestReadService:
         resapi = self.reader.getResults(ids=[resultid])
         assert resapi is not None
 
-# Simulations
-    """
-        TABLE Simulations (
-        SimulationID INTEGER   NOT NULL PRIMARY KEY,
-        ActionID INTEGER   NOT NULL,
-        SimulationName VARCHAR (255)  NOT NULL,
-        SimulationDescription VARCHAR (500)  NULL,
-        SimulationStartDateTime DATETIME   NOT NULL,
-        SimulationStartDateTimeUTCOffset INTEGER   NOT NULL,
-        SimulationEndDateTime DATETIME   NOT NULL,
-        SimulationEndDateTimeUTCOffset INTEGER   NOT NULL,
-        TimeStepValue FLOAT   NOT NULL,
-        TimeStepUnitsID INTEGER   NOT NULL,
-        InputDataSetID INTEGER   NULL,
-        ModelID INTEGER   NOT NULL,
-    """
+    def test_getResultsBySFID(self):
+        sf = self.engine.execute(
+            'SELECT * from SamplingFeatures as sf '
+            'inner join FeatureActions as fa on fa.SamplingFeatureID == sf.SamplingFeatureID '
+            'inner join Results as r on fa.FeatureActionID == r.FeatureActionID  '
+        ).fetchone()
+        assert len(sf) > 0
+        sfid = sf[0]
 
+        res = self.engine.execute(
+            'SELECT * from Results as r '
+            'inner join FeatureActions as fa on fa.FeatureActionID == r.FeatureActionID '
+            'where fa.SamplingFeatureID = ' + str(sfid)
+        ).fetchone()
+
+        assert len(res) > 0
+
+        # get the result using the api
+        resapi = self.reader.getResults(sfids=[sfid])
+        assert resapi is not None
+        assert len(resapi) > 0
+        assert resapi[0].ResultID == res[0]
+
+    # Models
+    def test_getAllModels(self):
+        # get all models from the database
+        res = self.engine.execute('SELECT * FROM Models').fetchall()
+        # get all simulations using the api
+        resapi = self.reader.getModels()
+        assert len(res) == len(resapi)
+
+    def test_getModelByCode(self):
+        # get a converter from the database
+        res = self.engine.execute('SELECT * FROM Models').fetchone()
+        modelCode = res[1]
+        # get the converter using the api
+        resapi = self.reader.getModels(codes=[modelCode])
+        assert resapi is not None
+
+    # RelatedModels
+    def test_getRelatedModelsByID(self):
+        # get related models by id using the api
+        resapi = self.reader.getRelatedModels(id=1)
+        assert resapi is not None
+        assert resapi[0].ModelCode == 'swat'
+
+    def test_getRelatedModelsByCode(self):
+        # get related models by id using the api
+        resapi = self.reader.getRelatedModels(code='swat')
+        assert resapi is not None
+        assert len(resapi) > 0
+        # print(resapi[0].ModelCode)
+        assert resapi[0].ModelCode == 'swat'
+        # test converter code that doesn't exist
+        resapi = self.reader.getRelatedModels(code='None')
+
+        assert resapi is not None
+        assert len(resapi) == 0
+
+        # test invalid argument
+        resapi = self.reader.getRelatedModels(code=234123)
+        assert not resapi
+
+    # Simulations
     def test_getAllSimulations(self):
         # get all simulation from the database
         res = self.engine.execute('SELECT * FROM Simulations').fetchall()
@@ -246,7 +281,7 @@ class TestReadService:
         ).first()
         assert len(res) > 0
         res = rawSql2Alchemy(res, models.Results)
-        print(res)
+        # print(res)
 
         # get simulation by id using the api
         # resapi = self.reader.getResultsBySimulationID(simulation.SimulationID)

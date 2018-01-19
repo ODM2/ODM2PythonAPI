@@ -1,5 +1,6 @@
 from __future__ import (absolute_import, division, print_function)
 
+
 class serviceBase(object):
     def __init__(self,  session_factory, debug=False):
         """Must send in either a session_factory."""
@@ -42,10 +43,9 @@ class Base(object):
             if 'obj' in v.lower():
                 del valuedict[v]
 
-            if v == "_sa_instance_state":
-                del valuedict["_sa_instance_state"]
-        return "<%s(%s)>" % (self.__class__.__name__, str(valuedict))
-
+            if v == '_sa_instance_state':
+                del valuedict['_sa_instance_state']
+        return '<%s(%s)>' % (self.__class__.__name__, str(valuedict))
 
 
 class modelBase():

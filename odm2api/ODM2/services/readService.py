@@ -1,5 +1,7 @@
 from __future__ import (absolute_import, division, print_function)
 
+import warnings
+
 from odm2api.ODM2 import serviceBase
 from odm2api.ODM2.models import (
     ActionAnnotations, ActionDirectives, ActionExtensionPropertyValues, Actions,
@@ -12,7 +14,7 @@ from odm2api.ODM2.models import (
     CalibrationActions, CalibrationReferenceEquipment, CalibrationStandards,
     CategoricalResultValueAnnotations, CategoricalResultValues, CitationExtensionPropertyValues,
     CitationExternalIdentifiers, DataLoggerFileColumns, DataLoggerFiles, DataLoggerProgramFiles,
-    DataQuality, DataSetCitations, DataSets, DerivationEquations, Directives, Equipment,
+    DataQuality, DataSetCitations, DataSets, DataSetsResults, DerivationEquations, Directives, Equipment,
     EquipmentActions, EquipmentAnnotations, EquipmentModels, EquipmentUsed, ExtensionProperties,
     ExternalIdentifierSystems, FeatureActions, InstrumentOutputVariables, MaintenanceActions,
     MeasurementResultValueAnnotations, MeasurementResultValues, MethodAnnotations,
@@ -29,7 +31,7 @@ from odm2api.ODM2.models import (
     SpatialReferenceExternalIdentifiers, SpatialReferences, SpecimenBatchPositions,
     SpectraResultValueAnnotations, SpectraResultValues, TaxonomicClassifierExternalIdentifiers,
     TaxonomicClassifiers, TimeSeriesResultValueAnnotations, TimeSeriesResultValues,
-    TimeSeriesResults, TrajectoryResultValueAnnotations, TrajectoryResultValues,
+    TrajectoryResultValueAnnotations, TrajectoryResultValues,
     TransectResultValueAnnotations, TransectResultValues, Units, VariableExtensionPropertyValues,
     VariableExternalIdentifiers, Variables,
 )
@@ -72,7 +74,83 @@ class DetailedAffiliation:
         self.Organization = '(' + org.OrganizationCode + ') ' + org.OrganizationName
 
 
+class SamplingFeatureDataSet():
+    datasets = {}
+    related_features = {}
+
+    def __init__(self, samplingfeature, datasetresults, relatedfeatures):
+        sf = samplingfeature
+
+        self.SamplingFeature = sf
+        self.SamplingFeatureID = sf.SamplingFeatureID
+        self.SamplingFeatureUUID = sf.SamplingFeatureUUID
+        self.SamplingFeatureTypeCV = sf.SamplingFeatureTypeCV
+        self.SamplingFeatureCode = sf.SamplingFeatureCode
+        self.SamplingFeatureName = sf.SamplingFeatureName
+        self.SamplingFeatureDescription = sf.SamplingFeatureDescription
+        self.SamplingFeatureGeotypeCV = sf.SamplingFeatureGeotypeCV
+        self.Elevation_m = sf.Elevation_m
+        self.ElevationDatumCV = sf.ElevationDatumCV
+        self.FeatureGeometryWKT = sf.FeatureGeometryWKT
+        self.assignDatasets(datasetresults)
+        self.assignRelatedFeatures(relatedfeatures)
+
+        print(self.datasets)
+
+    def assignDatasets(self, datasetresults):
+        self.datasets = {}
+        if datasetresults:
+            for dsr in datasetresults:
+                if dsr.DataSetObj not in self.datasets:
+                    # if the dataset is not in the dictionary, add it and the first result
+                    self.datasets[dsr.DataSetObj] = []
+                    res = dsr.ResultObj
+                    # res.FeatureActionObj = None
+                    self.datasets[dsr.DataSetObj].append(res)
+                else:
+                    # if the dataset is in the dictionary, append the result object to the list
+                    res = dsr.ResultObj
+                    # res.FeatureActionObj = None
+                    self.datasets[dsr.DataSetObj].append(res)
+
+    def assignRelatedFeatures(self, relatedfeatures):
+        self.related_features = {}
+        if relatedfeatures:
+            for related in relatedfeatures:
+                if related.SamplingFeatureTypeCV == 'Site':
+                    self.related_features = related
+
+
 class ReadODM2(serviceBase):
+    def _get_columns(self, model):
+        """Internal helper function to get a dictionary of a model column properties.
+
+        Args:
+            model (object): Sqlalchemy object, Ex. ODM2 model.
+
+        Returns:
+            dict: Dictionary of column properties Ex. {'resultid': 'ResultID'}
+
+        """
+        from sqlalchemy.orm.properties import ColumnProperty
+        columns = [(prop.key.lower(), prop.key) for prop in model.__mapper__.iterate_properties if
+                   isinstance(prop, ColumnProperty)]
+
+        return dict(columns)
+
+    def _check_kwargs(self, args, kwargs):
+        """Internal helper function to check for unused keyword arguments
+
+        Args:
+            args (list): List of expected, valid arguments.
+            kwargs (dict): Dictionary of keyword arguments from user
+        Returns:
+            None
+        """
+        invkwd = filter(lambda x: x not in args, kwargs.keys())
+        if invkwd:
+            warnings.warn('Got unexpected keyword argument(s) {}'.format(','.join(invkwd)), stacklevel=2)
+
     # Exists functions
     def resultExists(self, result):
         """
@@ -90,11 +168,12 @@ class ReadODM2(serviceBase):
                                       )
             return ret.scalar()
 
-        except:
+        except Exception as e:
+            print('Error running Query: {}'.format(e))
             return None
 
     # Annotations
-    def getAnnotations(self, type=None, codes=None, ids=None):
+    def getAnnotations(self, annottype=None, codes=None, ids=None, **kwargs):
         """
         * Pass Nothing - return a list of all objects
         * Pass AnnotationTypeCV - return a list of all objects of the fiven type
@@ -104,34 +183,39 @@ class ReadODM2(serviceBase):
         """
         # TODO What keywords do I use for type.
         a = Annotations
-        if type:
-            if type == 'action':
+        self._check_kwargs(['type'], kwargs)
+        if 'type' in kwargs:
+            warnings.warn('The parameter \'type\' is deprecated. Please use the annottype parameter instead.',
+                          DeprecationWarning, stacklevel=2)
+            annottype = kwargs['type']
+        if annottype:
+            if annottype == 'action':
                 a = ActionAnnotations
-            elif type == 'categoricalresultvalue':
+            elif annottype == 'categoricalresultvalue':
                 a = CategoricalResultValueAnnotations
-            elif type == 'equipmentannotation':
+            elif annottype == 'equipmentannotation':
                 a = EquipmentAnnotations
-            elif type == 'measurementresultvalue':
+            elif annottype == 'measurementresultvalue':
                 a = MeasurementResultValueAnnotations
-            elif type == 'method':
+            elif annottype == 'method':
                 a = MethodAnnotations
-            elif type == 'pointcoverageresultvalue':
+            elif annottype == 'pointcoverageresultvalue':
                 a = PointCoverageResultValueAnnotations
-            elif type == 'profileresultvalue':
+            elif annottype == 'profileresultvalue':
                 a = ProfileResultValueAnnotations
-            elif type == 'result':
+            elif annottype == 'result':
                 a = ResultAnnotations
-            elif type == 'samplingfeature':
+            elif annottype == 'samplingfeature':
                 a = SamplingFeatureAnnotations
-            elif type == 'sectionresultvalue':
+            elif annottype == 'sectionresultvalue':
                 a = SectionResultValueAnnotations
-            elif type == 'spectraresultvalue':
+            elif annottype == 'spectraresultvalue':
                 a = SpectraResultValueAnnotations
-            elif type == 'timeseriesresultvalue':
+            elif annottype == 'timeseriesresultvalue':
                 a = TimeSeriesResultValueAnnotations
-            elif type == 'trajectoryresultvalue':
+            elif annottype == 'trajectoryresultvalue':
                 a = TrajectoryResultValueAnnotations
-            elif type == 'transectresultvalue':
+            elif annottype == 'transectresultvalue':
                 a = TransectResultValueAnnotations
         try:
             query = self._session.query(a)
@@ -141,70 +225,76 @@ class ReadODM2(serviceBase):
                 query = query.filter(Annotations.AnnotationID.in_(ids))
             return query.all()
 
-        except:
+        except Exception as e:
+            print('Error running Query: {}'.format(e))
             return None
 
     # CV
-    def getCVs(self, type):
+    def getCVs(self, cvtype, **kwargs):
         """
         getCVs(self, type):
         * Pass CVType - return a list of all objects of the given type
 
         """
-        CV = CVActionType
-        if type == 'actiontype':
+        self._check_kwargs(['type'], kwargs)
+        if 'type' in kwargs:
+            warnings.warn('The parameter \'type\' is deprecated. Please use the cvtype parameter instead.',
+                          DeprecationWarning, stacklevel=2)
+            cvtype = kwargs['type']
+
+        if cvtype == 'actiontype':
             CV = CVActionType
-        elif type == 'aggregationstatistic':
+        elif cvtype == 'aggregationstatistic':
             CV = CVAggregationStatistic
-        elif type == 'annotationtype':
+        elif cvtype == 'annotationtype':
             CV = CVAnnotationType
-        elif type == 'censorcode':
+        elif cvtype == 'censorcode':
             CV = CVCensorCode
-        elif type == 'dataqualitytype':
+        elif cvtype == 'dataqualitytype':
             CV = CVDataQualityType
-        elif type == 'dataset type':
+        elif cvtype == 'dataset type':
             CV = CVDataSetType
-        elif type == 'Directive Type':
+        elif cvtype == 'Directive Type':
             CV = CVDirectiveType
-        elif type == 'Elevation Datum':
+        elif cvtype == 'Elevation Datum':
             CV = CVElevationDatum
-        elif type == 'Equipment Type':
+        elif cvtype == 'Equipment Type':
             CV = CVEquipmentType
-        elif type == 'Medium':
+        elif cvtype == 'Medium':
             CV = CVMediumType
-        elif type == 'Method Type':
+        elif cvtype == 'Method Type':
             CV = CVMethodType
-        elif type == 'Organization Type':
+        elif cvtype == 'Organization Type':
             CV = CVOrganizationType
-        elif type == 'Property Data Type':
+        elif cvtype == 'Property Data Type':
             CV = CVPropertyDataType
-        elif type == 'Quality Code':
+        elif cvtype == 'Quality Code':
             CV = CVQualityCode
-        elif type == 'Relationship Type':
+        elif cvtype == 'Relationship Type':
             CV = CVRelationshipType
-        elif type == 'Result Type':
+        elif cvtype == 'Result Type':
             CV = CVResultType
-        elif type == 'Sampling Feature Geo-type':
+        elif cvtype == 'Sampling Feature Geo-type':
             CV = CVSamplingFeatureGeoType
-        elif type == 'Sampling Feature Type':
+        elif cvtype == 'Sampling Feature Type':
             CV = CVSamplingFeatureType
-        elif type == 'Site Type':
+        elif cvtype == 'Site Type':
             CV = CVSiteType
-        elif type == 'Spatial Offset Type':
+        elif cvtype == 'Spatial Offset Type':
             CV = CVSpatialOffsetType
-        elif type == 'Speciation':
+        elif cvtype == 'Speciation':
             CV = CVSpeciation
-        elif type == 'Specimen Type':
+        elif cvtype == 'Specimen Type':
             CV = CVSpecimenType
-        elif type == 'Status':
+        elif cvtype == 'Status':
             CV = CVStatus
-        elif type == 'Taxonomic Classifier Type':
+        elif cvtype == 'Taxonomic Classifier Type':
             CV = CVTaxonomicClassifierType
-        elif type == 'Units Type':
+        elif cvtype == 'Units Type':
             CV = CVUnitsType
-        elif type == 'Variable Name':
+        elif cvtype == 'Variable Name':
             CV = CVVariableName
-        elif type == 'Variable Type':
+        elif cvtype == 'Variable Type':
             CV = CVVariableType
         else:
             return None
@@ -295,15 +385,16 @@ class ReadODM2(serviceBase):
                 variables = [
                     x[0] for x in
                     self._session.query(distinct(Results.VariableID))
-                    .filter(Results.FeatureActionID == FeatureActions.FeatureActionID)
-                    .filter(FeatureActions.SamplingFeatureID == SamplingFeatures.SamplingFeatureID)
-                    .filter(SamplingFeatures.SamplingFeatureCode == sitecode).all()
+                        .filter(Results.FeatureActionID == FeatureActions.FeatureActionID)
+                        .filter(FeatureActions.SamplingFeatureID == SamplingFeatures.SamplingFeatureID)
+                        .filter(SamplingFeatures.SamplingFeatureCode == sitecode).all()
                 ]
                 if ids:
                     ids = list(set(ids).intersection(variables))
                 else:
                     ids = variables
-            except:
+            except Exception as e:
+                print('Error running Query: {}'.format(e))
                 pass
 
         if results:
@@ -313,7 +404,8 @@ class ReadODM2(serviceBase):
                     ids = list(set(ids).intersection(variables))
                 else:
                     ids = variables
-            except:
+            except Exception as e:
+                print('Error running Query: {}'.format(e))
                 pass
 
         query = self._session.query(Variables)
@@ -328,7 +420,7 @@ class ReadODM2(serviceBase):
             return None
 
     # Method
-    def getMethods(self, ids=None, codes=None, type=None):
+    def getMethods(self, ids=None, codes=None, methodtype=None, **kwargs):
         """
         * Pass nothing - returns full list of method objects
         * Pass a list of MethodIDs - returns a single method object for each given id
@@ -336,13 +428,19 @@ class ReadODM2(serviceBase):
         * Pass a MethodType - returns a list of method objects of the given MethodType
 
         """
+        self._check_kwargs(['type'], kwargs)
+        if 'type' in kwargs:
+            warnings.warn('The parameter \'type\' is deprecated. Please use the medtype parameter instead.',
+                          DeprecationWarning, stacklevel=2)
+            methodtype = kwargs['type']
+
         q = self._session.query(Methods)
         if ids:
             q = q.filter(Methods.MethodID.in_(ids))
         if codes:
             q = q.filter(Methods.MethodCode.in_(codes))
-        if type:
-            q = q.filter_by(MethodTypeCV=type)
+        if methodtype:
+            q = q.filter_by(MethodTypeCV=methodtype)
 
         try:
             return q.all()
@@ -353,15 +451,28 @@ class ReadODM2(serviceBase):
     # ProcessingLevel
     def getProcessingLevels(self, ids=None, codes=None):
         """
-        getProcessingLevels(self, ids=None, codes=None)
-        * Pass nothing - returns full list of ProcessingLevel objects
-        * Pass a list of ProcessingLevelID - returns a single processingLevel object for each given id
-        * Pass a list of ProcessingLevelCode - returns a single processingLevel object for each given code
+        Retrieve a list of Processing Levels
+
+        If no arguments are passed to the function, or their values are None,
+        all Processing Levels objects in the database will be returned.
+
+        Args:
+            ids (list, optional): List of Processing Levels IDs.
+            codes (list, optional): List of Processing Levels Codes.
+
+
+        Returns:
+            list: List of ProcessingLevels Objects
+
+        Examples:
+            >>> READ = ReadODM2(SESSION_FACTORY)
+            >>> READ.getProcessingLevels(ids=[1, 3])
+            >>> READ.getProcessingLevels(codes=['L1', 'L3'])
 
         """
         q = self._session.query(ProcessingLevels)
         if ids:
-            q = q.filter(ProcessingLevels.ProcessingLevelsID.in_(ids))
+            q = q.filter(ProcessingLevels.ProcessingLevelID.in_(ids))
         if codes:
             q = q.filter(ProcessingLevels.ProcessingLevelCode.in_(codes))
 
@@ -372,7 +483,8 @@ class ReadODM2(serviceBase):
             return None
 
     # Sampling Feature
-    def getSamplingFeatures(self, ids=None, codes=None, uuids=None, type=None, wkt=None, results=False):
+    def getSamplingFeatures(self, ids=None, codes=None, uuids=None,
+                            sftype=None, wkt=None, results=False, **kwargs):
         """Retrieve a list of Sampling Feature objects.
 
         If no arguments are passed to the function, or their values are None,
@@ -382,7 +494,7 @@ class ReadODM2(serviceBase):
             ids (list, optional): List of SamplingFeatureIDs.
             codes (list, optional): List of SamplingFeature Codes.
             uuids (list, optional): List of UUIDs string.
-            type (str, optional): Type of Sampling Feature from
+            sftype (str, optional): Type of Sampling Feature from
                 `controlled vocabulary name <http://vocabulary.odm2.org/samplingfeaturetype/>`_.
             wkt (str, optional): SamplingFeature Well Known Text.
             results (bool, optional): Whether or not you want to return only the
@@ -403,13 +515,18 @@ class ReadODM2(serviceBase):
             >>> READ.getSamplingFeatures(type='Site', results=True)
 
         """
+        self._check_kwargs(['type'], kwargs)
+        if 'type' in kwargs:
+            warnings.warn('The parameter \'type\' is deprecated. Please use the sftype parameter instead.',
+                          DeprecationWarning, stacklevel=2)
+            sftype = kwargs['type']
         if results:
             try:
                 fas = [x[0] for x in self._session.query(distinct(Results.FeatureActionID)).all()]
-            except:
+            except Exception as e:
+                print('Error running Query: {}'.format(e))
                 return None
-            sf = [x[0] for x in self._session.query(distinct(FeatureActions.SamplingFeatureID))
-                                    .filter(FeatureActions.FeatureActionID.in_(fas)).all()]
+            sf = [x[0] for x in self._session.query(distinct(FeatureActions.SamplingFeatureID)).filter(FeatureActions.FeatureActionID.in_(fas)).all()]  # noqa
             if ids:
                 ids = list(set(ids).intersection(sf))
             else:
@@ -417,8 +534,8 @@ class ReadODM2(serviceBase):
 
         q = self._session.query(SamplingFeatures)
 
-        if type:
-            q = q.filter_by(SamplingFeatureTypeCV=type)
+        if sftype:
+            q = q.filter_by(SamplingFeatureTypeCV=sftype)
         if ids:
             q = q.filter(SamplingFeatures.SamplingFeatureID.in_(ids))
         if codes:
@@ -443,8 +560,8 @@ class ReadODM2(serviceBase):
 
         """
 
-        sf = self._session.query(distinct(SamplingFeatures.SamplingFeatureID))\
-                 .select_from(RelatedFeatures)
+        sf = self._session.query(distinct(SamplingFeatures.SamplingFeatureID)) \
+            .select_from(RelatedFeatures)
 
         if sfid:
             sf = sf.join(RelatedFeatures.RelatedFeatureObj).filter(RelatedFeatures.SamplingFeatureID == sfid)
@@ -463,7 +580,7 @@ class ReadODM2(serviceBase):
         return None
 
     # Action
-    def getActions(self, ids=None, type=None, sfid=None):
+    def getActions(self, ids=None, acttype=None, sfid=None, **kwargs):
         """
         * Pass nothing - returns a list of all Actions
         * Pass a list of Action ids - returns a list of Action objects
@@ -472,12 +589,17 @@ class ReadODM2(serviceBase):
           associated with that Sampling feature ID, Found through featureAction table
 
         """
+        self._check_kwargs(['type'], kwargs)
+        if 'type' in kwargs:
+            warnings.warn('The parameter \'type\' is deprecated. Please use the acttype parameter instead.',
+                          DeprecationWarning, stacklevel=2)
+            acttype = kwargs['type']
         a = Actions
-        if type == 'equipment':
+        if acttype == 'equipment':
             a = EquipmentActions
-        elif type == 'calibration':
+        elif acttype == 'calibration':
             a = CalibrationActions
-        elif type == 'maintenance':
+        elif acttype == 'maintenance':
             a = MaintenanceActions
 
         q = self._session.query(a)
@@ -509,7 +631,7 @@ class ReadODM2(serviceBase):
             return None
 
     # Unit
-    def getUnits(self, ids=None, name=None, type=None):
+    def getUnits(self, ids=None, name=None, unittype=None, **kwargs):
         """
         * Pass nothing - returns a list of all units objects
         * Pass a list of UnitsID - returns a single units object for the given id
@@ -517,19 +639,23 @@ class ReadODM2(serviceBase):
         * Pass a type- returns a list of all objects of the given type
 
         """
+        self._check_kwargs(['type'], kwargs)
+        if 'type' in kwargs:
+            warnings.warn('The parameter \'type\' is deprecated. Please use the unittype parameter instead.',
+                          DeprecationWarning, stacklevel=2)
+            unittype = kwargs['type']
         q = self._session.query(Units)
         if ids:
             q = q.filter(Units.UnitsID.in_(ids))
         if name:
             q = q.filter(Units.UnitsName.ilike(name))
-        if type:
-            q = q.filter(Units.UnitsTypeCV.ilike(type))
+        if unittype:
+            q = q.filter(Units.UnitsTypeCV.ilike(unittype))
         try:
             return q.all()
         except Exception as e:
             print('Error running Query: {}'.format(e))
             return None
-
 
     # Organization
     def getOrganizations(self, ids=None, codes=None):
@@ -612,8 +738,8 @@ class ReadODM2(serviceBase):
             return None
 
     # Results
-    def getResults(self, ids=None, type=None, uuids=None, actionid=None, simulationid=None, sfid=None,
-                   variableid=None, siteid=None):
+    def getResults(self, ids=None, restype=None, uuids=None, actionid=None, simulationid=None,
+                   variableid=None, siteid=None, sfids=None, sfuuids=None, sfcodes=None, **kwargs):
 
         # TODO what if user sends in both type and actionid vs just actionid
         """Retrieve a list of Result objects.
@@ -623,22 +749,25 @@ class ReadODM2(serviceBase):
 
         Args:
             ids (list, optional): List of ResultIDs.
-            type (str, optional): Type of Result from
+            restype (str, optional): Type of Result from
                 `controlled vocabulary name <http://vocabulary.odm2.org/resulttype/>`_.
             uuids (list, optional): List of UUIDs string.
             actionid (int, optional): ActionID.
             simulationid (int, optional): SimulationID.
-            sfid (int, optional): SamplingFeatureID.
             variableid (int, optional): VariableID.
-            siteid (int, optional): SiteID.
+            siteid (int, optional): SiteID. - goes through related features table and finds all of results
+                    recorded at the given site
+            sfids(list, optional): List of Sampling Feature IDs integer.
+            sfuuids(list, optional): List of Sampling Feature UUIDs string.
+            sfcodes=(list, optional): List of Sampling Feature codes string.
 
         Returns:
             list: List of Result objects
 
         Examples:
             >>> ReadODM2.getResults(ids=[39,40])
-            >>> ReadODM2.getResults(type='Time series coverage')
-            >>> ReadODM2.getResults(sfid=65)
+            >>> ReadODM2.getResults(restype='Time series coverage')
+            >>> ReadODM2.getResults(sfids=[65])
             >>> ReadODM2.getResults(uuids=['a6f114f1-5416-4606-ae10-23be32dbc202',
             ...                            '5396fdf3-ceb3-46b6-aaf9-454a37278bb4'])
             >>> ReadODM2.getResults(simulationid=50)
@@ -648,9 +777,13 @@ class ReadODM2(serviceBase):
 
         """
         query = self._session.query(Results)
-
-        if type:
-            query = query.filter_by(ResultTypeCV=type)
+        self._check_kwargs(['type', 'sfid'], kwargs)
+        if 'type' in kwargs:
+            warnings.warn('The parameter \'type\' is deprecated. Please use the restype parameter instead.',
+                          DeprecationWarning, stacklevel=2)
+            restype = kwargs['type']
+        if restype:
+            query = query.filter_by(ResultTypeCV=restype)
         if variableid:
             query = query.filter_by(VariableID=variableid)
         if ids:
@@ -658,14 +791,24 @@ class ReadODM2(serviceBase):
         if uuids:
             query = query.filter(Results.ResultUUID.in_(uuids))
         if simulationid:
-            query = query.join(FeatureActions)\
-                    .join(Actions)\
-                    .join(Simulations)\
-                    .filter_by(SimulationID=simulationid)
+            query = query.join(FeatureActions) \
+                .join(Actions) \
+                .join(Simulations) \
+                .filter_by(SimulationID=simulationid)
         if actionid:
             query = query.join(FeatureActions).filter_by(ActionID=actionid)
-        if sfid:
-            query = query.join(FeatureActions).filter_by(SamplingFeatureID=sfid)
+        if 'sfid' in kwargs:
+            warnings.warn('The parameter \'sfid\' is deprecated. '
+                          'Please use the sfids parameter instead and send in a list.',
+                          DeprecationWarning, stacklevel=2)
+            if kwargs['sfid']:
+                query = query.join(FeatureActions).filter_by(SamplingFeatureID=kwargs['sfid'])
+        if sfids or sfcodes or sfuuids:
+            sf_list = self.getSamplingFeatures(ids=sfids, codes=sfcodes, uuids=sfuuids)
+            sfids = []
+            for sf in sf_list:
+                sfids.append(sf.SamplingFeatureID)
+            query = query.join(FeatureActions).filter(FeatureActions.SamplingFeatureID.in_(sfids))
 
         if siteid:
             sfids = [x[0] for x in self._session.query(
@@ -674,7 +817,14 @@ class ReadODM2(serviceBase):
                 .join(RelatedFeatures.SamplingFeatureObj)
                 .filter(RelatedFeatures.RelatedFeatureID == siteid)
                 .all()
-            ]
+                     ]
+
+            # TODO does this code do the same thing as the code above?
+            # sf_list = self.getRelatedSamplingFeatures(rfid=siteid)
+            # sfids = []
+            # for sf in sf_list:
+            #     sfids.append(sf.SamplingFeatureID)
+
             query = query.join(FeatureActions).filter(FeatureActions.SamplingFeatureID.in_(sfids))
 
         try:
@@ -684,22 +834,209 @@ class ReadODM2(serviceBase):
             return None
 
     # Datasets
-    def getDataSets(self, codes=None, uuids=None):
+    def getDataSets(self, ids=None, codes=None, uuids=None, dstype=None):
         """
-        * Pass nothing - returns a list of all DataSet objects
-        * Pass a list of DataSetCode - returns a single DataSet object for each code
-        * Pass a list of UUIDS - returns a single DataSet object for each UUID
+        Retrieve a list of Datasets
+
+        Args:
+            ids (list, optional): List of DataSetsIDs.
+            codes (list, optional): List of DataSet Codes.
+            uuids (list, optional): List of Dataset UUIDs string.
+            dstype (str, optional): Type of Dataset from
+                `controlled vocabulary name <http://vocabulary.odm2.org/datasettype/>`_.
+
+
+        Returns:
+            list: List of DataSets Objects
+
+        Examples:
+            >>> READ = ReadODM2(SESSION_FACTORY)
+            >>> READ.getDataSets(ids=[39, 40])
+            >>> READ.getDataSets(codes=['HOME', 'FIELD'])
+            >>> READ.getDataSets(uuids=['a6f114f1-5416-4606-ae10-23be32dbc202',
+            ...                                 '5396fdf3-ceb3-46b6-aaf9-454a37278bb4'])
+            >>> READ.getDataSets(dstype='singleTimeSeries')
+
         """
         q = self._session.query(DataSets)
+        if ids:
+            q = q.filter(DataSets.DataSetID.in_(ids))
         if codes:
             q = q.filter(DataSets.DataSetCode.in_(codes))
         if uuids:
-            q.q.filter(DataSets.DataSetUUID.in_(uuids))
+            q.filter(DataSets.DataSetUUID.in_(uuids))
+        if dstype:
+            q = q.filter(DataSets.DataSetTypeCV == dstype)
         try:
             return q.all()
         except Exception as e:
             print('Error running Query {}'.format(e))
             return None
+
+            # Datasets
+
+    def getDataSetsResults(self, ids=None, codes=None, uuids=None, dstype=None):
+        """
+        Retrieve a detailed list of Datasets along with detailed metadata about the datasets
+                and the results contained within them
+
+        **Must specify either DataSetID OR DataSetUUID OR DataSetCode)**
+        Args:
+            ids (list, optional): List of DataSetsIDs.
+            codes (list, optional): List of DataSet Codes.
+            uuids (list, optional): List of Dataset UUIDs string.
+            dstype (str, optional): Type of Dataset from
+                `controlled vocabulary name <http://vocabulary.odm2.org/datasettype/>`_.
+
+
+        Returns:
+            list: List of DataSetsResults Objects
+
+        Examples:
+            >>> READ = ReadODM2(SESSION_FACTORY)
+            >>> READ.getDataSetsResults(ids=[39, 40])
+            >>> READ.getDataSetsResults(codes=['HOME', 'FIELD'])
+            >>> READ.getDataSetsResults(uuids=['a6f114f1-5416-4606-ae10-23be32dbc202',
+            ...                                 '5396fdf3-ceb3-46b6-aaf9-454a37278bb4'])
+            >>> READ.getDataSetsResults(dstype='singleTimeSeries')
+
+        """
+
+        # make sure one of the three arguments has been sent in
+        if all(v is None for v in [ids, codes, uuids]):
+            raise ValueError('Expected DataSetID OR DataSetUUID OR DataSetCode argument')
+
+        q = self._session.query(DataSetsResults) \
+            .join(DataSets)
+        if ids:
+            q = q.filter(DataSets.DataSetID.in_(ids))
+        if codes:
+            q = q.filter(DataSets.DataSetCode.in_(codes))
+        if uuids:
+            q.filter(DataSets.DataSetUUID.in_(uuids))
+        if dstype:
+            q = q.filter(DataSets.DataSetTypeCV == dstype)
+        try:
+            return q.all()
+        except Exception as e:
+            print('Error running Query {}'.format(e))
+        return None
+
+    def getDataSetsValues(self, ids=None, codes=None, uuids=None, dstype=None, lowercols=True):
+        """
+        Retrieve a list of datavalues associated with the given dataset info
+
+        **Must specify either DataSetID OR DataSetUUID OR DataSetCode)**
+        Args:
+            ids (list, optional): List of DataSetsIDs.
+            codes (list, optional): List of DataSet Codes.
+            uuids (list, optional): List of Dataset UUIDs string.
+            dstype (str, optional): Type of Dataset from
+                `controlled vocabulary name <http://vocabulary.odm2.org/datasettype/>`_.
+            lowercols (bool, optional): Make column names to be lowercase.
+                                        Default to True.
+                                        **Please start upgrading your code to rely on CamelCase column names,
+                                        In a near-future release,
+                                        the default will be changed to False,
+                                        and later the parameter may be removed**.
+
+
+        Returns:
+            list: List of Result Values Objects
+
+        Examples:
+            >>> READ = ReadODM2(SESSION_FACTORY)
+            >>> READ.getDataSetsValues(ids=[39, 40])
+            >>> READ.getDataSetsValues(codes=['HOME', 'FIELD'])
+            >>> READ.getDataSetsValues(uuids=['a6f114f1-5416-4606-ae10-23be32dbc202',
+            ...                                 '5396fdf3-ceb3-46b6-aaf9-454a37278bb4'])
+            >>> READ.getDataSetsValues(dstype='singleTimeSeries', lowercols=False)
+
+        """
+
+        dsr = self.getDataSetsResults(ids, codes, uuids, dstype)
+
+        resids = []
+        for ds in dsr:
+            resids.append(ds.ResultID)
+
+        try:
+            return self.getResultValues(resultids=resids, lowercols=lowercols)
+        except Exception as e:
+            print('Error running Query {}'.format(e))
+        return None
+
+    def getSamplingFeatureDatasets(self, ids=None, codes=None, uuids=None, dstype=None, sftype=None):
+        """
+        Retrieve a list of Datasets associated with the given sampling feature data.
+
+            **Must specify either samplingFeatureID OR samplingFeatureUUID OR samplingFeatureCode)**
+
+        Args:
+            ids (list, optional): List of SamplingFeatureIDs.
+            codes (list, optional): List of SamplingFeature Codes.
+            uuids (list, optional): List of UUIDs string.
+            dstype (str, optional): Type of Dataset from
+                `controlled vocabulary name <http://vocabulary.odm2.org/datasettype/>`_.
+            sftype (str, optional): Type of SamplingFeature from
+                `controlled vocabulary name <http://vocabulary.odm2.org/samplingfeaturetype/>`_.
+
+        Returns:
+            list: List of DataSetsResults Objects associated with the given sampling feature
+
+        Examples:
+            >>> READ = ReadODM2(SESSION_FACTORY)
+            >>> READ.getSamplingFeatureDatasets(ids=[39, 40])
+            >>> READ.getSamplingFeatureDatasets(codes=['HOME', 'FIELD'])
+            >>> READ.getSamplingFeatureDatasets(uuids=['a6f114f1-5416-4606-ae10-23be32dbc202',
+            ...                                 '5396fdf3-ceb3-46b6-aaf9-454a37278bb4'])
+            >>> READ.getSamplingFeatureDatasets(dstype='singleTimeSeries')
+            >>> READ.getSamplingFeatureDatasets(sftype='Specimen')
+
+        """
+
+        # make sure one of the three arguments has been sent in
+        if all(v is None for v in [ids, codes, uuids, sftype]):
+            raise ValueError(
+                'Expected samplingFeatureID OR samplingFeatureUUID '
+                'OR samplingFeatureCode OR samplingFeatureType '
+                'argument')
+
+        sf_query = self._session.query(SamplingFeatures)
+        if sftype:
+            sf_query = sf_query.filter(SamplingFeatures.SamplingFeatureTypeCV == sftype)
+        if ids:
+            sf_query = sf_query.filter(SamplingFeatures.SamplingFeatureID.in_(ids))
+        if codes:
+            sf_query = sf_query.filter(SamplingFeatures.SamplingFeatureCode.in_(codes))
+        if uuids:
+            sf_query = sf_query.filter(SamplingFeatures.SamplingFeatureUUID.in_(uuids))
+
+        sf_list = []
+        for sf in sf_query.all():
+            sf_list.append(sf)
+
+        try:
+            sfds = []
+            for sf in sf_list:
+
+                q = self._session.query(DataSetsResults) \
+                    .join(Results) \
+                    .join(FeatureActions) \
+                    .filter(FeatureActions.SamplingFeatureID == sf.SamplingFeatureID)
+
+                if dstype:
+                    q = q.filter_by(DatasetTypeCV=dstype)
+
+                vals = q.all()
+
+                related = self.getRelatedSamplingFeatures(sf.SamplingFeatureID)
+
+                sfds.append(SamplingFeatureDataSet(sf, vals, related))
+        except Exception as e:
+            print('Error running Query: {}'.format(e))
+            return None
+        return sfds
 
     # Data Quality
     def getDataQuality(self):
@@ -735,7 +1072,7 @@ class ReadODM2(serviceBase):
 
     # TODO Equipment Schema Queries
     # Equipment
-    def getEquipment(self, codes=None, type=None, sfid=None, actionid=None):
+    def getEquipment(self, codes=None, equiptype=None, sfid=None, actionid=None, **kwargs):
         """
         * Pass nothing - returns a list of all Equipment objects
         * Pass a list of EquipmentCodes- return a list of all Equipment objects that match each of the codes
@@ -744,17 +1081,26 @@ class ReadODM2(serviceBase):
         * Pass an ActionID - returns a single Equipment object
 
         """
+        self._check_kwargs(['type'], kwargs)
+        if 'type' in kwargs:
+            warnings.warn('The parameter \'type\' is deprecated. Please use the equiptype parameter instead.',
+                          DeprecationWarning, stacklevel=2)
+            equiptype = kwargs['type']
+
+        # NOTE: Equiptype currently unused!
+        if equiptype:
+            pass
         e = self._session.query(Equipment)
         if sfid:
             e = e.join(EquipmentUsed) \
-                    .join(Actions) \
-                    .join(FeatureActions) \
-                    .filter(FeatureActions.SamplingFeatureID == sfid)
+                .join(Actions) \
+                .join(FeatureActions) \
+                .filter(FeatureActions.SamplingFeatureID == sfid)
         if codes:
             e = e.filter(Equipment.EquipmentCode.in_(codes))
         if actionid:
             e = e.join(EquipmentUsed).join(Actions) \
-                    .filter(Actions.ActionID == actionid)
+                .filter(Actions.ActionID == actionid)
         return e.all()
 
     def CalibrationReferenceEquipment(self):
@@ -832,25 +1178,30 @@ class ReadODM2(serviceBase):
         return r.all()
 
     # Extension Properties
-    def getExtensionProperties(self, type=None):
+    def getExtensionProperties(self, exptype=None, **kwargs):
         """
         * Pass nothing - return a list of all objects
         * Pass type- return a list of all objects of the given type
 
         """
         # Todo what values to use for extensionproperties type
+        self._check_kwargs(['type'], kwargs)
+        if 'type' in kwargs:
+            warnings.warn('The parameter \'type\' is deprecated. Please use the exptype parameter instead.',
+                          DeprecationWarning, stacklevel=2)
+            exptype = kwargs['type']
         e = ExtensionProperties
-        if type == 'action':
+        if exptype == 'action':
             e = ActionExtensionPropertyValues
-        elif type == 'citation':
+        elif exptype == 'citation':
             e = CitationExtensionPropertyValues
-        elif type == 'method':
+        elif exptype == 'method':
             e = MethodExtensionPropertyValues
-        elif type == 'result':
+        elif exptype == 'result':
             e = ResultExtensionPropertyValues
-        elif type == 'samplingfeature':
+        elif exptype == 'samplingfeature':
             e = SamplingFeatureExtensionPropertyValues
-        elif type == 'variable':
+        elif exptype == 'variable':
             e = VariableExtensionPropertyValues
         try:
             return self._session.query(e).all()
@@ -859,28 +1210,33 @@ class ReadODM2(serviceBase):
             return None
 
     # External Identifiers
-    def getExternalIdentifiers(self, type=None):
+    def getExternalIdentifiers(self, eitype=None, **kwargs):
         """
         * Pass nothing - return a list of all objects
         * Pass type- return a list of all objects of the given type
 
         """
+        self._check_kwargs(['type'], kwargs)
+        if 'type' in kwargs:
+            warnings.warn('The parameter \'type\' is deprecated. Please use the eitype parameter instead.',
+                          DeprecationWarning, stacklevel=2)
+            eitype = kwargs['type']
         e = ExternalIdentifierSystems
-        if type.lowercase == 'citation':
+        if eitype.lowercase == 'citation':
             e = CitationExternalIdentifiers
-        elif type == 'method':
+        elif eitype == 'method':
             e = MethodExternalIdentifiers
-        elif type == 'person':
+        elif eitype == 'person':
             e = PersonExternalIdentifiers
-        elif type == 'referencematerial':
+        elif eitype == 'referencematerial':
             e = ReferenceMaterialExternalIdentifiers
-        elif type == 'samplingfeature':
+        elif eitype == 'samplingfeature':
             e = SamplingFeatureExternalIdentifiers
-        elif type == 'spatialreference':
+        elif eitype == 'spatialreference':
             e = SpatialReferenceExternalIdentifiers
-        elif type == 'taxonomicclassifier':
+        elif eitype == 'taxonomicclassifier':
             e = TaxonomicClassifierExternalIdentifiers
-        elif type == 'variable':
+        elif eitype == 'variable':
             e = VariableExternalIdentifiers
         try:
             return self._session.query(e).all()
@@ -988,46 +1344,60 @@ class ReadODM2(serviceBase):
         """
         return self._session.query(ResultDerivationEquations).all()
 
-    # Results
-    # ResultValues
-    def getResultValues(self, resultids, starttime=None, endtime=None):
+    def getResultValues(self, resultids, starttime=None, endtime=None, lowercols=True):
         """
-        getResultValues(self, resultids, starttime=None, endtime=None)
-        * Pass in a list of ResultID - Returns a pandas dataframe object of type
-          that is specific to the result type - The resultids must be associated
-          with the same value type
-        * Pass a ResultID and a date range - returns a pandas dataframe object
-          of type that is specific to the result type with values between the input date range
-        * Pass a starttime - Returns a dataframe with the values after the given start time
-        * Pass an endtime - Returns a dataframe with the values before the given end time
+        Retrieve result values associated with the given result.
+
+            **The resultids must be associated with the same result type**
+        Args:
+            resultids (list): List of SamplingFeatureIDs.
+            starttime (object, optional): Start time to filter by as datetime object.
+            endtime (object, optional): End time to filter by as datetime object.
+            lowercols (bool, optional): Make column names to be lowercase.
+                                        Default to True.
+                                        **Please start upgrading your code to rely on CamelCase column names,
+                                        In a near-future release,
+                                        the default will be changed to False,
+                                        and later the parameter may be removed**.
+
+        Returns:
+            DataFrame: Pandas dataframe of result values.
+
+        Examples:
+            >>> READ = ReadODM2(SESSION_FACTORY)
+            >>> READ.getResultValues(resultids=[10, 11])
+            >>> READ.getResultValues(resultids=[100, 20, 34], starttime=datetime.today())
+            >>> READ.getResultValues(resultids=[1, 2, 3, 4],
+            >>>     starttime=datetime(2000, 01, 01),
+            >>>     endtime=datetime(2003, 02, 01), lowercols=False)
 
         """
-        type = self._session.query(Results).filter_by(ResultID=resultids[0]).first().ResultTypeCV
-        ResultType = TimeSeriesResults
-        if 'categorical' in type.lower():
-            ResultType = CategoricalResultValues
-        elif 'measurement' in type.lower():
-            ResultType = MeasurementResultValues
-        elif 'point' in type.lower():
-            ResultType = PointCoverageResultValues
-        elif 'profile' in type.lower():
-            ResultType = ProfileResultValues
-        elif 'section' in type.lower():
-            ResultType = SectionResults
-        elif 'spectra' in type.lower():
-            ResultType = SpectraResultValues
-        elif 'time' in type.lower():
-            ResultType = TimeSeriesResultValues
-        elif 'trajectory' in type.lower():
-            ResultType = TrajectoryResultValues
-        elif 'transect' in type.lower():
-            ResultType = TransectResultValues
+        restype = self._session.query(Results).filter_by(ResultID=resultids[0]).first().ResultTypeCV
+        ResultValues = TimeSeriesResultValues
+        if 'categorical' in restype.lower():
+            ResultValues = CategoricalResultValues
+        elif 'measurement' in restype.lower():
+            ResultValues = MeasurementResultValues
+        elif 'point' in restype.lower():
+            ResultValues = PointCoverageResultValues
+        elif 'profile' in restype.lower():
+            ResultValues = ProfileResultValues
+        elif 'section' in restype.lower():
+            ResultValues = SectionResults
+        elif 'spectra' in restype.lower():
+            ResultValues = SpectraResultValues
+        elif 'time' in restype.lower():
+            ResultValues = TimeSeriesResultValues
+        elif 'trajectory' in restype.lower():
+            ResultValues = TrajectoryResultValues
+        elif 'transect' in restype.lower():
+            ResultValues = TransectResultValues
 
-        q = self._session.query(ResultType).filter(ResultType.ResultID.in_(resultids))
+        q = self._session.query(ResultValues).filter(ResultValues.ResultID.in_(resultids))
         if starttime:
-            q = q.filter(ResultType.ValueDateTime >= starttime)
+            q = q.filter(ResultValues.ValueDateTime >= starttime)
         if endtime:
-            q = q.filter(ResultType.ValueDateTime <= endtime)
+            q = q.filter(ResultValues.ValueDateTime <= endtime)
         try:
             # F841 local variable 'vals' is assigned to but never used
             # vals = q.order_by(ResultType.ValueDateTime)
@@ -1037,6 +1407,14 @@ class ReadODM2(serviceBase):
                 con=self._session_factory.engine,
                 params=query.params
             )
+            if not lowercols:
+                df.columns = [self._get_columns(ResultValues)[c] for c in df.columns]
+            else:
+                warnings.warn(
+                    'In a near-future release, '
+                    'the parameter \'lowercols\' default will be changed to False, '
+                    'and later the parameter may be removed.',
+                    DeprecationWarning, stacklevel=2)
             return df
         except Exception as e:
             print('Error running Query: {}'.format(e))
@@ -1096,16 +1474,21 @@ class ReadODM2(serviceBase):
             print('Error running Query: {}'.format(e))
             return None
 
-    def getRelatedModels(self, id=None, code=None):
+    def getRelatedModels(self, modid=None, code=None, **kwargs):
         """
         getRelatedModels(self, id=None, code=None)
         * Pass a ModelID - get a list of converter objects related to the converter having ModelID
         * Pass a ModelCode - get a list of converter objects related to the converter having ModeCode
 
         """
+        self._check_kwargs(['id'], kwargs)
+        if 'id' in kwargs:
+            warnings.warn('The parameter \'id\' is deprecated. Please use the modid parameter instead.',
+                          DeprecationWarning, stacklevel=2)
+            modid = kwargs['id']
         m = self._session.query(Models).select_from(RelatedModels).join(RelatedModels.ModelObj)
-        if id:
-            m = m.filter(RelatedModels.ModelID == id)
+        if modid:
+            m = m.filter(RelatedModels.ModelID == modid)
         if code:
             m = m.filter(Models.ModelCode == code)
 
