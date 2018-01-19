@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>odm2api.base &#8212; ODM2PythonAPI 0.6.0-alpha+137.g93c2427 documentation</title>
+    <title>odm2api.base &#8212; ODM2PythonAPI 0.6.0-alpha+171.g0613a39 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.6.0-alpha+137.g93c2427',
+        VERSION:     '0.6.0-alpha+171.g0613a39',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -109,6 +109,7 @@
   <h1>Source code for odm2api.base</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="p">(</span><span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">)</span>
 
+
 <div class="viewcode-block" id="serviceBase"><a class="viewcode-back" href="../../modules.html#odm2api.base.serviceBase">[docs]</a><span class="k">class</span> <span class="nc">serviceBase</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>  <span class="n">session_factory</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Must send in either a session_factory.&quot;&quot;&quot;</span>
@@ -151,10 +152,9 @@
             <span class="k">if</span> <span class="s1">&#39;obj&#39;</span> <span class="ow">in</span> <span class="n">v</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
                 <span class="k">del</span> <span class="n">valuedict</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="s2">&quot;_sa_instance_state&quot;</span><span class="p">:</span>
-                <span class="k">del</span> <span class="n">valuedict</span><span class="p">[</span><span class="s2">&quot;_sa_instance_state&quot;</span><span class="p">]</span>
-        <span class="k">return</span> <span class="s2">&quot;&lt;</span><span class="si">%s</span><span class="s2">(</span><span class="si">%s</span><span class="s2">)&gt;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">valuedict</span><span class="p">))</span></div>
-
+            <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="s1">&#39;_sa_instance_state&#39;</span><span class="p">:</span>
+                <span class="k">del</span> <span class="n">valuedict</span><span class="p">[</span><span class="s1">&#39;_sa_instance_state&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="s1">&#39;&lt;</span><span class="si">%s</span><span class="s1">(</span><span class="si">%s</span><span class="s1">)&gt;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">valuedict</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="modelBase"><a class="viewcode-back" href="../../modules.html#odm2api.base.modelBase">[docs]</a><span class="k">class</span> <span class="nc">modelBase</span><span class="p">():</span>
