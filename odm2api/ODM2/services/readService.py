@@ -946,7 +946,7 @@ class ReadODM2(serviceBase):
             sf_query = sf_query.filter(SamplingFeatures.SamplingFeatureCode.in_(codes))
         if uuids:
             sf_query = sf_query.filter(SamplingFeatures.SamplingFeatureUUID.in_(uuids))
-
+w
         sf_list = []
         for sf in sf_query.all():
             sf_list.append(sf)
@@ -955,24 +955,13 @@ class ReadODM2(serviceBase):
             sfds=[]
             for sf in sf_list:
 
-                # q = self._session.query(DataSetsResults)\
-                #     .options(subqueryload(DataSetsResults.ResultObj)\
-                #              .subqueryload(Results.FeatureActionObj)\
-                #              .load_only(FeatureActions.SamplingFeatureID))\
-                #     .filter(FeatureActions.SamplingFeatureID == sf.SamplingFeatureID)
-
+                #Eager loading the data.
                 q = self._session.query(DataSetsResults) \
                     .join(DataSetsResults.ResultObj)\
                     .join(Results.FeatureActionObj)\
                     .filter(FeatureActions.SamplingFeatureID == sf.SamplingFeatureID)\
                     .options(contains_eager(DataSetsResults.ResultObj).contains_eager(Results.FeatureActionObj)\
                     .load_only(FeatureActions.SamplingFeatureID))
-
-                # q = self._session.query(DataSetsResults)\
-                # .join(Results)\
-                # .join(FeatureActions)\
-                # .filter(FeatureActions.SamplingFeatureID == sf.SamplingFeatureID)
-
 
                 if dstype:
                     q = q.filter_by(DatasetTypeCV=dstype)
