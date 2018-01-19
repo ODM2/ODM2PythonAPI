@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+135.g8a0deb4 documentation</title>
+    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.6.0-alpha+137.g93c2427 documentation</title>
     <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.6.0-alpha+135.g8a0deb4',
+        VERSION:     '0.6.0-alpha+137.g93c2427',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -146,7 +146,7 @@
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="k">import</span> <span class="n">distinct</span><span class="p">,</span> <span class="n">exists</span>
-<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="k">import</span> <span class="n">lazyload</span><span class="p">,</span> <span class="n">joinedload</span><span class="p">,</span> <span class="n">contains_eager</span><span class="p">,</span> <span class="n">eagerload</span><span class="p">,</span> <span class="n">defer</span><span class="p">,</span> <span class="n">deferred</span><span class="p">,</span> <span class="n">subqueryload</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="k">import</span> <span class="n">joinedload</span><span class="p">,</span> <span class="n">contains_eager</span><span class="p">,</span> <span class="n">eagerload</span><span class="p">,</span> <span class="n">defer</span><span class="p">,</span> <span class="n">deferred</span><span class="p">,</span> <span class="n">subqueryload</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;sreeder&#39;</span>
 
@@ -1064,24 +1064,13 @@
             <span class="n">sfds</span><span class="o">=</span><span class="p">[]</span>
             <span class="k">for</span> <span class="n">sf</span> <span class="ow">in</span> <span class="n">sf_list</span><span class="p">:</span>
 
-                <span class="c1"># q = self._session.query(DataSetsResults)\</span>
-                <span class="c1">#     .options(subqueryload(DataSetsResults.ResultObj)\</span>
-                <span class="c1">#              .subqueryload(Results.FeatureActionObj)\</span>
-                <span class="c1">#              .load_only(FeatureActions.SamplingFeatureID))\</span>
-                <span class="c1">#     .filter(FeatureActions.SamplingFeatureID == sf.SamplingFeatureID)</span>
-
+                <span class="c1">#Eager loading the data.</span>
                 <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DataSetsResults</span><span class="p">)</span> \
                     <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DataSetsResults</span><span class="o">.</span><span class="n">ResultObj</span><span class="p">)</span>\
                     <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Results</span><span class="o">.</span><span class="n">FeatureActionObj</span><span class="p">)</span>\
                     <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">FeatureActions</span><span class="o">.</span><span class="n">SamplingFeatureID</span> <span class="o">==</span> <span class="n">sf</span><span class="o">.</span><span class="n">SamplingFeatureID</span><span class="p">)</span>\
                     <span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">contains_eager</span><span class="p">(</span><span class="n">DataSetsResults</span><span class="o">.</span><span class="n">ResultObj</span><span class="p">)</span><span class="o">.</span><span class="n">contains_eager</span><span class="p">(</span><span class="n">Results</span><span class="o">.</span><span class="n">FeatureActionObj</span><span class="p">)</span>\
                     <span class="o">.</span><span class="n">load_only</span><span class="p">(</span><span class="n">FeatureActions</span><span class="o">.</span><span class="n">SamplingFeatureID</span><span class="p">))</span>
-
-                <span class="c1"># q = self._session.query(DataSetsResults)\</span>
-                <span class="c1"># .join(Results)\</span>
-                <span class="c1"># .join(FeatureActions)\</span>
-                <span class="c1"># .filter(FeatureActions.SamplingFeatureID == sf.SamplingFeatureID)</span>
-
 
                 <span class="k">if</span> <span class="n">dstype</span><span class="p">:</span>
                     <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">DatasetTypeCV</span><span class="o">=</span><span class="n">dstype</span><span class="p">)</span>
