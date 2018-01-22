@@ -39,7 +39,7 @@ from odm2api.ODM2.models import (
 import pandas as pd
 
 from sqlalchemy import distinct, exists
-from sqlalchemy.orm import joinedload, contains_eager, eagerload, defer, deferred, subqueryload
+from sqlalchemy.orm import contains_eager
 
 __author__ = 'sreeder'
 
@@ -1020,13 +1020,14 @@ class ReadODM2(serviceBase):
             sfds = []
             for sf in sf_list:
 
-                #Eager loading the data.
-                q = self._session.query(DataSetsResults) \
+                # Eager loading the data.
+                q = self._session.query(DataSetsResults)\
                     .join(DataSetsResults.ResultObj)\
                     .join(Results.FeatureActionObj)\
                     .filter(FeatureActions.SamplingFeatureID == sf.SamplingFeatureID)\
-                    .options(contains_eager(DataSetsResults.ResultObj).contains_eager(Results.FeatureActionObj)\
-                    .load_only(FeatureActions.SamplingFeatureID))
+                    .options(contains_eager(DataSetsResults.ResultObj)
+                             .contains_eager(Results.FeatureActionObj)
+                             .load_only(FeatureActions.SamplingFeatureID))
 
                 if dstype:
                     q = q.filter_by(DatasetTypeCV=dstype)
