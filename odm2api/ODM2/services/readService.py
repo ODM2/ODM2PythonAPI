@@ -39,6 +39,7 @@ from odm2api.ODM2.models import (
 import pandas as pd
 
 from sqlalchemy import distinct, exists
+from sqlalchemy.orm import contains_eager
 
 __author__ = 'sreeder'
 
@@ -81,7 +82,6 @@ class SamplingFeatureDataSet():
     def __init__(self, samplingfeature, datasetresults, relatedfeatures):
         sf = samplingfeature
 
-        self.SamplingFeature = sf
         self.SamplingFeatureID = sf.SamplingFeatureID
         self.SamplingFeatureUUID = sf.SamplingFeatureUUID
         self.SamplingFeatureTypeCV = sf.SamplingFeatureTypeCV
@@ -1020,10 +1020,14 @@ class ReadODM2(serviceBase):
             sfds = []
             for sf in sf_list:
 
-                q = self._session.query(DataSetsResults) \
-                    .join(Results) \
-                    .join(FeatureActions) \
-                    .filter(FeatureActions.SamplingFeatureID == sf.SamplingFeatureID)
+                # Eager loading the data.
+                q = self._session.query(DataSetsResults)\
+                    .join(DataSetsResults.ResultObj)\
+                    .join(Results.FeatureActionObj)\
+                    .filter(FeatureActions.SamplingFeatureID == sf.SamplingFeatureID)\
+                    .options(contains_eager(DataSetsResults.ResultObj)
+                             .contains_eager(Results.FeatureActionObj)
+                             .load_only(FeatureActions.SamplingFeatureID))
 
                 if dstype:
                     q = q.filter_by(DatasetTypeCV=dstype)
