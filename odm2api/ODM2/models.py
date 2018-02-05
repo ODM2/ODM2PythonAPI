@@ -4,6 +4,6 @@ import warnings
 
 from odm2api.models import *  # noqa
 
-warnings.warn('The module odm2api.ODM2.models will be depricated. '
+warnings.warn('The module odm2api.ODM2.models will be deprecated. '
               'Please use odm2api.models instead.',
               FutureWarning, stacklevel=2)
