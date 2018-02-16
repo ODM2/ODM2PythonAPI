@@ -2,8 +2,8 @@ from __future__ import (absolute_import, division, print_function)
 
 import warnings
 
-from odm2api.ODM2 import serviceBase
-from odm2api.ODM2.models import (
+from odm2api import serviceBase
+from odm2api.models import (
     ActionAnnotations, ActionDirectives, ActionExtensionPropertyValues, Actions,
     Affiliations, Annotations, AuthorLists, CVActionType, CVAggregationStatistic,
     CVAnnotationType, CVCensorCode, CVDataQualityType, CVDataSetType, CVDirectiveType,

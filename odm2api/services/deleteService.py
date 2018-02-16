@@ -1,7 +1,7 @@
 from __future__ import (absolute_import, division, print_function)
 
-from odm2api.ODM2 import serviceBase
-from odm2api.ODM2.models import TimeSeriesResultValues
+from odm2api import serviceBase
+from odm2api.models import TimeSeriesResultValues
 
 
 __author__ = 'jmeline'

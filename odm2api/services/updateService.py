@@ -4,8 +4,8 @@ __author__ = 'jmeline'
 
 from datetime import datetime
 
-from odm2api.ODM2 import serviceBase
-from odm2api.ODM2.models import (Actions, Results)
+from odm2api import serviceBase
+from odm2api.models import (Actions, Results)
 
 
 # ################################################################################
