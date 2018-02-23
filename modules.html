@@ -4,20 +4,12 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Developer Interface &#8212; ODM2PythonAPI 0.6.0-alpha+169.g85932e7 documentation</title>
+    <title>Developer Interface &#8212; ODM2PythonAPI 0.7.0+2.gba09397 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '0.6.0-alpha+169.g85932e7',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
@@ -31,8 +23,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body>
+  </head><body>
   <div class="document">
     
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -75,11 +66,11 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installing.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Developer Interface</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-odm2api.ODMconnection"><code class="docutils literal"><span class="pre">Database</span> <span class="pre">Connection</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-odm2api.ODM2.services.readService"><code class="docutils literal"><span class="pre">Read</span> <span class="pre">Services</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-odm2api.ODM2.services.createService"><code class="docutils literal"><span class="pre">Create</span> <span class="pre">Services</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-odm2api.ODM2.services.deleteService"><code class="docutils literal"><span class="pre">Delete</span> <span class="pre">Services</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-odm2api.ODM2.services.updateService"><code class="docutils literal"><span class="pre">Update</span> <span class="pre">Services</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-odm2api.ODMconnection"><code class="docutils literal notranslate"><span class="pre">Database</span> <span class="pre">Connection</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-odm2api.ODM2.services.readService"><code class="docutils literal notranslate"><span class="pre">Read</span> <span class="pre">Services</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-odm2api.ODM2.services.createService"><code class="docutils literal notranslate"><span class="pre">Create</span> <span class="pre">Services</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-odm2api.ODM2.services.deleteService"><code class="docutils literal notranslate"><span class="pre">Delete</span> <span class="pre">Services</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-odm2api.ODM2.services.updateService"><code class="docutils literal notranslate"><span class="pre">Update</span> <span class="pre">Services</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="odm2models.html">ODM2 Models</a></li>
@@ -101,12 +92,14 @@
 </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -119,11 +112,11 @@
 <span id="developer-interface"></span><h1>Developer Interface<a class="headerlink" href="#module-odm2api" title="Permalink to this headline">¶</a></h1>
 <p>This part of the documentation covers all the interfaces of ODM2PythonAPI.</p>
 <div class="section" id="module-odm2api.ODMconnection">
-<span id="database-connection"></span><h2><code class="xref py py-mod docutils literal"><span class="pre">Database</span> <span class="pre">Connection</span></code><a class="headerlink" href="#module-odm2api.ODMconnection" title="Permalink to this headline">¶</a></h2>
+<span id="database-connection"></span><h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">Database</span> <span class="pre">Connection</span></code><a class="headerlink" href="#module-odm2api.ODMconnection" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="odm2api.ODMconnection.SessionFactory">
 <em class="property">class </em><code class="descclassname">odm2api.ODMconnection.</code><code class="descname">SessionFactory</code><span class="sig-paren">(</span><em>connection_string</em>, <em>echo=True</em>, <em>version=2.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODMconnection.html#SessionFactory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODMconnection.SessionFactory" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="method">
 <dt id="odm2api.ODMconnection.SessionFactory.getSession">
 <code class="descname">getSession</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODMconnection.html#SessionFactory.getSession"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODMconnection.SessionFactory.getSession" title="Permalink to this definition">¶</a></dt>
@@ -134,7 +127,7 @@
 <dl class="class">
 <dt id="odm2api.ODMconnection.dbconnection">
 <em class="property">class </em><code class="descclassname">odm2api.ODMconnection.</code><code class="descname">dbconnection</code><span class="sig-paren">(</span><em>debug=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODMconnection.html#dbconnection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODMconnection.dbconnection" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="classmethod">
 <dt id="odm2api.ODMconnection.dbconnection.buildConnectionString">
 <em class="property">classmethod </em><code class="descname">buildConnectionString</code><span class="sig-paren">(</span><em>engine</em>, <em>address</em>, <em>db</em>, <em>user</em>, <em>password</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODMconnection.html#dbconnection.buildConnectionString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODMconnection.dbconnection.buildConnectionString" title="Permalink to this definition">¶</a></dt>
@@ -180,11 +173,11 @@
 <span class="target" id="module-odm2api.base"></span><dl class="class">
 <dt id="odm2api.base.Base">
 <em class="property">class </em><code class="descclassname">odm2api.base.</code><code class="descname">Base</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/base.html#Base"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.base.Base" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="class">
 <dt id="odm2api.base.Base.declared_attr">
 <em class="property">class </em><code class="descname">declared_attr</code><span class="sig-paren">(</span><em>fget</em>, <em>cascading=False</em><span class="sig-paren">)</span><a class="headerlink" href="#odm2api.base.Base.declared_attr" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">sqlalchemy.orm.base._MappedAttribute</span></code>, <code class="xref py py-class docutils literal"><span class="pre">property</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.orm.base._MappedAttribute</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">property</span></code></p>
 <p>Mark a class-level method as representing the definition of
 a mapped property or special declarative member name.</p>
 <p>&#64;declared_attr turns the attribute into a scalar-like
@@ -197,7 +190,7 @@ of the attribute would be.</p>
 <p>&#64;declared_attr is more often than not applicable to mixins,
 to define relationships that are to be applied to different
 implementors of the class:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ProvidesUser</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ProvidesUser</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="s2">&quot;A mixin that adds a &#39;user&#39; relationship to classes.&quot;</span>
 
     <span class="nd">@declared_attr</span>
@@ -207,7 +200,7 @@ implementors of the class:</p>
 </div>
 <p>It also can be applied to mapped classes, such as to provide
 a “polymorphic” scheme for inheritance:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Employee</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Employee</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="nb">type</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
@@ -227,21 +220,39 @@ a “polymorphic” scheme for inheritance:</p>
 </pre></div>
 </div>
 <div class="versionchanged">
-<p><span class="versionmodified">Changed in version 0.8: </span><a class="reference internal" href="#odm2api.base.Base.declared_attr" title="odm2api.base.Base.declared_attr"><code class="xref py py-class docutils literal"><span class="pre">declared_attr</span></code></a> can be used with
+<p><span class="versionmodified">Changed in version 0.8: </span><a class="reference internal" href="#odm2api.base.Base.declared_attr" title="odm2api.base.Base.declared_attr"><code class="xref py py-class docutils literal notranslate"><span class="pre">declared_attr</span></code></a> can be used with
 non-ORM or extension attributes, such as user-defined attributes
-or <code class="xref py py-func docutils literal"><span class="pre">association_proxy()</span></code> objects, which will be assigned
+or <code class="xref py py-func docutils literal notranslate"><span class="pre">association_proxy()</span></code> objects, which will be assigned
 to the class at class construction time.</p>
 </div>
 <dl class="attribute">
 <dt id="odm2api.base.Base.declared_attr.cascading">
 <code class="descname">cascading</code><a class="headerlink" href="#odm2api.base.Base.declared_attr.cascading" title="Permalink to this definition">¶</a></dt>
-<dd><p>Mark a <a class="reference internal" href="#odm2api.base.Base.declared_attr" title="odm2api.base.Base.declared_attr"><code class="xref py py-class docutils literal"><span class="pre">declared_attr</span></code></a> as cascading.</p>
+<dd><p>Mark a <a class="reference internal" href="#odm2api.base.Base.declared_attr" title="odm2api.base.Base.declared_attr"><code class="xref py py-class docutils literal notranslate"><span class="pre">declared_attr</span></code></a> as cascading.</p>
 <p>This is a special-use modifier which indicates that a column
 or MapperProperty-based declared attribute should be configured
 distinctly per mapped subclass, within a mapped-inheritance scenario.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>The <a class="reference internal" href="#odm2api.base.Base.declared_attr.cascading" title="odm2api.base.Base.declared_attr.cascading"><code class="xref py py-attr docutils literal notranslate"><span class="pre">declared_attr.cascading</span></code></a> modifier has several
+limitations:</p>
+<ul class="last simple">
+<li>The flag <strong>only</strong> applies to the use of <a class="reference internal" href="#odm2api.base.Base.declared_attr" title="odm2api.base.Base.declared_attr"><code class="xref py py-class docutils literal notranslate"><span class="pre">declared_attr</span></code></a>
+on declarative mixin classes and <code class="docutils literal notranslate"><span class="pre">__abstract__</span></code> classes; it
+currently has no effect when used on a mapped class directly.</li>
+<li>The flag <strong>only</strong> applies to normally-named attributes, e.g.
+not any special underscore attributes such as <code class="docutils literal notranslate"><span class="pre">__tablename__</span></code>.
+On these attributes it has <strong>no</strong> effect.</li>
+<li>The flag currently <strong>does not allow further overrides</strong> down
+the class hierarchy; if a subclass tries to override the
+attribute, a warning is emitted and the overridden attribute
+is skipped.  This is a limitation that it is hoped will be
+resolved at some point.</li>
+</ul>
+</div>
 <p>Below, both MyClass as well as MySubClass will have a distinct
-<code class="docutils literal"><span class="pre">id</span></code> Column object established:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">HasIdMixin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<code class="docutils literal notranslate"><span class="pre">id</span></code> Column object established:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">HasIdMixin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="nd">@declared_attr</span><span class="o">.</span><span class="n">cascading</span>
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">has_inherited_table</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
@@ -258,9 +269,9 @@ distinctly per mapped subclass, within a mapped-inheritance scenario.</p>
     <span class="c1"># ...</span>
 </pre></div>
 </div>
-<p>The behavior of the above configuration is that <code class="docutils literal"><span class="pre">MySubClass</span></code>
-will refer to both its own <code class="docutils literal"><span class="pre">id</span></code> column as well as that of
-<code class="docutils literal"><span class="pre">MyClass</span></code> underneath the attribute named <code class="docutils literal"><span class="pre">some_id</span></code>.</p>
+<p>The behavior of the above configuration is that <code class="docutils literal notranslate"><span class="pre">MySubClass</span></code>
+will refer to both its own <code class="docutils literal notranslate"><span class="pre">id</span></code> column as well as that of
+<code class="docutils literal notranslate"><span class="pre">MyClass</span></code> underneath the attribute named <code class="docutils literal notranslate"><span class="pre">some_id</span></code>.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <p><span class="xref std std-ref">declarative_inheritance</span></p>
@@ -275,11 +286,11 @@ will refer to both its own <code class="docutils literal"><span class="pre">id</
 <dl class="class">
 <dt id="odm2api.base.modelBase">
 <em class="property">class </em><code class="descclassname">odm2api.base.</code><code class="descname">modelBase</code><a class="reference internal" href="_modules/odm2api/base.html#modelBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.base.modelBase" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="class">
 <dt id="odm2api.base.modelBase.Base">
 <em class="property">class </em><code class="descname">Base</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#odm2api.base.modelBase.Base" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#odm2api.base.Base" title="odm2api.base.Base"><code class="xref py py-class docutils literal"><span class="pre">odm2api.base.Base</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#odm2api.base.Base" title="odm2api.base.Base"><code class="xref py py-class docutils literal notranslate"><span class="pre">odm2api.base.Base</span></code></a></p>
 <dl class="attribute">
 <dt id="odm2api.base.modelBase.Base.metadata">
 <code class="descname">metadata</code><em class="property"> = MetaData(bind=None)</em><a class="headerlink" href="#odm2api.base.modelBase.Base.metadata" title="Permalink to this definition">¶</a></dt>
@@ -289,11 +300,11 @@ will refer to both its own <code class="docutils literal"><span class="pre">id</
 
 <dl class="method">
 <dt id="odm2api.base.modelBase.declarative_base">
-<code class="descname">declarative_base</code><span class="sig-paren">(</span><em>bind=None</em>, <em>metadata=None</em>, <em>mapper=None</em>, <em>cls=&lt;class 'object'&gt;</em>, <em>name='Base'</em>, <em>constructor=&lt;function _declarative_constructor&gt;</em>, <em>class_registry=None</em>, <em>metaclass=&lt;class 'sqlalchemy.ext.declarative.api.DeclarativeMeta'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#odm2api.base.modelBase.declarative_base" title="Permalink to this definition">¶</a></dt>
+<code class="descname">declarative_base</code><span class="sig-paren">(</span><em>metadata=None</em>, <em>mapper=None</em>, <em>cls=&lt;class 'object'&gt;</em>, <em>name='Base'</em>, <em>constructor=&lt;function _declarative_constructor&gt;</em>, <em>class_registry=None</em>, <em>metaclass=&lt;class 'sqlalchemy.ext.declarative.api.DeclarativeMeta'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#odm2api.base.modelBase.declarative_base" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a base class for declarative class definitions.</p>
 <p>The new base class will be given a metaclass that produces
-appropriate <code class="xref py py-class docutils literal"><span class="pre">Table</span></code> objects and makes
-the appropriate <code class="xref py py-func docutils literal"><span class="pre">mapper()</span></code> calls based on the
+appropriate <code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code> objects and makes
+the appropriate <code class="xref py py-func docutils literal notranslate"><span class="pre">mapper()</span></code> calls based on the
 information provided declaratively in the class and any subclasses
 of the class.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -302,35 +313,35 @@ of the class.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>bind</strong> – An optional
-<code class="xref py py-class docutils literal"><span class="pre">Connectable</span></code>, will be assigned
-the <code class="docutils literal"><span class="pre">bind</span></code> attribute on the <code class="xref py py-class docutils literal"><span class="pre">MetaData</span></code>
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Connectable</span></code>, will be assigned
+the <code class="docutils literal notranslate"><span class="pre">bind</span></code> attribute on the <code class="xref py py-class docutils literal notranslate"><span class="pre">MetaData</span></code>
 instance.</li>
-<li><strong>metadata</strong> – An optional <code class="xref py py-class docutils literal"><span class="pre">MetaData</span></code> instance.  All
-<code class="xref py py-class docutils literal"><span class="pre">Table</span></code> objects implicitly declared by
+<li><strong>metadata</strong> – An optional <code class="xref py py-class docutils literal notranslate"><span class="pre">MetaData</span></code> instance.  All
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code> objects implicitly declared by
 subclasses of the base will share this MetaData.  A MetaData instance
 will be created if none is provided.  The
-<code class="xref py py-class docutils literal"><span class="pre">MetaData</span></code> instance will be available via the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">MetaData</span></code> instance will be available via the
 <cite>metadata</cite> attribute of the generated declarative base class.</li>
-<li><strong>mapper</strong> – An optional callable, defaults to <code class="xref py py-func docutils literal"><span class="pre">mapper()</span></code>. Will
+<li><strong>mapper</strong> – An optional callable, defaults to <code class="xref py py-func docutils literal notranslate"><span class="pre">mapper()</span></code>. Will
 be used to map subclasses to their Tables.</li>
-<li><strong>cls</strong> – Defaults to <code class="xref py py-class docutils literal"><span class="pre">object</span></code>. A type to use as the base for the generated
+<li><strong>cls</strong> – Defaults to <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code>. A type to use as the base for the generated
 declarative base class. May be a class or tuple of classes.</li>
-<li><strong>name</strong> – Defaults to <code class="docutils literal"><span class="pre">Base</span></code>.  The display name for the generated
+<li><strong>name</strong> – Defaults to <code class="docutils literal notranslate"><span class="pre">Base</span></code>.  The display name for the generated
 class.  Customizing this is not required, but can improve clarity in
 tracebacks and debugging.</li>
 <li><strong>constructor</strong> – Defaults to
-<code class="xref py py-func docutils literal"><span class="pre">_declarative_constructor()</span></code>, an
+<code class="xref py py-func docutils literal notranslate"><span class="pre">_declarative_constructor()</span></code>, an
 __init__ implementation that assigns **kwargs for declared
-fields and relationships to an instance.  If <code class="docutils literal"><span class="pre">None</span></code> is supplied,
+fields and relationships to an instance.  If <code class="docutils literal notranslate"><span class="pre">None</span></code> is supplied,
 no __init__ will be provided and construction will fall back to
 cls.__init__ by way of the normal Python semantics.</li>
 <li><strong>class_registry</strong> – optional dictionary that will serve as the
 registry of class names-&gt; mapped classes when string names
-are used to identify classes inside of <code class="xref py py-func docutils literal"><span class="pre">relationship()</span></code>
+are used to identify classes inside of <code class="xref py py-func docutils literal notranslate"><span class="pre">relationship()</span></code>
 and others.  Allows two or more declarative base classes
 to share the same registry of class names for simplified
 inter-base relationships.</li>
-<li><strong>metaclass</strong> – Defaults to <code class="xref py py-class docutils literal"><span class="pre">DeclarativeMeta</span></code>.  A metaclass or __metaclass__
+<li><strong>metaclass</strong> – Defaults to <code class="xref py py-class docutils literal notranslate"><span class="pre">DeclarativeMeta</span></code>.  A metaclass or __metaclass__
 compatible callable to use as the meta type of the generated
 declarative base class.</li>
 </ul>
@@ -344,7 +355,7 @@ than a tuple), the constructed base class will inherit its docstring.</p>
 </div>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><code class="xref py py-func docutils literal"><span class="pre">as_declarative()</span></code></p>
+<p class="last"><code class="xref py py-func docutils literal notranslate"><span class="pre">as_declarative()</span></code></p>
 </div>
 </dd></dl>
 
@@ -353,7 +364,7 @@ than a tuple), the constructed base class will inherit its docstring.</p>
 <dl class="class">
 <dt id="odm2api.base.serviceBase">
 <em class="property">class </em><code class="descclassname">odm2api.base.</code><code class="descname">serviceBase</code><span class="sig-paren">(</span><em>session_factory</em>, <em>debug=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/base.html#serviceBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.base.serviceBase" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="method">
 <dt id="odm2api.base.serviceBase.getSession">
 <code class="descname">getSession</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/base.html#serviceBase.getSession"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.base.serviceBase.getSession" title="Permalink to this definition">¶</a></dt>
@@ -368,23 +379,23 @@ than a tuple), the constructed base class will inherit its docstring.</p>
 
 </div>
 <div class="section" id="module-odm2api.ODM2.services.readService">
-<span id="read-services"></span><h2><code class="xref py py-mod docutils literal"><span class="pre">Read</span> <span class="pre">Services</span></code><a class="headerlink" href="#module-odm2api.ODM2.services.readService" title="Permalink to this headline">¶</a></h2>
+<span id="read-services"></span><h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">Read</span> <span class="pre">Services</span></code><a class="headerlink" href="#module-odm2api.ODM2.services.readService" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="odm2api.ODM2.services.readService.DetailedAffiliation">
 <em class="property">class </em><code class="descclassname">odm2api.ODM2.services.readService.</code><code class="descname">DetailedAffiliation</code><span class="sig-paren">(</span><em>affiliation</em>, <em>person</em>, <em>org</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#DetailedAffiliation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.DetailedAffiliation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 </dd></dl>
 
 <dl class="class">
 <dt id="odm2api.ODM2.services.readService.DetailedResult">
 <em class="property">class </em><code class="descclassname">odm2api.ODM2.services.readService.</code><code class="descname">DetailedResult</code><span class="sig-paren">(</span><em>action</em>, <em>result</em>, <em>sc</em>, <em>sn</em>, <em>method</em>, <em>variable</em>, <em>processingLevel</em>, <em>unit</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#DetailedResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.DetailedResult" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 </dd></dl>
 
 <dl class="class">
 <dt id="odm2api.ODM2.services.readService.ReadODM2">
 <em class="property">class </em><code class="descclassname">odm2api.ODM2.services.readService.</code><code class="descname">ReadODM2</code><span class="sig-paren">(</span><em>session_factory</em>, <em>debug=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#odm2api.base.serviceBase" title="odm2api.base.serviceBase"><code class="xref py py-class docutils literal"><span class="pre">odm2api.base.serviceBase</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#odm2api.base.serviceBase" title="odm2api.base.serviceBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">odm2api.base.serviceBase</span></code></a></p>
 <dl class="method">
 <dt id="odm2api.ODM2.services.readService.ReadODM2.CalibrationReferenceEquipment">
 <code class="descname">CalibrationReferenceEquipment</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#ReadODM2.CalibrationReferenceEquipment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.ReadODM2.CalibrationReferenceEquipment" title="Permalink to this definition">¶</a></dt>
@@ -507,7 +518,7 @@ all Affiliation objects in the database will be returned.</p>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ReadODM2</span><span class="o">.</span><span class="n">getAffiliations</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="mi">39</span><span class="p">,</span><span class="mi">40</span><span class="p">])</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ReadODM2</span><span class="o">.</span><span class="n">getAffiliations</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="mi">39</span><span class="p">,</span><span class="mi">40</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ReadODM2</span><span class="o">.</span><span class="n">getAffiliations</span><span class="p">(</span><span class="n">personfirst</span><span class="o">=</span><span class="s1">&#39;John&#39;</span><span class="p">,</span>
 <span class="gp">... </span>                     <span class="n">personlast</span><span class="o">=</span><span class="s1">&#39;Smith&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ReadODM2</span><span class="o">.</span><span class="n">getAffiliations</span><span class="p">(</span><span class="n">orgcode</span><span class="o">=</span><span class="s1">&#39;Acme&#39;</span><span class="p">)</span>
@@ -575,7 +586,7 @@ all Affiliation objects in the database will be returned.</p>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span> <span class="o">=</span> <span class="n">ReadODM2</span><span class="p">(</span><span class="n">SESSION_FACTORY</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span> <span class="o">=</span> <span class="n">ReadODM2</span><span class="p">(</span><span class="n">SESSION_FACTORY</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getDataSets</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="mi">39</span><span class="p">,</span> <span class="mi">40</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getDataSets</span><span class="p">(</span><span class="n">codes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;HOME&#39;</span><span class="p">,</span> <span class="s1">&#39;FIELD&#39;</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getDataSets</span><span class="p">(</span><span class="n">uuids</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a6f114f1-5416-4606-ae10-23be32dbc202&#39;</span><span class="p">,</span>
@@ -613,7 +624,7 @@ all Affiliation objects in the database will be returned.</p>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span> <span class="o">=</span> <span class="n">ReadODM2</span><span class="p">(</span><span class="n">SESSION_FACTORY</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span> <span class="o">=</span> <span class="n">ReadODM2</span><span class="p">(</span><span class="n">SESSION_FACTORY</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getDataSetsResults</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="mi">39</span><span class="p">,</span> <span class="mi">40</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getDataSetsResults</span><span class="p">(</span><span class="n">codes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;HOME&#39;</span><span class="p">,</span> <span class="s1">&#39;FIELD&#39;</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getDataSetsResults</span><span class="p">(</span><span class="n">uuids</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a6f114f1-5416-4606-ae10-23be32dbc202&#39;</span><span class="p">,</span>
@@ -655,7 +666,7 @@ and later the parameter may be removed</strong>.</td>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span> <span class="o">=</span> <span class="n">ReadODM2</span><span class="p">(</span><span class="n">SESSION_FACTORY</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span> <span class="o">=</span> <span class="n">ReadODM2</span><span class="p">(</span><span class="n">SESSION_FACTORY</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getDataSetsValues</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="mi">39</span><span class="p">,</span> <span class="mi">40</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getDataSetsValues</span><span class="p">(</span><span class="n">codes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;HOME&#39;</span><span class="p">,</span> <span class="s1">&#39;FIELD&#39;</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getDataSetsValues</span><span class="p">(</span><span class="n">uuids</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a6f114f1-5416-4606-ae10-23be32dbc202&#39;</span><span class="p">,</span>
@@ -813,7 +824,7 @@ all Processing Levels objects in the database will be returned.</p>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span> <span class="o">=</span> <span class="n">ReadODM2</span><span class="p">(</span><span class="n">SESSION_FACTORY</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span> <span class="o">=</span> <span class="n">ReadODM2</span><span class="p">(</span><span class="n">SESSION_FACTORY</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getProcessingLevels</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getProcessingLevels</span><span class="p">(</span><span class="n">codes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;L1&#39;</span><span class="p">,</span> <span class="s1">&#39;L3&#39;</span><span class="p">])</span>
 </pre></div>
@@ -945,7 +956,7 @@ and later the parameter may be removed</strong>.</li>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span> <span class="o">=</span> <span class="n">ReadODM2</span><span class="p">(</span><span class="n">SESSION_FACTORY</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span> <span class="o">=</span> <span class="n">ReadODM2</span><span class="p">(</span><span class="n">SESSION_FACTORY</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getResultValues</span><span class="p">(</span><span class="n">resultids</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getResultValues</span><span class="p">(</span><span class="n">resultids</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">34</span><span class="p">],</span> <span class="n">starttime</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">())</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getResultValues</span><span class="p">(</span><span class="n">resultids</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
@@ -991,7 +1002,7 @@ recorded at the given site</li>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ReadODM2</span><span class="o">.</span><span class="n">getResults</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="mi">39</span><span class="p">,</span><span class="mi">40</span><span class="p">])</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ReadODM2</span><span class="o">.</span><span class="n">getResults</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="mi">39</span><span class="p">,</span><span class="mi">40</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ReadODM2</span><span class="o">.</span><span class="n">getResults</span><span class="p">(</span><span class="n">restype</span><span class="o">=</span><span class="s1">&#39;Time series coverage&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ReadODM2</span><span class="o">.</span><span class="n">getResults</span><span class="p">(</span><span class="n">sfids</span><span class="o">=</span><span class="p">[</span><span class="mi">65</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ReadODM2</span><span class="o">.</span><span class="n">getResults</span><span class="p">(</span><span class="n">uuids</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a6f114f1-5416-4606-ae10-23be32dbc202&#39;</span><span class="p">,</span>
@@ -1044,7 +1055,7 @@ recorded at the given site</li>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span> <span class="o">=</span> <span class="n">ReadODM2</span><span class="p">(</span><span class="n">SESSION_FACTORY</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span> <span class="o">=</span> <span class="n">ReadODM2</span><span class="p">(</span><span class="n">SESSION_FACTORY</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getSamplingFeatureDatasets</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="mi">39</span><span class="p">,</span> <span class="mi">40</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getSamplingFeatureDatasets</span><span class="p">(</span><span class="n">codes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;HOME&#39;</span><span class="p">,</span> <span class="s1">&#39;FIELD&#39;</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getSamplingFeatureDatasets</span><span class="p">(</span><span class="n">uuids</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a6f114f1-5416-4606-ae10-23be32dbc202&#39;</span><span class="p">,</span>
@@ -1087,7 +1098,7 @@ sampling features that have results associated with them.</li>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span> <span class="o">=</span> <span class="n">ReadODM2</span><span class="p">(</span><span class="n">SESSION_FACTORY</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span> <span class="o">=</span> <span class="n">ReadODM2</span><span class="p">(</span><span class="n">SESSION_FACTORY</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getSamplingFeatures</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="mi">39</span><span class="p">,</span> <span class="mi">40</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getSamplingFeatures</span><span class="p">(</span><span class="n">codes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;HOME&#39;</span><span class="p">,</span> <span class="s1">&#39;FIELD&#39;</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">READ</span><span class="o">.</span><span class="n">getSamplingFeatures</span><span class="p">(</span><span class="n">uuids</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a6f114f1-5416-4606-ae10-23be32dbc202&#39;</span><span class="p">,</span>
@@ -1169,7 +1180,7 @@ sampling features that have results associated with them.</li>
 <dl class="class">
 <dt id="odm2api.ODM2.services.readService.SamplingFeatureDataSet">
 <em class="property">class </em><code class="descclassname">odm2api.ODM2.services.readService.</code><code class="descname">SamplingFeatureDataSet</code><span class="sig-paren">(</span><em>samplingfeature</em>, <em>datasetresults</em>, <em>relatedfeatures</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#SamplingFeatureDataSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.SamplingFeatureDataSet" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="method">
 <dt id="odm2api.ODM2.services.readService.SamplingFeatureDataSet.assignDatasets">
 <code class="descname">assignDatasets</code><span class="sig-paren">(</span><em>datasetresults</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/readService.html#SamplingFeatureDataSet.assignDatasets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.readService.SamplingFeatureDataSet.assignDatasets" title="Permalink to this definition">¶</a></dt>
@@ -1194,11 +1205,11 @@ sampling features that have results associated with them.</li>
 
 </div>
 <div class="section" id="module-odm2api.ODM2.services.createService">
-<span id="create-services"></span><h2><code class="xref py py-mod docutils literal"><span class="pre">Create</span> <span class="pre">Services</span></code><a class="headerlink" href="#module-odm2api.ODM2.services.createService" title="Permalink to this headline">¶</a></h2>
+<span id="create-services"></span><h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">Create</span> <span class="pre">Services</span></code><a class="headerlink" href="#module-odm2api.ODM2.services.createService" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="odm2api.ODM2.services.createService.CreateODM2">
 <em class="property">class </em><code class="descclassname">odm2api.ODM2.services.createService.</code><code class="descname">CreateODM2</code><span class="sig-paren">(</span><em>session_factory</em>, <em>debug=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/createService.html#CreateODM2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.createService.CreateODM2" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#odm2api.base.serviceBase" title="odm2api.base.serviceBase"><code class="xref py py-class docutils literal"><span class="pre">odm2api.base.serviceBase</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#odm2api.base.serviceBase" title="odm2api.base.serviceBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">odm2api.base.serviceBase</span></code></a></p>
 <dl class="method">
 <dt id="odm2api.ODM2.services.createService.CreateODM2.create">
 <code class="descname">create</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/createService.html#CreateODM2.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.createService.CreateODM2.create" title="Permalink to this definition">¶</a></dt>
@@ -1323,11 +1334,11 @@ sampling features that have results associated with them.</li>
 
 </div>
 <div class="section" id="module-odm2api.ODM2.services.deleteService">
-<span id="delete-services"></span><h2><code class="xref py py-mod docutils literal"><span class="pre">Delete</span> <span class="pre">Services</span></code><a class="headerlink" href="#module-odm2api.ODM2.services.deleteService" title="Permalink to this headline">¶</a></h2>
+<span id="delete-services"></span><h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">Delete</span> <span class="pre">Services</span></code><a class="headerlink" href="#module-odm2api.ODM2.services.deleteService" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="odm2api.ODM2.services.deleteService.DeleteODM2">
 <em class="property">class </em><code class="descclassname">odm2api.ODM2.services.deleteService.</code><code class="descname">DeleteODM2</code><span class="sig-paren">(</span><em>session_factory</em>, <em>debug=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/deleteService.html#DeleteODM2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.deleteService.DeleteODM2" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#odm2api.base.serviceBase" title="odm2api.base.serviceBase"><code class="xref py py-class docutils literal"><span class="pre">odm2api.base.serviceBase</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#odm2api.base.serviceBase" title="odm2api.base.serviceBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">odm2api.base.serviceBase</span></code></a></p>
 <dl class="method">
 <dt id="odm2api.ODM2.services.deleteService.DeleteODM2.deleteTSRValues">
 <code class="descname">deleteTSRValues</code><span class="sig-paren">(</span><em>ids=None</em>, <em>startdate=None</em>, <em>dates=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/deleteService.html#DeleteODM2.deleteTSRValues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.deleteService.DeleteODM2.deleteTSRValues" title="Permalink to this definition">¶</a></dt>
@@ -1342,11 +1353,11 @@ sampling features that have results associated with them.</li>
 
 </div>
 <div class="section" id="module-odm2api.ODM2.services.updateService">
-<span id="update-services"></span><h2><code class="xref py py-mod docutils literal"><span class="pre">Update</span> <span class="pre">Services</span></code><a class="headerlink" href="#module-odm2api.ODM2.services.updateService" title="Permalink to this headline">¶</a></h2>
+<span id="update-services"></span><h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">Update</span> <span class="pre">Services</span></code><a class="headerlink" href="#module-odm2api.ODM2.services.updateService" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="odm2api.ODM2.services.updateService.UpdateODM2">
 <em class="property">class </em><code class="descclassname">odm2api.ODM2.services.updateService.</code><code class="descname">UpdateODM2</code><span class="sig-paren">(</span><em>session_factory</em>, <em>debug=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/updateService.html#UpdateODM2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.updateService.UpdateODM2" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#odm2api.base.serviceBase" title="odm2api.base.serviceBase"><code class="xref py py-class docutils literal"><span class="pre">odm2api.base.serviceBase</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#odm2api.base.serviceBase" title="odm2api.base.serviceBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">odm2api.base.serviceBase</span></code></a></p>
 <dl class="method">
 <dt id="odm2api.ODM2.services.updateService.UpdateODM2.update">
 <code class="descname">update</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/odm2api/ODM2/services/updateService.html#UpdateODM2.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#odm2api.ODM2.services.updateService.UpdateODM2.update" title="Permalink to this definition">¶</a></dt>
@@ -1382,7 +1393,7 @@ sampling features that have results associated with them.</li>
       &copy;2017, Stephanie Reeder.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
