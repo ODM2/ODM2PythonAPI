@@ -14,6 +14,7 @@ pymysql
 pytest
 pytest-cov
 sphinx
+ipython
 # FIXME: I am not sure these are needed.
 # pysqlite
 # sqlite
