@@ -24,10 +24,11 @@ docs-development/_static/comment-close.png
 docs-development/_static/comment.png
 docs-development/_static/custom.css
 docs-development/_static/doctools.js
+docs-development/_static/documentation_options.js
 docs-development/_static/down-pressed.png
 docs-development/_static/down.png
 docs-development/_static/file.png
-docs-development/_static/jquery-3.1.0.js
+docs-development/_static/jquery-3.2.1.js
 docs-development/_static/jquery.js
 docs-development/_static/logo.png
 docs-development/_static/minus.png
