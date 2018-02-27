@@ -70,10 +70,20 @@ Note: We follow the [Gitflow workflow](https://www.atlassian.com/git/tutorials/c
     wget https://raw.githubusercontent.com/ODM2/ODM2PythonAPI/master/requirements-dev.txt
     ```
 
-2. Create conda environment from the two text files.
+2. Create conda environment `odm2api_dev` from the two `requirements*` text files.
     ```bash
     conda create -n odm2api_dev -c conda-forge python=2.7 --file requirements.txt --file requirements-dev.txt
     ```
+
+3. Activate conda environment.
+   - MacOSX/Linux:
+   ```bash
+   source activate odm2api_dev
+   ```
+   - Windows:
+   ```
+   activate odm2api_dev
+   ```
     
 3. Install the latest commit from the development branch
     ```bash
