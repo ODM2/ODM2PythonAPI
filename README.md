@@ -85,7 +85,7 @@ Note: We follow the [Gitflow workflow](https://www.atlassian.com/git/tutorials/c
    activate odm2api_dev
    ```
     
-3. Install the latest commit from the development branch
+4. Install the latest commit from the development branch
     ```bash
     pip install git+https://github.com/ODM2/ODM2PythonAPI.git@development#egg=odm2api
     ```
