@@ -6,7 +6,7 @@
   <head>
         <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Installation &#8212; ODM2PythonAPI 0.7.0+18.g981f4c6 documentation</title>
+    <title>Installation &#8212; ODM2PythonAPI 0.7.0+23.g88bc642 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" src="_static/documentation_options.js"></script>
@@ -65,8 +65,8 @@
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#latest-release-from-odm2-anaconda-org-channel">Latest release, from ODM2 anaconda.org channel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#installing-the-development-version">Installing the development version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#latest-release-from-conda-forge-anaconda-org-channel">Latest release, from conda-forge anaconda.org channel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-the-development-version-from-the-development-branch-on-github">Installing the development version from the <code class="docutils literal notranslate"><span class="pre">development</span></code> branch on github</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">Developer Interface</a></li>
@@ -116,42 +116,62 @@ conda (if it’s not your system default), add conda to the PATH; on
 OS X and Linux, it’s something like
 <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">PATH=$HOME/miniconda3/bin:$PATH</span></code>, but the exact path may vary.</p>
 <p>To activate a conda environment, say, “myenv”:</p>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">activate</span> <span class="n">myenv</span>  <span class="c1"># On Windows</span>
-<span class="n">source</span> <span class="n">activate</span> <span class="n">myenv</span>  <span class="c1"># On MacOSX or Linux</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>activate myenv  <span class="c1"># On Windows</span>
+<span class="nb">source</span> activate myenv  <span class="c1"># On MacOSX or Linux</span>
 </pre></div>
 </div>
 <p><strong>Note:</strong> <code class="docutils literal notranslate"><span class="pre">odm2api</span></code> currently is only tested on Python 2.7. Some
 changes have been made to support Python 3.x, but they haven’t been
 tested thoroughly.</p>
-<div class="section" id="latest-release-from-odm2-anaconda-org-channel">
-<h2>Latest release, from ODM2 anaconda.org channel<a class="headerlink" href="#latest-release-from-odm2-anaconda-org-channel" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="latest-release-from-conda-forge-anaconda-org-channel">
+<h2>Latest release, from conda-forge anaconda.org channel<a class="headerlink" href="#latest-release-from-conda-forge-anaconda-org-channel" title="Permalink to this headline">¶</a></h2>
 <p>The <a class="reference external" href="https://github.com/ODM2/ODM2PythonAPI/releases">latest release</a> is available
-on the <a class="reference external" href="https://anaconda.org/odm2/odm2api">ODM2 anaconda.org channel</a>
+on the <a class="reference external" href="https://anaconda.org/conda-forge/odm2api">conda-forge anaconda.org channel</a>
 for all major OS platforms (linux, OS X, win32/win64). To install it on
 an existing conda environment:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="n">odm2api</span> <span class="o">--</span><span class="n">channel</span> <span class="n">odm2</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span> <span class="n">odm2api</span>
 </pre></div>
 </div>
 <p>All dependencies are installed, including Pandas and its dependencies
 (numpy, etc).</p>
 <p>To create a new environment “myenv” with the <code class="docutils literal notranslate"><span class="pre">odm2api</span></code> package:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">myenv</span> <span class="o">-</span><span class="n">c</span> <span class="n">odm2</span> <span class="n">python</span><span class="o">=</span><span class="mf">2.7</span> <span class="n">odm2api</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">myenv</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span> <span class="n">python</span><span class="o">=</span><span class="mf">2.7</span> <span class="n">odm2api</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="installing-the-development-version">
-<h2>Installing the development version<a class="headerlink" href="#installing-the-development-version" title="Permalink to this headline">¶</a></h2>
-<p>To create a new environment “myenv” with <code class="docutils literal notranslate"><span class="pre">odm2api</span></code>, first clone the repository.
-Then, on a terminal shell:</p>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">--</span><span class="n">name</span> <span class="n">myenv</span> <span class="n">python</span><span class="o">=</span><span class="mf">2.7</span> <span class="o">--</span><span class="n">file</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span> <span class="o">--</span><span class="n">file</span> <span class="n">requirements</span><span class="o">-</span><span class="n">dev</span><span class="o">.</span><span class="n">txt</span> <span class="o">-</span><span class="n">c</span> <span class="n">odm2</span>
+<div class="section" id="installing-the-development-version-from-the-development-branch-on-github">
+<h2>Installing the development version from the <code class="docutils literal notranslate"><span class="pre">development</span></code> branch on github<a class="headerlink" href="#installing-the-development-version-from-the-development-branch-on-github" title="Permalink to this headline">¶</a></h2>
+<p>Note: We follow the <a class="reference external" href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow">Gitflow workflow</a> for development.</p>
+<ol class="arabic">
+<li><p class="first">Download both <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> and <code class="docutils literal notranslate"><span class="pre">requirements-dev.txt</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget https://raw.githubusercontent.com/ODM2/ODM2PythonAPI/master/requirements.txt
+wget https://raw.githubusercontent.com/ODM2/ODM2PythonAPI/master/requirements-dev.txt
 </pre></div>
 </div>
-<p>Activate the new environment, then install <code class="docutils literal notranslate"><span class="pre">odm2api</span></code> into the
-environment:</p>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">activate</span> <span class="n">myenv</span>  <span class="c1"># On Windows</span>
-<span class="n">source</span> <span class="n">activate</span> <span class="n">myenv</span>  <span class="c1"># On OS X or Linux</span>
+</li>
+<li><p class="first">Create conda environment <code class="docutils literal notranslate"><span class="pre">odm2api_dev</span></code> from the two <code class="docutils literal notranslate"><span class="pre">requirements*</span></code> text files.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda create -n odm2api_dev -c conda-forge <span class="nv">python</span><span class="o">=</span><span class="m">2</span>.7 --file requirements.txt --file requirements-dev.txt
 </pre></div>
 </div>
+</li>
+<li><p class="first">Activate conda environment.
+- MacOSX/Linux:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span> activate odm2api_dev
+</pre></div>
+</div>
+<ul class="simple">
+<li>Windows:</li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>activate odm2api_dev
+</pre></div>
+</div>
+</li>
+<li><p class="first">Install the latest commit from the development branch</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install git+https://github.com/ODM2/ODM2PythonAPI.git@development#egg<span class="o">=</span>odm2api
+</pre></div>
+</div>
+</li>
+</ol>
 </div>
 </div>
 
