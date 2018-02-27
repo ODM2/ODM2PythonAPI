@@ -12,7 +12,7 @@ OS X and Linux, it's something like
 
 To activate a conda environment, say, "myenv":
 
-.. code:: bash
+.. code-block:: bash
 
     activate myenv  # On Windows
     source activate myenv  # On MacOSX or Linux
@@ -21,17 +21,17 @@ To activate a conda environment, say, "myenv":
 changes have been made to support Python 3.x, but they haven't been
 tested thoroughly.
 
-Latest release, from ODM2 anaconda.org channel
+Latest release, from conda-forge anaconda.org channel
 ----------------------------------------------
 
-The `latest release <https://github.com/ODM2/ODM2PythonAPI/releases>`__ is available
-on the `ODM2 anaconda.org channel <https://anaconda.org/odm2/odm2api>`__
+The `latest release <https://github.com/ODM2/ODM2PythonAPI/releases>`_ is available
+on the `conda-forge anaconda.org channel <https://anaconda.org/conda-forge/odm2api>`_
 for all major OS platforms (linux, OS X, win32/win64). To install it on
 an existing conda environment:
 
 ::
 
-    conda install odm2api --channel odm2
+    conda install -c conda-forge odm2api
 
 All dependencies are installed, including Pandas and its dependencies
 (numpy, etc).
@@ -40,23 +40,42 @@ To create a new environment "myenv" with the ``odm2api`` package:
 
 ::
 
-    conda create -n myenv -c odm2 python=2.7 odm2api
+    conda create -n myenv -c conda-forge python=2.7 odm2api
 
 
-Installing the development version
+Installing the development version from the ``development`` branch on github
 ----------------------------------
 
-To create a new environment "myenv" with ``odm2api``, first clone the repository.
-Then, on a terminal shell:
+Note: We follow the `Gitflow workflow <https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow>`__ for development.
 
-.. code:: bash
+1. Download both ``requirements.txt`` and ``requirements-dev.txt``.
+   
+   .. code-block:: bash
+   
+       wget https://raw.githubusercontent.com/ODM2/ODM2PythonAPI/master/requirements.txt
+       wget https://raw.githubusercontent.com/ODM2/ODM2PythonAPI/master/requirements-dev.txt
 
-    conda create --name myenv python=2.7 --file requirements.txt --file requirements-dev.txt -c odm2
+2. Create conda environment ``odm2api_dev`` from the two ``requirements*`` text files.
 
-Activate the new environment, then install ``odm2api`` into the
-environment:
+   .. code-block:: bash
+  
+       conda create -n odm2api_dev -c conda-forge python=2.7 --file requirements.txt --file requirements-dev.txt
 
-.. code:: bash
+3. Activate conda environment.
+   - MacOSX/Linux:
+   
+   .. code-block:: bash
+       
+       source activate odm2api_dev
+   
+   - Windows:
+   
+   .. code-block:: bash
+      
+       activate odm2api_dev
+    
+4. Install the latest commit from the development branch
 
-    activate myenv  # On Windows
-    source activate myenv  # On OS X or Linux
+   .. code-block:: bash
+      
+       pip install git+https://github.com/ODM2/ODM2PythonAPI.git@development#egg=odm2api
