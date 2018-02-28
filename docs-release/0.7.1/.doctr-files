@@ -1,11 +1,13 @@
 docs-release/0.7.1/_modules/index.html
-docs-release/0.7.1/_modules/odm2api/ODM2/services/createService.html
-docs-release/0.7.1/_modules/odm2api/ODM2/services/deleteService.html
-docs-release/0.7.1/_modules/odm2api/ODM2/services/readService.html
-docs-release/0.7.1/_modules/odm2api/ODM2/services/updateService.html
 docs-release/0.7.1/_modules/odm2api/ODMconnection.html
 docs-release/0.7.1/_modules/odm2api/base.html
+docs-release/0.7.1/_modules/odm2api/models.html
+docs-release/0.7.1/_modules/odm2api/services/createService.html
+docs-release/0.7.1/_modules/odm2api/services/deleteService.html
+docs-release/0.7.1/_modules/odm2api/services/readService.html
+docs-release/0.7.1/_modules/odm2api/services/updateService.html
 docs-release/0.7.1/_modules/sqlalchemy/ext/declarative/api.html
+docs-release/0.7.1/_modules/sqlalchemy/orm/attributes.html
 docs-release/0.7.1/_modules/sqlalchemy/sql/schema.html
 docs-release/0.7.1/_sources/contribute.rst.txt
 docs-release/0.7.1/_sources/credits.rst.txt
