@@ -21,7 +21,7 @@ This part of the documentation covers all the interfaces of ODM2PythonAPI.
 :mod:`Read Services`
 ---------------------
 
-.. automodule:: odm2api.ODM2.services.readService
+.. automodule:: odm2api.services.readService
    :members:
    :undoc-members:
    :show-inheritance:
@@ -29,7 +29,7 @@ This part of the documentation covers all the interfaces of ODM2PythonAPI.
 :mod:`Create Services`
 -----------------------
 
-.. automodule:: odm2api.ODM2.services.createService
+.. automodule:: odm2api.services.createService
    :members:
    :undoc-members:
    :show-inheritance:
@@ -37,7 +37,7 @@ This part of the documentation covers all the interfaces of ODM2PythonAPI.
 :mod:`Delete Services`
 -----------------------
 
-.. automodule:: odm2api.ODM2.services.deleteService
+.. automodule:: odm2api.services.deleteService
    :members:
    :undoc-members:
    :show-inheritance:
@@ -45,7 +45,7 @@ This part of the documentation covers all the interfaces of ODM2PythonAPI.
 :mod:`Update Services`
 -----------------------
 
-.. automodule:: odm2api.ODM2.services.updateService
+.. automodule:: odm2api.services.updateService
    :members:
    :undoc-members:
    :show-inheritance:
