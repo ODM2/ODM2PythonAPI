@@ -1,11 +1,11 @@
 docs-master/_modules/index.html
-docs-master/_modules/odm2api/ODM2/models.html
-docs-master/_modules/odm2api/ODM2/services/createService.html
-docs-master/_modules/odm2api/ODM2/services/deleteService.html
-docs-master/_modules/odm2api/ODM2/services/readService.html
-docs-master/_modules/odm2api/ODM2/services/updateService.html
 docs-master/_modules/odm2api/ODMconnection.html
 docs-master/_modules/odm2api/base.html
+docs-master/_modules/odm2api/models.html
+docs-master/_modules/odm2api/services/createService.html
+docs-master/_modules/odm2api/services/deleteService.html
+docs-master/_modules/odm2api/services/readService.html
+docs-master/_modules/odm2api/services/updateService.html
 docs-master/_modules/sqlalchemy/ext/declarative/api.html
 docs-master/_modules/sqlalchemy/orm/attributes.html
 docs-master/_modules/sqlalchemy/sql/schema.html
