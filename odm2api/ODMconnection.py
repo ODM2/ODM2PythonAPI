@@ -7,7 +7,7 @@ try:
 except ImportError:
     from urllib.parse import quote_plus
 
-from odm2api.ODM2.models import setSchema
+from odm2api.models import setSchema
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
