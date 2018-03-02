@@ -12,16 +12,16 @@ The following are entities in the `ODM2 Core Schema <http://odm2.github.io/ODM2/
 
 .. autosummary::
 
-   odm2api.ODM2.models.Actions
-   odm2api.ODM2.models.DataSets
-   odm2api.ODM2.models.FeatureActions
-   odm2api.ODM2.models.Methods
-   odm2api.ODM2.models.Organizations
-   odm2api.ODM2.models.People
-   odm2api.ODM2.models.ProcessingLevels
-   odm2api.ODM2.models.RelatedActions
-   odm2api.ODM2.models.Results
-   odm2api.ODM2.models.SamplingFeatures
-   odm2api.ODM2.models.TaxonomicClassifiers
-   odm2api.ODM2.models.Units
-   odm2api.ODM2.models.Variables
+   odm2api.models.Actions
+   odm2api.models.DataSets
+   odm2api.models.FeatureActions
+   odm2api.models.Methods
+   odm2api.models.Organizations
+   odm2api.models.People
+   odm2api.models.ProcessingLevels
+   odm2api.models.RelatedActions
+   odm2api.models.Results
+   odm2api.models.SamplingFeatures
+   odm2api.models.TaxonomicClassifiers
+   odm2api.models.Units
+   odm2api.models.Variables

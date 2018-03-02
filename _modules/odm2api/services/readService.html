@@ -4,19 +4,19 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>odm2api.ODM2.services.readService &#8212; ODM2PythonAPI 0.7.0+4.gb8d76f6 documentation</title>
-    <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
-    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../../../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <link rel="index" title="Index" href="../../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../../search.html" />
+    <title>odm2api.services.readService &#8212; ODM2PythonAPI 0.7.0+26.g9945421 documentation</title>
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
    
-  <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
   
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
@@ -27,8 +27,8 @@
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
 <p class="logo">
-  <a href="../../../../index.html">
-    <img class="logo" src="../../../../_static/logo.png" alt="Logo"/>
+  <a href="../../../index.html">
+    <img class="logo" src="../../../_static/logo.png" alt="Logo"/>
     
   </a>
 </p>
@@ -62,21 +62,21 @@
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../installing.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">Developer Interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../odm2models.html">ODM2 Models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../credits.html">Credits</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../contribute.html">Contribute to Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">Developer Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../odm2models.html">ODM2 Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contribute.html">Contribute to Documentation</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../models.html">ODM2 Models Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models.html">ODM2 Models Index</a></li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
-  <li><a href="../../../../index.html">Documentation overview</a><ul>
-  <li><a href="../../../index.html">Module code</a><ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
   </ul></li>
   </ul></li>
 </ul>
@@ -84,7 +84,7 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <div class="searchformwrapper">
-    <form class="search" action="../../../../search.html" method="get">
+    <form class="search" action="../../../search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
@@ -99,13 +99,13 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <h1>Source code for odm2api.ODM2.services.readService</h1><div class="highlight"><pre>
+  <h1>Source code for odm2api.services.readService</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="p">(</span><span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">)</span>
 
 <span class="kn">import</span> <span class="nn">warnings</span>
 
-<span class="kn">from</span> <span class="nn">odm2api.ODM2</span> <span class="k">import</span> <span class="n">serviceBase</span>
-<span class="kn">from</span> <span class="nn">odm2api.ODM2.models</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">odm2api</span> <span class="k">import</span> <span class="n">serviceBase</span>
+<span class="kn">from</span> <span class="nn">odm2api.models</span> <span class="k">import</span> <span class="p">(</span>
     <span class="n">ActionAnnotations</span><span class="p">,</span> <span class="n">ActionDirectives</span><span class="p">,</span> <span class="n">ActionExtensionPropertyValues</span><span class="p">,</span> <span class="n">Actions</span><span class="p">,</span>
     <span class="n">Affiliations</span><span class="p">,</span> <span class="n">Annotations</span><span class="p">,</span> <span class="n">AuthorLists</span><span class="p">,</span> <span class="n">CVActionType</span><span class="p">,</span> <span class="n">CVAggregationStatistic</span><span class="p">,</span>
     <span class="n">CVAnnotationType</span><span class="p">,</span> <span class="n">CVCensorCode</span><span class="p">,</span> <span class="n">CVDataQualityType</span><span class="p">,</span> <span class="n">CVDataSetType</span><span class="p">,</span> <span class="n">CVDirectiveType</span><span class="p">,</span>
@@ -141,11 +141,12 @@
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="k">import</span> <span class="n">distinct</span><span class="p">,</span> <span class="n">exists</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="k">import</span> <span class="n">contains_eager</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;sreeder&#39;</span>
 
 
-<div class="viewcode-block" id="DetailedResult"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.DetailedResult">[docs]</a><span class="k">class</span> <span class="nc">DetailedResult</span><span class="p">:</span>
+<div class="viewcode-block" id="DetailedResult"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.DetailedResult">[docs]</a><span class="k">class</span> <span class="nc">DetailedResult</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span>
                  <span class="n">sc</span><span class="p">,</span> <span class="n">sn</span><span class="p">,</span>
                  <span class="n">method</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span>
@@ -169,21 +170,20 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">ResultObj</span> <span class="o">=</span> <span class="n">result</span>
 
 
-<div class="viewcode-block" id="DetailedAffiliation"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.DetailedAffiliation">[docs]</a><span class="k">class</span> <span class="nc">DetailedAffiliation</span><span class="p">:</span>
+<div class="viewcode-block" id="DetailedAffiliation"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.DetailedAffiliation">[docs]</a><span class="k">class</span> <span class="nc">DetailedAffiliation</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">affiliation</span><span class="p">,</span> <span class="n">person</span><span class="p">,</span> <span class="n">org</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">AffiliationID</span> <span class="o">=</span> <span class="n">affiliation</span><span class="o">.</span><span class="n">AffiliationID</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="n">person</span><span class="o">.</span><span class="n">PersonFirstName</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">person</span><span class="o">.</span><span class="n">PersonLastName</span></div>
         <span class="bp">self</span><span class="o">.</span><span class="n">Organization</span> <span class="o">=</span> <span class="s1">&#39;(&#39;</span> <span class="o">+</span> <span class="n">org</span><span class="o">.</span><span class="n">OrganizationCode</span> <span class="o">+</span> <span class="s1">&#39;) &#39;</span> <span class="o">+</span> <span class="n">org</span><span class="o">.</span><span class="n">OrganizationName</span>
 
 
-<div class="viewcode-block" id="SamplingFeatureDataSet"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.SamplingFeatureDataSet">[docs]</a><span class="k">class</span> <span class="nc">SamplingFeatureDataSet</span><span class="p">():</span>
+<div class="viewcode-block" id="SamplingFeatureDataSet"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.SamplingFeatureDataSet">[docs]</a><span class="k">class</span> <span class="nc">SamplingFeatureDataSet</span><span class="p">():</span>
     <span class="n">datasets</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">related_features</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samplingfeature</span><span class="p">,</span> <span class="n">datasetresults</span><span class="p">,</span> <span class="n">relatedfeatures</span><span class="p">):</span>
         <span class="n">sf</span> <span class="o">=</span> <span class="n">samplingfeature</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">SamplingFeature</span> <span class="o">=</span> <span class="n">sf</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SamplingFeatureID</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">SamplingFeatureID</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SamplingFeatureUUID</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">SamplingFeatureUUID</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SamplingFeatureTypeCV</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">SamplingFeatureTypeCV</span>
@@ -199,7 +199,7 @@
 
         <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">)</span>
 
-<div class="viewcode-block" id="SamplingFeatureDataSet.assignDatasets"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.SamplingFeatureDataSet.assignDatasets">[docs]</a>    <span class="k">def</span> <span class="nf">assignDatasets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datasetresults</span><span class="p">):</span>
+<div class="viewcode-block" id="SamplingFeatureDataSet.assignDatasets"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.SamplingFeatureDataSet.assignDatasets">[docs]</a>    <span class="k">def</span> <span class="nf">assignDatasets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datasetresults</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="n">datasetresults</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">dsr</span> <span class="ow">in</span> <span class="n">datasetresults</span><span class="p">:</span>
@@ -215,7 +215,7 @@
                     <span class="c1"># res.FeatureActionObj = None</span></div>
                     <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">[</span><span class="n">dsr</span><span class="o">.</span><span class="n">DataSetObj</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 
-<div class="viewcode-block" id="SamplingFeatureDataSet.assignRelatedFeatures"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.SamplingFeatureDataSet.assignRelatedFeatures">[docs]</a>    <span class="k">def</span> <span class="nf">assignRelatedFeatures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">relatedfeatures</span><span class="p">):</span>
+<div class="viewcode-block" id="SamplingFeatureDataSet.assignRelatedFeatures"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.SamplingFeatureDataSet.assignRelatedFeatures">[docs]</a>    <span class="k">def</span> <span class="nf">assignRelatedFeatures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">relatedfeatures</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">related_features</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="n">relatedfeatures</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">related</span> <span class="ow">in</span> <span class="n">relatedfeatures</span><span class="p">:</span>
@@ -223,7 +223,7 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">related_features</span> <span class="o">=</span> <span class="n">related</span>
 
 
-<div class="viewcode-block" id="ReadODM2"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2">[docs]</a><span class="k">class</span> <span class="nc">ReadODM2</span><span class="p">(</span><span class="n">serviceBase</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2">[docs]</a><span class="k">class</span> <span class="nc">ReadODM2</span><span class="p">(</span><span class="n">serviceBase</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">_get_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Internal helper function to get a dictionary of a model column properties.</span>
 
@@ -254,7 +254,7 @@
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Got unexpected keyword argument(s) </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">invkwd</span><span class="p">)),</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
     <span class="c1"># Exists functions</span>
-<div class="viewcode-block" id="ReadODM2.resultExists"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.resultExists">[docs]</a>    <span class="k">def</span> <span class="nf">resultExists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.resultExists"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.resultExists">[docs]</a>    <span class="k">def</span> <span class="nf">resultExists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check to see if a Result Object exists</span>
 <span class="sd">        * Pass Result Object - return a boolean value of wether the given object exists</span>
@@ -275,7 +275,7 @@
             <span class="k">return</span> <span class="kc">None</span>
 
     <span class="c1"># Annotations</span>
-<div class="viewcode-block" id="ReadODM2.getAnnotations"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getAnnotations">[docs]</a>    <span class="k">def</span> <span class="nf">getAnnotations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">annottype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getAnnotations"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getAnnotations">[docs]</a>    <span class="k">def</span> <span class="nf">getAnnotations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">annottype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        * Pass Nothing - return a list of all objects</span>
 <span class="sd">        * Pass AnnotationTypeCV - return a list of all objects of the fiven type</span>
@@ -332,7 +332,7 @@
             <span class="k">return</span> <span class="kc">None</span>
 
     <span class="c1"># CV</span>
-<div class="viewcode-block" id="ReadODM2.getCVs"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getCVs">[docs]</a>    <span class="k">def</span> <span class="nf">getCVs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cvtype</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getCVs"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getCVs">[docs]</a>    <span class="k">def</span> <span class="nf">getCVs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cvtype</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        getCVs(self, type):</span>
 <span class="sd">        * Pass CVType - return a list of all objects of the given type</span>
@@ -406,7 +406,7 @@
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error running Query: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
 
     <span class="c1"># Core</span>
-<div class="viewcode-block" id="ReadODM2.getDetailedAffiliationInfo"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getDetailedAffiliationInfo">[docs]</a>    <span class="k">def</span> <span class="nf">getDetailedAffiliationInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getDetailedAffiliationInfo"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getDetailedAffiliationInfo">[docs]</a>    <span class="k">def</span> <span class="nf">getDetailedAffiliationInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        * Pass Nothing - Return a list of all Affiliations with detailed information,</span>
 <span class="sd">        including Affiliation, People and Organization</span>
@@ -421,7 +421,7 @@
             <span class="n">affiliationList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">detailedAffiliation</span><span class="p">)</span></div>
         <span class="k">return</span> <span class="n">affiliationList</span>
 
-<div class="viewcode-block" id="ReadODM2.getDetailedResultInfo"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getDetailedResultInfo">[docs]</a>    <span class="k">def</span> <span class="nf">getDetailedResultInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resultTypeCV</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">resultID</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sfID</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getDetailedResultInfo"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getDetailedResultInfo">[docs]</a>    <span class="k">def</span> <span class="nf">getDetailedResultInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resultTypeCV</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">resultID</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sfID</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="c1"># TODO can this be done by just getting the result object and drilling down?</span>
         <span class="c1"># What is the performance comparison.</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -464,7 +464,7 @@
         <span class="k">return</span> <span class="n">resultList</span>
 
     <span class="c1"># Taxonomic Classifiers</span>
-<div class="viewcode-block" id="ReadODM2.getTaxonomicClassifiers"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getTaxonomicClassifiers">[docs]</a>    <span class="k">def</span> <span class="nf">getTaxonomicClassifiers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getTaxonomicClassifiers"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getTaxonomicClassifiers">[docs]</a>    <span class="k">def</span> <span class="nf">getTaxonomicClassifiers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        getTaxonomicClassifiers(self):</span>
 <span class="sd">        * Pass nothing - return a list of all objects</span>
@@ -473,7 +473,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">TaxonomicClassifiers</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
     <span class="c1"># Variable</span>
-<div class="viewcode-block" id="ReadODM2.getVariables"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getVariables">[docs]</a>    <span class="k">def</span> <span class="nf">getVariables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sitecode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">results</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getVariables"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getVariables">[docs]</a>    <span class="k">def</span> <span class="nf">getVariables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sitecode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">results</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        * Pass nothing - returns full list of variable objects</span>
 <span class="sd">        * Pass a list of VariableID - returns a single variable object</span>
@@ -522,7 +522,7 @@
             <span class="k">return</span> <span class="kc">None</span>
 
     <span class="c1"># Method</span>
-<div class="viewcode-block" id="ReadODM2.getMethods"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getMethods">[docs]</a>    <span class="k">def</span> <span class="nf">getMethods</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">methodtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getMethods"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getMethods">[docs]</a>    <span class="k">def</span> <span class="nf">getMethods</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">methodtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        * Pass nothing - returns full list of method objects</span>
 <span class="sd">        * Pass a list of MethodIDs - returns a single method object for each given id</span>
@@ -551,7 +551,7 @@
             <span class="k">return</span> <span class="kc">None</span>
 
     <span class="c1"># ProcessingLevel</span>
-<div class="viewcode-block" id="ReadODM2.getProcessingLevels"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getProcessingLevels">[docs]</a>    <span class="k">def</span> <span class="nf">getProcessingLevels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getProcessingLevels"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getProcessingLevels">[docs]</a>    <span class="k">def</span> <span class="nf">getProcessingLevels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve a list of Processing Levels</span>
 
@@ -585,7 +585,7 @@
             <span class="k">return</span> <span class="kc">None</span>
 
     <span class="c1"># Sampling Feature</span>
-<div class="viewcode-block" id="ReadODM2.getSamplingFeatures"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getSamplingFeatures">[docs]</a>    <span class="k">def</span> <span class="nf">getSamplingFeatures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="ReadODM2.getSamplingFeatures"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getSamplingFeatures">[docs]</a>    <span class="k">def</span> <span class="nf">getSamplingFeatures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                             <span class="n">sftype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">wkt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">results</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Retrieve a list of Sampling Feature objects.</span>
 
@@ -652,7 +652,7 @@
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error running Query: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span></div>
             <span class="k">return</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="ReadODM2.getRelatedSamplingFeatures"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getRelatedSamplingFeatures">[docs]</a>    <span class="k">def</span> <span class="nf">getRelatedSamplingFeatures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sfid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rfid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">relationshiptype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getRelatedSamplingFeatures"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getRelatedSamplingFeatures">[docs]</a>    <span class="k">def</span> <span class="nf">getRelatedSamplingFeatures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sfid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rfid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">relationshiptype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="c1"># TODO: add functionality to filter by code</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        * Pass a SamplingFeatureID - get a list of sampling feature objects</span>
@@ -682,7 +682,7 @@
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="c1"># Action</span>
-<div class="viewcode-block" id="ReadODM2.getActions"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getActions">[docs]</a>    <span class="k">def</span> <span class="nf">getActions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">acttype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sfid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getActions"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getActions">[docs]</a>    <span class="k">def</span> <span class="nf">getActions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">acttype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sfid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        * Pass nothing - returns a list of all Actions</span>
 <span class="sd">        * Pass a list of Action ids - returns a list of Action objects</span>
@@ -716,7 +716,7 @@
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error running Query: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span></div>
             <span class="k">return</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="ReadODM2.getRelatedActions"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getRelatedActions">[docs]</a>    <span class="k">def</span> <span class="nf">getRelatedActions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">actionid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getRelatedActions"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getRelatedActions">[docs]</a>    <span class="k">def</span> <span class="nf">getRelatedActions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">actionid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        * Pass an ActionID - get a list of Action objects related to the input</span>
 <span class="sd">          action along with the relationship type</span>
@@ -733,7 +733,7 @@
             <span class="k">return</span> <span class="kc">None</span>
 
     <span class="c1"># Unit</span>
-<div class="viewcode-block" id="ReadODM2.getUnits"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getUnits">[docs]</a>    <span class="k">def</span> <span class="nf">getUnits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">unittype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getUnits"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getUnits">[docs]</a>    <span class="k">def</span> <span class="nf">getUnits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">unittype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        * Pass nothing - returns a list of all units objects</span>
 <span class="sd">        * Pass a list of UnitsID - returns a single units object for the given id</span>
@@ -760,7 +760,7 @@
             <span class="k">return</span> <span class="kc">None</span>
 
     <span class="c1"># Organization</span>
-<div class="viewcode-block" id="ReadODM2.getOrganizations"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getOrganizations">[docs]</a>    <span class="k">def</span> <span class="nf">getOrganizations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getOrganizations"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getOrganizations">[docs]</a>    <span class="k">def</span> <span class="nf">getOrganizations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        * Pass nothing - returns a list of all organization objects</span>
 <span class="sd">        * Pass a list of OrganizationID - returns a single organization object</span>
@@ -779,7 +779,7 @@
             <span class="k">return</span> <span class="kc">None</span>
 
     <span class="c1"># Person</span>
-<div class="viewcode-block" id="ReadODM2.getPeople"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getPeople">[docs]</a>    <span class="k">def</span> <span class="nf">getPeople</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">firstname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lastname</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getPeople"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getPeople">[docs]</a>    <span class="k">def</span> <span class="nf">getPeople</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">firstname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lastname</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        * Pass nothing - returns a list of all People objects</span>
 <span class="sd">        * Pass a list of PeopleID - returns a single People object</span>
@@ -800,7 +800,7 @@
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error running Query: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span></div>
             <span class="k">return</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="ReadODM2.getAffiliations"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getAffiliations">[docs]</a>    <span class="k">def</span> <span class="nf">getAffiliations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">personfirst</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">personlast</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">orgcode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getAffiliations"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getAffiliations">[docs]</a>    <span class="k">def</span> <span class="nf">getAffiliations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">personfirst</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">personlast</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">orgcode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Retrieve a list of Affiliation objects.</span>
 
 <span class="sd">        If no arguments are passed to the function, or their values are None,</span>
@@ -840,7 +840,7 @@
             <span class="k">return</span> <span class="kc">None</span>
 
     <span class="c1"># Results</span>
-<div class="viewcode-block" id="ReadODM2.getResults"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getResults">[docs]</a>    <span class="k">def</span> <span class="nf">getResults</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">restype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">actionid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">simulationid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="ReadODM2.getResults"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getResults">[docs]</a>    <span class="k">def</span> <span class="nf">getResults</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">restype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">actionid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">simulationid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="n">variableid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">siteid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sfids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sfuuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sfcodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 
         <span class="c1"># TODO what if user sends in both type and actionid vs just actionid</span>
@@ -936,7 +936,7 @@
             <span class="k">return</span> <span class="kc">None</span>
 
     <span class="c1"># Datasets</span>
-<div class="viewcode-block" id="ReadODM2.getDataSets"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getDataSets">[docs]</a>    <span class="k">def</span> <span class="nf">getDataSets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dstype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getDataSets"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getDataSets">[docs]</a>    <span class="k">def</span> <span class="nf">getDataSets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dstype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve a list of Datasets</span>
 
@@ -977,7 +977,7 @@
 
             <span class="c1"># Datasets</span>
 
-<div class="viewcode-block" id="ReadODM2.getDataSetsResults"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getDataSetsResults">[docs]</a>    <span class="k">def</span> <span class="nf">getDataSetsResults</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dstype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getDataSetsResults"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getDataSetsResults">[docs]</a>    <span class="k">def</span> <span class="nf">getDataSetsResults</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dstype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve a detailed list of Datasets along with detailed metadata about the datasets</span>
 <span class="sd">                and the results contained within them</span>
@@ -1024,7 +1024,7 @@
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error running Query </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span></div>
         <span class="k">return</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="ReadODM2.getDataSetsValues"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getDataSetsValues">[docs]</a>    <span class="k">def</span> <span class="nf">getDataSetsValues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dstype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lowercols</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getDataSetsValues"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getDataSetsValues">[docs]</a>    <span class="k">def</span> <span class="nf">getDataSetsValues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dstype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lowercols</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve a list of datavalues associated with the given dataset info</span>
 
@@ -1068,7 +1068,7 @@
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error running Query </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span></div>
         <span class="k">return</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="ReadODM2.getSamplingFeatureDatasets"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getSamplingFeatureDatasets">[docs]</a>    <span class="k">def</span> <span class="nf">getSamplingFeatureDatasets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dstype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sftype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getSamplingFeatureDatasets"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getSamplingFeatureDatasets">[docs]</a>    <span class="k">def</span> <span class="nf">getSamplingFeatureDatasets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">uuids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dstype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sftype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve a list of Datasets associated with the given sampling feature data.</span>
 
@@ -1122,10 +1122,14 @@
             <span class="n">sfds</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">sf</span> <span class="ow">in</span> <span class="n">sf_list</span><span class="p">:</span>
 
-                <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DataSetsResults</span><span class="p">)</span> \
-                    <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Results</span><span class="p">)</span> \
-                    <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">FeatureActions</span><span class="p">)</span> \
-                    <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">FeatureActions</span><span class="o">.</span><span class="n">SamplingFeatureID</span> <span class="o">==</span> <span class="n">sf</span><span class="o">.</span><span class="n">SamplingFeatureID</span><span class="p">)</span>
+                <span class="c1"># Eager loading the data.</span>
+                <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DataSetsResults</span><span class="p">)</span>\
+                    <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DataSetsResults</span><span class="o">.</span><span class="n">ResultObj</span><span class="p">)</span>\
+                    <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Results</span><span class="o">.</span><span class="n">FeatureActionObj</span><span class="p">)</span>\
+                    <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">FeatureActions</span><span class="o">.</span><span class="n">SamplingFeatureID</span> <span class="o">==</span> <span class="n">sf</span><span class="o">.</span><span class="n">SamplingFeatureID</span><span class="p">)</span>\
+                    <span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">contains_eager</span><span class="p">(</span><span class="n">DataSetsResults</span><span class="o">.</span><span class="n">ResultObj</span><span class="p">)</span>
+                             <span class="o">.</span><span class="n">contains_eager</span><span class="p">(</span><span class="n">Results</span><span class="o">.</span><span class="n">FeatureActionObj</span><span class="p">)</span>
+                             <span class="o">.</span><span class="n">load_only</span><span class="p">(</span><span class="n">FeatureActions</span><span class="o">.</span><span class="n">SamplingFeatureID</span><span class="p">))</span>
 
                 <span class="k">if</span> <span class="n">dstype</span><span class="p">:</span>
                     <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">DatasetTypeCV</span><span class="o">=</span><span class="n">dstype</span><span class="p">)</span>
@@ -1141,32 +1145,32 @@
         <span class="k">return</span> <span class="n">sfds</span>
 
     <span class="c1"># Data Quality</span>
-<div class="viewcode-block" id="ReadODM2.getDataQuality"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getDataQuality">[docs]</a>    <span class="k">def</span> <span class="nf">getDataQuality</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getDataQuality"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getDataQuality">[docs]</a>    <span class="k">def</span> <span class="nf">getDataQuality</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        * Pass nothing - return a list of all objects</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DataQuality</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
     <span class="c1"># TODO DataQuality Schema Queries</span>
-<div class="viewcode-block" id="ReadODM2.getReferenceMaterials"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getReferenceMaterials">[docs]</a>    <span class="k">def</span> <span class="nf">getReferenceMaterials</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getReferenceMaterials"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getReferenceMaterials">[docs]</a>    <span class="k">def</span> <span class="nf">getReferenceMaterials</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        * Pass nothing - return a list of all objects</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ReferenceMaterials</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
-<div class="viewcode-block" id="ReadODM2.getReferenceMaterialValues"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getReferenceMaterialValues">[docs]</a>    <span class="k">def</span> <span class="nf">getReferenceMaterialValues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getReferenceMaterialValues"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getReferenceMaterialValues">[docs]</a>    <span class="k">def</span> <span class="nf">getReferenceMaterialValues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        * Pass nothing - return a list of all objects</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ReferenceMaterialValues</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
-<div class="viewcode-block" id="ReadODM2.getResultNormalizationValues"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getResultNormalizationValues">[docs]</a>    <span class="k">def</span> <span class="nf">getResultNormalizationValues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getResultNormalizationValues"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getResultNormalizationValues">[docs]</a>    <span class="k">def</span> <span class="nf">getResultNormalizationValues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        * Pass nothing - return a list of all objects</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ResultNormalizationValues</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
-<div class="viewcode-block" id="ReadODM2.getResultsDataQuality"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getResultsDataQuality">[docs]</a>    <span class="k">def</span> <span class="nf">getResultsDataQuality</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getResultsDataQuality"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getResultsDataQuality">[docs]</a>    <span class="k">def</span> <span class="nf">getResultsDataQuality</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        * Pass nothing - return a list of all objects</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
@@ -1174,7 +1178,7 @@
 
     <span class="c1"># TODO Equipment Schema Queries</span>
     <span class="c1"># Equipment</span>
-<div class="viewcode-block" id="ReadODM2.getEquipment"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getEquipment">[docs]</a>    <span class="k">def</span> <span class="nf">getEquipment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">equiptype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sfid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">actionid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getEquipment"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getEquipment">[docs]</a>    <span class="k">def</span> <span class="nf">getEquipment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">equiptype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sfid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">actionid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        * Pass nothing - returns a list of all Equipment objects</span>
 <span class="sd">        * Pass a list of EquipmentCodes- return a list of all Equipment objects that match each of the codes</span>
@@ -1205,56 +1209,56 @@
                 <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Actions</span><span class="o">.</span><span class="n">ActionID</span> <span class="o">==</span> <span class="n">actionid</span><span class="p">)</span></div>
         <span class="k">return</span> <span class="n">e</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
-<div class="viewcode-block" id="ReadODM2.CalibrationReferenceEquipment"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.CalibrationReferenceEquipment">[docs]</a>    <span class="k">def</span> <span class="nf">CalibrationReferenceEquipment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.CalibrationReferenceEquipment"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.CalibrationReferenceEquipment">[docs]</a>    <span class="k">def</span> <span class="nf">CalibrationReferenceEquipment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        * Pass nothing - return a list of all objects</span>
 
 <span class="sd">        &quot;&quot;&quot;</span></div>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">CalibrationReferenceEquipment</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
-<div class="viewcode-block" id="ReadODM2.CalibrationStandards"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.CalibrationStandards">[docs]</a>    <span class="k">def</span> <span class="nf">CalibrationStandards</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.CalibrationStandards"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.CalibrationStandards">[docs]</a>    <span class="k">def</span> <span class="nf">CalibrationStandards</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        * Pass nothing - return a list of all objects</span>
 
 <span class="sd">        &quot;&quot;&quot;</span></div>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">CalibrationStandards</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
-<div class="viewcode-block" id="ReadODM2.DataloggerFileColumns"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.DataloggerFileColumns">[docs]</a>    <span class="k">def</span> <span class="nf">DataloggerFileColumns</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.DataloggerFileColumns"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.DataloggerFileColumns">[docs]</a>    <span class="k">def</span> <span class="nf">DataloggerFileColumns</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        * Pass nothing - return a list of all objects</span>
 
 <span class="sd">        &quot;&quot;&quot;</span></div>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DataLoggerFileColumns</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
-<div class="viewcode-block" id="ReadODM2.DataLoggerFiles"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.DataLoggerFiles">[docs]</a>    <span class="k">def</span> <span class="nf">DataLoggerFiles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.DataLoggerFiles"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.DataLoggerFiles">[docs]</a>    <span class="k">def</span> <span class="nf">DataLoggerFiles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        * Pass nothing - return a list of all objects</span>
 
 <span class="sd">        &quot;&quot;&quot;</span></div>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DataLoggerFiles</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
-<div class="viewcode-block" id="ReadODM2.DataloggerProgramFiles"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.DataloggerProgramFiles">[docs]</a>    <span class="k">def</span> <span class="nf">DataloggerProgramFiles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.DataloggerProgramFiles"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.DataloggerProgramFiles">[docs]</a>    <span class="k">def</span> <span class="nf">DataloggerProgramFiles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        * Pass Nothing - return a list of all objects</span>
 
 <span class="sd">        &quot;&quot;&quot;</span></div>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DataLoggerProgramFiles</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
-<div class="viewcode-block" id="ReadODM2.EquipmentModels"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.EquipmentModels">[docs]</a>    <span class="k">def</span> <span class="nf">EquipmentModels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.EquipmentModels"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.EquipmentModels">[docs]</a>    <span class="k">def</span> <span class="nf">EquipmentModels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        * Pass Nothing - return a list of all objects</span>
 
 <span class="sd">        &quot;&quot;&quot;</span></div>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">EquipmentModels</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
-<div class="viewcode-block" id="ReadODM2.EquipmentUsed"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.EquipmentUsed">[docs]</a>    <span class="k">def</span> <span class="nf">EquipmentUsed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.EquipmentUsed"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.EquipmentUsed">[docs]</a>    <span class="k">def</span> <span class="nf">EquipmentUsed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        * Pass Nothing - return a list of all objects</span>
 
 <span class="sd">        &quot;&quot;&quot;</span></div>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">EquipmentUsed</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
-<div class="viewcode-block" id="ReadODM2.InstrumentOutputVariables"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.InstrumentOutputVariables">[docs]</a>    <span class="k">def</span> <span class="nf">InstrumentOutputVariables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modelid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">variableid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.InstrumentOutputVariables"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.InstrumentOutputVariables">[docs]</a>    <span class="k">def</span> <span class="nf">InstrumentOutputVariables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modelid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">variableid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        * Pass Nothing - return a list of all objects</span>
 <span class="sd">        * Pass ModelID</span>
@@ -1268,7 +1272,7 @@
             <span class="n">i</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">VariableID</span><span class="o">=</span><span class="n">variableid</span><span class="p">)</span></div>
         <span class="k">return</span> <span class="n">i</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
-<div class="viewcode-block" id="ReadODM2.RelatedEquipment"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.RelatedEquipment">[docs]</a>    <span class="k">def</span> <span class="nf">RelatedEquipment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.RelatedEquipment"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.RelatedEquipment">[docs]</a>    <span class="k">def</span> <span class="nf">RelatedEquipment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        * Pass nothing - return a list of all objects</span>
 <span class="sd">        * Pass code- return a single object with the given code</span>
@@ -1280,7 +1284,7 @@
         <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
     <span class="c1"># Extension Properties</span>
-<div class="viewcode-block" id="ReadODM2.getExtensionProperties"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getExtensionProperties">[docs]</a>    <span class="k">def</span> <span class="nf">getExtensionProperties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exptype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getExtensionProperties"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getExtensionProperties">[docs]</a>    <span class="k">def</span> <span class="nf">getExtensionProperties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exptype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        * Pass nothing - return a list of all objects</span>
 <span class="sd">        * Pass type- return a list of all objects of the given type</span>
@@ -1312,7 +1316,7 @@
             <span class="k">return</span> <span class="kc">None</span>
 
     <span class="c1"># External Identifiers</span>
-<div class="viewcode-block" id="ReadODM2.getExternalIdentifiers"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getExternalIdentifiers">[docs]</a>    <span class="k">def</span> <span class="nf">getExternalIdentifiers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eitype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getExternalIdentifiers"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getExternalIdentifiers">[docs]</a>    <span class="k">def</span> <span class="nf">getExternalIdentifiers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eitype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        * Pass nothing - return a list of all objects</span>
 <span class="sd">        * Pass type- return a list of all objects of the given type</span>
@@ -1348,7 +1352,7 @@
 
     <span class="c1"># TODO functions for Lab Analyses</span>
     <span class="c1"># Lab Analyses</span>
-<div class="viewcode-block" id="ReadODM2.getDirectives"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getDirectives">[docs]</a>    <span class="k">def</span> <span class="nf">getDirectives</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getDirectives"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getDirectives">[docs]</a>    <span class="k">def</span> <span class="nf">getDirectives</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        getDirectives(self)</span>
 <span class="sd">        * Pass nothing - return a list of all objects</span>
@@ -1356,7 +1360,7 @@
 <span class="sd">        &quot;&quot;&quot;</span></div>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Directives</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
-<div class="viewcode-block" id="ReadODM2.getActionDirectives"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getActionDirectives">[docs]</a>    <span class="k">def</span> <span class="nf">getActionDirectives</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getActionDirectives"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getActionDirectives">[docs]</a>    <span class="k">def</span> <span class="nf">getActionDirectives</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        getActionDirectives(self)</span>
 <span class="sd">        * Pass nothing - return a list of all objects</span>
@@ -1364,7 +1368,7 @@
 <span class="sd">        &quot;&quot;&quot;</span></div>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ActionDirectives</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
-<div class="viewcode-block" id="ReadODM2.getSpecimenBatchPositions"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getSpecimenBatchPositions">[docs]</a>    <span class="k">def</span> <span class="nf">getSpecimenBatchPositions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getSpecimenBatchPositions"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getSpecimenBatchPositions">[docs]</a>    <span class="k">def</span> <span class="nf">getSpecimenBatchPositions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        getSpecimenBatchPositions(self)</span>
 <span class="sd">        * Pass nothing - return a list of all objects</span>
@@ -1374,7 +1378,7 @@
 
     <span class="c1"># TODO functions for Provenance</span>
     <span class="c1"># Provenance</span>
-<div class="viewcode-block" id="ReadODM2.getAuthorLists"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getAuthorLists">[docs]</a>    <span class="k">def</span> <span class="nf">getAuthorLists</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getAuthorLists"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getAuthorLists">[docs]</a>    <span class="k">def</span> <span class="nf">getAuthorLists</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        getAuthorLists(self)</span>
 <span class="sd">        * Pass nothing - return a list of all objects</span>
@@ -1382,7 +1386,7 @@
 <span class="sd">        &quot;&quot;&quot;</span></div>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">AuthorLists</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
-<div class="viewcode-block" id="ReadODM2.getDatasetCitations"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getDatasetCitations">[docs]</a>    <span class="k">def</span> <span class="nf">getDatasetCitations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getDatasetCitations"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getDatasetCitations">[docs]</a>    <span class="k">def</span> <span class="nf">getDatasetCitations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        getDatasetCitations(self)</span>
 <span class="sd">        * Pass nothing - return a list of all objects</span>
@@ -1390,7 +1394,7 @@
 <span class="sd">        &quot;&quot;&quot;</span></div>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DataSetCitations</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
-<div class="viewcode-block" id="ReadODM2.getDerivationEquations"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getDerivationEquations">[docs]</a>    <span class="k">def</span> <span class="nf">getDerivationEquations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getDerivationEquations"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getDerivationEquations">[docs]</a>    <span class="k">def</span> <span class="nf">getDerivationEquations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        getDerivationEquations(self)</span>
 <span class="sd">        * Pass nothing - return a list of all objects</span>
@@ -1398,7 +1402,7 @@
 <span class="sd">        &quot;&quot;&quot;</span></div>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DerivationEquations</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
-<div class="viewcode-block" id="ReadODM2.getMethodCitations"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getMethodCitations">[docs]</a>    <span class="k">def</span> <span class="nf">getMethodCitations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getMethodCitations"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getMethodCitations">[docs]</a>    <span class="k">def</span> <span class="nf">getMethodCitations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        getMethodCitations(self)</span>
 <span class="sd">        * Pass nothing - return a list of all objects</span>
@@ -1406,7 +1410,7 @@
 <span class="sd">        &quot;&quot;&quot;</span></div>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">MethodCitations</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
-<div class="viewcode-block" id="ReadODM2.getRelatedAnnotations"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getRelatedAnnotations">[docs]</a>    <span class="k">def</span> <span class="nf">getRelatedAnnotations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getRelatedAnnotations"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getRelatedAnnotations">[docs]</a>    <span class="k">def</span> <span class="nf">getRelatedAnnotations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        getRelatedAnnotations(self)</span>
 <span class="sd">        * Pass nothing - return a list of all objects</span>
@@ -1414,7 +1418,7 @@
 <span class="sd">        &quot;&quot;&quot;</span></div>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">RelatedAnnotations</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
-<div class="viewcode-block" id="ReadODM2.getRelatedCitations"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getRelatedCitations">[docs]</a>    <span class="k">def</span> <span class="nf">getRelatedCitations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getRelatedCitations"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getRelatedCitations">[docs]</a>    <span class="k">def</span> <span class="nf">getRelatedCitations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        getRelatedCitations(self)</span>
 <span class="sd">        * Pass nothing - return a list of all objects</span>
@@ -1422,7 +1426,7 @@
 <span class="sd">        &quot;&quot;&quot;</span></div>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">RelatedCitations</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
-<div class="viewcode-block" id="ReadODM2.getRelatedDatasets"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getRelatedDatasets">[docs]</a>    <span class="k">def</span> <span class="nf">getRelatedDatasets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getRelatedDatasets"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getRelatedDatasets">[docs]</a>    <span class="k">def</span> <span class="nf">getRelatedDatasets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        getRelatedDatasets(self)</span>
 <span class="sd">        * Pass nothing - return a list of all objects</span>
@@ -1430,7 +1434,7 @@
 <span class="sd">        &quot;&quot;&quot;</span></div>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">RelatedDataSets</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
-<div class="viewcode-block" id="ReadODM2.getRelatedResults"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getRelatedResults">[docs]</a>    <span class="k">def</span> <span class="nf">getRelatedResults</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getRelatedResults"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getRelatedResults">[docs]</a>    <span class="k">def</span> <span class="nf">getRelatedResults</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        getRelatedResults(self)</span>
 <span class="sd">        * Pass nothing - return a list of all objects</span>
@@ -1438,7 +1442,7 @@
 <span class="sd">        &quot;&quot;&quot;</span></div>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">RelatedResults</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
-<div class="viewcode-block" id="ReadODM2.getResultDerivationEquations"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getResultDerivationEquations">[docs]</a>    <span class="k">def</span> <span class="nf">getResultDerivationEquations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getResultDerivationEquations"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getResultDerivationEquations">[docs]</a>    <span class="k">def</span> <span class="nf">getResultDerivationEquations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        getResultDerivationEquations(self)</span>
 <span class="sd">        * Pass nothing - return a list of all objects</span>
@@ -1446,7 +1450,7 @@
 <span class="sd">        &quot;&quot;&quot;</span></div>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">ResultDerivationEquations</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
-<div class="viewcode-block" id="ReadODM2.getResultValues"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getResultValues">[docs]</a>    <span class="k">def</span> <span class="nf">getResultValues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resultids</span><span class="p">,</span> <span class="n">starttime</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">endtime</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lowercols</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getResultValues"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getResultValues">[docs]</a>    <span class="k">def</span> <span class="nf">getResultValues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resultids</span><span class="p">,</span> <span class="n">starttime</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">endtime</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lowercols</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve result values associated with the given result.</span>
 
@@ -1524,7 +1528,7 @@
 
     <span class="c1"># SamplingFeatures</span>
     <span class="c1"># Site</span>
-<div class="viewcode-block" id="ReadODM2.getSpatialReferences"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getSpatialReferences">[docs]</a>    <span class="k">def</span> <span class="nf">getSpatialReferences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">srsCodes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getSpatialReferences"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getSpatialReferences">[docs]</a>    <span class="k">def</span> <span class="nf">getSpatialReferences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">srsCodes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        getSpatialReferences(self, srsCodes=None)</span>
 <span class="sd">        * Pass nothing - return a list of all Spatial References</span>
@@ -1541,7 +1545,7 @@
             <span class="k">return</span> <span class="kc">None</span>
 
     <span class="c1"># Simulation</span>
-<div class="viewcode-block" id="ReadODM2.getSimulations"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getSimulations">[docs]</a>    <span class="k">def</span> <span class="nf">getSimulations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">actionid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getSimulations"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getSimulations">[docs]</a>    <span class="k">def</span> <span class="nf">getSimulations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">actionid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        getSimulations(self, name=None, actionid=None)</span>
 <span class="sd">        * Pass nothing - get a list of all converter simuation objects</span>
@@ -1560,7 +1564,7 @@
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error running Query: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span></div>
             <span class="k">return</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="ReadODM2.getModels"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getModels">[docs]</a>    <span class="k">def</span> <span class="nf">getModels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getModels"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getModels">[docs]</a>    <span class="k">def</span> <span class="nf">getModels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">codes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        getModels(self, codes=None)</span>
 <span class="sd">        * Pass nothing - return a list of all Model Objects</span>
@@ -1576,7 +1580,7 @@
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error running Query: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span></div>
             <span class="k">return</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="ReadODM2.getRelatedModels"><a class="viewcode-back" href="../../../../modules.html#odm2api.ODM2.services.readService.ReadODM2.getRelatedModels">[docs]</a>    <span class="k">def</span> <span class="nf">getRelatedModels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadODM2.getRelatedModels"><a class="viewcode-back" href="../../../modules.html#odm2api.services.readService.ReadODM2.getRelatedModels">[docs]</a>    <span class="k">def</span> <span class="nf">getRelatedModels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        getRelatedModels(self, id=None, code=None)</span>
 <span class="sd">        * Pass a ModelID - get a list of converter objects related to the converter having ModelID</span>
@@ -1610,7 +1614,7 @@
       &copy;2017, Stephanie Reeder.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>

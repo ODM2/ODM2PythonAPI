@@ -1,11 +1,11 @@
 ./_modules/index.html
-./_modules/odm2api/ODM2/models.html
-./_modules/odm2api/ODM2/services/createService.html
-./_modules/odm2api/ODM2/services/deleteService.html
-./_modules/odm2api/ODM2/services/readService.html
-./_modules/odm2api/ODM2/services/updateService.html
 ./_modules/odm2api/ODMconnection.html
 ./_modules/odm2api/base.html
+./_modules/odm2api/models.html
+./_modules/odm2api/services/createService.html
+./_modules/odm2api/services/deleteService.html
+./_modules/odm2api/services/readService.html
+./_modules/odm2api/services/updateService.html
 ./_modules/sqlalchemy/ext/declarative/api.html
 ./_modules/sqlalchemy/orm/attributes.html
 ./_modules/sqlalchemy/sql/schema.html
