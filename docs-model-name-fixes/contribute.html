@@ -1,0 +1,169 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Contribute to Documentation &#8212; ODM2PythonAPI 0.7.1+1.gefcab61 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ODM2 Models Index" href="models.html" />
+    <link rel="prev" title="Credits" href="credits.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=ODM2&repo=ODM2PythonAPI&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+    
+
+<p>
+<a href="https://travis-ci.org/ODM2/ODM2PythonAPI">
+    <img
+        alt="https://secure.travis-ci.org/ODM2/ODM2PythonAPI.svg?branch=master"
+        src="https://secure.travis-ci.org/ODM2/ODM2PythonAPI.svg?branch=master"
+    />
+</a>
+</p>
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Developer Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="odm2models.html">ODM2 Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Contribute to Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#conventions">Conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pull-requests">Pull requests</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="models.html">ODM2 Models Index</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="credits.html" title="previous chapter">Credits</a></li>
+      <li>Next: <a href="models.html" title="next chapter">ODM2 Models Index</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="contribute-to-documentation">
+<h1>Contribute to Documentation<a class="headerlink" href="#contribute-to-documentation" title="Permalink to this headline">¶</a></h1>
+<p>This guide is a reference on how to contribute to ODM2 Documentation effort
+for the many <a class="reference external" href="https://github.com/ODM2/odm2-software-ecosystem">ODM2 Software Ecosystem</a>.</p>
+<div class="section" id="conventions">
+<h2>Conventions<a class="headerlink" href="#conventions" title="Permalink to this headline">¶</a></h2>
+<p>There are a few conventions that should be followed
+when writing docstrings within the code:</p>
+<ul class="simple">
+<li>Docstrings should follow
+<a class="reference external" href="http://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html">Google Style Documentation</a>.</li>
+<li>Do not say “<strong>defaults to ____</strong>” for any arguments,
+unless the argument needs further explanation.
+The default value is already available in the method/function definition.</li>
+<li>If function needs to be instantiated, explicitly show in example.
+See
+<a class="reference external" href="https://stackoverflow.com/questions/17134653/difference-between-class-and-instance-methods">here</a>
+for discussion of class vs instance methods.</li>
+<li>Provide link to <a class="reference external" href="http://vocabulary.odm2.org/">Controlled Vocabulary</a>
+if an argument needs a CV as value.</li>
+</ul>
+<p>Please add any additional conventions that you think should be in place
+within <a class="reference external" href="https://github.com/ODM2/ODM2PythonAPI/issues/106">the github issue #106</a>.</p>
+</div>
+<div class="section" id="pull-requests">
+<h2>Pull requests<a class="headerlink" href="#pull-requests" title="Permalink to this headline">¶</a></h2>
+<p>Once changes has been in place within your forked copy of the repository
+you are working on, please create a pull request to add your contribution
+to the <strong>master</strong> branch of the repository.</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2017, Stephanie Reeder.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+      |
+      <a href="_sources/contribute.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+    <a href="https://github.com/ODM2/ODM2PythonAPI" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>
