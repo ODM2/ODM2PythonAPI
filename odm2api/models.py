@@ -463,7 +463,7 @@ class DataLoggerFiles(Base):
 
 
 class EquipmentModels(Base):
-    ModelID = Column('modelid', Integer, primary_key=True, nullable=False)
+    ModelID = Column('equipmentmodelid', Integer, primary_key=True, nullable=False)
     ModelManufacturerID = Column('modelmanufacturerid', Integer,
                                  ForeignKey(Organizations.OrganizationID), nullable=False)
     ModelPartNumber = Column('modelpartnumber', String(50))
@@ -537,14 +537,15 @@ class Equipment(Base):
     EquipmentCode = Column('equipmentcode', String(50), nullable=False)
     EquipmentName = Column('equipmentname', String(255), nullable=False)
     EquipmentTypeCV = Column('equipmenttypecv', ForeignKey(CVEquipmentType.Name), nullable=False, index=True)
-    ModelID = Column('modelid', ForeignKey(EquipmentModels.ModelID), nullable=False)
-    EquipmentSerialNumber = Column('equipmentseriealnumber', String(50), nullable=False)
+    ModelID = Column('equipmentmodelid', ForeignKey(EquipmentModels.ModelID), nullable=False)
+    EquipmentSerialNumber = Column('equipmentserialnumber', String(50), nullable=False)
     EquipmentInventoryNumber = Column('equipmentinventorynumber', String(50))
     EquipmentOwnerID = Column('equipmentownerid', ForeignKey(People.PersonID), nullable=False)
     EquipmentVendorID = Column('equipmentvendorid', ForeignKey(Organizations.OrganizationID), nullable=False)
     EquipmentPurchaseDate = Column('equipmentpurchasedate', DateTime, nullable=False)
     EquipmentPurchaseOrderNumber = Column('equipmentpurchaseordernumber', String(50))
     EquipmentDescription = Column('equipmentdescription', String(500))
+    EquipmentDocumentationLink = Column('equipmentdocumentationlink', String(255))
 
     PersonObj = relationship(People)
     OrganizationObj = relationship(Organizations)
@@ -580,7 +581,7 @@ class EquipmentUsed(Base):
 
 class MaintenanceActions(Base):
     ActionID = Column('actionid', Integer, ForeignKey(Actions.ActionID), primary_key=True, nullable=False)
-    IsFactoryService = Column('isfactoryservce', Boolean, nullable=False)
+    IsFactoryService = Column('isfactoryservice', Boolean, nullable=False)
     MaintenanceCode = Column('maintenancecode', String(50))
     MantenanceReason = Column('maintenancereason', String(50))
 
@@ -836,7 +837,7 @@ class ActionAnnotations(Base):
 
 class EquipmentAnnotations(Base):
     BridgeID = Column('bridgeid', Integer, primary_key=True, nullable=False)
-    EquipmentID = Column('valueid', BigIntegerType, ForeignKey(Equipment.EquipmentID), nullable=False)
+    EquipmentID = Column('equipmentid', BigIntegerType, ForeignKey(Equipment.EquipmentID), nullable=False)
     AnnotationID = Column('annotationid', ForeignKey(Annotations.AnnotationID), nullable=False)
 
     AnnotationObj = relationship(Annotations)
@@ -906,7 +907,7 @@ class ReferenceMaterials(Base):
         nullable=False,
         index=True
     )
-    ReferenceMaterialOrganizationID = Column('referencematerialoranizationid',
+    ReferenceMaterialOrganizationID = Column('referencematerialorganizationid',
                                              ForeignKey(Organizations.OrganizationID), nullable=False)
     ReferenceMaterialCode = Column('referencematerialcode', String(50), nullable=False)
     ReferenceMaterialLotCode = Column('referencemateriallotcode', String(255))
@@ -951,7 +952,7 @@ class ReferenceMaterialValues(Base):
 
 class ResultNormalizationValues(Base):
     ResultID = Column(u'resultid', ForeignKey(Results.ResultID), primary_key=True)
-    ReferenceMaterialValueID = Column(u'referencematerialvalueid',
+    ReferenceMaterialValueID = Column(u'normalizedbyreferencematerialvalueid',
                                       ForeignKey(ReferenceMaterialValues.ReferenceMaterialValueID),
                                       nullable=False)
 
@@ -1068,8 +1069,8 @@ class CitationExternalIdentifiers(Base):
     ExternalIdentifierSystemID = Column('externalidentifiersystemid',
                                         ForeignKey(ExternalIdentifierSystems.ExternalIdentifierSystemID),
                                         nullable=False)
-    CitationExternalIdentifier = Column('citationexternaldentifier', String(255), nullable=False)
-    CitationExternalIdentifierURI = Column('citationexternaldentifieruri', String(255))
+    CitationExternalIdentifier = Column('citationexternalidentifier', String(255), nullable=False)
+    CitationExternalIdentifierURI = Column('citationexternalidentifieruri', String(255))
 
     CitationObj = relationship(Citations)
     ExternalIdentifierSystemObj = relationship(ExternalIdentifierSystems)
@@ -1678,7 +1679,7 @@ class SpectraResultValues(Base):
     ValueDateTime = Column('valuedatetime', DateTimeType, nullable=False)
     ValueDateTimeUTCOffset = Column('valuedatetimeutcoffset', Integer, nullable=False)
     ExcitationWavelength = Column('excitationwavelength', Float(53), nullable=False)
-    EmissionWavelength = Column('emmistionwavelength', Float(53), nullable=False)
+    EmissionWavelength = Column('emissionwavelength', Float(53), nullable=False)
     WavelengthUnitsID = Column('wavelengthunitsid', ForeignKey(Units.UnitsID), nullable=False)
     CensorCodeCV = Column('censorcodecv', ForeignKey(CVCensorCode.Name), nullable=False, index=True)
     QualityCodeCV = Column('qualitycodecv', ForeignKey(CVQualityCode.Name), nullable=False, index=True)
