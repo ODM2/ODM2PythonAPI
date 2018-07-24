@@ -1,11 +1,13 @@
 docs-development/_modules/index.html
-docs-development/_modules/odm2api/ODM2/services/createService.html
-docs-development/_modules/odm2api/ODM2/services/deleteService.html
-docs-development/_modules/odm2api/ODM2/services/readService.html
-docs-development/_modules/odm2api/ODM2/services/updateService.html
 docs-development/_modules/odm2api/ODMconnection.html
 docs-development/_modules/odm2api/base.html
+docs-development/_modules/odm2api/models.html
+docs-development/_modules/odm2api/services/createService.html
+docs-development/_modules/odm2api/services/deleteService.html
+docs-development/_modules/odm2api/services/readService.html
+docs-development/_modules/odm2api/services/updateService.html
 docs-development/_modules/sqlalchemy/ext/declarative/api.html
+docs-development/_modules/sqlalchemy/orm/attributes.html
 docs-development/_modules/sqlalchemy/sql/schema.html
 docs-development/_sources/contribute.rst.txt
 docs-development/_sources/credits.rst.txt
