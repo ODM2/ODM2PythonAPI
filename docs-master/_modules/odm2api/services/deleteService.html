@@ -6,13 +6,14 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>odm2api.services.deleteService &#8212; ODM2PythonAPI 0.7.0+26.g9945421 documentation</title>
+    <title>odm2api.services.deleteService &#8212; ODM2PythonAPI 0.7.1+3.g33bf768 documentation</title>
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
    
@@ -97,6 +98,8 @@
       </div>
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <h1>Source code for odm2api.services.deleteService</h1><div class="highlight"><pre>
@@ -113,8 +116,8 @@
 
 <div class="viewcode-block" id="DeleteODM2"><a class="viewcode-back" href="../../../modules.html#odm2api.services.deleteService.DeleteODM2">[docs]</a><span class="k">class</span> <span class="nc">DeleteODM2</span><span class="p">(</span><span class="n">serviceBase</span><span class="p">):</span>
 
-<div class="viewcode-block" id="DeleteODM2.remove"><a class="viewcode-back" href="../../../modules.html#odm2api.services.deleteService.DeleteODM2.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span></div>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+<div class="viewcode-block" id="DeleteODM2.remove"><a class="viewcode-back" href="../../../modules.html#odm2api.services.deleteService.DeleteODM2.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></div>
 
 <span class="c1"># CV</span>
 <span class="c1"># Core</span>
@@ -140,11 +143,12 @@
         <span class="k">if</span> <span class="n">dates</span><span class="p">:</span>
             <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">TimeSeriesResultValues</span><span class="o">.</span><span class="n">ValueDateTime</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">dates</span><span class="p">))</span>
         <span class="n">numvals</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
-        <span class="n">q</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span></div></div>
-        <span class="k">return</span> <span class="n">numvals</span>
+        <span class="n">q</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">numvals</span></div></div>
 </pre></div>
 
           </div>
+          
         </div>
       </div>
     <div class="clearer"></div>
@@ -153,8 +157,8 @@
       &copy;2017, Stephanie Reeder.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
       
     </div>
 

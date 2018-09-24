@@ -6,13 +6,14 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>sqlalchemy.ext.declarative.api &#8212; ODM2PythonAPI 0.7.0+26.g9945421 documentation</title>
+    <title>sqlalchemy.ext.declarative.api &#8212; ODM2PythonAPI 0.7.1+3.g33bf768 documentation</title>
     <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
    
@@ -97,6 +98,8 @@
       </div>
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <h1>Source code for sqlalchemy.ext.declarative.api</h1><div class="highlight"><pre>
@@ -119,6 +122,7 @@
 <span class="kn">from</span> <span class="nn">...</span> <span class="k">import</span> <span class="n">util</span>
 <span class="kn">from</span> <span class="nn">...</span> <span class="k">import</span> <span class="n">exc</span>
 <span class="kn">import</span> <span class="nn">weakref</span>
+<span class="kn">import</span> <span class="nn">re</span>
 
 <span class="kn">from</span> <span class="nn">.base</span> <span class="k">import</span> <span class="n">_as_declarative</span><span class="p">,</span> \
     <span class="n">_declarative_constructor</span><span class="p">,</span>\
@@ -171,21 +175,36 @@
 
 
 <span class="k">def</span> <span class="nf">synonym_for</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">map_column</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Decorator, make a Python @property a query synonym for a column.</span>
+    <span class="sd">&quot;&quot;&quot;Decorator that produces an :func:`.orm.synonym` attribute in conjunction</span>
+<span class="sd">    with a Python descriptor.</span>
 
-<span class="sd">    A decorator version of :func:`~sqlalchemy.orm.synonym`. The function being</span>
-<span class="sd">    decorated is the &#39;descriptor&#39;, otherwise passes its arguments through to</span>
-<span class="sd">    synonym()::</span>
+<span class="sd">    The function being decorated is passed to :func:`.orm.synonym` as the</span>
+<span class="sd">    :paramref:`.orm.synonym.descriptor` parameter::</span>
 
-<span class="sd">      @synonym_for(&#39;col&#39;)</span>
-<span class="sd">      @property</span>
-<span class="sd">      def prop(self):</span>
-<span class="sd">          return &#39;special sauce&#39;</span>
+<span class="sd">        class MyClass(Base):</span>
+<span class="sd">            __tablename__ = &#39;my_table&#39;</span>
 
-<span class="sd">    The regular ``synonym()`` is also usable directly in a declarative setting</span>
-<span class="sd">    and may be convenient for read/write properties::</span>
+<span class="sd">            id = Column(Integer, primary_key=True)</span>
+<span class="sd">            _job_status = Column(&quot;job_status&quot;, String(50))</span>
 
-<span class="sd">      prop = synonym(&#39;col&#39;, descriptor=property(_read_prop, _write_prop))</span>
+<span class="sd">            @synonym_for(&quot;job_status&quot;)</span>
+<span class="sd">            @property</span>
+<span class="sd">            def job_status(self):</span>
+<span class="sd">                return &quot;Status: %s&quot; % self._job_status</span>
+
+<span class="sd">    The :ref:`hybrid properties &lt;mapper_hybrids&gt;` feature of SQLAlchemy</span>
+<span class="sd">    is typically preferred instead of synonyms, which is a more legacy</span>
+<span class="sd">    feature.</span>
+
+<span class="sd">    .. seealso::</span>
+
+<span class="sd">        :ref:`synonyms` - Overview of synonyms</span>
+
+<span class="sd">        :func:`.orm.synonym` - the mapper-level function</span>
+
+<span class="sd">        :ref:`mapper_hybrids` - The Hybrid Attribute extension provides an</span>
+<span class="sd">        updated approach to augmenting attribute behavior more flexibly than</span>
+<span class="sd">        can be achieved with synonyms.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">decorate</span><span class="p">(</span><span class="n">fn</span><span class="p">):</span>
@@ -276,8 +295,8 @@
     <span class="k">def</span> <span class="nf">__get__</span><span class="p">(</span><span class="n">desc</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="bp">cls</span><span class="p">):</span>
         <span class="n">reg</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;_sa_declared_attr_reg&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">reg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">manager</span> <span class="o">=</span> <span class="n">attributes</span><span class="o">.</span><span class="n">manager_of_class</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">manager</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^__.+__$&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">.</span><span class="n">fget</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span> <span class="ow">and</span> \
+                    <span class="n">attributes</span><span class="o">.</span><span class="n">manager_of_class</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">util</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
                     <span class="s2">&quot;Unmanaged access of declarative attribute </span><span class="si">%s</span><span class="s2"> from &quot;</span>
                     <span class="s2">&quot;non-mapped class </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span>
@@ -818,6 +837,7 @@
 </pre></div>
 
           </div>
+          
         </div>
       </div>
     <div class="clearer"></div>
@@ -826,8 +846,8 @@
       &copy;2017, Stephanie Reeder.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
       
     </div>
 
