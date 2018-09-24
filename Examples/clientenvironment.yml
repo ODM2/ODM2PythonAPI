@@ -1,0 +1,19 @@
+name: odm2client
+channels:
+- conda-forge
+dependencies:
+- python=2.7
+- odm2api
+- yodatools
+- requests
+- scipy
+- xarray
+- folium
+- geopandas
+- gdal=2.2
+- owslib
+- ulmo
+# Jupyter notebook
+- ipykernel
+- jupyter
+- nb_conda_kernels
