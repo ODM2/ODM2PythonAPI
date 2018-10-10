@@ -1,5 +1,12 @@
-Installation
+Get Started
 ============
+
+
+Install the latest release as a conda package from conda-forge
+----------------------------------------------
+
+conda
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The easiest and most reliable way to install the ODM2 Python API
 (``odm2api``) is using the `Conda package management
@@ -21,8 +28,8 @@ To activate a conda environment, say, "myenv":
 changes have been made to support Python 3.x, but they haven't been
 tested thoroughly.
 
-Latest release, from conda-forge anaconda.org channel
-----------------------------------------------
+Install the conda package
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The `latest release <https://github.com/ODM2/ODM2PythonAPI/releases>`_ is available
 on the `conda-forge anaconda.org channel <https://anaconda.org/conda-forge/odm2api>`_
@@ -43,39 +50,16 @@ To create a new environment "myenv" with the ``odm2api`` package:
     conda create -n myenv -c conda-forge python=2.7 odm2api
 
 
-Installing the development version from the ``development`` branch on github
-----------------------------------
+Code examples
+----------------------------------------------
 
-Note: We follow the `Gitflow workflow <https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow>`__ for development.
 
-1. Download both ``requirements.txt`` and ``requirements-dev.txt``.
-   
-   .. code-block:: bash
-   
-       wget https://raw.githubusercontent.com/ODM2/ODM2PythonAPI/master/requirements.txt
-       wget https://raw.githubusercontent.com/ODM2/ODM2PythonAPI/master/requirements-dev.txt
 
-2. Create conda environment ``odm2api_dev`` from the two ``requirements*`` text files.
 
-   .. code-block:: bash
-  
-       conda create -n odm2api_dev -c conda-forge python=2.7 --file requirements.txt --file requirements-dev.txt
+Sample Jupyter notebooks
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-3. Activate conda environment.
-   - MacOSX/Linux:
-   
-   .. code-block:: bash
-       
-       source activate odm2api_dev
-   
-   - Windows:
-   
-   .. code-block:: bash
-      
-       activate odm2api_dev
-    
-4. Install the latest commit from the development branch
+Also mention the associated SQLite ODM2 databases. And the conda environment file.
 
-   .. code-block:: bash
-      
-       pip install git+https://github.com/ODM2/ODM2PythonAPI.git@development#egg=odm2api
+https://github.com/ODM2/ODM2PythonAPI/blob/master/Examples/WaterQualityMeasurements_RetrieveVisualize.ipynb
+https://github.com/ODM2/ODM2PythonAPI/blob/master/Examples/TimeSeries_RetrieveVisualize.ipynb

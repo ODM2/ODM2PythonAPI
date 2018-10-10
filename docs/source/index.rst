@@ -7,11 +7,11 @@ A Python-based application programmer's interface for the `Observations Data Mod
    :maxdepth: 2
    :caption: Contents:
 
-   installing
+   getstarted
    modules
    odm2models
-   credits
    contribute
+   credits
 
 Indices and tables
 ==================
