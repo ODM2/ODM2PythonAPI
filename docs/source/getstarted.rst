@@ -61,5 +61,7 @@ Sample Jupyter notebooks
 
 Also mention the associated SQLite ODM2 databases. And the conda environment file.
 
-https://github.com/ODM2/ODM2PythonAPI/blob/master/Examples/WaterQualityMeasurements_RetrieveVisualize.ipynb
-https://github.com/ODM2/ODM2PythonAPI/blob/master/Examples/TimeSeries_RetrieveVisualize.ipynb
+1. `WaterQualityMeasurements_RetrieveVisualize.ipynb <https://github.com/ODM2/ODM2PythonAPI/blob/master/Examples/WaterQualityMeasurements_RetrieveVisualize.ipynb>`_
+
+2. `TimeSeries_RetrieveVisualize.ipynb <https://github.com/ODM2/ODM2PythonAPI/blob/master/Examples/TimeSeries_RetrieveVisualize.ipynb>`_
+
