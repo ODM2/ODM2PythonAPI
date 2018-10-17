@@ -2,8 +2,8 @@ Get Started
 ============
 
 
-Install the latest release as a conda package from conda-forge
-----------------------------------------------
+Install the latest release from a conda package
+------------------------------------------------
 
 conda
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -12,7 +12,9 @@ The following are entities in the `ODM2 Core Schema <http://odm2.github.io/ODM2/
 
 .. autosummary::
 
+   odm2api.models.ActionBy
    odm2api.models.Actions
+   odm2api.models.Affiliations
    odm2api.models.DataSets
    odm2api.models.FeatureActions
    odm2api.models.Methods

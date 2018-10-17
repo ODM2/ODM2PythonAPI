@@ -1,13 +1,13 @@
 Contributing
 ============================
 
-You can help with ODM2 Python API by contributing code, helping with the documentation, and engaging the team via GitHub issues (questions, solutions, etc).
+You can help with ODM2 Python API by contributing code, helping with the documentation, or engaging the team via `GitHub issues <https://github.com/ODM2/ODM2PythonAPI/issues>`_ (questions, solutions, etc).
 
 
-Installing the development version from the development branch on github
-----------------------------------
+Install the development version from GitHub
+--------------------------------------------
 
-Note: We follow the `Gitflow workflow <https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow>`__ for development.
+The latest development version is found in the ``development`` branch of the github repository. We follow the `Gitflow workflow <https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow>`__ for development.
 
 1. Download both ``requirements.txt`` and ``requirements-dev.txt``.
    
