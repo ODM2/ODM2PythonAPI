@@ -13,8 +13,8 @@ A Python-based application programmer's interface for the `Observations Data Mod
    contribute
    credits
 
-Indices
-=======
+Indices and Search
+==================
 
 .. toctree::
    :maxdepth: 2

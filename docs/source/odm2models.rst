@@ -5,7 +5,7 @@ ODM2 is organized with a "core" schema and multiple "extension" schemas that
 extend the functionality of the core. The following sections cover some overarching concepts
 for ODM2 and then focus on specific entities within the ODM2 Core schema and ODM2's extension schemas.
 
-ODM2Core Entities
+ODM2Core entities
 ------------------
 
 The following are entities in the `ODM2 Core Schema <http://odm2.github.io/ODM2/schemas/ODM2_Current/diagrams/ODM2Core.html>`__:

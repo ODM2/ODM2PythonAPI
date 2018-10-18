@@ -42,7 +42,7 @@ The latest development version is found in the ``development`` branch of the git
        pip install git+https://github.com/ODM2/ODM2PythonAPI.git@development#egg=odm2api
 
 
-Contribute to Documentation
+Contribute to documentation
 ----------------------------------
 
 This guide is a reference on how to contribute to ODM2 Documentation effort
