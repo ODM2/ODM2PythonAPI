@@ -11,9 +11,8 @@ docs-master/_modules/sqlalchemy/orm/attributes.html
 docs-master/_modules/sqlalchemy/sql/schema.html
 docs-master/_sources/contribute.rst.txt
 docs-master/_sources/credits.rst.txt
+docs-master/_sources/getstarted.rst.txt
 docs-master/_sources/index.rst.txt
-docs-master/_sources/installing.rst.txt
-docs-master/_sources/models.rst.txt
 docs-master/_sources/modules.rst.txt
 docs-master/_sources/odm2models.rst.txt
 docs-master/_static/ajax-loader.gif
@@ -43,9 +42,8 @@ docs-master/_static/websupport.js
 docs-master/contribute.html
 docs-master/credits.html
 docs-master/genindex.html
+docs-master/getstarted.html
 docs-master/index.html
-docs-master/installing.html
-docs-master/models.html
 docs-master/modules.html
 docs-master/objects.inv
 docs-master/odm2models.html

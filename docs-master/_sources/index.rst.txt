@@ -1,25 +1,23 @@
-ODM2 Python API
-===============
+ODM2 Python API (odm2api)
+=========================
 
-A Python-based application programmer's interface for the `Observations Data Model 2 (ODM2) <http://www.odm2.org>`__.
+A Python-based application programmer's interface for the `Observations Data Model 2 (ODM2) <http://www.odm2.org>`__. Development of ``odm2api`` is done at `<https://github.com/ODM2/ODM2PythonAPI/>`_.
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-   installing
-   modules
+   getstarted
    odm2models
-   credits
+   modules
    contribute
+   credits
 
-Indices and tables
+Indices and Search
 ==================
 
 .. toctree::
    :maxdepth: 2
-
-   models
 
 * :ref:`genindex`
 * :ref:`modindex`
