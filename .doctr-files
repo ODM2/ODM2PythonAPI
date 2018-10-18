@@ -11,9 +11,8 @@
 ./_modules/sqlalchemy/sql/schema.html
 ./_sources/contribute.rst.txt
 ./_sources/credits.rst.txt
+./_sources/getstarted.rst.txt
 ./_sources/index.rst.txt
-./_sources/installing.rst.txt
-./_sources/models.rst.txt
 ./_sources/modules.rst.txt
 ./_sources/odm2models.rst.txt
 ./_static/ajax-loader.gif
@@ -43,9 +42,8 @@
 ./contribute.html
 ./credits.html
 ./genindex.html
+./getstarted.html
 ./index.html
-./installing.html
-./models.html
 ./modules.html
 ./objects.inv
 ./odm2models.html
