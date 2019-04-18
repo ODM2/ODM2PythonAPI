@@ -7,12 +7,9 @@ dependencies:
 - yodatools
 - requests
 - scipy
-- xarray
-- folium
 - geopandas
-- gdal=2.2
-- owslib
-- ulmo
+- gdal
+- folium
 # Jupyter notebook
 - ipykernel
 - jupyter
