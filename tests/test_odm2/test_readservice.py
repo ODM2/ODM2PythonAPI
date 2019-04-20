@@ -2,14 +2,16 @@ from __future__ import (absolute_import, division, print_function)
 
 from os.path import abspath, dirname, join
 
-from odm2api.ODM2 import models
-from odm2api.ODM2.services.readService import ReadODM2
+from odm2api import models
+from odm2api.services.readService import ReadODM2
 from odm2api.ODMconnection import dbconnection
 
 import pytest
 
 import sqlalchemy
 from sqlalchemy.orm import class_mapper
+
+skipif = pytest.mark.skipif
 
 globals_vars = {}
 
