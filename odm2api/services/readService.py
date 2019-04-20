@@ -799,7 +799,7 @@ class ReadODM2(serviceBase):
             query = query.join(FeatureActions).filter_by(ActionID=actionid)
         if 'sfid' in kwargs:
             warnings.warn("The parameter 'sfid' is deprecated. " +
-                          "Please use the sfids parameter instead and send in a list.",
+                          "Please use the sfids parameter instead and send in a list.",   # noqa
                           DeprecationWarning, stacklevel=2)
             if kwargs['sfid']:
                 query = query.join(FeatureActions).filter_by(SamplingFeatureID=kwargs['sfid'])
@@ -1415,9 +1415,9 @@ class ReadODM2(serviceBase):
                 df.columns = [self._get_columns(ResultValues)[c] for c in df.columns]
             else:
                 warnings.warn(
-                    "In a near-future release, " +
+                    "In a near-future release, " +  # noqa
                     "the parameter 'lowercols' default will be changed to False, " +
-                    "and later the parameter may be removed.",
+                    "and later the parameter may be removed.",   # noqa
                     DeprecationWarning, stacklevel=2)
             return df
         except Exception as e:
