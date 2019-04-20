@@ -14,7 +14,7 @@ BigIntegerType = BigIntegerType.with_variant(postgresql.BIGINT(), 'postgresql')
 BigIntegerType = BigIntegerType.with_variant(mysql.BIGINT(), 'mysql')
 
 DateTimeType = DateTime()
-DateTimeType = DateTimeType.with_variant(sqlite.INTEGER(), 'sqlite')
+DateTimeType = DateTimeType.with_variant(sqlite.DATETIME(), 'sqlite')
 
 
 def is_hex(s):
