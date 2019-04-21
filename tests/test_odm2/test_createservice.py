@@ -4,8 +4,8 @@ import datetime
 import uuid
 from os.path import abspath, dirname, join
 
-from odm2api.ODM2 import models
-from odm2api.ODM2.services.createService import CreateODM2
+from odm2api import models
+from odm2api.services.createService import CreateODM2
 from odm2api.ODMconnection import dbconnection
 
 import pytest

@@ -1,6 +1,6 @@
 from __future__ import (absolute_import, division, print_function)
 
-from odm2api.ODM2.models import CVElevationDatum, setSchema
+from odm2api.models import CVElevationDatum, setSchema
 from odm2api.ODMconnection import SessionFactory
 
 import pytest
