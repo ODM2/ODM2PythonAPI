@@ -1,11 +1,12 @@
 from __future__ import (absolute_import, division, print_function)
 
-from odm2api.models import Methods, Models, People, ProcessingLevels, RelatedModels, Variables
+from odm2api.ODMconnection import dbconnection
+from odm2api.models import (Methods, Models, People,
+                            ProcessingLevels, RelatedModels, Variables)
 from odm2api.services.createService import CreateODM2
 from odm2api.services.deleteService import DeleteODM2
 from odm2api.services.readService import ReadODM2
 from odm2api.services.updateService import UpdateODM2
-from odm2api.ODMconnection import dbconnection
 
 import pytest
 

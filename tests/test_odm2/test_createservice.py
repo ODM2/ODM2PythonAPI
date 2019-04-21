@@ -5,8 +5,8 @@ import uuid
 from os.path import abspath, dirname, join
 
 from odm2api import models
-from odm2api.services.createService import CreateODM2
 from odm2api.ODMconnection import dbconnection
+from odm2api.services.createService import CreateODM2
 
 import pytest
 # run this test from the root directory using:
