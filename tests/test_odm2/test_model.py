@@ -1,7 +1,7 @@
 from __future__ import (absolute_import, division, print_function)
 
-from odm2api.ODM2.models import (CVElevationDatum, CVSamplingFeatureGeoType,
-                                 CVSamplingFeatureType, SamplingFeatures)
+from odm2api.models import (CVElevationDatum, CVSamplingFeatureGeoType,
+                            CVSamplingFeatureType, SamplingFeatures)
 
 import pytest
 
