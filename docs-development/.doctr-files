@@ -11,9 +11,8 @@ docs-development/_modules/sqlalchemy/orm/attributes.html
 docs-development/_modules/sqlalchemy/sql/schema.html
 docs-development/_sources/contribute.rst.txt
 docs-development/_sources/credits.rst.txt
+docs-development/_sources/getstarted.rst.txt
 docs-development/_sources/index.rst.txt
-docs-development/_sources/installing.rst.txt
-docs-development/_sources/models.rst.txt
 docs-development/_sources/modules.rst.txt
 docs-development/_sources/odm2models.rst.txt
 docs-development/_static/alabaster.css
@@ -35,9 +34,8 @@ docs-development/_static/underscore.js
 docs-development/contribute.html
 docs-development/credits.html
 docs-development/genindex.html
+docs-development/getstarted.html
 docs-development/index.html
-docs-development/installing.html
-docs-development/models.html
 docs-development/modules.html
 docs-development/objects.inv
 docs-development/odm2models.html

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Contribute to Documentation &#8212; ODM2PythonAPI 0.7.1+12.g6997f36 documentation</title>
+    <title>Contributing &#8212; ODM2PythonAPI 0.7.1+30.gc6782b5 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -14,8 +14,8 @@
     <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="ODM2 Models Index" href="models.html" />
-    <link rel="prev" title="Credits" href="credits.html" />
+    <link rel="next" title="Credits" href="credits.html" />
+    <link rel="prev" title="Developer Interface" href="modules.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -61,28 +61,24 @@
 
 
 <h3>Navigation</h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="installing.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">Developer Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getstarted.html">Get Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="odm2models.html">ODM2 Models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Contribute to Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#conventions">Conventions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#pull-requests">Pull requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Developer Interface</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#install-the-development-version-from-github">Install the development version from GitHub</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#contribute-to-documentation">Contribute to documentation</a></li>
 </ul>
 </li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="models.html">ODM2 Models Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="credits.html" title="previous chapter">Credits</a></li>
-      <li>Next: <a href="models.html" title="next chapter">ODM2 Models Index</a></li>
+      <li>Previous: <a href="modules.html" title="previous chapter">Developer Interface</a></li>
+      <li>Next: <a href="credits.html" title="next chapter">Credits</a></li>
   </ul></li>
 </ul>
 </div>
@@ -112,12 +108,49 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="contribute-to-documentation">
-<h1>Contribute to Documentation<a class="headerlink" href="#contribute-to-documentation" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="contributing">
+<h1>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">¶</a></h1>
+<p>You can help with ODM2 Python API by contributing code, helping with the documentation, or engaging the team via <a class="reference external" href="https://github.com/ODM2/ODM2PythonAPI/issues">GitHub issues</a> (questions, solutions, etc).</p>
+<div class="section" id="install-the-development-version-from-github">
+<h2>Install the development version from GitHub<a class="headerlink" href="#install-the-development-version-from-github" title="Permalink to this headline">¶</a></h2>
+<p>The latest development version is found in the <code class="docutils literal notranslate"><span class="pre">development</span></code> branch of the github repository. We follow the <a class="reference external" href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow">Gitflow workflow</a> for development.</p>
+<ol class="arabic">
+<li><p>Download both <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> and <code class="docutils literal notranslate"><span class="pre">requirements-dev.txt</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget https://raw.githubusercontent.com/ODM2/ODM2PythonAPI/master/requirements.txt
+wget https://raw.githubusercontent.com/ODM2/ODM2PythonAPI/master/requirements-dev.txt
+</pre></div>
+</div>
+</li>
+<li><p>Create conda environment <code class="docutils literal notranslate"><span class="pre">odm2api_dev</span></code> from the two <code class="docutils literal notranslate"><span class="pre">requirements*</span></code> text files.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda create -n odm2api_dev -c conda-forge <span class="nv">python</span><span class="o">=</span><span class="m">2</span>.7 --file requirements.txt --file requirements-dev.txt
+</pre></div>
+</div>
+</li>
+<li><p>Activate conda environment.
+- MacOSX/Linux:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span> activate odm2api_dev
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Windows:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>activate odm2api_dev
+</pre></div>
+</div>
+</li>
+<li><p>Install the latest commit from the development branch</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install git+https://github.com/ODM2/ODM2PythonAPI.git@development#egg<span class="o">=</span>odm2api
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="contribute-to-documentation">
+<h2>Contribute to documentation<a class="headerlink" href="#contribute-to-documentation" title="Permalink to this headline">¶</a></h2>
 <p>This guide is a reference on how to contribute to ODM2 Documentation effort
 for the many <a class="reference external" href="https://github.com/ODM2/odm2-software-ecosystem">ODM2 Software Ecosystem</a>.</p>
 <div class="section" id="conventions">
-<h2>Conventions<a class="headerlink" href="#conventions" title="Permalink to this headline">¶</a></h2>
+<h3>Conventions<a class="headerlink" href="#conventions" title="Permalink to this headline">¶</a></h3>
 <p>There are a few conventions that should be followed
 when writing docstrings within the code:</p>
 <ul class="simple">
@@ -137,10 +170,11 @@ if an argument needs a CV as value.</p></li>
 within <a class="reference external" href="https://github.com/ODM2/ODM2PythonAPI/issues/106">the github issue #106</a>.</p>
 </div>
 <div class="section" id="pull-requests">
-<h2>Pull requests<a class="headerlink" href="#pull-requests" title="Permalink to this headline">¶</a></h2>
+<h3>Pull requests<a class="headerlink" href="#pull-requests" title="Permalink to this headline">¶</a></h3>
 <p>Once changes has been in place within your forked copy of the repository
 you are working on, please create a pull request to add your contribution
 to the <strong>master</strong> branch of the repository.</p>
+</div>
 </div>
 </div>
 

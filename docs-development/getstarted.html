@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Get Started &#8212; ODM2PythonAPI 0.7.1+30.gc6782b5 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ODM2 Models" href="odm2models.html" />
+    <link rel="prev" title="ODM2 Python API (odm2api)" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=ODM2&repo=ODM2PythonAPI&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+    
+
+<p>
+<a class="badge" href="https://travis-ci.org/ODM2/ODM2PythonAPI">
+    <img
+        alt="https://secure.travis-ci.org/ODM2/ODM2PythonAPI.svg?branch=master"
+        src="https://secure.travis-ci.org/ODM2/ODM2PythonAPI.svg?branch=master"
+    />
+</a>
+</p>
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Get Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#install-the-latest-release-with-conda">Install the latest release with conda</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sample-jupyter-notebooks">Sample Jupyter notebooks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#code-examples">Code examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="odm2models.html">ODM2 Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Developer Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribute.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">ODM2 Python API (odm2api)</a></li>
+      <li>Next: <a href="odm2models.html" title="next chapter">ODM2 Models</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="get-started">
+<h1>Get Started<a class="headerlink" href="#get-started" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="install-the-latest-release-with-conda">
+<h2>Install the latest release with conda<a class="headerlink" href="#install-the-latest-release-with-conda" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="conda">
+<h3>conda<a class="headerlink" href="#conda" title="Permalink to this headline">¶</a></h3>
+<p>The easiest and most reliable way to install the ODM2 Python API
+(<code class="docutils literal notranslate"><span class="pre">odm2api</span></code>) is using the <a class="reference external" href="https://conda.io/docs/">Conda package management
+system</a> via either
+<a class="reference external" href="https://www.anaconda.com/download/">Anaconda</a> or
+<a class="reference external" href="https://conda.io/miniconda.html">Miniconda</a>. To start using
+conda (if it’s not your system default), add conda to the PATH; on
+OS X and Linux, it’s something like
+<code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">PATH=$HOME/miniconda3/bin:$PATH</span></code>, but the exact path may vary.</p>
+<p>To activate a conda environment, say, “myenv”:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>activate myenv  <span class="c1"># On Windows</span>
+<span class="nb">source</span> activate myenv  <span class="c1"># On MacOSX or Linux</span>
+</pre></div>
+</div>
+<p><strong>Note:</strong> <code class="docutils literal notranslate"><span class="pre">odm2api</span></code> currently is only tested on Python 2.7. Some
+changes have been made to support Python 3.x, but they haven’t been
+tested thoroughly.</p>
+</div>
+<div class="section" id="install-the-conda-package">
+<h3>Install the conda package<a class="headerlink" href="#install-the-conda-package" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference external" href="https://github.com/ODM2/ODM2PythonAPI/releases">latest release</a> is available
+as a package on the <a class="reference external" href="https://anaconda.org/conda-forge/odm2api">conda-forge anaconda.org channel</a>
+for all major OS platforms (linux, OS X, win32/win64). To install it on
+an existing conda environment:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span> <span class="n">odm2api</span>
+</pre></div>
+</div>
+<p>All dependencies are installed, including Pandas and its dependencies
+(numpy, etc).</p>
+<p>To create a new environment “myenv” with the <code class="docutils literal notranslate"><span class="pre">odm2api</span></code> package:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">myenv</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span> <span class="n">python</span><span class="o">=</span><span class="mf">2.7</span> <span class="n">odm2api</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="sample-jupyter-notebooks">
+<h2>Sample Jupyter notebooks<a class="headerlink" href="#sample-jupyter-notebooks" title="Permalink to this headline">¶</a></h2>
+<p>These two notebooks are complete, extended examples that illustrate reading from ODM2 databases and using the resulting data and metadata. They use SQLite ODM2 file databases that can be <a class="reference external" href="https://github.com/ODM2/ODM2PythonAPI/tree/master/Examples/data">downloaded here</a>.
+A conda environment to run these notebooks can be created with the conda environment file
+<a class="reference external" href="https://github.com/ODM2/ODM2PythonAPI/blob/master/Examples/clientenvironment.yml">clientenvironment.yml</a>.</p>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="https://nbviewer.jupyter.org/github/ODM2/ODM2PythonAPI/blob/master/Examples/WaterQualityMeasurements_RetrieveVisualize.ipynb">WaterQualityMeasurements_RetrieveVisualize.ipynb</a></p></li>
+<li><p><a class="reference external" href="https://nbviewer.jupyter.org/github/ODM2/ODM2PythonAPI/blob/master/Examples/TimeSeries_RetrieveVisualize.ipynb">TimeSeries_RetrieveVisualize.ipynb</a></p></li>
+</ol>
+</div>
+<div class="section" id="code-examples">
+<h2>Code examples<a class="headerlink" href="#code-examples" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="connecting-to-an-odm2-database">
+<h3>Connecting to an ODM2 database<a class="headerlink" href="#connecting-to-an-odm2-database" title="Permalink to this headline">¶</a></h3>
+<p>Connect to an ODM2 database and open the connection for reading.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">odm2api.ODMconnection</span> <span class="kn">import</span> <span class="n">dbconnection</span>
+<span class="kn">import</span> <span class="nn">odm2api.services.readService</span> <span class="kn">as</span> <span class="nn">odm2rs</span>
+
+<span class="c1"># -----------------------------------------------------</span>
+<span class="c1"># 1. A SQLite file-based connection</span>
+<span class="n">session_factory</span> <span class="o">=</span> <span class="n">dbconnection</span><span class="o">.</span><span class="n">createConnection</span><span class="p">(</span><span class="s1">&#39;sqlite&#39;</span><span class="p">,</span>
+                                                <span class="s1">&#39;/myfilepath/odm2db.sqlite&#39;</span><span class="p">)</span>
+<span class="n">read</span> <span class="o">=</span> <span class="n">odm2rs</span><span class="o">.</span><span class="n">ReadODM2</span><span class="p">(</span><span class="n">session_factory</span><span class="p">)</span>
+
+<span class="c1"># -----------------------------------------------------</span>
+<span class="c1"># 2. A server-based database system connection</span>
+<span class="n">db_credentials</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="s1">&#39;ip-or-domainname&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;db&#39;</span><span class="p">:</span> <span class="s1">&#39;dbname&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="s1">&#39;dbuser&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;password&#39;</span><span class="p">:</span> <span class="s1">&#39;password&#39;</span>
+<span class="p">}</span>
+<span class="n">session_factory</span> <span class="o">=</span> <span class="n">dbconnection</span><span class="o">.</span><span class="n">createConnection</span><span class="p">(</span><span class="s1">&#39;postgresql&#39;</span><span class="p">,</span>
+                                                <span class="o">**</span><span class="n">db_credentials</span><span class="p">)</span>
+<span class="n">read</span> <span class="o">=</span> <span class="n">odm2rs</span><span class="o">.</span><span class="n">ReadODM2</span><span class="p">(</span><span class="n">session_factory</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="updating-an-entity-table">
+<h3>Updating an entity (table)<a class="headerlink" href="#updating-an-entity-table" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference external" href="https://github.com/ODM2/ODM2PythonAPI/blob/master/odm2api/services/updateService.py">update services</a>
+have not been fleshed out at this time, for the most part. However, updates can be easily
+accomplished by reusing the connection setup at the start of an odm2api session,
+then constructing and issuing a direct <code class="docutils literal notranslate"><span class="pre">SQL</span> <span class="pre">UPDATE</span></code> statement, like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">odm2api.ODMconnection</span> <span class="kn">import</span> <span class="n">dbconnection</span>
+
+<span class="n">session_factory</span> <span class="o">=</span> <span class="n">dbconnection</span><span class="o">.</span><span class="n">createConnection</span><span class="p">(</span><span class="s1">&#39;postgresql&#39;</span><span class="p">,</span>
+                                                <span class="o">**</span><span class="n">db_credentials</span><span class="p">)</span>
+<span class="n">DBSession</span> <span class="o">=</span> <span class="n">session_factory</span><span class="o">.</span><span class="n">getSession</span><span class="p">()</span>
+
+<span class="n">sq_str</span> <span class="o">=</span> <span class="s2">&quot; UPDATE mytable SET variablecode = &#39;xyz&#39; WHERE variablecode = &#39;abc&#39; &quot;</span>
+<span class="n">DBSession</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql_str</span><span class="p">)</span>
+<span class="n">DBSession</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2017, Stephanie Reeder.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/getstarted.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+    <a href="https://github.com/ODM2/ODM2PythonAPI" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>
