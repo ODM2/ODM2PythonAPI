@@ -185,7 +185,7 @@ class ReadODM2(serviceBase):
         a = Annotations
         self._check_kwargs(['type'], kwargs)
         if 'type' in kwargs:
-            warnings.warn('The parameter \'type\' is deprecated. Please use the annottype parameter instead.',
+            warnings.warn("The parameter 'type' is deprecated. Please use the annottype parameter instead.",
                           DeprecationWarning, stacklevel=2)
             annottype = kwargs['type']
         if annottype:
@@ -238,7 +238,7 @@ class ReadODM2(serviceBase):
         """
         self._check_kwargs(['type'], kwargs)
         if 'type' in kwargs:
-            warnings.warn('The parameter \'type\' is deprecated. Please use the cvtype parameter instead.',
+            warnings.warn("The parameter 'type' is deprecated. Please use the cvtype parameter instead.",
                           DeprecationWarning, stacklevel=2)
             cvtype = kwargs['type']
 
@@ -430,7 +430,7 @@ class ReadODM2(serviceBase):
         """
         self._check_kwargs(['type'], kwargs)
         if 'type' in kwargs:
-            warnings.warn('The parameter \'type\' is deprecated. Please use the medtype parameter instead.',
+            warnings.warn("The parameter 'type' is deprecated. Please use the medtype parameter instead.",
                           DeprecationWarning, stacklevel=2)
             methodtype = kwargs['type']
 
@@ -517,7 +517,7 @@ class ReadODM2(serviceBase):
         """
         self._check_kwargs(['type'], kwargs)
         if 'type' in kwargs:
-            warnings.warn('The parameter \'type\' is deprecated. Please use the sftype parameter instead.',
+            warnings.warn("The parameter 'type' is deprecated. Please use the sftype parameter instead.",
                           DeprecationWarning, stacklevel=2)
             sftype = kwargs['type']
         if results:
@@ -591,7 +591,7 @@ class ReadODM2(serviceBase):
         """
         self._check_kwargs(['type'], kwargs)
         if 'type' in kwargs:
-            warnings.warn('The parameter \'type\' is deprecated. Please use the acttype parameter instead.',
+            warnings.warn("The parameter 'type' is deprecated. Please use the acttype parameter instead.",
                           DeprecationWarning, stacklevel=2)
             acttype = kwargs['type']
         a = Actions
@@ -641,7 +641,7 @@ class ReadODM2(serviceBase):
         """
         self._check_kwargs(['type'], kwargs)
         if 'type' in kwargs:
-            warnings.warn('The parameter \'type\' is deprecated. Please use the unittype parameter instead.',
+            warnings.warn("The parameter 'type' is deprecated. Please use the unittype parameter instead.",
                           DeprecationWarning, stacklevel=2)
             unittype = kwargs['type']
         q = self._session.query(Units)
@@ -779,7 +779,7 @@ class ReadODM2(serviceBase):
         query = self._session.query(Results)
         self._check_kwargs(['type', 'sfid'], kwargs)
         if 'type' in kwargs:
-            warnings.warn('The parameter \'type\' is deprecated. Please use the restype parameter instead.',
+            warnings.warn("The parameter 'type' is deprecated. Please use the restype parameter instead.",
                           DeprecationWarning, stacklevel=2)
             restype = kwargs['type']
         if restype:
@@ -798,8 +798,8 @@ class ReadODM2(serviceBase):
         if actionid:
             query = query.join(FeatureActions).filter_by(ActionID=actionid)
         if 'sfid' in kwargs:
-            warnings.warn('The parameter \'sfid\' is deprecated. '
-                          'Please use the sfids parameter instead and send in a list.',
+            warnings.warn("The parameter 'sfid' is deprecated. " +
+                          "Please use the sfids parameter instead and send in a list.",   # noqa
                           DeprecationWarning, stacklevel=2)
             if kwargs['sfid']:
                 query = query.join(FeatureActions).filter_by(SamplingFeatureID=kwargs['sfid'])
@@ -1087,7 +1087,7 @@ class ReadODM2(serviceBase):
         """
         self._check_kwargs(['type'], kwargs)
         if 'type' in kwargs:
-            warnings.warn('The parameter \'type\' is deprecated. Please use the equiptype parameter instead.',
+            warnings.warn("The parameter 'type' is deprecated. Please use the equiptype parameter instead.",
                           DeprecationWarning, stacklevel=2)
             equiptype = kwargs['type']
 
@@ -1191,7 +1191,7 @@ class ReadODM2(serviceBase):
         # Todo what values to use for extensionproperties type
         self._check_kwargs(['type'], kwargs)
         if 'type' in kwargs:
-            warnings.warn('The parameter \'type\' is deprecated. Please use the exptype parameter instead.',
+            warnings.warn("The parameter 'type' is deprecated. Please use the exptype parameter instead.",
                           DeprecationWarning, stacklevel=2)
             exptype = kwargs['type']
         e = ExtensionProperties
@@ -1222,7 +1222,7 @@ class ReadODM2(serviceBase):
         """
         self._check_kwargs(['type'], kwargs)
         if 'type' in kwargs:
-            warnings.warn('The parameter \'type\' is deprecated. Please use the eitype parameter instead.',
+            warnings.warn("The parameter 'type' is deprecated. Please use the eitype parameter instead.",
                           DeprecationWarning, stacklevel=2)
             eitype = kwargs['type']
         e = ExternalIdentifierSystems
@@ -1415,9 +1415,9 @@ class ReadODM2(serviceBase):
                 df.columns = [self._get_columns(ResultValues)[c] for c in df.columns]
             else:
                 warnings.warn(
-                    'In a near-future release, '
-                    'the parameter \'lowercols\' default will be changed to False, '
-                    'and later the parameter may be removed.',
+                    "In a near-future release, " +  # noqa
+                    "the parameter 'lowercols' default will be changed to False, " +
+                    "and later the parameter may be removed.",   # noqa
                     DeprecationWarning, stacklevel=2)
             return df
         except Exception as e:
@@ -1487,7 +1487,7 @@ class ReadODM2(serviceBase):
         """
         self._check_kwargs(['id'], kwargs)
         if 'id' in kwargs:
-            warnings.warn('The parameter \'id\' is deprecated. Please use the modid parameter instead.',
+            warnings.warn("The parameter 'id' is deprecated. Please use the modid parameter instead.",
                           DeprecationWarning, stacklevel=2)
             modid = kwargs['id']
         m = self._session.query(Models).select_from(RelatedModels).join(RelatedModels.ModelObj)

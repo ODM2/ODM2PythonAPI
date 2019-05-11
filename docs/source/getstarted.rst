@@ -49,6 +49,16 @@ To create a new environment "myenv" with the ``odm2api`` package:
 
     conda create -n myenv -c conda-forge python=2.7 odm2api
 
+Sample Jupyter notebooks
+------------------------
+
+These two notebooks are complete, extended examples that illustrate reading from ODM2 databases and using the resulting data and metadata. They use SQLite ODM2 file databases that can be `downloaded here <https://github.com/ODM2/ODM2PythonAPI/tree/master/Examples/data>`_. 
+A conda environment to run these notebooks can be created with the conda environment file 
+`clientenvironment.yml <https://github.com/ODM2/ODM2PythonAPI/blob/master/Examples/clientenvironment.yml>`_.
+
+1. `WaterQualityMeasurements_RetrieveVisualize.ipynb <https://nbviewer.jupyter.org/github/ODM2/ODM2PythonAPI/blob/master/Examples/WaterQualityMeasurements_RetrieveVisualize.ipynb>`_
+
+2. `TimeSeries_RetrieveVisualize.ipynb <https://nbviewer.jupyter.org/github/ODM2/ODM2PythonAPI/blob/master/Examples/TimeSeries_RetrieveVisualize.ipynb>`_
 
 Code examples
 -------------
@@ -63,12 +73,14 @@ Connect to an ODM2 database and open the connection for reading.
     from odm2api.ODMconnection import dbconnection
     import odm2api.services.readService as odm2rs
 
-    # A SQLite file-based connection
+    # -----------------------------------------------------
+    # 1. A SQLite file-based connection
     session_factory = dbconnection.createConnection('sqlite', 
                                                     '/myfilepath/odm2db.sqlite')
     read = odm2rs.ReadODM2(session_factory)
 
-    # A connection to a server-based database system
+    # -----------------------------------------------------
+    # 2. A server-based database system connection
     db_credentials = {
         'address': 'ip-or-domainname',
         'db': 'dbname',
@@ -93,21 +105,9 @@ then constructing and issuing a direct ``SQL UPDATE`` statement, like this:
     from odm2api.ODMconnection import dbconnection
 
     session_factory = dbconnection.createConnection('postgresql', 
-                                                    **db_cred)
+                                                    **db_credentials)
     DBSession = session_factory.getSession()
 
     sq_str = " UPDATE mytable SET variablecode = 'xyz' WHERE variablecode = 'abc' "
     DBSession.execute(sql_str)
     DBSession.commit()
-
-
-Sample Jupyter notebooks
-------------------------
-
-These two notebooks are complete, extended examples that illustrate reading from ODM2 databases and using the resulting data and metadata. They use SQLite ODM2 file databases that can be `downloaded here <https://github.com/ODM2/ODM2PythonAPI/tree/master/Examples/data>`_. 
-A conda environment to run these notebooks can be created with the conda environment file 
-`clientenvironment.yml <https://github.com/ODM2/ODM2PythonAPI/blob/master/Examples/clientenvironment.yml>`_.
-
-1. `WaterQualityMeasurements_RetrieveVisualize.ipynb <https://github.com/ODM2/ODM2PythonAPI/blob/master/Examples/WaterQualityMeasurements_RetrieveVisualize.ipynb>`_
-
-2. `TimeSeries_RetrieveVisualize.ipynb <https://github.com/ODM2/ODM2PythonAPI/blob/master/Examples/TimeSeries_RetrieveVisualize.ipynb>`_

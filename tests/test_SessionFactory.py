@@ -1,7 +1,7 @@
 from __future__ import (absolute_import, division, print_function)
 
-from odm2api.ODM2.models import CVElevationDatum, setSchema
 from odm2api.ODMconnection import SessionFactory
+from odm2api.models import CVElevationDatum, setSchema
 
 import pytest
 
@@ -15,10 +15,10 @@ dbs_readonly = [
     ['mysql"root@Localhost/odm2', 'mysql', 'mysql+pymysql://root@localhost/odm2'],
     ['postgresql_marchantariats_none', 'postgresql',
      'postgresql+psycopg2://postgres:None@localhost/marchantariats',
-     'marchantariats', 'postgres',  None],
+     'marchantariats', 'postgres', None],
     ['postgresql_marchantariats_empty', 'postgresql',
      'postgresql+psycopg2://postgres@localhost/marchantariats',
-     'marchantariats', 'postgres',  None],
+     'marchantariats', 'postgres', None],
     ['sqlite_wof', 'sqlite', 'sqlite:///./tests/spatialite/wof2odm/ODM2.sqlite', None, None, None]
 ]
 
