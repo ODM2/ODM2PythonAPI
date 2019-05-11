@@ -1,19 +1,17 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ODM2 Models &#8212; ODM2PythonAPI 0.7.1+12.g7a1e899 documentation</title>
+    <meta charset="utf-8" />
+    <title>ODM2 Models &#8212; ODM2PythonAPI 0.7.1+31.g952a42e documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Developer Interface" href="modules.html" />
@@ -63,7 +61,6 @@
 
 
 <h3>Navigation</h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="getstarted.html">Get Started</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">ODM2 Models</a><ul>
@@ -91,8 +88,6 @@
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -121,56 +116,56 @@ for ODM2 and then focus on specific entities within the ODM2 Core schema and ODM
 <div class="section" id="odm2core-entities">
 <h2>ODM2Core entities<a class="headerlink" href="#odm2core-entities" title="Permalink to this headline">¶</a></h2>
 <p>The following are entities in the <a class="reference external" href="http://odm2.github.io/ODM2/schemas/ODM2_Current/diagrams/ODM2Core.html">ODM2 Core Schema</a>:</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-center">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#odm2api.models.ActionBy" title="odm2api.models.ActionBy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odm2api.models.ActionBy</span></code></a>(**kwargs)</td>
-<td></td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#odm2api.models.ActionBy" title="odm2api.models.ActionBy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odm2api.models.ActionBy</span></code></a>(**kwargs)</p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#odm2api.models.Actions" title="odm2api.models.Actions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odm2api.models.Actions</span></code></a>(**kwargs)</td>
-<td>Actions are performed by people and may have a result.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#odm2api.models.Actions" title="odm2api.models.Actions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odm2api.models.Actions</span></code></a>(**kwargs)</p></td>
+<td><p>Actions are performed by people and may have a result.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#odm2api.models.Affiliations" title="odm2api.models.Affiliations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odm2api.models.Affiliations</span></code></a>(**kwargs)</td>
-<td></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#odm2api.models.Affiliations" title="odm2api.models.Affiliations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odm2api.models.Affiliations</span></code></a>(**kwargs)</p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#odm2api.models.DataSets" title="odm2api.models.DataSets"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odm2api.models.DataSets</span></code></a>(**kwargs)</td>
-<td>Enables grouping of results into a larger dataset.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#odm2api.models.DataSets" title="odm2api.models.DataSets"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odm2api.models.DataSets</span></code></a>(**kwargs)</p></td>
+<td><p>Enables grouping of results into a larger dataset.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#odm2api.models.FeatureActions" title="odm2api.models.FeatureActions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odm2api.models.FeatureActions</span></code></a>(**kwargs)</td>
-<td>Provides flexible linkage between Actions and the SamplingFeatures on which or at which they were performed.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#odm2api.models.FeatureActions" title="odm2api.models.FeatureActions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odm2api.models.FeatureActions</span></code></a>(**kwargs)</p></td>
+<td><p>Provides flexible linkage between Actions and the SamplingFeatures on which or at which they were performed.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#odm2api.models.Methods" title="odm2api.models.Methods"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odm2api.models.Methods</span></code></a>(**kwargs)</td>
-<td>The procedure used to perform an action.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#odm2api.models.Methods" title="odm2api.models.Methods"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odm2api.models.Methods</span></code></a>(**kwargs)</p></td>
+<td><p>The procedure used to perform an action.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#odm2api.models.Organizations" title="odm2api.models.Organizations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odm2api.models.Organizations</span></code></a>(**kwargs)</td>
-<td>A group of people.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#odm2api.models.Organizations" title="odm2api.models.Organizations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odm2api.models.Organizations</span></code></a>(**kwargs)</p></td>
+<td><p>A group of people.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#odm2api.models.People" title="odm2api.models.People"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odm2api.models.People</span></code></a>(**kwargs)</td>
-<td>Individuals that perform actions.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#odm2api.models.People" title="odm2api.models.People"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odm2api.models.People</span></code></a>(**kwargs)</p></td>
+<td><p>Individuals that perform actions.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#odm2api.models.ProcessingLevels" title="odm2api.models.ProcessingLevels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odm2api.models.ProcessingLevels</span></code></a>(**kwargs)</td>
-<td>Levels to which data have been quality controlled.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#odm2api.models.ProcessingLevels" title="odm2api.models.ProcessingLevels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odm2api.models.ProcessingLevels</span></code></a>(**kwargs)</p></td>
+<td><p>Levels to which data have been quality controlled.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#odm2api.models.RelatedActions" title="odm2api.models.RelatedActions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odm2api.models.RelatedActions</span></code></a>(**kwargs)</td>
-<td>Enables specifying relationships among Actions (e.g., workflows, etc.)</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#odm2api.models.RelatedActions" title="odm2api.models.RelatedActions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odm2api.models.RelatedActions</span></code></a>(**kwargs)</p></td>
+<td><p>Enables specifying relationships among Actions (e.g., workflows, etc.)</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#odm2api.models.Results" title="odm2api.models.Results"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odm2api.models.Results</span></code></a>(**kwargs)</td>
-<td>The result of an action.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#odm2api.models.Results" title="odm2api.models.Results"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odm2api.models.Results</span></code></a>(**kwargs)</p></td>
+<td><p>The result of an action.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#odm2api.models.SamplingFeatures" title="odm2api.models.SamplingFeatures"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odm2api.models.SamplingFeatures</span></code></a>(**kwargs)</td>
-<td>Where or on what an action was performed.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#odm2api.models.SamplingFeatures" title="odm2api.models.SamplingFeatures"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odm2api.models.SamplingFeatures</span></code></a>(**kwargs)</p></td>
+<td><p>Where or on what an action was performed.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#odm2api.models.TaxonomicClassifiers" title="odm2api.models.TaxonomicClassifiers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odm2api.models.TaxonomicClassifiers</span></code></a>(**kwargs)</td>
-<td>Terms for classifying results.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#odm2api.models.TaxonomicClassifiers" title="odm2api.models.TaxonomicClassifiers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odm2api.models.TaxonomicClassifiers</span></code></a>(**kwargs)</p></td>
+<td><p>Terms for classifying results.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#odm2api.models.Units" title="odm2api.models.Units"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odm2api.models.Units</span></code></a>(**kwargs)</td>
-<td>Units of measure.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#odm2api.models.Units" title="odm2api.models.Units"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odm2api.models.Units</span></code></a>(**kwargs)</p></td>
+<td><p>Units of measure.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#odm2api.models.Variables" title="odm2api.models.Variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odm2api.models.Variables</span></code></a>(**kwargs)</td>
-<td>What was observed.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#odm2api.models.Variables" title="odm2api.models.Variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odm2api.models.Variables</span></code></a>(**kwargs)</p></td>
+<td><p>What was observed.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2273,6 +2268,11 @@ for ODM2 and then focus on specific entities within the ODM2 Core schema and ODM
 <dl class="attribute">
 <dt id="odm2api.models.Equipment.EquipmentDescription">
 <code class="descname">EquipmentDescription</code><a class="headerlink" href="#odm2api.models.Equipment.EquipmentDescription" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="odm2api.models.Equipment.EquipmentDocumentationLink">
+<code class="descname">EquipmentDocumentationLink</code><a class="headerlink" href="#odm2api.models.Equipment.EquipmentDocumentationLink" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -4758,14 +4758,11 @@ on which or at which they were performed.</p>
 <code class="descname">ElevationDatumCV</code><a class="headerlink" href="#odm2api.models.SamplingFeatures.ElevationDatumCV" title="Permalink to this definition">¶</a></dt>
 <dd><p>The code for the vertical geodetic datum that specifies the zero point for
 the Sampling Feature Elevation</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
@@ -4773,14 +4770,11 @@ the Sampling Feature Elevation</p>
 <code class="descname">Elevation_m</code><a class="headerlink" href="#odm2api.models.SamplingFeatures.Elevation_m" title="Permalink to this definition">¶</a></dt>
 <dd><p>The elevation of the sampling feature in meters, or in the case of Specimen,
 the elevation from where the SamplingFeature.Specimen was collected</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">float</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
@@ -4790,112 +4784,88 @@ the elevation from where the SamplingFeature.Specimen was collected</p>
 well known text (WKT). Can be a Point, Curve (profile, trajectory, etc.),
 Surface (flat polygons, etc.), or Solid/Volume (although often limited to
 2D geometries).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="odm2api.models.SamplingFeatures.SamplingFeatureCode">
 <code class="descname">SamplingFeatureCode</code><a class="headerlink" href="#odm2api.models.SamplingFeatures.SamplingFeatureCode" title="Permalink to this definition">¶</a></dt>
 <dd><p>A short but meaningful text identifier for the sampling feature.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="odm2api.models.SamplingFeatures.SamplingFeatureDescription">
 <code class="descname">SamplingFeatureDescription</code><a class="headerlink" href="#odm2api.models.SamplingFeatures.SamplingFeatureDescription" title="Permalink to this definition">¶</a></dt>
 <dd><p>Text describing the sampling feature.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="odm2api.models.SamplingFeatures.SamplingFeatureGeotypeCV">
 <code class="descname">SamplingFeatureGeotypeCV</code><a class="headerlink" href="#odm2api.models.SamplingFeatures.SamplingFeatureGeotypeCV" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dimensionality of SamplingFeature; point2d, line2d, etc.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="odm2api.models.SamplingFeatures.SamplingFeatureID">
 <code class="descname">SamplingFeatureID</code><a class="headerlink" href="#odm2api.models.SamplingFeatures.SamplingFeatureID" title="Permalink to this definition">¶</a></dt>
 <dd><p>Primary key identifier.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="odm2api.models.SamplingFeatures.SamplingFeatureName">
 <code class="descname">SamplingFeatureName</code><a class="headerlink" href="#odm2api.models.SamplingFeatures.SamplingFeatureName" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sampling Feature name (free text).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="odm2api.models.SamplingFeatures.SamplingFeatureTypeCV">
 <code class="descname">SamplingFeatureTypeCV</code><a class="headerlink" href="#odm2api.models.SamplingFeatures.SamplingFeatureTypeCV" title="Permalink to this definition">¶</a></dt>
 <dd><p>CV term describing the type of sampling feature.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="odm2api.models.SamplingFeatures.SamplingFeatureUUID">
 <code class="descname">SamplingFeatureUUID</code><a class="headerlink" href="#odm2api.models.SamplingFeatures.SamplingFeatureUUID" title="Permalink to this definition">¶</a></dt>
 <dd><p>A universally unique identifier for the sampling feature.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -7101,7 +7071,7 @@ Surface (flat polygons, etc.), or Solid/Volume (although often limited to
       &copy;2017, Stephanie Reeder.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
