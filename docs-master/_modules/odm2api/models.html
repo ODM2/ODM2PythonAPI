@@ -1,19 +1,17 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>odm2api.models &#8212; ODM2PythonAPI 0.7.1+12.g7a1e899 documentation</title>
+    <meta charset="utf-8" />
+    <title>odm2api.models &#8212; ODM2PythonAPI 0.7.1+31.g952a42e documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
    
@@ -61,7 +59,6 @@
 
 
 <h3>Navigation</h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../getstarted.html">Get Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../odm2models.html">ODM2 Models</a></li>
@@ -85,8 +82,6 @@
     <form class="search" action="../../search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -124,7 +119,7 @@
 <span class="n">BigIntegerType</span> <span class="o">=</span> <span class="n">BigIntegerType</span><span class="o">.</span><span class="n">with_variant</span><span class="p">(</span><span class="n">mysql</span><span class="o">.</span><span class="n">BIGINT</span><span class="p">(),</span> <span class="s1">&#39;mysql&#39;</span><span class="p">)</span>
 
 <span class="n">DateTimeType</span> <span class="o">=</span> <span class="n">DateTime</span><span class="p">()</span>
-<span class="n">DateTimeType</span> <span class="o">=</span> <span class="n">DateTimeType</span><span class="o">.</span><span class="n">with_variant</span><span class="p">(</span><span class="n">sqlite</span><span class="o">.</span><span class="n">INTEGER</span><span class="p">(),</span> <span class="s1">&#39;sqlite&#39;</span><span class="p">)</span>
+<span class="n">DateTimeType</span> <span class="o">=</span> <span class="n">DateTimeType</span><span class="o">.</span><span class="n">with_variant</span><span class="p">(</span><span class="n">sqlite</span><span class="o">.</span><span class="n">DATETIME</span><span class="p">(),</span> <span class="s1">&#39;sqlite&#39;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="is_hex"><a class="viewcode-back" href="../../odm2models.html#odm2api.models.is_hex">[docs]</a><span class="k">def</span> <span class="nf">is_hex</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
@@ -573,7 +568,7 @@
 
 
 <div class="viewcode-block" id="EquipmentModels"><a class="viewcode-back" href="../../odm2models.html#odm2api.models.EquipmentModels">[docs]</a><span class="k">class</span> <span class="nc">EquipmentModels</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
-    <span class="n">ModelID</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;modelid&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ModelID</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;equipmentmodelid&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">ModelManufacturerID</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;modelmanufacturerid&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span>
                                  <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Organizations</span><span class="o">.</span><span class="n">OrganizationID</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">ModelPartNumber</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;modelpartnumber&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">))</span>
@@ -647,14 +642,15 @@
     <span class="n">EquipmentCode</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;equipmentcode&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">EquipmentName</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;equipmentname&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">EquipmentTypeCV</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;equipmenttypecv&#39;</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">CVEquipmentType</span><span class="o">.</span><span class="n">Name</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">ModelID</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;modelid&#39;</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">EquipmentModels</span><span class="o">.</span><span class="n">ModelID</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">EquipmentSerialNumber</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;equipmentseriealnumber&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ModelID</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;equipmentmodelid&#39;</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">EquipmentModels</span><span class="o">.</span><span class="n">ModelID</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">EquipmentSerialNumber</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;equipmentserialnumber&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">EquipmentInventoryNumber</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;equipmentinventorynumber&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">))</span>
     <span class="n">EquipmentOwnerID</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;equipmentownerid&#39;</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">People</span><span class="o">.</span><span class="n">PersonID</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">EquipmentVendorID</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;equipmentvendorid&#39;</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Organizations</span><span class="o">.</span><span class="n">OrganizationID</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">EquipmentPurchaseDate</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;equipmentpurchasedate&#39;</span><span class="p">,</span> <span class="n">DateTime</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">EquipmentPurchaseOrderNumber</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;equipmentpurchaseordernumber&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">))</span>
     <span class="n">EquipmentDescription</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;equipmentdescription&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
+    <span class="n">EquipmentDocumentationLink</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;equipmentdocumentationlink&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">255</span><span class="p">))</span>
 
     <span class="n">PersonObj</span> <span class="o">=</span> <span class="n">relationship</span><span class="p">(</span><span class="n">People</span><span class="p">)</span>
     <span class="n">OrganizationObj</span> <span class="o">=</span> <span class="n">relationship</span><span class="p">(</span><span class="n">Organizations</span><span class="p">)</span>
@@ -690,7 +686,7 @@
 
 <div class="viewcode-block" id="MaintenanceActions"><a class="viewcode-back" href="../../odm2models.html#odm2api.models.MaintenanceActions">[docs]</a><span class="k">class</span> <span class="nc">MaintenanceActions</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
     <span class="n">ActionID</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;actionid&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Actions</span><span class="o">.</span><span class="n">ActionID</span><span class="p">),</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">IsFactoryService</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;isfactoryservce&#39;</span><span class="p">,</span> <span class="n">Boolean</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">IsFactoryService</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;isfactoryservice&#39;</span><span class="p">,</span> <span class="n">Boolean</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">MaintenanceCode</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;maintenancecode&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">))</span>
     <span class="n">MantenanceReason</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;maintenancereason&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">))</span>
 
@@ -946,7 +942,7 @@
 
 <div class="viewcode-block" id="EquipmentAnnotations"><a class="viewcode-back" href="../../odm2models.html#odm2api.models.EquipmentAnnotations">[docs]</a><span class="k">class</span> <span class="nc">EquipmentAnnotations</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
     <span class="n">BridgeID</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;bridgeid&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">EquipmentID</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;valueid&#39;</span><span class="p">,</span> <span class="n">BigIntegerType</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Equipment</span><span class="o">.</span><span class="n">EquipmentID</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">EquipmentID</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;equipmentid&#39;</span><span class="p">,</span> <span class="n">BigIntegerType</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Equipment</span><span class="o">.</span><span class="n">EquipmentID</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">AnnotationID</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;annotationid&#39;</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Annotations</span><span class="o">.</span><span class="n">AnnotationID</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="n">AnnotationObj</span> <span class="o">=</span> <span class="n">relationship</span><span class="p">(</span><span class="n">Annotations</span><span class="p">)</span>
@@ -1016,7 +1012,7 @@
         <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">index</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
-    <span class="n">ReferenceMaterialOrganizationID</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;referencematerialoranizationid&#39;</span><span class="p">,</span>
+    <span class="n">ReferenceMaterialOrganizationID</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;referencematerialorganizationid&#39;</span><span class="p">,</span>
                                              <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Organizations</span><span class="o">.</span><span class="n">OrganizationID</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">ReferenceMaterialCode</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;referencematerialcode&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">ReferenceMaterialLotCode</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;referencemateriallotcode&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">255</span><span class="p">))</span>
@@ -1061,7 +1057,7 @@
 
 <div class="viewcode-block" id="ResultNormalizationValues"><a class="viewcode-back" href="../../odm2models.html#odm2api.models.ResultNormalizationValues">[docs]</a><span class="k">class</span> <span class="nc">ResultNormalizationValues</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
     <span class="n">ResultID</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;resultid&#39;</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Results</span><span class="o">.</span><span class="n">ResultID</span><span class="p">),</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">ReferenceMaterialValueID</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;referencematerialvalueid&#39;</span><span class="p">,</span>
+    <span class="n">ReferenceMaterialValueID</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;normalizedbyreferencematerialvalueid&#39;</span><span class="p">,</span>
                                       <span class="n">ForeignKey</span><span class="p">(</span><span class="n">ReferenceMaterialValues</span><span class="o">.</span><span class="n">ReferenceMaterialValueID</span><span class="p">),</span>
                                       <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
@@ -1178,8 +1174,8 @@
     <span class="n">ExternalIdentifierSystemID</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;externalidentifiersystemid&#39;</span><span class="p">,</span>
                                         <span class="n">ForeignKey</span><span class="p">(</span><span class="n">ExternalIdentifierSystems</span><span class="o">.</span><span class="n">ExternalIdentifierSystemID</span><span class="p">),</span>
                                         <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">CitationExternalIdentifier</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;citationexternaldentifier&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">CitationExternalIdentifierURI</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;citationexternaldentifieruri&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">255</span><span class="p">))</span>
+    <span class="n">CitationExternalIdentifier</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;citationexternalidentifier&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">CitationExternalIdentifierURI</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;citationexternalidentifieruri&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">255</span><span class="p">))</span>
 
     <span class="n">CitationObj</span> <span class="o">=</span> <span class="n">relationship</span><span class="p">(</span><span class="n">Citations</span><span class="p">)</span>
     <span class="n">ExternalIdentifierSystemObj</span> <span class="o">=</span> <span class="n">relationship</span><span class="p">(</span><span class="n">ExternalIdentifierSystems</span><span class="p">)</span></div>
@@ -1788,7 +1784,7 @@
     <span class="n">ValueDateTime</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;valuedatetime&#39;</span><span class="p">,</span> <span class="n">DateTimeType</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">ValueDateTimeUTCOffset</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;valuedatetimeutcoffset&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">ExcitationWavelength</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;excitationwavelength&#39;</span><span class="p">,</span> <span class="n">Float</span><span class="p">(</span><span class="mi">53</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">EmissionWavelength</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;emmistionwavelength&#39;</span><span class="p">,</span> <span class="n">Float</span><span class="p">(</span><span class="mi">53</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">EmissionWavelength</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;emissionwavelength&#39;</span><span class="p">,</span> <span class="n">Float</span><span class="p">(</span><span class="mi">53</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">WavelengthUnitsID</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;wavelengthunitsid&#39;</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Units</span><span class="o">.</span><span class="n">UnitsID</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">CensorCodeCV</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;censorcodecv&#39;</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">CVCensorCode</span><span class="o">.</span><span class="n">Name</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">QualityCodeCV</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;qualitycodecv&#39;</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">CVQualityCode</span><span class="o">.</span><span class="n">Name</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -2049,7 +2045,7 @@
       &copy;2017, Stephanie Reeder.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>
