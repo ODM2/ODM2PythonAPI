@@ -10,35 +10,35 @@ Install the development version from GitHub
 The latest development version is found in the ``development`` branch of the github repository. We follow the `Gitflow workflow <https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow>`__ for development.
 
 1. Download both ``requirements.txt`` and ``requirements-dev.txt``.
-   
+
    .. code-block:: bash
-   
+
        wget https://raw.githubusercontent.com/ODM2/ODM2PythonAPI/master/requirements.txt
        wget https://raw.githubusercontent.com/ODM2/ODM2PythonAPI/master/requirements-dev.txt
 
 2. Create conda environment ``odm2api_dev`` from the two ``requirements*`` text files.
 
    .. code-block:: bash
-  
+
        conda create -n odm2api_dev -c conda-forge python=2.7 --file requirements.txt --file requirements-dev.txt
 
 3. Activate conda environment.
    - MacOSX/Linux:
-   
+
    .. code-block:: bash
-       
+
        source activate odm2api_dev
-   
+
    - Windows:
-   
+
    .. code-block:: bash
-      
+
        activate odm2api_dev
-    
+
 4. Install the latest commit from the development branch
 
    .. code-block:: bash
-      
+
        pip install git+https://github.com/ODM2/ODM2PythonAPI.git@development#egg=odm2api
 
 
@@ -78,4 +78,4 @@ Pull requests
 
 Once changes has been in place within your forked copy of the repository
 you are working on, please create a pull request to add your contribution
-to the **master** branch of the repository.
+to the **development** branch of the repository.
