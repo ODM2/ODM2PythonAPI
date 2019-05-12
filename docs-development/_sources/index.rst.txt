@@ -16,7 +16,7 @@ Contents
    credits
 
 Indices and Search
------------------
+------------------
 
 .. toctree::
    :maxdepth: 2
