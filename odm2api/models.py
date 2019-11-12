@@ -503,7 +503,7 @@ class DataLoggerFileColumns(Base):
     DataLoggerFileID = Column('dataloggerfileid', Integer,
                               ForeignKey(DataLoggerFiles.DataLoggerFileID), nullable=False)
     InstrumentOutputVariableID = Column('instrumentoutputvariableid', Integer,
-                                        ForeignKey(InstrumentOutputVariables.VariableID),
+                                        ForeignKey(InstrumentOutputVariables.InstrumentOutputVariableID),
                                         nullable=False)
     ColumnLabel = Column('columnlabel', String(50), nullable=False)
     ColumnDescription = Column('columndescription', String(500))
@@ -617,7 +617,7 @@ class CalibrationActions(Base):
     ActionID = Column('actionid', Integer, ForeignKey(Actions.ActionID), primary_key=True, nullable=False)
     CalibrationCheckValue = Column('calibrationcheckvalue', Float(53))
     InstrumentOutputVariableID = Column('instrumentoutputvariableid', Integer,
-                                        ForeignKey(InstrumentOutputVariables.VariableID), nullable=False)
+                                        ForeignKey(InstrumentOutputVariables.InstrumentOutputVariableID), nullable=False)
     CalibrationEquation = Column('calibrationequation', String(255))
 
     ActionObj = relationship(Actions)
